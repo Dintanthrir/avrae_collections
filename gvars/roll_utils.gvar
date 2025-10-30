@@ -1,0 +1,56 @@
+# roll_utils = '7207a79c-07b0-4317-8653-f671df7305ee'
+#
+# Utils for inspecting `SimpleRollResult`s
+# ===== Functions =====
+# minimum(simple_roll_result): Return the minimum possible roll total
+# maximum(simple_roll_result): Return the maximum possible roll total
+
+def minimum(simple_roll_result):
+    """
+    Returns the minimum possible total for the roll.
+
+    Caution: mutates the roll's '.raw' d20.Expression. This does not change the cached SimpleRollResult total or string representations.
+    """
+    def minimize(expression):
+        if typeof(expression) == 'Dice':
+            min_val = 1
+            rerolls = [operation.sels[0].num for operation in expression.operations if operation.op == 'rr']
+            while (min_val in rerolls) and min_val < expression.size:
+                min_val += 1
+            for die in expression.values:
+                for literal in die.values:
+                    literal.update(min_val)
+            for operation in expression.operations:
+                operation.operate(expression)
+        else:
+            for child in expression.children:
+                minimize(child)
+        return expression
+
+    d20_expression = simple_roll_result.raw
+    return minimize(d20_expression).total
+
+def maximum(simple_roll_result):
+    """
+    Returns the maximum possible total for the roll.
+
+    Caution: mutates the roll's '.raw' d20.Expression. This does not change the cached SimpleRollResult total or string representations.
+    """
+    def maximize(expression):
+        if typeof(expression) == 'Dice':
+            max_val = expression.size
+            rerolls = [operation.sels[0].num for operation in expression.operations if operation.op == 'rr']
+            while (max_val in rerolls) and max_val > 1:
+                max_val -= 1
+            for die in expression.values:
+                for literal in die.values:
+                    literal.update(max_val)
+            for operation in expression.operations:
+                operation.operate(expression)
+        else:
+            for child in expression.children:
+                maximize(child)
+        return expression
+
+    d20_expression = simple_roll_result.raw
+    return maximize(d20_expression).total

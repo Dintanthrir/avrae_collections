@@ -1,0 +1,41 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+DEFAULT_HUG_IMAGES_GVAR = '9b082474-17c3-4b48-b71f-9fb1942e97c0'
+IMAGES_LIST_VAR = 'huglist'
+AUTHOR_NAME_VAR= 'hugname'
+
+escaped_args_string = '&*&'
+svar_contents = get_svar(IMAGES_LIST_VAR, None)
+display_name = ctx.author.display_name
+
+if len(hugger := get(AUTHOR_NAME_VAR, display_name).replace('"','\\"')) == 0:
+    hugger = display_name
+huglist = get(IMAGES_LIST_VAR, svar_contents or get_gvar(DEFAULT_HUG_IMAGES_GVAR)).split('\n')
+
+huggee = escaped_args_string.replace('"','\\"') or "you"
+hug_image = randchoice(huglist)
+
+fields = []
+footer = f"Showing: {hug_image}"
+
+if not hug_image:
+    hug_image = 'https://cdn.discordapp.com/emojis/618899714040922112.png?v=1'
+    fields.append({
+        'title': "No image found.",
+        'body': "Expected a `huglist` c/u/svar containing image urls separated by newlines."
+    })
+if not (exists("hugname") or exists("huglist") or svar_contents):
+    footer = f"{ctx.prefix}help {ctx.alias} for customization options.\n" + footer
+
+return embeds.get_output(embed={
+    'title': "Hugs!",
+    'desc': f"**{hugger} hugs {huggee}!**",
+    'image': hug_image,
+    'color': get("color"),
+    'footer': footer,
+    'fields': fields,
+})
+</drac2>

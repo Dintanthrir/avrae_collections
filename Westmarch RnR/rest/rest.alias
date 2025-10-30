@@ -1,0 +1,52 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    rests = 'c3af647b-4f36-4e6b-a1f2-56eb55be96e5',
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias}"
+
+_UNUSED_REST_CHARACTER = "◉"
+_USED_REST_CHARACTER = "〇"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+now = time()
+
+status = rests.status(now)
+
+if status.short.limit:
+    short_rest_summary = f'{_UNUSED_REST_CHARACTER * (max(status.short.limit - status.short.taken, 0))}{_USED_REST_CHARACTER * status.short.taken}'
+    short_rest_summary += f'\n⚠️ You have taken {status.short.taken} short rests, this is above the daily limit of {status.short.limit}!' if status.short.taken > status.short.limit else ''
+else:
+    short_rest_summary = f'{_USED_REST_CHARACTER * status.short.taken}'
+
+if status.long.limit:
+    long_rest_summary = f'{_UNUSED_REST_CHARACTER * (max(status.long.limit - status.long.taken, 0))}{_USED_REST_CHARACTER * status.long.taken}'
+    long_rest_summary += f'\n⚠️ You have taken {status.long.taken} long rests, this is above the daily limit of {status.long.limit}!' if status.long.taken > status.long.limit else ''
+else:
+    long_rest_summary = f'{_USED_REST_CHARACTER * status.long.taken}'
+
+desc = f'Rests last reset <t:{status.server_day.started_at}:R> and will next reset <t:{status.server_day.ends_at}:R>'
+fields = [
+    {
+        'title': 'Short Rests (`!sr`)',
+        'body': short_rest_summary
+    },
+    {
+        'title': 'Long Rests (`!lr`)',
+        'body': long_rest_summary
+    },
+]
+
+embed = {
+    'title': f"Resting options for **{get('name')}**",
+    'desc': desc,
+    'fields': fields,
+    'thumb': get('image'),
+    'footer': USAGE
+}
+
+return embeds.get_output(embed=embed)
+</drac2>

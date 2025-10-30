@@ -1,0 +1,37 @@
+# currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a'
+# tools for managing the display of coins
+
+def format_coins(coins):
+    """
+    Returns a display string for a given coin purse
+    :arg coins dict: { pp: int, gp: int, ep: int, sp: int, cp: int }
+    :rtype str
+    """
+    result = ' '.join([f'{coins.get(unit)} {unit}' for unit in ['pp', 'gp', 'ep', 'sp', 'cp'] if coins.get(unit)])
+    if result == '':
+        return '0 gp'
+    return result
+
+def format_currency(gp):
+    """
+    Returns a display string for a given gp total
+    :arg gp float: A valuge in gp
+    :rtype str
+    """
+    coins = parse_coins(str(abs(gp)))
+    if gp < 0:
+        for unit in coins:
+            coins[unit] *= -1
+    return format_coins(coins)
+
+def format_transaction(gp, coinpurse=None):
+    """
+    Returns a display string showing the result of applying a change to the character's coinpurse.
+    Assumes the transaction has already occurred and the characters coinpurse reflects the final value.
+    :arg gp float: A positive or negative value in gp
+    :arg coinpurse: The active character's coinpurse
+    :rtype string
+    """
+    coinpurse = coinpurse or character().coinpurse
+    total = f"{coinpurse.total:,.2f}".rstrip('0').rstrip('.')
+    return f"<:DDBGold:953399505062080594> {total} gp {'+' if gp >= 0 else '-'}({abs(gp):,})"

@@ -1,0 +1,53 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+    skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8'
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} set <skill_name> [-ro <reroll once value>] [-mi <minimum value>] [-mod <attribute modifier override>] [-b <bonus dice string>] [adv|dis]"
+
+current_character = character()
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+if len(args) < 1:
+    err(f"Usage: `{USAGE}`")
+
+search_string = args[0]
+
+# Search for a skill to use
+try:
+    [(selected_skill_name, selected_skill)] = fuzzy.get_matches_with_function(
+        search = search_string,
+        iterable = current_character.skills,
+        function = lambda x: x[0].casefold()
+    ) or [(None, None)]
+except ('DraconicValueError'):
+    err(f"multiple skills match `{search_string}`")
+if not selected_skill:
+    err(f"no skills match `{search_string}`")
+
+skill_check_mods.set_skill_mods(selected_skill_name, 
+    base_adv = True if parsed_args.last('adv') else False if parsed_args.last('dis') else None,
+    reroll = parsed_args.last('ro', type_ = int),
+    min_val = parsed_args.last('mi', type_ = int),
+    mod = parsed_args.last('mod', type_ = int),
+    bonus = parsed_args.last('b', type_ = str)
+)
+
+skill_mods_str = current_character.get_cvar(skill_check_mods.SKILL_CHECK_MODS_VAR, None)
+skill_mods = load_yaml(skill_mods_str) if skill_mods_str else {}
+default_roll = selected_skill.d20()
+
+return embeds.get_output(embed = {
+    'title': "Skill check modifiers updated",
+    'desc': "These changes will only apply in aliases using the _Skill Check Modifiers_ module.",
+    'fields': [{
+        'title': selected_skill_name.title(),
+        'body': f"`{default_roll}` → `{skill_check_mods.d20(selected_skill_name)}`{' _(default)_' if not skill_mods.get(selected_skill_name) else ''}",
+    }],
+    'footer': USAGE
+})
+</drac2>

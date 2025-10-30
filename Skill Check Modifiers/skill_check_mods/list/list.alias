@@ -1,0 +1,29 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8'
+)
+current_character = character()
+skill_mods_str = current_character.get_cvar(skill_check_mods.SKILL_CHECK_MODS_VAR, None)
+skill_mods = load_yaml(skill_mods_str) if skill_mods_str else {}
+
+embed = {
+    'title': "Skill check modifiers",
+    'desc': "These changes will only apply in aliases using the _Skill Check Modifiers_ module.",
+    'fields': [],
+    'footer': f"{ctx.prefix}{ctx.alias} list"
+}
+
+for (skill_name, mods) in skill_mods.items():
+    [default_roll] = [skill.d20() for (name, skill) in current_character.skills if name == skill_name]
+    if mods:
+        embed['fields'].append({
+            'title': skill_name.title(),
+            'body': f"`{default_roll}` → `{skill_check_mods.d20(skill_name)}`",
+        })
+
+if len(embed['fields']) == 0:
+    embed['desc'] = 'No mods applied.'
+
+return embeds.get_output(embed = embed)
+</drac2>

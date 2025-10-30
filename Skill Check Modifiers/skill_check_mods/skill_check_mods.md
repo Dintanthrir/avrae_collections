@@ -1,0 +1,1 @@
+Manage custom skill check modifiers. These only apply to aliases using `!gar eff8567d-a5c1-41a1-9b9b-deb396d73aa8`.

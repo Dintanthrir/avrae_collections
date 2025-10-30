@@ -1,0 +1,192 @@
+# gotg_items = '885bde1b-da55-4c59-b5a6-183a5211c191'
+Nimbus Coronet:
+  counters:
+    - name: Nimbus Coronet
+      desc: Use an action to gain resistances and a flying speed for a minute.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      - name: Invoke the Rune (Nimbus Coronet)
+        automation:
+          - type: target
+            target: self
+            effects:
+              - type: text
+                text: >-
+                  As an action, you can invoke the circlet’s rune to assume a cloudlike
+                  form. The form lasts for 1 minute, until you are incapacitated, or
+                  until you dismiss it (no action required).
+
+
+                  While in cloud form, you have a flying speed of 60 feet and resistance to bludgeoning, piercing, and slashing damage.
+
+
+                  Once the rune has been invoked, it can’t be invoked again until the next dawn.
+                title: Invoking the Rune
+              - type: ieffect2
+                name: Cloudlike Form (Nimbus Coronet)
+                duration: "10"
+                effects:
+                  resistances:
+                    - bludgeoning
+                    - piercing
+                    - slashing
+                attacks: []
+                buttons: []
+                end: true
+                conc: false
+                desc: Has 60 foot flying speed
+                stacking: false
+                save_as: null
+                parent: null
+                target_self: false
+                tick_on_caster: true
+          - type: counter
+            counter: Nimbus Coronet
+            amount: "1"
+            allowOverflow: false
+            errorBehaviour: warn
+        _v: 2
+        verb: decides to
+        activation_type: 1
+    - |
+      - name: Teleport (Nimbus Coronet)
+        automation:
+          - type: text
+            text: >-
+              The design of this bronze circlet resembles swirling clouds. At its center
+              is set a deep-blue stone, upon which is inscribed the cloud rune.
+
+
+              While wearing this circlet, you take no damage from falling. Additionally, as a bonus action, you and everything you are wearing or carrying can teleport to an unoccupied space you can see within 15 feet of yourself, reappearing in a puff of shimmering clouds.
+            title: Nimbus Coronet
+        _v: 2
+        proper: true
+        verb: decides to
+        activation_type: 3
+Mistral Mantle:
+  counters:
+    - name: Mistral Mantle
+      desc: Employ the powers of snowfall in your stride
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      - name: Mistral Mantle (Trip)
+        automation:
+          - type: text
+            text: >-
+              This thick, fur-lined cloak has the frost rune stitched on the hem in
+              silvery blue thread. Frigid wind swirls around the cloak, regardless of
+              the weather.
+
+
+              While wearing this cloak, you have resistance to cold damage. Additionally, when you move within 5 feet of a creature, you can cause the cloak’s cold wind to buffet the creature. The creature must succeed on a DC 14 Dexterity saving throw or take 1d6 cold damage and have the prone condition. A creature can be affected by the mantle only once during a turn.
+
+
+              Invoking the Rune. As an action, you can invoke the mantle’s rune to cast the sleet storm spell (save DC 14) with it. When you use the mantle to cast the spell, the area of the spell isn’t difficult terrain for you, and you can see through the storm, ignoring the normal penalties of a heavily obscured area.
+
+
+              Once the rune has been invoked, it can’t be invoked again until the next dawn.
+            title: Effect
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: dex
+                fail:
+                  - type: ieffect2
+                    name: Prone
+                    duration: null
+                    effects:
+                      attack_advantage: "-1"
+                    attacks: []
+                    buttons:
+                      - label: Stand Up
+                        automation:
+                          - type: remove_ieffect
+                        verb: stands up
+                        style: null
+                        defaultDC: null
+                        defaultAttackBonus: null
+                        defaultCastingMod: null
+                    end: false
+                    conc: false
+                    desc: A prone creature's only movement option is to crawl, unless it stands up
+                      and thereby ends the condition
+                    stacking: false
+                    save_as: null
+                    parent: null
+                    target_self: false
+                    tick_on_caster: false
+                  - type: damage
+                    damage: 1d6[cold]
+                    overheal: false
+                success: []
+                dc: "14"
+        _v: 2
+        verb: walks by while wearing
+        activation_type: 2
+    - |
+      - name: Sleet Storm (Mantle)
+        automation:
+          - type: spell
+            id: 2255
+            level: null
+            dc: "14"
+            attackBonus: null
+            castingMod: null
+            parent: Sleet Storm (Mistral Mantle)
+          - type: text
+            text: >-
+              **Invoking the Rune.** As an action, you can invoke the mantle’s rune to
+              cast the sleet storm spell (save DC 14) with it. When you use the mantle
+              to cast the spell, the area of the spell isn’t difficult terrain for you,
+              and you can see through the storm, ignoring the normal penalties of a
+              heavily obscured area.
+
+
+              Once the rune has been invoked, it can’t be invoked again until the next dawn.
+            title: Mistral mantle
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Sleet Storm (Mistral Mantle)
+                duration: null
+                effects: null
+                attacks: []
+                buttons:
+                  - label: End Concentration
+                    automation:
+                      - type: remove_ieffect
+                        removeParent: always
+                    verb: null
+                    style: "1"
+                    defaultDC: null
+                    defaultAttackBonus: null
+                    defaultCastingMod: null
+                end: false
+                conc: true
+                desc: The area of the spell isn’t difficult terrain for you and you can see
+                  through the storm, ignoring the normal penalties of a heavily obscured
+                  area.
+                stacking: false
+                save_as: null
+                parent: Sleet Storm (Mistral Mantle)
+                target_self: false
+                tick_on_caster: false
+          - type: counter
+            counter: Mistral Mantle
+            amount: "1"
+            allowOverflow: false
+            errorBehaviour: warn
+        _v: 2
+        proper: true
+        verb: casts
+        activation_type: 1

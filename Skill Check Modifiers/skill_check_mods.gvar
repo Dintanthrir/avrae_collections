@@ -1,0 +1,93 @@
+# skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8'
+#
+# See https://avrae.io/dashboard/workshop/634464df61b756e2ea4446f1 for the related collection.
+#
+# ===== Functions =====
+#
+# d20: Returns a dice string for a character skill which includes mods for class/race features.
+# set_skill_mods: Stores mods for a skill in a cvar.
+# ===== Constants =====
+#
+# SKILL_CHECK_MODS_VAR: A cvar to store skill roll overrides. Contains yaml with the structure:
+#
+# skill_name:
+#   base_adv: bool
+#   reroll: int
+#   min_val: int
+#   mod: int
+#   bonus: str
+SKILL_CHECK_MODS_VAR = 'skill_check_mods'
+
+def d20(skill_name, base_adv=None, reroll_override=None, min_val_override=None, mod_override=None, bonus_override=None):
+    """
+    Returns a dice string for the given skill. Applies reroll and min_val settings from
+    the current character's csettings to support class/race features like Halfling's Lucky and
+    Rogue's Reliable Talent. If not overridden by csettings uses base_adv, reroll, min_value, and mod settings
+    from the SKILL_CHECK_MODS_VAR cvar to support skill specific class/race features like Bard's Silver Tongue.
+    :arg str skill_name: the skill, must exactly match a name in character().skills
+    :arg base_adv bool: Whether this roll should be made at adv (True), dis (False), or normally (None).
+    :arg reroll_override int: If the roll lands on this number, reroll it once (Halfling Luck).
+    :arg min_val_override int: The minimum value of the dice roll (Reliable Talent).
+    :arg mod_override int: Overrides the skill modifier.
+    :arg bonus_override str: Overrides the bonus value or dice added to the roll.
+    :return A dice string for the skill roll.
+    :rtype str
+    """
+    current_character = character()
+    if not skill_name in [name for (name, value) in current_character.skills]:
+        err(f"{skill_name} is not a skill")
+
+    [skill] = [value for (name, value) in current_character.skills if name == skill_name]
+    skill_mods_str = current_character.get_cvar(SKILL_CHECK_MODS_VAR, None)
+    skill_mods = load_yaml(skill_mods_str).get(skill_name, {}) if skill_mods_str else {}
+    
+    # Apply reroll settings like Halfling Lucky
+    reroll = reroll_override or current_character.csettings.get("reroll", None) or skill_mods.get('reroll')
+    
+    # Apply Reliable Talent if set in csettings
+    reliable_talent = (10 if current_character.csettings.get('talent', False) and skill.prof >= 1 else None)
+    # Apply min_val settings; Reliable Talent or abilities like Silver Tongue
+    min_val = min_val_override or reliable_talent or skill_mods.get('min_val')
+
+    # Apply any bonus value or dice like Dragonmarks
+    bonus = bonus_override or skill_mods.get('bonus')
+
+    return skill.d20(
+        base_adv = base_adv or skill_mods.get('base_adv'),
+        reroll = reroll,
+        min_val = min_val,
+        mod_override = mod_override or skill_mods.get('mod')
+    ) + (f'+{bonus}' if bonus else '')
+
+def set_skill_mods(skill_name, base_adv=None, reroll=None, min_val=None, mod=None, bonus=None):
+    """
+    Writes a dict of mod values for the given skill to a cvar so they will apply to any uses of this
+    module's `d20` function.
+    :arg str skill_name: the skill, must exactly match a name in character().skills
+    :arg base_adv bool: Whether this roll should be made at adv (True), dis (False), or normally (None).
+    :arg reroll int: If the roll lands on this number, reroll it once (Halfling Luck).
+    :arg min_val int: The minimum value of the dice roll (Reliable Talent).
+    :arg mod int: Replace the skill modifier.
+    :arg bonus str: Add a dice string to the roll.
+    """
+    current_character = character()
+    if not skill_name in [name for (name, value) in current_character.skills]:
+        err(f"{skill_name} is not a skill")
+
+    skill_mods_str = current_character.get_cvar(SKILL_CHECK_MODS_VAR, None)
+    skill_mods = load_yaml(skill_mods_str) if skill_mods_str else {}
+
+    current_skill_mods = {}
+    if base_adv != None:
+        current_skill_mods['base_adv'] = base_adv
+    if reroll:
+        current_skill_mods['reroll'] = reroll
+    if min_val:
+        current_skill_mods['min_val'] = min_val
+    if mod != None:
+        current_skill_mods['mod'] = mod
+    if bonus:
+        current_skill_mods['bonus'] = bonus
+    
+    skill_mods[skill_name] = current_skill_mods
+    current_character.set_cvar(SKILL_CHECK_MODS_VAR, dump_yaml(skill_mods))

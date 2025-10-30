@@ -1,0 +1,29 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    rests = 'c3af647b-4f36-4e6b-a1f2-56eb55be96e5',
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} history"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+now = time()
+
+status = rests.status(now)
+history = rests.history()
+
+desc = f'Rests last reset <t:{status.server_day.started_at}:R> and will next reset <t:{status.server_day.ends_at}:R>'
+fields = [{'title': rest.type, 'body': f"<t:{rest.rested_at}:R>"} for rest in history]
+
+embed = {
+    'title': f"Recent rests for **{get('name')}**",
+    'desc': desc,
+    'fields': fields,
+    'thumb': get('image'),
+    'footer': USAGE
+}
+
+return embeds.get_output(embed=embed)
+</drac2>

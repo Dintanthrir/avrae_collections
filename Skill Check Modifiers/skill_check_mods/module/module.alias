@@ -1,0 +1,21 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e', # Owned by Jiandi#7785
+)
+sample = docstring.trim("""
+using(
+    skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8'
+)
+return vroll(skill_check_mods.d20('perception')).full
+""")
+return embeds.get_output(embed = {
+    'title': "`!gvar eff8567d-a5c1-41a1-9b9b-deb396d73aa8`",
+    'desc': "Module to apply rerolls and minimums from csettings and custom modifiers from cvars to skill checks.",
+    'fields': [{
+        'title': "Perform a skill check",
+        'body': "".join(["```!test <", "drac2>\n", sample, "<", "/drac2>```"])        
+    }],
+    'footer': f"{ctx.prefix}{ctx.alias} module"
+})
+</drac2>

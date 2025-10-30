@@ -1,0 +1,163 @@
+# downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2'
+#
+# A module to help track character downtime resources.
+#
+
+LAST_WORK_WEEK_VAR = 'last_Time' # Deprecated: The name of the cvar used to record when downtime was used.
+_DOWNTIME_CVAR_DEFAULT = dump_yaml({ 'history': [], 'workweek_ends': None, 'blockers': {} })
+CONFIG_SVAR = 'downtime_config'
+CONFIG_DEFAULT = {
+    'cvar_name': 'downtime',
+    'work_week_duration': 64800.0, # The float duration of a workweek. 60 seconds * 60 minutes * 18 hours = 64_800
+}
+
+_character = character()
+
+def _load_config():
+    """
+    Returns the contents of the downtime_config svar
+    """
+    return CONFIG_DEFAULT | load_yaml(get_svar(CONFIG_SVAR, "{}"))
+
+def _load_cvar():
+    """
+    Returns the contents of the craft cvar as a python object
+    """
+    config = _load_config()
+    return load_yaml(_character.get_cvar(config.cvar_name, default=_DOWNTIME_CVAR_DEFAULT))
+
+def _update_cvar(stored_data):
+    """
+    Writes the provided data to the downtime cvar
+    :arg stored_data dict: see `_load_cvar()`
+    """
+    yaml = dump_yaml(stored_data)
+    # check if we are about to hit the cvar length limit
+    while len(yaml) > 10_000 and stored_data.get('history') and len(stored_data.history) > 0:
+        stored_data['history'] = stored_data.history[1:] # drop the oldest item from the history
+        yaml = dump_yaml(stored_data)
+    config = _load_config()
+    _character.set_cvar(config.cvar_name, yaml)
+
+def _migrate(current_time):
+    """
+    Migrates from a single timestamp cvar to a dict
+    """
+    stored_data = _load_cvar()
+    config = _load_config()
+
+    # If this character has used downtime before, using the old cvar
+    if last_work_week := _character.get_cvar(LAST_WORK_WEEK_VAR):
+        # Only overwrite the workweek_ends timestamp if it is None
+        stored_data['workweek_ends'] = stored_data.get('workweek_ends') or (float(last_work_week) + config.work_week_duration)
+
+    # Saved the updated downtime settings
+    _update_cvar(stored_data)
+
+    # Delete the older cvar so we don't need to try to migrate it again
+    _character.delete_cvar(LAST_WORK_WEEK_VAR)
+
+def use_downtime(activity:str = None, workweeks:int = 1, current_time:float = None):
+    """
+    Records that the character used their downtime by storing the given time in a cvar.
+    :arg float current_time: the current time, will use time() if not provided.
+    """
+    config = _load_config()
+    activity = activity or ctx.alias
+    current_time = current_time or time()
+    _migrate(current_time=current_time)
+    stored_data = _load_cvar()
+    stored_data['workweek_ends'] = current_time + config.work_week_duration * workweeks
+    history = stored_data.get('history', [])
+    history.append({
+        'activity': activity,
+        'time': current_time,
+    })
+    stored_data['history'] = history
+    _update_cvar(stored_data)
+
+def add_blocker(key, title, desc, cooldown, dc = None, skill = None, current_time = None):
+    current_time = current_time or time()
+    _migrate(current_time=current_time)
+    stored_data = _load_cvar()
+    blockers = stored_data.get('blockers') or {}
+    blockers[key] = {
+        'title': title,
+        'desc': desc,
+        'cooldown': cooldown,
+        'dc': dc,
+        'skill': skill,
+        'next_due': current_time,
+    }
+    stored_data['blockers'] = blockers # Make sure we create a 'blockers' key in the stored data if it wasn't already present
+    _update_cvar(stored_data)
+
+def complete_blocker(key, dc = None, check = None, current_time = None):
+    current_time = current_time or time()
+    _migrate(current_time=current_time)
+    stored_data = _load_cvar()
+    if blocker := (stored_data.get('blockers') or {}).get(key): # do nothing if given an invalid key
+        blocker['next_due'] = current_time + float(vroll(blocker.get('cooldown') or '0').total)
+        history = stored_data.get('history', [])
+        history.append({
+            'blocker': key,
+            'cooldown': blocker.get('cooldown'),
+            'time': current_time,
+            'dc': dc,
+            'check': check,
+        })
+        stored_data['history'] = history
+        _update_cvar(stored_data)
+
+def remove_blocker(key, current_time = None):
+    _migrate(current_time=current_time)
+    stored_data = _load_cvar()
+    blockers = stored_data.get('blockers') or {}
+    blockers.pop(key, None) # `None` as the second argument prevents raising a KeyError if the key does not exist
+    _update_cvar(stored_data)
+
+def status(current_time = None):
+    current_time = current_time or time()
+    _migrate(current_time=current_time)
+    stored_data = _load_cvar()
+    workweek_ends = stored_data.get('workweek_ends')
+    overdue_blocker = len([blocker for (_, blocker) in (stored_data.get('blockers') or {}).items() if (blocker.get('next_due') or current_time) < current_time]) > 0
+    return {
+        'available': ((workweek_ends is None) or (float(workweek_ends) <= current_time)) and not overdue_blocker,
+        'blocked': overdue_blocker,
+        'workweek_ends': workweek_ends,
+        'blockers': stored_data.get('blockers') or {}
+    }
+
+def status_embed(current_time = None):
+    current_time = current_time or time()
+    current_status = status(current_time = current_time)
+    embed = {
+        'thumb': _character.image,
+        'fields': [],
+    }
+    if current_status.available:
+        embed['title'] = f"{_character.name} is able to begin working."
+        if current_status.workweek_ends:
+            embed.fields.append({
+                'title': '✅ Workweek',
+                'body': f"Their workweek ended <t:{round(current_status.workweek_ends)}:R>",
+            })
+    else:
+        embed['title'] = f"{_character.name} cannot work."
+        if current_status.workweek_ends:
+            embed.fields.append({
+                'title': '⏱ Workweek',
+                'body': f"Their workweek ends <t:{round(current_status.workweek_ends)}:R>"
+            })
+    for (key, blocker) in current_status.blockers.items():
+        embed.fields.append({
+            'title': f"{'🛑' if blocker.next_due < current_time else '✅'} {key}",
+            'body': f"_Due <t:{round(blocker.next_due)}:R>_\n{blocker.desc}"
+        })
+    return embed
+
+def history():
+    _migrate(current_time=time())
+    stored_data = _load_cvar()
+    return stored_data['history']

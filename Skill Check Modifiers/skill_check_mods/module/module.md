@@ -1,0 +1,1 @@
+Show the gvar for the `skill_check_mods` module for use in aliases.

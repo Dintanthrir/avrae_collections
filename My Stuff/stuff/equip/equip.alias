@@ -1,0 +1,72 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+    stuff = '6fe42f4d-65ed-4628-af36-22b8c65b451b',
+)
+
+USAGE = f'{ctx.prefix}{ctx.alias} equip -group <group name> -item <item name>'
+
+args = &ARGS&
+parsed_args = argparse(args)
+current_character = character()
+
+group_search_str = parsed_args.last('group', type_=str)
+item_search_str = parsed_args.last('item', type_=str)
+
+if not group_search_str:
+    err(f"\nMissing group name.\n{USAGE}")
+
+if not item_search_str:
+    err(f"\nMissing item name.\n{USAGE}")
+
+matching_groups = fuzzy.get_matches_ignoring_punctuation(
+    search=group_search_str,
+    iterable=stuff.groups(),
+)
+if len(matching_groups) == 0:
+    err(f"\nNo matches for group `{group_search_str}`")
+elif len(matching_groups) > 1:
+    err(f"\nMultiple matches for group `{group_search_str}`:\n`{matching_groups}`")
+
+items_to_search = stuff.items(matching_groups[0])
+matching_items = fuzzy.get_matches_ignoring_punctuation(
+    search=item_search_str,
+    iterable=items_to_search,
+)
+if len(matching_items) == 0:
+    err(f"\nNo matches for item `{item_search_str}`")
+elif len(matching_items) > 1:
+    err(f"\nMultiple matches for item `{item_search_str}`:\n`{matching_items}`")
+
+automations = stuff.get_automations(group=matching_groups[0], item=matching_items[0])
+
+counters = stuff.get_counters(group=matching_groups[0], item=matching_items[0])
+created_counters = []
+for counter_options in counters:
+    if not current_character.cc_exists(counter_options.name):
+        created_counters.append(counter_options.name)
+    current_character.create_cc_nx(
+        name = counter_options.name,
+        minVal = counter_options.get('min'),
+        maxVal = counter_options.get('max'),
+        reset = counter_options.get('reset'),
+        dispType = counter_options.get('type'),
+        reset_to = counter_options.get('reset_to'),
+        reset_by = counter_options.get('reset_by'),
+        title = counter_options.get('title'),
+        desc = counter_options.get('desc'),
+        initial_value = counter_options.get('value')
+    )
+
+return embeds.get_output(
+    embed = {
+        'title': f"**{get('name')}** equips {matching_items[0]}",
+        'thumb': get('image'),
+        'desc': f'Updating {len(automations)} abilities.\nAvrae will prompt to overwrite existing abilities...',
+        'fields': [{'title': f"Created {len(created_counters)} counters:", 'body': '\n'.join(created_counters)}],
+        'footer': USAGE,
+    },
+    suffix_cmds=[f'a import {automation}' for automation in automations]
+)
+</drac2>

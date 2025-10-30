@@ -1,0 +1,69 @@
+<drac2>
+using(
+    tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+    currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+)
+expect = tests.expect
+
+def mock_coinpurse(pp=0, gp=0, ep=0, sp=0, cp=0):
+    total = (10 * int(pp)) + int(gp) + (0.5 * int(ep)) + (0.1 * int(sp)) + (0.01 * int(cp))
+    coins = { 'pp': int(pp), 'gp': int(gp), 'ep': int(ep), 'sp': int(sp), 'cp': int(cp), 'total': total}
+    emoji = { 'pp': ':DDBPlatinum:', 'gp': ':DDBGold:', 'ep': ':DDBElectrum:', 'sp': ':DDBSilver:', 'cp': ':DDBCopper:'}
+    def coin_str(cointype):
+        return f"{emoji[cointype]} {coins[cointype]:,} {cointype}"
+    def compact_str():
+        return f":DDBGold: {total:,} gp"
+    def get_coins():
+        return coins
+    def modify_coins(pp=0, gp=0, ep=0, sp=0, cp=0, autoconvert=True):
+        coins.immutable = True
+    def set_coins(pp, gp, ep, sp, cp):
+        coins.immutable = True
+    return {
+        'pp':           pp,
+        'gp':           gp,
+        'ep':           ep,
+        'sp':           sp,
+        'cp':           cp,
+        'coin_str':     coin_str,
+        'compact_str':  compact_str,
+        'modify_coins': modify_coins,
+        'set_coins':    set_coins,
+        'total':        total,
+    }
+
+return tests.run({
+    'format_coins': {
+        'all zero': expect(currency.format_coins({ 'pp': 0, 'gp': 0, 'ep': 0, 'sp': 0, 'cp': 0 })).to.be('0 gp'),
+        'zero cp only': expect(currency.format_coins({ 'cp': 0 })).to.be('0 gp'),
+        'pp': expect(currency.format_coins({ 'pp': 1 })).to.be('1 pp'),
+        'gp': expect(currency.format_coins({ 'gp': 2 })).to.be('2 gp'),
+        'ep': expect(currency.format_coins({ 'ep': 3 })).to.be('3 ep'),
+        'sp': expect(currency.format_coins({ 'sp': 4 })).to.be('4 sp'),
+        'cp': expect(currency.format_coins({ 'cp': 5 })).to.be('5 cp'),
+        'mixed': expect(currency.format_coins({ 'pp': 5, 'gp': 18253, 'ep': 16, 'sp': 1900, 'cp': 75 })).to.be('5 pp 18253 gp 16 ep 1900 sp 75 cp'),
+        'partial': expect(currency.format_coins({ 'gp': 123, 'cp': 42 })).to.be('123 gp 42 cp'),
+        'zeros': expect(currency.format_coins({ 'pp': 0, 'gp': 123, 'ep': 0, 'sp': 0, 'cp': 42 })).to.be('123 gp 42 cp'),
+        'negatives': expect(currency.format_coins({ 'pp': 5, 'gp': -50, 'ep': 2, 'sp': -1, 'cp': -0 })).to.be('5 pp -50 gp 2 ep -1 sp'),
+    },
+    'format_currency': {
+        'zero': expect(currency.format_currency(0)).to.be('0 gp'),
+        'positive gp': expect(currency.format_currency(10)).to.be('10 gp'),
+        'negative gp': expect(currency.format_currency(-5)).to.be('-5 gp'),
+        'over 1 pp in gp': expect(currency.format_currency(1000)).to.be('1000 gp'),
+        'gp and change': expect(currency.format_currency(100.82)).to.be('100 gp 8 sp 2 cp'),
+        'fractions of a gp': expect(currency.format_currency(0.18)).to.be('1 sp 8 cp'),
+        'fractions of a cp': expect(currency.format_currency(0.119)).to.be('1 sp 1 cp'),
+        'inexact float (27.610000000000003)': expect(currency.format_currency(27.6 + 0.01)).to.be('27 gp 6 sp 1 cp'),
+    },
+    'format_transaction': {
+        'add gp': expect(currency.format_transaction(10, coinpurse=mock_coinpurse(gp=100))).to.be(':DDBGold: 100 gp +(10)'),
+        'subtract gp': expect(currency.format_transaction(-10, coinpurse=mock_coinpurse(gp=100))).to.be(':DDBGold: 100 gp -(10)'),
+        'large values': expect(currency.format_transaction(123456, coinpurse=mock_coinpurse(gp=1123456))).to.be(':DDBGold: 1,123,456 gp +(123,456)'),
+        'no change': expect(currency.format_transaction(0, coinpurse=mock_coinpurse(gp=100))).to.be(':DDBGold: 100 gp +(0)'),
+        'gp and change': expect(currency.format_transaction(10.25, coinpurse=mock_coinpurse(gp=110, sp=2, cp=5))).to.be(':DDBGold: 110.25 gp +(10.25)'),
+        'less than 1 gp': expect(currency.format_transaction(-0.75, coinpurse=mock_coinpurse(gp=99, cp=25))).to.be(':DDBGold: 99.25 gp -(0.75)'),
+        'preserves fractional balance': expect(currency.format_transaction(10, coinpurse=mock_coinpurse(gp=50, cp=99))).to.be(':DDBGold: 50.99 gp +(10)'),
+    }
+}).embed
+</drac2>

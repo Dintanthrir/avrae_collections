@@ -1,0 +1,54 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+IMAGES_LIST_VAR = 'nomlist'
+
+parsed_args = argparse(&ARGS&)
+_character = character()
+use_cvar = parsed_args.get('cvar', default=False, type_=bool)
+
+cvar_images = [img for img in _character.get_cvar(IMAGES_LIST_VAR, '').split('\n') if img]
+uvar_images = [img for img in get_uvar(IMAGES_LIST_VAR, '').split('\n') if img]
+image_list = cvar_images if use_cvar else uvar_images
+added = []
+removed = []
+
+for url in parsed_args.get('add', default='', type_=str): 
+    if url not in image_list:
+        image_list.append(url)
+        added.append(url)
+for url in parsed_args.get('remove', default='', type_=str):
+    if url in image_list:
+        removed.append(url)
+    image_list.remove(url)
+if len(image_list) == 0:
+    if use_cvar:
+        _character.delete_cvar(IMAGES_LIST_VAR)
+    else:
+        delete_uvar(IMAGES_LIST_VAR)
+else:
+    if use_cvar:
+        _character.set_cvar(IMAGES_LIST_VAR, '\n'.join(image_list))
+    else:
+        set_uvar(IMAGES_LIST_VAR, '\n'.join(image_list))
+
+embed = {
+    'title': f"{ctx.prefix}{ctx.alias.split(' ')[0]} images:",
+    'desc': f"Updating `{IMAGES_LIST_VAR}` {'cvar' if use_cvar else 'uvar'}." if len(added) > 0 or len(removed) > 0 else "Current settings:",
+    'fields': [
+        {
+            'title': f"`{IMAGES_LIST_VAR}` cvar",
+            'body': '\n'.join([f"(➕) {url}" if url in added else url for url in cvar_images] + ([f"(➖) [{url}]" for url in removed] if use_cvar else []))
+        },
+        {
+            'title': f"`{IMAGES_LIST_VAR}` uvar",
+            'body': '\n'.join([f"(➕) {url}" if url in added else url for url in uvar_images] + ([f"(➖) [{url}]" for url in removed] if not use_cvar else []))
+        },
+    ],
+    'footer': f"USAGE: {ctx.prefix}{ctx.alias} [-add <url>] [-remove <url>] [cvar]",
+    'color': get('color'),
+    'thumb': 'https://cdn.discordapp.com/emojis/618899714040922112.png?v=1',
+}
+return embeds.get_output(embed=embed)
+</drac2>

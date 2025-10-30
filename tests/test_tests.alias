@@ -1,0 +1,42 @@
+<drac2>
+using(tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7')
+expect = tests.expect
+
+def test_function():
+    return {
+        'passing test': expect(True).to.be(True),
+        'failing test': expect(True).to.be(False),
+    }
+
+return tests.run({
+    'equality': expect(True).to.be(True),
+    'equality - failing': expect('actual').to.be('expected'),
+    'inequality': expect(True).not_to.be(False),
+    'inequality - failing': expect(True).not_to.be(True),
+    'greater than': expect(5).to.be_greater_than(1),
+    'greater than - failing': expect(5).to.be_greater_than(10),
+    'greater than - inverse': expect(5).not_to.be_greater_than(10),
+    'greater than - inverse failing': expect(5).not_to.be_greater_than(1),
+    'less than': expect('a').to.be_less_than('z'),
+    'less than - failing': expect('a').to.be_less_than('1'),
+    'less than - inverse': expect('a').not_to.be_less_than('1'),
+    'less than - inverse failing': expect('a').not_to.be_less_than('z'),
+    'none': expect(None).to.be_none,
+    'none - failing': expect('').to.be_none,
+    'none - inverse': expect('').not_to.be_none,
+    'none - inverse failing': expect(None).not_to.be_none,
+    'contains': expect(['a']).to.contain('a'),
+    'contains - failing': expect(['a']).to.contain('b'),
+    'contains - inverse': expect(['a']).not_to.contain('b'),
+    'contains - inverse failing': expect(['a']).not_to.contain('a'),
+    'membership': expect('a').to.be_in(['a', 'b', 'c']),
+    'membership - failing': expect('a').to.be_in([1, 2, 3]),
+    'membership - inverse': expect('a').not_to.be_in([1, 2, 3]),
+    'membership - inverse failing': expect('a').not_to.be_in(['a', 'b', 'c']),
+    'nested': test_function,
+    'failing': tests.fail,
+    'failing with disabled test': tests.fail(expect('a').to.be('b')),
+    'pending': tests.pending,
+    'pending with disabled test': tests.pending(expect('a').to.be('b')),
+}).embed
+</drac2>

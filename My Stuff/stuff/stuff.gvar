@@ -1,0 +1,60 @@
+# stuff = '6fe42f4d-65ed-4628-af36-22b8c65b451b'
+
+_character = character()
+
+_STUFF_SUBSCRIPTIONS_SVAR = 'my_stuff'
+_DEFAULT_SUBSCRIPTIONS = {'Items (Basic Rules)': '9ead6d6d-d838-4ac0-985d-1fec79c72bc4'}
+_STUFF_SERVER_SUBSCRIPTIONS = load_yaml(get_svar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml(_DEFAULT_SUBSCRIPTIONS)))
+_STUFF_PERSONAL_SUBSCRIPTIONS = load_yaml(get_uvar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml({})))
+_STUFF_CHARACTER_SUBSCRIPTIONS = load_yaml(_character.get_cvar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml({}))) if _character else {}
+_SUBSCRIPTIONS = _STUFF_SERVER_SUBSCRIPTIONS | _STUFF_PERSONAL_SUBSCRIPTIONS | _STUFF_CHARACTER_SUBSCRIPTIONS
+
+def _is_gvar_id(string):
+    return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
+
+def _load_group(group):
+    subscription = _SUBSCRIPTIONS.get(group)
+    if subscription:
+        return load_yaml(get_gvar(subscription)) if _is_gvar_id(subscription) else subscription
+    else:
+        return {}
+
+def set_subscriptions(new_subscriptions):
+    """
+    Overrides the subscriptions loaded from svars and c/uvars to specify item lists
+    """
+    _SUBSCRIPTIONS = new_subscriptions
+
+def subscriptions():
+    """
+    Returns the combined set of sources the alias is subscribed to
+    """
+    return _SUBSCRIPTIONS
+
+def groups():
+    """
+    Returns a list of string names of subscribed item groups.
+    """
+    return list(_SUBSCRIPTIONS.keys())
+
+def items(group):
+    """
+    Returns a list of string names of items in a group.
+    """
+    return list(_load_group(group).keys())
+
+def get_automations(group, item):
+    """
+    Returns a list of item automation yaml strings for the given item in a group.
+    """
+    automations = _load_group(group).get(item)
+    item_results = load_yaml(get_gvar(automations)) if _is_gvar_id(automations) else automations
+    return item_results if 'List' in typeof(item_results) else (item_results.get('automations') or [])
+
+def get_counters(group, item):
+    """
+    Returns a list of counter dict objects for the given item in a group.
+    """
+    automations = _load_group(group).get(item)
+    item_results = load_yaml(get_gvar(automations)) if _is_gvar_id(automations) else automations
+    return [] if 'List' in typeof(item_results) else (item_results.get('counters') or [])

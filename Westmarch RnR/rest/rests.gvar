@@ -1,0 +1,91 @@
+# rests = 'c3af647b-4f36-4e6b-a1f2-56eb55be96e5'
+#
+# A module to track character rests and server rests/day limits.
+#
+
+_REST_SVAR = 'westmarch_rnr'
+_REST_SVAR_DEFAULT = dump_yaml({ 'first_day_started_at': 1742083200, 'server_tz_offset': 0, 'server_day_length': 24 * 60 * 60, 'short_rests': 2, 'long_rests': 1, 'cvar_name': 'westmarch_rnr_rests' })
+_REST_CVAR_DEFAULT = dump_yaml([])
+
+_HISTORY_LENGTH = 25 # How many rests to record in the history, set to 25 to match the limit of fields on an embed
+
+_character = character()
+
+def _load_settings():
+    """
+    Returns a dict of server settings loaded from the `westmarch_rnr` SVAR
+    Errors if settings are missing required values
+    """
+    settings = load_yaml(get_svar(_REST_SVAR, default=_REST_SVAR_DEFAULT))
+
+    if settings.get('first_day_started_at', None) is None or settings.get('server_tz_offset', None) is None or settings.get('server_day_length', None) is None or settings.get('cvar_name', None) is None:
+        err(f"Failed to load server rest settings!\nSVAR `{_REST_SVAR}` should contain values of the form:\n```\n{_REST_SVAR_DEFAULT}\n```")
+    return settings
+
+def status(current_time = None):
+    """
+    Returns a dict containing rests used during the current day and when the day ends.
+    """
+    current_time = current_time or time()
+
+    # Load server settings
+    settings = _load_settings()
+
+    # Calculate the start and end instants of the current server day
+    server_current_day_seconds_elapsed = (current_time - settings.first_day_started_at + settings.server_tz_offset * 60 * 60) % settings.server_day_length
+    server_current_day_started_at = int(current_time - server_current_day_seconds_elapsed)
+    server_current_day_ends_at = int(current_time + settings.server_day_length - server_current_day_seconds_elapsed)
+
+    # Load character rest history
+    character_rests = load_yaml(_character.get_cvar(settings.cvar_name, default=_REST_CVAR_DEFAULT))
+
+    # Select rests taken during the current day
+    todays_rests = [rest for rest in character_rests if rest.rested_at > server_current_day_started_at and rest.rested_at <= server_current_day_ends_at]
+    short_rests_taken = len([rest for rest in todays_rests if rest.type == 'short'])
+    long_rests_taken = len([rest for rest in todays_rests if rest.type == 'long'])
+
+    return {
+        'server_day': {
+            'started_at': server_current_day_started_at,
+            'ends_at': server_current_day_ends_at
+        },
+        'short': {
+            'taken': short_rests_taken,
+            'limit': settings.get('short_rests', None)
+        },
+        'long': {
+            'taken': long_rests_taken,
+            'limit': settings.get('long_rests', None)
+        }
+    }
+
+def history():
+    """
+    Return a log of the character's recent rests.
+    """
+    settings = _load_settings()
+    return load_yaml(_character.get_cvar(settings.cvar_name, default=_REST_CVAR_DEFAULT))
+
+def _log_rest(rested_at, rest_type):
+    settings = _load_settings()
+    character_rests = load_yaml(_character.get_cvar(settings.cvar_name, default=_REST_CVAR_DEFAULT))
+    character_rests.append({ 'rested_at': int(rested_at), 'type': rest_type})
+
+    yaml = dump_yaml(character_rests)
+    # check if we are about to hit the cvar length limit
+    while (len(yaml) > 10_000 or len(character_rests) > _HISTORY_LENGTH) and len(character_rests) > 0:
+        character_rests = character_rests[1:] # drop the oldest item from the history
+        yaml = dump_yaml(character_rests)
+    _character.set_cvar(settings.cvar_name, yaml)
+
+def log_short_rest(rested_at):
+    """
+    Record that the character took a short rest.
+    """
+    _log_rest(rested_at, 'short')
+
+def log_long_rest(rested_at):
+    """
+    Record that the character took a long rest.
+    """
+    _log_rest(rested_at, 'long')

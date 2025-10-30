@@ -1,0 +1,42 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+DEFAULT_BITE_IMAGES_GVAR = '66ccdb52-71bf-4a5c-b605-663a83d173b7'
+IMAGES_LIST_VAR = 'bitelist'
+AUTHOR_NAME_VAR= 'hugname'
+
+escaped_args_string = '&*&'
+svar_contents = get_svar(IMAGES_LIST_VAR, None)
+display_name = ctx.author.display_name
+
+if len(biter := get(AUTHOR_NAME_VAR, display_name).replace('"','\\"')) == 0:
+    biter = display_name
+bitelist = get(IMAGES_LIST_VAR, svar_contents or get_gvar(DEFAULT_BITE_IMAGES_GVAR)).split('\n')
+
+victim = escaped_args_string.replace('"','\\"') or "you"
+bite_image = randchoice(bitelist)
+
+fields = []
+footer = f"Showing: {bite_image}"
+
+if not bite_image:
+    bite_image = 'https://cdn.discordapp.com/emojis/618899714040922112.png?v=1'
+    fields.append({
+        'title': "No image found.",
+        'body': "Expected a `bitelist` c/u/svar containing image urls separated by newlines."
+    })
+    footer = f"{ctx.prefix}help {ctx.alias} for customization options.\n" + footer
+if not (exists("hugname") or exists("bitelist") or svar_contents):
+    footer = f"{ctx.prefix}help {ctx.alias} for customization options.\n" + footer
+
+return embeds.get_output(embed={
+    'title': "Chomp!",
+    'desc': f"**{biter} bites {victim}!**",
+    'image': bite_image,
+    'color': get("color"),
+    'footer': footer,
+    'fields': fields,
+})
+</drac2>

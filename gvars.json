@@ -1,2 +1,29 @@
 {
+  "00186972-7692-4f56-9ab7-60f0089704a4": "gvars/log.gvar",
+  "15397c01-adc2-4a9a-9011-b2e7a29245f7": "gvars/tests.gvar",
+  "5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e": "gvars/docstring.gvar",
+  "7207a79c-07b0-4317-8653-f671df7305ee": "gvars/roll_utils.gvar",
+  "7fdffa53-ac7b-4a40-80d8-eef3aba6f32a": "gvars/currency.gvar",
+  "afe10cd1-ae3c-4fad-94cb-f6f89f9060fd": "gvars/context_filters.gvar",
+
+  "66ccdb52-71bf-4a5c-b605-663a83d173b7": "Affection/bite.gvar",
+  "eec1865c-91b3-49a7-8c5f-5d7696ccbb7b": "Affection/nom.gvar",
+  "9b082474-17c3-4b48-b71f-9fb1942e97c0": "Affection/hug.gvar",
+
+  "1b39df4c-023e-44a2-ba92-37b6cf1bd760": "My Stuff/ashirma_homebrew.yaml",
+  "1be4f145-cc1d-4658-82f7-6e2f2f345a5c": "My Stuff/strixhaven_items.yaml",
+  "470ea2d9-f7b5-4e97-82dd-281151da2df7": "My Stuff/ashirma_quest_items.yaml",
+  "6fe42f4d-65ed-4628-af36-22b8c65b451b": "My Stuff/stuff/stuff.gvar",
+  "81c0809f-21d3-4ee8-b008-1e9af9db76c3": "My Stuff/tce_items.yaml",
+  "885bde1b-da55-4c59-b5a6-183a5211c191": "My Stuff/gotg_items.yaml",
+  "8987b855-6fa5-489a-b8bb-713c70ca8f23": "My Stuff/dmg_items.yaml",
+  "9ead6d6d-d838-4ac0-985d-1fec79c72bc4": "My Stuff/basic_rules_items.yaml",
+  "f3cb61c6-7a5e-41a7-9986-58270b45fd77": "My Stuff/xge_items.yaml",
+  "f5e16029-2e9b-43b2-aba7-652518a0393a": "My Stuff/ashirma_guild_items.yaml",
+
+  "eff8567d-a5c1-41a1-9b9b-deb396d73aa8": "Skill Check Modifiers/skill_check_mods.gvar",
+
+  "790f2a58-6042-44b9-acc3-d6c50f0704a2": "Westmarch Downtime/downtime.gvar",
+
+  "c3af647b-4f36-4e6b-a1f2-56eb55be96e5": "Westmarch RnR/rest/rests.gvar"
 }

@@ -1,0 +1,714 @@
+# ashirma_homebrew = '1b39df4c-023e-44a2-ba92-37b6cf1bd760'
+Mimicloak:
+  counters:
+    - name: Mimicloak
+      desc: Shapeshift yourself and the objects you are carrying.
+      reset: long
+      min: 0
+      max: 2
+      type: square
+  automations:
+    - |
+      - name: Mimicloak (shapeshifting)
+        automation:
+          - type: counter
+            counter: Mimicloak
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Shapeshifted (Mimicloak)
+                duration: "600"
+                conc: true
+                effects:
+                  ac_value: 10 + constitutionMod
+                desc: "You cannot speak, your walking speed is 15', blindsight 30' radius,
+                  actions limited to: Dash, Dodge, Hide, Perception, Insight,
+                  Investigation, Restore Form."
+                buttons:
+                  - label: Restore Form
+                    automation:
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: returns to their previous form
+                    style: "3"
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 1
+        phrase: While wearing this cloak, you can use an action to shapeshift yourself
+          and the objects you are carrying into an object of your choice. The object
+          has to be small or medium. You can't copy complex properties like liquid,
+          gaseous emissions, heat, chemicals, resistances, etc. If the object is
+          composed of different parts, those parts must be in contact and cannot be
+          separated.
+        thumb: https://media.discordapp.net/attachments/667630570666196992/1104941591648550972/DND_MIMICLOAK.png
+    - |
+      - name: Mimicloak (grapple)
+        automation:
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Grappling
+                save_as: grapple
+          - type: target
+            target: all
+            effects:
+              - type: ieffect2
+                name: Grappled (Mimicloak)
+                parent: grapple
+                buttons:
+                  - label: Escape
+                    automation:
+                      - type: target
+                        target: self
+                        effects:
+                          - type: check
+                            ability:
+                              - athletics
+                              - acrobatics
+                            dc: "13"
+                            success:
+                              - type: remove_ieffect
+                                removeParent: always
+                            fail: []
+                    verb: attempts to escape the Mimicloak
+                    style: "1"
+        _v: 2
+        proper: false
+        verb: reacts with
+        activation_type: 4
+        thumb: https://media.discordapp.net/attachments/667630570666196992/1104941591648550972/DND_MIMICLOAK.png
+        phrase: When a creature huge or smaller touches you with an attack, you can use
+          your reaction to grapple it, your cloak becoming adhesive.
+Snugglebeast, Owlbear:
+  counters:
+    - name: Snugglebeast
+      desc: Enjoyed a nice cuddle
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Owlbear Snugglebeast
+        automation:
+          - type: counter
+            counter: Snugglebeast
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: self
+            effects:
+              - type: damage
+                damage: -1d6 [healing]
+        _v: 2
+        proper: true
+        verb: snuggles an
+        activation_type: 7
+        thumb: https://i.redd.it/gx9ljlp00mw21.png
+        phrase: When a creature regains hit points at the end of a short rest by
+          spending one or more of its Hit Dice, that creature can regain extra hit
+          points if it spends that short rest snuggling with one of these enchanted,
+          stuffed toys.
+Snugglebeast, Unicorn:
+  counters:
+    - name: Snugglebeast
+      desc: Enjoyed a nice cuddle
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Unicorn Snugglebeast
+        automation:
+          - type: counter
+            counter: Snugglebeast
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: self
+            effects:
+              - type: damage
+                damage: -2d6 [healing]
+        _v: 2
+        proper: true
+        verb: snuggles an
+        activation_type: 7
+        thumb: https://i.redd.it/gx9ljlp00mw21.png
+        phrase: When a creature regains hit points at the end of a short rest by
+          spending one or more of its Hit Dice, that creature can regain extra hit
+          points if it spends that short rest snuggling with one of these enchanted,
+          stuffed toys.
+Snugglebeast, Dragon:
+  counters:
+    - name: Snugglebeast
+      desc: Enjoyed a nice cuddle
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Dragon Snugglebeast
+        automation:
+          - type: counter
+            counter: Snugglebeast
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: self
+            effects:
+              - type: damage
+                damage: -3d6 [healing]
+        _v: 2
+        proper: true
+        verb: snuggles an
+        activation_type: 7
+        thumb: https://i.redd.it/gx9ljlp00mw21.png
+        phrase: When a creature regains hit points at the end of a short rest by
+          spending one or more of its Hit Dice, that creature can regain extra hit
+          points if it spends that short rest snuggling with one of these enchanted,
+          stuffed toys.
+Snugglebeast, Tarrasque:
+  counters:
+    - name: Snugglebeast
+      desc: Enjoyed a nice cuddle
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Tarrasque Snugglebeast
+        automation:
+          - type: counter
+            counter: Snugglebeast
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: self
+            effects:
+              - type: damage
+                damage: -4d6 [healing]
+        _v: 2
+        proper: true
+        verb: snuggles an
+        activation_type: 7
+        thumb: https://i.redd.it/gx9ljlp00mw21.png
+        phrase: When a creature regains hit points at the end of a short rest by
+          spending one or more of its Hit Dice, that creature can regain extra hit
+          points if it spends that short rest snuggling with one of these enchanted,
+          stuffed toys.
+Dragon Thighbone Club:
+  - |
+    - name: Dragon Thighbone Club (bonus damage)
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: condition
+              condition: "'dragon' in target.creature_type"
+              onTrue:
+                - type: damage
+                  damage: 2d8 [magical bludgeoning]
+              onFalse:
+                - type: text
+                  text: The club only deals additional damage to dragons.
+              errorBehaviour: raise
+      _v: 2
+      proper: true
+      verb: deals
+      activation_type: 2
+Canister of Vreyval's Soothing Tea:
+  - |
+    - name: Vreyval's Soothing Tea
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: roll
+              dice: 1d6 + 2
+              name: healing_roll
+              displayName: Heal for
+            - type: damage
+              damage: -1 * {healing_roll} [healing]
+            - type: temphp
+              amount: "+{healing_roll}"
+            - type: ieffect2
+              name: Soothed
+              duration: "600"
+              desc: any effect causing you to be charmed or frightened is suppressed for 1
+                hour
+      _v: 2
+      proper: true
+      verb: drinks
+      activation_type: 1
+      phrase: You can steep a bag of tea for 1 minute in a cup of boiling water to
+        transform the water into a rich, flavorful tea that calms the nerves and
+        revitalizes the spirit. When you drink a cup of the hot tea, you regain 1d6
+        + 2 hit points and gain the same amount as temporary hit points. In
+        addition, any effect causing you to be charmed or frightened is suppressed
+        for 1 hour, after which any suppressed effect resumes, provided that its
+        duration hasn't expired in the meantime.
+  - |
+    - name: Vreyval's Cold Tea
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: roll
+              dice: (1d6 + 2) / 2
+              name: healing_roll
+              displayName: Heal for
+            - type: damage
+              damage: -1 * {healing_roll} [healing]
+            - type: temphp
+              amount: +{healing_roll}
+      _v: 2
+      proper: true
+      verb: drinks
+      activation_type: 1
+      phrase: If the tea has been left to cool before you drink it, you regain only
+        half the amount of hit points and temporary hit points, and no other effects
+        are suppressed.
+Radiant Bow:
+  - |
+    - name: Summon Radiant Bow
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Radiant bow active
+              buttons:
+                - label: Dismiss radiant bow
+                  automation:
+                    - type: remove_ieffect
+                  verb: dismisses their bow
+                  style: "1"
+      _v: 2
+      proper: true
+      verb: uses
+      activation_type: 3
+      phrase: This item appears to be the grip of a longbow. While the grip is in your
+        hand, you can use a bonus action to cause a longbow of pure radiance to
+        spring into existence, or make the it disappear.
+Bounder's Ball:
+  - |
+    - name: Bounder's Ball
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Glowing bounder's ball
+              desc: bright light in a 10-foot radius and dim light for an additional 10 feet
+              buttons:
+                - label: Darken ball
+                  automation:
+                    - type: remove_ieffect
+                  verb: darkens their Bounder's Ball
+                  style: "1"
+      _v: 2
+      proper: true
+      verb: illuminates their
+      activation_type: 3
+      phrase: You can attach the bounder’s ball to the base of a weapon with the
+        thrown property by pressing it against the weapon for at least 10 minutes.
+        Once you do, you can use a bonus action to speak the ball’s command word to
+        cause the weapon to shed bright light in a 10-foot radius and dim light for
+        an additional 10 feet. Speaking the command word again or stowing the weapon
+        puts out the light. When you make a ranged attack with the glowing weapon,
+        the ball’s animal spirit appears and happily retrieves it. Immediately after
+        the attack, the spirit returns the weapon to your hand or drops it at your
+        feet (your choice).
+Shooting Star:
+  counters:
+    - name: Falling Stars
+      desc: Shooting Star bow ability
+      reset: long
+      min: 0
+      max: 1
+      type: star
+  automations:
+    - |
+      - name: Radiant Arrow (crit)
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: dex
+                fail:
+                  - type: damage
+                    damage: 1d6 [radiant] + 1d6 [force]
+                success:
+                  - type: damage
+                    damage: 1d6 / 2 [radiant] + 1d6 / 2 [force]
+                dc: "16"
+        _v: 2
+        proper: false
+        verb: strikes with
+        activation_type: 2
+        thumb: https://i.redd.it/qntllopkb1l61.png
+    - |
+      - name: Falling Stars
+        automation:
+          - type: counter
+            counter: Falling Stars
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: dex
+                fail:
+                  - type: damage
+                    damage: 3d6 [radiant] + 3d6 [force]
+                success:
+                  - type: damage
+                    damage: 3d6 / 2 [radiant] + 3d6 / 2 [force]
+                dc: "16"
+        _v: 2
+        proper: true
+        activation_type: 1
+        thumb: https://i.redd.it/qntllopkb1l61.png
+Battle Standard Polearm:
+  counters:
+    - name: Battle Standard Polearm
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Battle Standard Polearm
+        automation:
+          - type: counter
+            counter: Battle Standard Polearm
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: Once per long rest, you may raise the weapon as an Action to grant
+              yourself and up to three allies within 30 feet a bonus of +10 feet to
+              their movement speed and temporary hit points equal to 1d4 plus your
+              proficiency bonus. This bonus lasts for a number of rounds equal to your
+              proficiency bonus. Once you use this property, you cannot do so again
+              until you finish a long rest.
+          - type: target
+            target: all
+            effects:
+              - type: ieffect2
+                name: Battle Standard Rally
+                duration: proficiencyBonus
+                desc: +10' movement
+              - type: temphp
+                amount: +1d4 + {proficiencyBonus}
+        _v: 2
+        proper: false
+        verb: raises
+        activation_type: 1
+        phrase: Rally your allies and lead the charge into the fray...or run away!
+Spark Strike Polearm:
+  - |
+    - name: Spark Strike Polearm
+      automation:
+        - type: text
+          text: As a Bonus Action, you may send lightning arcing along the weapon, causing
+            it to deal an extra 1d6 lightning damage upon a hit. If you successfully
+            hit, you can cause lightning to arc from the target to two different
+            creatures of your choice that you can see within 10 feet, causing them
+            to take 1d6 lightning damage.
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: 1d6 [lightning]
+      _v: 2
+      proper: false
+      verb: charges
+      activation_type: 3
+      phrase: Charge your weapon with the power and fury of storms.
+Death Knell:
+  - |
+    - name: Death Knell
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: condition
+              condition: target.hp < target.max_hp
+              onTrue:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: damage
+                      damage: 1d8 [psychic]
+                  success:
+                    - type: damage
+                      damage: 1d8 / 2 [psychic]
+                  dc: "15"
+              onFalse:
+                - type: text
+                  text: "{target.name} is not injured"
+              errorBehaviour: neither
+        - type: text
+          text: You gain a +2 bonus to attack and damage rolls made with this magic
+            weapon. Once per turn when you reduce a creature to 0 hit points with an
+            attack using this weapon, a foreboding, gong-like sound emanates from
+            the blade. When this happens, any hostile creature that's missing any of
+            its hit points within 15 feet of the slain creature is forced to make a
+            DC 15 Wisdom saving throw. On a failed save, a creature takes 1d8
+            psychic damage, or half as much on a success.
+      _v: 2
+      proper: false
+      verb: sounds
+      activation_type: 2
+      phrase: This heavy metal weapon is dark and grimly ornate.
+Chain of Returning:
+  - |
+    - name: Chain of Returning
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: check
+              ability: athletics
+              dc: "12"
+              success:
+                - type: text
+                  text: The weapon returns to {target.name}.
+                  title: Success!
+              fail:
+                - type: text
+                  text: "{target.name} fails to retrieve their chained weapon."
+                  title: Failure!
+        - type: text
+          text: This chain can be attached to any weapon. When you take the Attack action
+            with an attached weapon, the weapon attack can reach a target up to 30
+            feet away from you, as you throw the weapon. Once the attached weapon
+            has been thrown, the user can make a DC 12 Strength (Athletics) check to
+            return the weapon to their hand as a bonus action.
+      _v: 2
+      proper: true
+      verb: pulls on their
+      activation_type: 3
+Viol of Spirits:
+  - |
+    - name: Viol of Spirits
+      automation:
+        - type: counter
+          counter: Viol of Spirits
+          amount: "1"
+          errorBehaviour: raise
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Spirit Performance
+              duration: "2"
+              end: true
+              desc: disadvantage on attacks against the performer
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Haunting Performance
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: wis
+                            fail:
+                              - type: ieffect2
+                                name: Frightened
+                                duration: "1"
+                                end: true
+                            success: []
+                            dc: 8 + spell + proficiencyBonus
+                    verb: retaliates with
+                    activation_type: 2
+        - type: text
+          text: >-
+            As an action, you can start a performance that lasts until the end of your
+            next turn. While performing ghostly apparitions appear within 5 feet of
+            you. The performance ends early if you are incapacitated or silenced or
+            if you voluntarily end it (no action required). This property of the
+            instrument can't be used again until the next dawn.
+
+
+            The first time a creature makes an attack roll against you during the performance they have disadvantage on the attack roll and must succeed on a wisdom save against your spell save dc or become frightened of you until the end of their next turn.
+      _v: 2
+      proper: true
+      verb: plays their
+      activation_type: 1
+Locklinks:
+  counters:
+    - name: Locklinks
+      desc: Limited uses of a modified Knock spell.
+      reset: null
+      min: 0
+      max: 2
+      value: 2
+      type: square
+  automations:
+    - |
+      - name: Secret Knock
+        automation:
+          - type: counter
+            counter: Locklinks
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: "You cast the knock spell from the cufflinks with the following changes:
+              the spell has a range of touch, its knock is only audible out to a range
+              of 30 feet, and it has no effect if the target is held shut with arcane
+              lock. The cufflinks lose this property once it's been used for a second
+              time."
+            title: Secret Knock
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 3
+        phrase: A bit of brass and a touch of class.
+        thumb: https://i.redd.it/7f7a5b1ob5ka1.png
+Deadfall Trap:
+  automations:
+    - |
+      - name: Deadfall Trap
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: roll
+                dice: 3d8
+                name: trap_damage
+                displayName: Damage
+              - type: save
+                stat: dex
+                fail:
+                  - type: damage
+                    damage: "{trap_damage}[bludgeoning]"
+                success:
+                  - type: damage
+                    damage: "{trap_damage/2}[bludgeoning]"
+                dc: "13"
+          - type: text
+            text: >-
+              This trap requires you to spend a minute to set it. 
+        
+        
+              The trap creates a tripwire across a 15-foot (or shorter) length affixed to two immobile objects, such as a tree or a spike driven into the ground. 
+        
+        
+              This trap is hard to spot, requiring a successful DC 13 Intelligence (Investigation) check to be discerned.
+        
+        
+              A creature that crosses the area containing the tripwire must make a DC 13 Dexterity saving throw, suffering 3d8 bludgeoning damage on a failed save, or half as much on a successful one from the falling rocks, logs, or other heavy objects used when the trap was set.
+        
+              Once the trap is triggered, it is destroyed.
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 6
+Pepper Mine:
+  automations:
+    - |
+      name: Pepper Mine
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: con
+              fail:
+                - type: ieffect2
+                  name: Sneezing (Pepper Mine) [incapacitated, suffocating]
+                  buttons:
+                    - label: Stop Sneezing (EOT)
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: con
+                              fail: []
+                              success:
+                                - type: remove_ieffect
+                              dc: "14"
+                      verb: attempts to resist the pepper mine
+                      style: "1"
+              success: []
+              dc: "14"
+        - type: text
+          text: >-
+            As an action, you can set this mine within a 5-foot cube.
+      
+      
+            If a creature enters the cube where this mine is set, the mine explodes, creating a 10-foot radius sphere explosion. Any creature within the explosion must must make a DC 14 constitution saving throw or become unable to breathe while sneezing uncontrollably. A creature affected in this way is incapacitated and suffocating. As long as it is conscious, a creature can repeat the saving throw at the end of each of its turns, ending the effect on it on a success.
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+Barbed Iron Trap:
+  automations:
+    - |
+      name: Barbed Iron Trap
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: damage
+                  damage: 1d4[piercing]
+                - type: ieffect2
+                  name: Iron Barbs
+                  buttons:
+                    - label: Iron Barbs (SOT)
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: 1d4[piercing]
+                      verb: is injured by iron barbs
+                      style: "4"
+                    - label: Remove Iron Barbs (Action)
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: str
+                              fail: []
+                              success:
+                                - type: remove_ieffect
+                              dc: "16"
+                      verb: attempts to remove the iron barbs
+                      style: "3"
+              success: []
+              dc: "12"
+        - type: text
+          text: >-
+            This trap features iron claw poles, which are covered with spiky, iron
+            barbs, and is designed to stick onto it's victim .
+      
+      
+            As an action, you can set this trap within a 5-foot cube.
+      
+      
+            If a creature steps on the pressure plate, it must make a DC 12 dexterity saving throw. On a failed save, the trap springs up and latches onto the creature, dealing 1d4 piercing damage. The trap continues to deal an additional 1d4 piercing damage at the start of the creatures turn while attached. A creature can use its action to make a DC 16 strength check to remove the trap.
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1

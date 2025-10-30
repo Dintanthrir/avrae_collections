@@ -1,0 +1,1238 @@
+# basic_rules_items = '9ead6d6d-d838-4ac0-985d-1fec79c72bc4'
+# Adventuring Gear
+Acid:
+  - |
+    - name: Vial of Acid
+      automation:
+        - type: target
+          target: each
+          effects:
+            - type: attack
+              hit:
+                - type: damage
+                  damage: 2d6 [acid]
+              miss: []
+              attackBonus: dexterityMod
+      _v: 2
+      verb: throws
+      phrase: As an action, you can splash the contents of this vial onto a creature
+        within 5 feet of you or throw the vial up to 20 feet, shattering it on
+        impact. In either case, make a ranged attack against a creature or object,
+        treating the acid as an improvised weapon. On a hit, the target takes 2d6
+        acid damage.
+      activation_type: 1
+Alchemist's Fire:
+  - |
+    - name: Flask of Alchemist's Fire
+      automation:
+        - type: target
+          target: each
+          effects:
+            - type: attack
+              hit:
+                - type: ieffect2
+                  name: Alchemist's Fire
+                  duration: null
+                  effects: null
+                  attacks: []
+                  buttons:
+                    - label: Alchemist's Fire
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: 1d4 [fire]
+                              overheal: false
+                      verb: is burned by Alchemist's Fire
+                      style: "4"
+                      defaultDC: null
+                      defaultAttackBonus: null
+                      defaultCastingMod: null
+                    - label: Extinguish Flames
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: dex
+                              fail: []
+                              success:
+                                - type: remove_ieffect
+                              dc: "10"
+                      verb: attempts to extinguish the Alchemist's Fire
+                      style: "1"
+                      defaultDC: null
+                      defaultAttackBonus: null
+                      defaultCastingMod: null
+                  end: false
+                  conc: false
+                  desc: null
+                  stacking: false
+                  save_as: null
+                  parent: null
+              miss: []
+              attackBonus: dexterityMod
+      _v: 2
+      verb: throws
+      phrase: This sticky, adhesive fluid ignites when exposed to air. As an action,
+        you can throw this flask up to 20 feet, shattering it on impact. Make a
+        ranged attack against a creature or object, treating the alchemist's fire as
+        an improvised weapon. On a hit, the target takes 1d4 fire damage at the
+        start of each of its turns. A creature can end this damage by using its
+        action to make a DC 10 Dexterity check to extinguish the flames.
+      activation_type: 1
+Ball Bearings:
+  - |
+    - name: Ball Bearings
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: ieffect2
+                  name: Prone
+                  effects:
+                    attack_advantage: "-1"
+                  buttons:
+                    - label: Stand
+                      automation:
+                        - type: remove_ieffect
+                      verb: stands up
+                      style: "3"
+                  desc: Standing up costs an amount of movement equal to half your speed. You
+                    can't stand up if you don't have enough movement left or if your
+                    speed is 0.
+              success: []
+              dc: "10"
+      _v: 2
+      proper: true
+      verb: scatters
+      activation_type: 1
+      phrase: As an action, you can spill these tiny metal balls from their pouch to
+        cover a level, square area that is 10 feet on a side. A creature moving
+        across the covered area must succeed on a DC 10 Dexterity saving throw or
+        fall prone. A creature moving through the area at half speed doesn't need to
+        make the save.
+Caltrops:
+  - |
+    - name: Caltrops
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: damage
+                  damage: 1 [piercing]
+                - type: ieffect2
+                  name: Injured (Caltrops)
+                  desc: walking speed reduced by 10' until healed
+                  buttons:
+                    - label: Remove Caltrops
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: remove_ieffect
+                      verb: heals caltrop injuries
+                      style: "3"
+              success: []
+              dc: "15"
+      _v: 2
+      proper: true
+      verb: spreads
+      activation_type: 1
+      phrase: As an action, you can spread a bag of caltrops to cover a square area
+        that is 5 feet on a side. Any creature that enters the area must succeed on
+        a DC 15 Dexterity saving throw or stop moving this turn and take 1 piercing
+        damage. Taking this damage reduces the creature's walking speed by 10 feet
+        until the creature regains at least 1 hit point. A creature moving through
+        the area at half speed doesn't need to make the save.
+Holy Water:
+  - |
+    - name: Flask of Holy Water
+      automation:
+        - type: target
+          target: each
+          effects:
+            - type: attack
+              hit:
+                - type: condition
+                  condition: "'fiend' in target.creature_type or 'undead' in target.creature_type"
+                  onTrue:
+                    - type: damage
+                      damage: 2d6[radiant]
+                      overheal: false
+                  onFalse:
+                    - type: text
+                      text: "{target.name} takes no damage from the Holy Water."
+                      title: Effect
+                  errorBehaviour: raise
+              miss: []
+              attackBonus: dexterityMod
+      _v: 2
+      verb: throws
+      phrase: As an action, you can splash the contents of this flask onto a creature
+        within 5 feet of you or throw it up to 20 feet, shattering it on impact. In
+        either case, make a ranged attack against a target creature, treating the
+        holy water as an improvised weapon. If the target is a fiend or undead, it
+        takes 2d6 radiant damage.
+      activation_type: 1
+Hunting Trap:
+  - |
+    - name: Hunting Trap
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: damage
+                  damage: 1d4 [piercing]
+                - type: ieffect2
+                  name: Trapped
+                  desc: Movement is limited by the length of the trap's chain (typically 3 feet
+                    long)
+                  buttons:
+                    - label: Break Free
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: str
+                              fail:
+                                - type: damage
+                                  damage: 1 [piercing]
+                              success:
+                                - type: remove_ieffect
+                              dc: "13"
+                      verb: breaks free of the trap
+                      style: "1"
+              success: []
+              dc: "13"
+      _v: 2
+      proper: false
+      verb: triggers
+      activation_type: 1
+      phrase: When you use your action to set it, this trap forms a saw-toothed steel
+        ring that snaps shut when a creature steps on a pressure plate in the
+        center. The trap is affixed by a heavy chain to an immobile object, such as
+        a tree or a spike driven into the ground. A creature that steps on the plate
+        must succeed on a DC 13 Dexterity saving throw or take 1d4 piercing damage
+        and stop moving. Thereafter, until the creature breaks free of the trap, its
+        movement is limited by the length of the chain (typically 3 feet long). A
+        creature can use its action to make a DC 13 Strength check, freeing itself
+        or another creature within its reach on a success. Each failed check deals 1
+        piercing damage to the trapped creature.
+Manacles:
+  - |
+    - name: Manacles
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Restrained (Manacles)
+              effects:
+                attack_advantage: "-1"
+                save_dis:
+                  - dex
+              buttons:
+                - label: Break Manacles
+                  automation:
+                    - type: target
+                      target: self
+                      effects:
+                        - type: save
+                          stat: str
+                          fail: []
+                          success:
+                            - type: remove_ieffect
+                          dc: "20"
+                  verb: attempts to break free
+                  style: "1"
+                - label: Pick Manacle Lock
+                  automation:
+                    - type: target
+                      target: self
+                      effects:
+                        - type: check
+                          ability: dexterity
+                          dc: "15"
+                          success:
+                            - type: remove_ieffect
+                          fail: []
+                  verb: attempts to pick the lock on their manacles
+                  style: "1"
+                - label: Escape Manacles
+                  automation:
+                    - type: target
+                      target: self
+                      effects:
+                        - type: save
+                          stat: dex
+                          fail: []
+                          success:
+                            - type: remove_ieffect
+                          dc: "20"
+                  verb: attempt to escape their manacles
+                  style: "1"
+      _v: 2
+      proper: true
+      verb: attaches
+      activation_type: 2
+      phrase: These metal restraints can bind a Small or Medium creature. Escaping the
+        manacles requires a successful DC 20 Dexterity check. Breaking them requires
+        a successful DC 20 Strength check. Each set of manacles comes with one key.
+        Without the key, a creature proficient with thieves' tools can pick the
+        manacles' lock with a successful DC 15 Dexterity check. Manacles have 15 hit
+        points.
+Oil:
+  - |
+    - name: Flask of Oil
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: attack
+              hit:
+                - type: ieffect2
+                  name: Covered in oil
+                  duration: "10"
+                  buttons:
+                    - label: Ignite oil
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: 5 [fire]
+                      verb: takes damage from burning oil
+                      style: "1"
+              miss: []
+              attackBonus: dexterityMod
+      _v: 2
+      proper: false
+      verb: throws
+      phrase: Oil usually comes in a clay flask that holds 1 pint. As an action, you
+        can splash the oil in this flask onto a creature within 5 feet of you or
+        throw it up to 20 feet, shattering it on impact. Make a ranged attack
+        against a target creature or object, treating the oil as an improvised
+        weapon. On a hit, the target is covered in oil. If the target takes any fire
+        damage before the oil dries (after 1 minute), the target takes an additional
+        5 fire damage from the burning oil.
+    - name: Burning Oil
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: 5 [fire]
+      _v: 2
+      proper: true
+      verb: ignites
+      activation_type: 2
+      phrase: You can also pour a flask of oil on the ground to cover a 5-foot-square
+        area, provided that the surface is level. If lit, the oil burns for 2 rounds
+        and deals 5 fire damage to any creature that enters the area or ends its
+        turn in the area. A creature can take this damage only once per turn.
+Poison, Basic:
+  - |
+    - name: Poison, Basic
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Basic
+              duration: "10"
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Basic
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: damage
+                                damage: 1d4 [poison]
+                            success: []
+                            dc: "10"
+                    verb: inflicts
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: You can use the poison in this vial to coat one slashing or piercing
+        weapon or up to three pieces of ammunition. Applying the poison takes an
+        action. A creature hit by the poisoned weapon or ammunition must make a DC
+        10 Constitution saving throw or take 1d4 poison damage. Once applied, the
+        poison retains potency for 1 minute before drying.
+Potion of Healing:
+  - |
+    - name: Potion of Healing
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: -1 * (2d4 + 2 [healing])
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+      phrase: A character who drinks the magical red fluid in this vial regains 2d4 +
+        2 hit points. Drinking or administering a potion takes an action.
+Torch:
+  - |
+    - name: Light Torch
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Torch
+              duration: "600"
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Torch
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: attack
+                            hit:
+                              - type: damage
+                                damage: 1 [fire]
+                            miss: []
+                            attackBonus: strengthMod
+      _v: 2
+      proper: true
+      verb: uses
+      activation_type: 2
+
+# Poisons
+Assassin’s Blood (Ingested):
+  - |
+    - name: Poison, Assassin’s Blood
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Assassin’s Blood
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Assassin’s Blood
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: damage
+                                damage: 1d6 [poison]
+                              - type: ieffect2
+                                name: Poisoned
+                                duration: "14400"
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                            success:
+                              - type: damage
+                                damage: 1d6 / 2 [poison]
+                            dc: "10"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must make a DC 10 Constitution
+                      saving throw. On a failed save, it takes 6 (1d12) poison
+                      damage and is poisoned for 24 hours. On a successful save, the
+                      creature takes half damage and isn't poisoned.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: A creature must swallow an entire dose of ingested poison to suffer its
+        effects. The dose can be delivered in food or a liquid. You may decide that
+        a partial dose has a reduced effect, such as allowing advantage on the
+        saving throw or dealing only half damage on a failed save.
+Burnt Othur Fumes (Inhaled):
+  - |
+    - name: Poison, Burnt Othur Fumes
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Burnt Othur Fumes
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Burnt Othur Fumes
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: damage
+                                damage: 3d6 [poison]
+                              - type: ieffect2
+                                name: Burnt Othur Fumes
+                                desc: Repeat save at the start of each turn
+                                buttons:
+                                  - label: Burnt Othur Fumes
+                                    automation:
+                                      - type: target
+                                        target: self
+                                        effects:
+                                          - type: save
+                                            stat: con
+                                            fail:
+                                              - type: damage
+                                                damage: 1d6 [poison]
+                                            success:
+                                              - type: ieffect2
+                                                name: Burnt Othur Fumes save
+                                                desc: Poison ends after 3 saves
+                                                stacking: true
+                                            dc: "13"
+                                    style: "4"
+                            success: []
+                            dc: "13"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must succeed on a DC 13 Constitution
+                      saving throw or take 10 (3d6) poison damage, and must repeat
+                      the saving throw at the start of each of its turns. On each
+                      successive failed save, the character takes 3 (1d6) poison
+                      damage. After three successful saves, the poison ends.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: These poisons are powders or gases that take effect when inhaled.
+        Blowing the powder or releasing the gas subjects creatures in a 5-foot cube
+        to its effect. The resulting cloud dissipates immediately afterward. Holding
+        one's breath is ineffective against inhaled poisons, as they affect nasal
+        membranes, tear ducts, and other parts of the body.
+Carrion Crawler Mucus (Contact):
+  - |
+    - name: Poison, Crawler Mucus
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Crawler Mucus
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Crawler Mucus
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: ieffect2
+                                name: Poisoned, Paralyzed (Crawler Mucus)
+                                desc: repeat the saving throw at the end of each turn
+                                buttons:
+                                  - label: Resist Crawler Mucus
+                                    automation:
+                                      - type: target
+                                        target: self
+                                        effects:
+                                          - type: save
+                                            stat: con
+                                            fail: []
+                                            success:
+                                              - type: remove_ieffect
+                                            dc: "13"
+                                    style: "1"
+                                duration: "10"
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                            success: []
+                            dc: "13"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: This poison must be harvested from a dead or incapacitated crawler. A
+                      creature subjected to this poison must succeed on a DC 13
+                      Constitution saving throw or be poisoned for 1 minute. The
+                      poisoned creature is paralyzed. The creature can repeat the
+                      saving throw at the end of each of its turns, ending the
+                      effect on itself on a success.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: Contact poison can be smeared on an object and remains potent until it
+        is touched or washed off. A creature that touches contact poison with
+        exposed skin suffers its effects.
+Drow Poison (Injury):
+  - |
+    - name: Poison, Drow
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Drow
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Drow
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: ieffect2
+                                name: Poisoned
+                                duration: "600"
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                                desc: ""
+                                save_as: drow_poisoned
+                              - type: condition
+                                condition: "lastSaveRollTotal + 5 < lastSaveDC "
+                                onTrue:
+                                  - type: ieffect2
+                                    name: Unconcious
+                                    desc: " The creature wakes up if it takes damage or if another creature takes an
+                                      action to shake it awake."
+                                    parent: drow_poisoned
+                                    buttons:
+                                      - label: Wake
+                                        automation:
+                                          - type: remove_ieffect
+                                        verb: wakes up
+                                        style: "1"
+                                onFalse: []
+                                errorBehaviour: "false"
+                            success: []
+                            dc: "13"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: This poison is typically made only by the drow, and only in a place far
+                      removed from sunlight. A creature subjected to this poison
+                      must succeed on a DC 13 Constitution saving throw or be
+                      poisoned for 1 hour. If the saving throw fails by 5 or more,
+                      the creature is also unconscious while poisoned in this way.
+                      The creature wakes up if it takes damage or if another
+                      creature takes an action to shake it awake.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: Injury poison can be applied to weapons, ammunition, trap components,
+        and other objects that deal piercing or slashing damage and remains potent
+        until delivered through a wound or washed off. A creature that takes
+        piercing or slashing damage from an object coated with the poison is exposed
+        to its effects.
+Essence of Ether (Inhaled):
+  - |
+    - name: Poison, Essence of Ether
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Essence of Ether
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Essence of Ether
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: ieffect2
+                                name: Poisoned, Unconscious (Essence of Ether)
+                                desc: The creature wakes up if it takes damage or if another creature takes an
+                                  action to shake it awake.
+                                buttons:
+                                  - label: Wake
+                                    automation:
+                                      - type: target
+                                        target: self
+                                        effects:
+                                          - type: remove_ieffect
+                                    style: "1"
+                                duration: 8 * 600
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                            success: []
+                            dc: "15"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must succeed on a DC 15 Constitution
+                      saving throw or become poisoned for 8 hours. The poisoned
+                      creature is unconscious. The creature wakes up if it takes
+                      damage or if another creature takes an action to shake it
+                      awake.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: These poisons are powders or gases that take effect when inhaled.
+        Blowing the powder or releasing the gas subjects creatures in a 5-foot cube
+        to its effect. The resulting cloud dissipates immediately afterward. Holding
+        one's breath is ineffective against inhaled poisons, as they affect nasal
+        membranes, tear ducts, and other parts of the body.
+Malice (Inhaled):
+  - |
+    - name: Poison, Malice
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Malice
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Malice
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: ieffect2
+                                name: Poisoned, Blinded (Malice)
+                                desc: The creature wakes up if it takes damage or if another creature takes an
+                                  action to shake it awake.
+                                duration: "600"
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                            success: []
+                            dc: "15"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must succeed on a DC 15 Constitution
+                      saving throw or become poisoned for 1 hour. The poisoned
+                      creature is blinded.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: These poisons are powders or gases that take effect when inhaled.
+        Blowing the powder or releasing the gas subjects creatures in a 5-foot cube
+        to its effect. The resulting cloud dissipates immediately afterward. Holding
+        one's breath is ineffective against inhaled poisons, as they affect nasal
+        membranes, tear ducts, and other parts of the body.
+Midnight Tears (Ingested):
+  - |
+    - name: Poison, Midnight Tears
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Midnight Tears
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Midnight Tears
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: ieffect2
+                            name: Poisoned (Midnight Tears)
+                            buttons:
+                              - label: Stroke of Midnight
+                                automation:
+                                  - type: target
+                                    target: self
+                                    effects:
+                                      - type: save
+                                        stat: con
+                                        fail:
+                                          - type: damage
+                                            damage: 9d6 [poison]
+                                        success:
+                                          - type: damage
+                                            damage: 9d6 / 2 [poison]
+                                        dc: "17"
+                                      - type: remove_ieffect
+                                verb: is struck by Midnight Tears
+                                style: "4"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature that ingests this poison suffers no effect until the stroke
+                      of midnight. If the poison has not been neutralized before
+                      then, the creature must succeed on a DC 17 Constitution saving
+                      throw, taking 31 (9d6) poison damage on a failed save, or half
+                      as much damage on a successful one.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: A creature must swallow an entire dose of ingested poison to suffer its
+        effects. The dose can be delivered in food or a liquid. You may decide that
+        a partial dose has a reduced effect, such as allowing advantage on the
+        saving throw or dealing only half damage on a failed save.
+Oil of Taggit (Contact):
+  - |
+    - name: Poison, Oil of Taggit
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Oil of Taggit
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Oil of Taggit
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: ieffect2
+                                name: Poisoned, Unconscious (Crawler Mucus)
+                                desc: wakes up if it takes damage
+                                buttons:
+                                  - label: Wake
+                                    automation:
+                                      - type: target
+                                        target: self
+                                        effects:
+                                          - type: remove_ieffect
+                                    verb: wakes up
+                                    style: "3"
+                                duration: "10"
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                            success: []
+                            dc: "13"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must succeed on a DC 13 Constitution
+                      saving throw or become poisoned for 24 hours. The poisoned
+                      creature is unconscious. The creature wakes up if it takes
+                      damage.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: Contact poison can be smeared on an object and remains potent until it
+        is touched or washed off. A creature that touches contact poison with
+        exposed skin suffers its effects.
+Pale Tincture (Ingested):
+  - |
+    - name: Poison, Pale Tincture
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Pale Tincture
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Pale Tincture
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: damage
+                                damage: 1d6 [poison]
+                              - type: ieffect2
+                                name: Poisoned (Pale Tincture)
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                                  max_hp_bonus: -1 * lastDamage
+                                desc: repeat the saving throw every 24 hours
+                                stacking: false
+                                buttons:
+                                  - label: Pale Ticture
+                                    automation:
+                                      - type: target
+                                        target: self
+                                        effects:
+                                          - type: save
+                                            stat: con
+                                            fail:
+                                              - type: damage
+                                                damage: 1d6 [poison]
+                                              - type: ieffect2
+                                                name: Poisoned (Pale Tincture)
+                                                effects:
+                                                  max_hp_bonus: -1 * lastDamage
+                                                stacking: true
+                                            success:
+                                              - type: ieffect2
+                                                name: Pale ticture save
+                                                stacking: true
+                                                desc: Poison ends after 7 saves
+                                            dc: "16"
+                                    verb: continues to experience the poison
+                                    style: "4"
+                            success: []
+                            dc: "16"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must succeed on a DC 16 Constitution
+                      saving throw or take 3 (1d6) poison damage and become
+                      poisoned. The poisoned creature must repeat the saving throw
+                      every 24 hours, taking 3 (1d6) poison damage on a failed save.
+                      Until this poison ends, the damage the poison deals can't be
+                      healed by any means. After seven successful saving throws, the
+                      effect ends and the creature can heal normally.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: A creature must swallow an entire dose of ingested poison to suffer its
+        effects. The dose can be delivered in food or a liquid. You may decide that
+        a partial dose has a reduced effect, such as allowing advantage on the
+        saving throw or dealing only half damage on a failed save.
+Purple Worm Poison (Injury):
+  - |
+    - name: Poison, Purple Worm
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Purple Worm
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Purple Worm
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: damage
+                                damage: 12d6 [poison]
+                            success:
+                              - type: damage
+                                damage: 12d6 / 2 [poison]
+                            dc: "19"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: This poison must be harvested from a dead or incapacitated purple worm.
+                      A creature subjected to this poison must make a DC 19
+                      Constitution saving throw, taking 42 (12d6) poison damage on a
+                      failed save, or half as much damage on a successful one.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: Injury poison can be applied to weapons, ammunition, trap components,
+        and other objects that deal piercing or slashing damage and remains potent
+        until delivered through a wound or washed off. A creature that takes
+        piercing or slashing damage from an object coated with the poison is exposed
+        to its effects.
+Serpent Venom (Injury):
+  - |
+    - name: Poison, Serpent Venom
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Serpent Venom
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Serpent Venom
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: damage
+                                damage: 3d6 [poison]
+                            success:
+                              - type: damage
+                                damage: 3d6 / 2 [poison]
+                            dc: "11"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: This poison must be harvested from a dead or incapacitated giant
+                      poisonous snake. A creature subjected to this poison must
+                      succeed on a DC 11 Constitution saving throw, taking 10 (3d6)
+                      poison damage on a failed save, or half as much damage on a
+                      successful one.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: Injury poison can be applied to weapons, ammunition, trap components,
+        and other objects that deal piercing or slashing damage and remains potent
+        until delivered through a wound or washed off. A creature that takes
+        piercing or slashing damage from an object coated with the poison is exposed
+        to its effects.
+Torpor (Ingested):
+  - |
+    - name: "Poison, Torpor "
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Torpor
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Torpor
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: roll
+                                dice: 4d6
+                                name: torpor_duration
+                                displayName: Torpor duration (hours)
+                              - type: ieffect2
+                                name: Poisoned, Incapacitated (Torpor)
+                                duration: 600 * torpor_duration
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                                desc: ""
+                            success: []
+                            dc: "15"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must succeed on a DC 15 Constitution
+                      saving throw or become poisoned for 4d6 hours. The poisoned
+                      creature is incapacitated.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: A creature must swallow an entire dose of ingested poison to suffer its
+        effects. The dose can be delivered in food or a liquid. You may decide that
+        a partial dose has a reduced effect, such as allowing advantage on the
+        saving throw or dealing only half damage on a failed save.
+Truth Serum (Ingested):
+  - |
+    - name: Poison, Truth Serum
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Truth Serum
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Truth Serum
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: ieffect2
+                                name: Poisoned, Truthful (Truth Serum)
+                                duration: "600"
+                                effects:
+                                  attack_advantage: "-1"
+                                  check_dis:
+                                    - all
+                                desc: can't knowingly speak a lie
+                            success: []
+                            dc: "11"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: A creature subjected to this poison must succeed on a DC 11 Constitution
+                      saving throw or become poisoned for 1 hour. The poisoned
+                      creature can't knowingly speak a lie, as if under the effect
+                      of a zone of truth spell.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: A creature must swallow an entire dose of ingested poison to suffer its
+        effects. The dose can be delivered in food or a liquid. You may decide that
+        a partial dose has a reduced effect, such as allowing advantage on the
+        saving throw or dealing only half damage on a failed save.
+Wyvern Poison (Injury):
+  - |
+    - name: Poison, Wyvern
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Applied Poison, Wyvern
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Inflict Poison, Wyvern
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: con
+                            fail:
+                              - type: damage
+                                damage: 7d6 [poison]
+                            success:
+                              - type: damage
+                                damage: 7d6 / 2 [poison]
+                            dc: "15"
+                      - type: target
+                        target: self
+                        effects:
+                          - type: remove_ieffect
+                    verb: inflicts
+                    phrase: This poison must be harvested from a dead or incapacitated wyvern. A
+                      creature subjected to this poison must make a DC 15
+                      Constitution saving throw, taking 24 (7d6) poison damage on a
+                      failed save, or half as much damage on a successful one.
+                    activation_type: 2
+      _v: 2
+      proper: true
+      verb: applies
+      activation_type: 1
+      phrase: Injury poison can be applied to weapons, ammunition, trap components,
+        and other objects that deal piercing or slashing damage and remains potent
+        until delivered through a wound or washed off. A creature that takes
+        piercing or slashing damage from an object coated with the poison is exposed
+        to its effects.
+Helm of teleportation:
+  counters:
+    - name: Helm of Teleportation
+      desc: Use an action cast teleport.
+      min: 0
+      max: 3
+      reset: long
+      resetby: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Helm of Teleportation
+      automation:
+        - type: spell
+          id: 2275
+          level: null
+          dc: null
+          attackBonus: null
+          castingMod: null
+          parent: null
+        - type: counter
+          counter: Helm of Teleportation
+          amount: "1"
+          allowOverflow: false
+          errorBehaviour: warn
+        - type: text
+          text: This helm has 3 charges. While wearing it, you can use an action and
+            expend 1 charge to cast the teleport spell from it. The helm regains 1d3
+            expended charges daily at dawn.
+          title: Helm of Teleportation
+      _v: 2
+      proper: true
+      verb: uses the

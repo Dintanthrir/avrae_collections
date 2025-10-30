@@ -1,0 +1,288 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+)
+expect = tests.expect
+
+thread_context = {
+  'channel': {
+    'name': 'a',
+    'id': 1,
+    'parent': {
+      'name': 'b',
+      'id': 2,
+    },
+    'category': {
+      'name': 'c',
+      'id': 3,
+    },
+  },
+  'author': {
+    'get_roles': lambda : [{'name': 'pc', 'id': 100}, {'name': 'fighter', 'id': 200}]
+  },
+}
+
+channel_context = {
+  'channel': {
+    'name': 'a',
+    'id': 1,
+    'parent': None,
+    'category': {
+      'name': 'c',
+      'id': 3,
+    },
+  },
+  'author': {
+    'get_roles': lambda : [{'name': 'pc', 'id': 100}, {'name': 'fighter', 'id': 200}]
+  },
+}
+
+dm_context = {
+  'channel': {
+    'name': 'a',
+    'id': 1,
+    'parent': None,
+    'category': None,
+  },
+  'author': {
+    'get_roles': lambda : [{'name': 'pc', 'id': 100}, {'name': 'fighter', 'id': 200}]
+  },
+}
+
+return tests.run({
+  'default_allow': expect(context_filters.validate(key='alias', context=thread_context, config={'default': 'allow', 'rules': {}})).to.be((True, None)),
+  'default_deny': expect(context_filters.validate(key='alias', context=thread_context, config={'default': 'deny', 'rules': {}})).to.be((False, '')),
+  'invalid_default': expect(context_filters.validate(key='alias', context=thread_context, config={'default': 'foo', 'rules': {}})).to.be((None, None)),
+  'channel_id_allow_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': 1,
+        'display': 'channel_1'
+      }]
+    }
+  })).to.be((True, None)),
+  'channel_id_deny_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'allow', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'deny',
+        'match': 1,
+        'display': 'channel_1'
+      }]
+    }
+  })).to.be((False, '`alias` is not available in channel_1')),
+  'channel_name_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': 'a',
+        'display': 'channel_1'
+      }]
+    }
+  })).to.be((True, None)),
+  'multi_channel_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': ['a', 'b'],
+        'display': 'channel_1'
+      }]
+    }
+  })).to.be((True, None)),
+  'channel_rule_matches_parent': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': ['b'],
+        'display': 'channel_1'
+      }]
+    }
+  })).to.be((True, None)),
+  'role_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'role',
+        'action': 'allow',
+        'match': 100,
+        'display': 'players'
+      }]
+    }
+  })).to.be((True, None)),
+  'role_name_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'role',
+        'action': 'allow',
+        'match': 'pc',
+        'display': 'players'
+      }]
+    }
+  })).to.be((True, None)),
+  'multi_role_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'role',
+        'action': 'allow',
+        'match': [100, 200],
+        'display': 'players'
+      }]
+    }
+  })).to.be((True, None)),
+  'role_rule_summary': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'allow', 
+    'rules': {
+      'alias': [{
+        'filter': 'role',
+        'action': 'deny',
+        'match': 100,
+        'display': 'players'
+      }]
+    }
+  })).to.be((False, '`alias` is not available to players')),
+  'category_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'category',
+        'action': 'allow',
+        'match': 3,
+        'display': 'chatter'
+      }]
+    }
+  })).to.be((True, None)),
+  'category_name_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'category',
+        'action': 'allow',
+        'match': 'c',
+        'display': 'chatter'
+      }]
+    }
+  })).to.be((True, None)),
+  'multi_category_name_rule': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'category',
+        'action': 'allow',
+        'match': ['c', 'd'],
+        'display': 'chatter & fun'
+      }]
+    }
+  })).to.be((True, None)),
+  'category_rule_summary': expect(context_filters.validate(key='alias', context=thread_context, config={
+    'default': 'allow', 
+    'rules': {
+      'alias': [{
+        'filter': 'category',
+        'action': 'deny',
+        'match': 3,
+        'display': 'chatter'
+      }]
+    }
+  })).to.be((False, '`alias` is not available in chatter')),
+  'prefix_match': expect(context_filters.validate(key='alias subalias', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': 1,
+        'display': 'channel_1'
+      }]
+    }
+  })).to.be((True, None)),
+  'longest_prefix_matches': expect(context_filters.validate(key='alias a b', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias a b': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': 1,
+        'display': 'channel_1'
+      }],
+      'alias a': [{
+        'filter': 'channel',
+        'action': 'deny',
+        'match': 1,
+        'display': 'channel_1'
+      }],
+    }
+  })).to.be((True, None)),
+  'longest_prefix_tokenized_on_spaces': expect(context_filters.validate(key='alias a b', context=thread_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'deny',
+        'match': 1,
+        'display': 'channel_1'
+      }],
+      'alias a': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': 1,
+        'display': 'channel_1'
+      }],
+      'aliases': [{
+        'filter': 'channel',
+        'action': 'deny',
+        'match': 1,
+        'display': 'channel_1'
+      }],
+      'alias b':[ {
+        'filter': 'channel',
+        'action': 'deny',
+        'match': 1,
+        'display': 'channel_1'
+      }],
+    }
+  })).to.be((True, None)),
+  'no_parent': expect(context_filters.validate(key='alias', context=channel_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [{
+        'filter': 'channel',
+        'action': 'allow',
+        'match': 'b',
+        'display': 'channel_2'
+      }]
+    }
+  })).to.be((False, '`alias` is only available in channel_2')),
+  'dm': expect(context_filters.validate(key='alias', context=dm_context, config={
+    'default': 'deny', 
+    'rules': {
+      'alias': [
+        {
+          'filter': 'channel',
+          'action': 'allow',
+          'match': 'b',
+          'display': 'channel_1'
+        },
+        {
+          'filter': 'category',
+          'action': 'allow',
+          'match': 'c',
+          'display': 'chatter'
+        }
+      ],
+    }
+  })).to.be((False, '`alias` is only available in channel_1\n`alias` is only available in chatter')),
+}).embed
+</drac2>

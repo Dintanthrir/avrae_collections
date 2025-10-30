@@ -1,0 +1,56 @@
+# xge_items = 'f3cb61c6-7a5e-41a7-9986-58270b45fd77'
+Walloping Ammunition:
+  counters:
+    - name: Walloping Ammo
+      desc: A creature hit by the ammunition must succeed on a DC 10 Strength saving throw or be knocked prone.
+      min: 0
+      max: 1
+      type: circle
+  automations:
+    - |
+      - name: Wallop
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: str
+                fail:
+                  - type: ieffect2
+                    name: Prone
+                    duration: null
+                    effects:
+                      attack_advantage: "-1"
+                    attacks: []
+                    buttons:
+                      - label: Stand Up
+                        automation:
+                          - type: remove_ieffect
+                        verb: stands up
+                        style: null
+                        defaultDC: null
+                        defaultAttackBonus: null
+                        defaultCastingMod: null
+                    end: false
+                    conc: false
+                    desc: A prone creature's only movement option is to crawl, unless it stands up
+                      and thereby ends the condition
+                    stacking: false
+                    save_as: null
+                    parent: null
+                    target_self: false
+                    tick_on_caster: false
+                success: []
+                dc: "10"
+          - type: text
+            text: This ammunition packs a wallop. A creature hit by this attack must succeed
+              on a DC 10 Strength saving throw or be knocked prone.
+            title: Walloping Ammo
+          - type: counter
+            counter: Walloping Ammo
+            amount: "1"
+            allowOverflow: false
+            errorBehaviour: warn
+        _v: 2
+        verb: uses ammo that packs
+    - |

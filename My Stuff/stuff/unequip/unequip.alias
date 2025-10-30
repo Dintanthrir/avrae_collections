@@ -1,0 +1,64 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+    stuff = '6fe42f4d-65ed-4628-af36-22b8c65b451b',
+)
+
+USAGE = f'{ctx.prefix}{ctx.alias} unequip -group <group name> -item <item name>'
+
+args = &ARGS&
+parsed_args = argparse(args)
+current_character = character()
+
+group_search_str = parsed_args.last('group', type_=str)
+item_search_str = parsed_args.last('item', type_=str)
+
+if not group_search_str:
+    err(f"\nMissing group name.\n{USAGE}")
+
+if not item_search_str:
+    err(f"\nMissing item name.\n{USAGE}")
+
+matching_groups = fuzzy.get_matches_ignoring_punctuation(
+    search=group_search_str,
+    iterable=stuff.groups(),
+)
+if len(matching_groups) == 0:
+    err(f"\nNo matches for group `{group_search_str}`")
+elif len(matching_groups) > 1:
+    err(f"\nMultiple matches for group `{group_search_str}`:\n`{matching_groups}`")
+
+items_to_search = stuff.items(matching_groups[0])
+matching_items = fuzzy.get_matches_ignoring_punctuation(
+    search=item_search_str,
+    iterable=items_to_search,
+)
+if len(matching_items) == 0:
+    err(f"\nNo matches for item `{item_search_str}`")
+elif len(matching_items) > 1:
+    err(f"\nMultiple matches for item `{item_search_str}`:\n`{matching_items}`")
+
+automations = stuff.get_automations(group=matching_groups[0], item=matching_items[0])
+automation_names = [load_yaml(automation)[0].name for automation in automations]
+
+counters = stuff.get_counters(group=matching_groups[0], item=matching_items[0])
+deleted_counters = []
+for counter_options in counters:
+    if current_character.cc_exists(counter_options.name):
+        counter = current_character.cc(counter_options.name)
+        if counter.max == counter_options.get('max') and counter.min == counter_options.get('min'):
+            deleted_counters.append(counter.name)
+            current_character.delete_cc(counter.name)
+
+return embeds.get_output(
+    embed = {
+        'title': f"**{get('name')}** unequips {matching_items[0]}",
+        'thumb': get('image'),
+        'desc': f'Removing {len(automations)} abilities.\nAvrae will prompt to remove abilities...',
+        'fields': [{'title': f"Deleted {len(deleted_counters)} counters:", 'body': '\n'.join(deleted_counters)}],
+        'footer': USAGE,
+    },
+    suffix_cmds=[f'a remove "{name}"' for name in automation_names]
+)
+</drac2>

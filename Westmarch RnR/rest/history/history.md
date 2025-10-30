@@ -1,0 +1,1 @@
+Lists a character's recent rests taken.

@@ -1,0 +1,22 @@
+<drac2>
+using(
+    tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+    docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+)
+expect = tests.expect
+
+doc1 = """Multiline strings are nice
+        but they including leading whitespace"""
+doc2 = """
+        and some have leading and trailing newlines.
+
+            Not all leading whitespace is unwanted,
+        so indentation relative to the start of the
+        string is preserved.
+        """
+
+return tests.run({
+    'simple': expect(docstring.trim(doc1)).to.be('Multiline strings are nice\nbut they including leading whitespace'),
+    'leading and trailing lines': expect(docstring.trim(doc2)).to.be('and some have leading and trailing newlines.\n\n    Not all leading whitespace is unwanted,\nso indentation relative to the start of the\nstring is preserved.'),
+}).embed
+</drac2>

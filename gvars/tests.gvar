@@ -1,0 +1,142 @@
+# tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7'
+#
+# Utils for unit testing gvars.
+#
+# ```
+# expect = tests.expect
+# tests.run({
+#     'test name': expect('actual').to.be('expected'),
+# }).embed
+# ```
+#
+# ===== Functions =====
+# run(tests, exit_early): Returns a result object containing the count of passing and failing tests and an embed output string.
+# expect(actual): Construct a test expectation for a given value on which matchers can be called.
+
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    logger = '00186972-7692-4f56-9ab7-60f0089704a4',
+)
+
+SUCCESS_PREFIX = "✅"
+FAILURE_PREFIX = "❌"
+
+def run(tests, exit_early = False, log_level = logger.LEVELS.WARNING):
+    """
+    Return an object containing the count of sucessful and failing tests and an embed output string.
+
+    Accepts a 'tests' dictionary mapping test names to tests or nested test dictionaries.
+    A test can be any function which returns a dict of the form:
+    {
+        'success': bool,
+        'message': str or None
+    }
+
+    :arg expectation_result tests: the test assertion results
+    :arg bool exit_early: halt and return output after the first test failure
+    :return: test counts and descriptions
+    :rtype: dict
+    """
+
+    report = []
+    successes = 0
+    failures = 0
+    suite_start_time = time()
+    test_items = list(tests.items()) # We need a mutable list so we can append to it while iterating to add nested tests as we encounter them.
+
+    for (index, (name, test)) in enumerate(test_items):
+        logger.info(starting=name)
+        test_start_time = time()
+        result = test
+        while typeof(result) in ['_Lambda', '_Function']:
+            result = result()
+        test_end_time = time()
+        logger.info(finished=name)
+
+        if not ('Dict' in typeof(result)):
+            err(f"Unexpected test result type: {result}")
+
+        # Expand nested tests if we got a dictionary of additional tests instead of a result.
+        if result.get('success') == None:
+            test_items.extend([(': '.join([name, subname]), subtest) for (subname, subtest) in result.items()])
+            report.append((name, f"Setup in {round(test_end_time - test_start_time, 4)}."))
+        else:
+            message_segments = [
+                SUCCESS_PREFIX if result.success else FAILURE_PREFIX,
+                result.get('message') or '',
+                f"in {round(test_end_time - test_start_time, 4)}",
+                '.',
+            ]
+            report.append((name, f"{' '.join([segment for segment in message_segments if segment])}"))
+            if result.success:
+                successes += 1
+            else:
+                failures += 1
+                if exit_early:
+                    break
+    suite_end_time = time()
+
+    summary = f"{successes}/{successes + failures} passed in {round(suite_end_time - suite_start_time, 4)}."
+    longest_test_name = max((len(name) for (name, desc) in report))
+    embed = {
+        'title': "Test Results",
+        'desc': '```\n' + '\n'.join((f"{name.ljust(longest_test_name)} {desc}" for (name, desc) in report)) + '\n```',
+        'fields': logger.log_fields(level=log_level),
+        'footer': "⚠️ Tests skipped due to failures!" if exit_early and failures > 0 else summary,
+    }
+    return {
+        'tests': len(test_items),
+        'successes': successes,
+        'failures': failures,
+        'embed': embeds.get_output(embed = embed),
+    }
+
+fail = lambda disabled_test=None : {
+    'success': False,
+    'message': "🛑 Failed",
+}
+
+pending = lambda disabled_test=None : {
+    'success': True,
+    'message': "⚠️ Skipped",
+}
+
+def expect(result):
+    """
+    A test expectation.
+    :arg any result: the value being tested.
+    :return: a dict of expectation matchers
+    :rtype: dict
+    """
+
+    def assertion(actual, expected, comparator, failure_comparator_message):
+        def quote_value(value):
+            # discord treats an empty code block (``) as the start of a code block containing a literal '`'
+            value_str = str(value)
+            return f"`{value}`" if len(value_str) > 0 else "`\u200c`"
+        success = comparator(actual, expected)
+        return lambda : {
+            'success': success,
+            'message': None if success else f"Expected {quote_value(actual)} {failure_comparator_message} {quote_value(expected)}.",
+            'expected': expected,
+            'actual': actual,
+        }
+
+    return {
+        'to': {
+            'be': lambda expected: assertion(result, expected, lambda act, expt: act == expt, f"to be"),
+            'be_greater_than': lambda expected: assertion(result, expected, lambda act, expt: act > expt, f"to be greater than"),
+            'be_less_than': lambda expected: assertion(result, expected, lambda act, expt: act < expt, f"to be less than"),
+            'be_none': lambda : assertion(result, None, lambda act, expt: act == expt, f"to be"),
+            'contain': lambda value: assertion(result, value, lambda act, expt: expt in act, f"to contain"),
+            'be_in': lambda collection: assertion(result, collection, lambda act, expt: act in expt, f"to be in"),
+        },
+        'not_to': {
+            'be': lambda expected: assertion(result, expected, lambda act, expt: act != expt, f"not to be"),
+            'be_greater_than': lambda expected: assertion(result, expected, lambda act, expt: act <= expt, f"not to be greater than"),
+            'be_less_than': lambda expected: assertion(result, expected, lambda act, expt: act >= expt, f"not to be less than"),
+            'be_none': lambda : assertion(result, None, lambda act, expt: act != expt, f"not to be"),
+            'contain': lambda value: assertion(result, value, lambda act, expt: expt not in act, f"not to contain"),
+            'be_in': lambda collection: assertion(result, collection, lambda act, expt: act not in expt, f"not to be in"),
+        },
+    }

@@ -1,0 +1,994 @@
+# ashirma_guild_items = 'f5e16029-2e9b-43b2-aba7-652518a0393a'
+Badge of the Rose (Seed):
+  counters:
+    - name: Badge of the Rose
+      desc: _Order of the Rose_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Seed of the Rose
+        automation:
+          - type: counter
+            counter: Badge of the Rose
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: As a bonus action, the wielder can spend a charge from the badge to apply the effects of the Shield spell to an ally within 10 feet. This effect lasts until the start of the wielder's next turn. This effect cannot be used on the wielder of the badge.
+            title: "Seed of the Rose"
+          - type: target
+            target: all
+            effects:
+              - type: ieffect2
+                name: Shield
+                duration: "1"
+                effects:
+                  ac_bonus: "5"
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 3
+        phrase: A small metal rose, in which can be folded into a small bud- or tapped
+          on the top to open to form into a full roses' head. The petals start as
+          white, but can be interchanged for red ones to display rank within the
+          order.
+Badge of the Rose (Bud):
+  counters:
+    - name: Badge of the Rose
+      desc: _Order of the Rose_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Seed of the Rose
+        automation:
+          - type: counter
+            counter: Badge of the Rose
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: As a bonus action, the wielder can spend a charge from the badge to apply the effects of the Shield spell to an ally within 10 feet. This effect lasts until the start of the wielder's next turn. This effect cannot be used on the wielder of the badge.
+            title: "Seed of the Rose"
+          - type: target
+            target: all
+            effects:
+              - type: ieffect2
+                name: Shield
+                duration: "1"
+                effects:
+                  ac_bonus: "5"
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 3
+        phrase: A small metal rose, in which can be folded into a small bud- or tapped
+          on the top to open to form into a full roses' head. The petals start as
+          white, but can be interchanged for red ones to display rank within the
+          order.
+    - |
+      - name: Bud of the Rose
+        automation:
+          - type: counter
+            counter: Badge of the Rose
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: As a bonus action the Knight can spend a charge and throw the badge to the
+              ground to create a 10-foot-radius, 20-foot-high cylinder centered on a
+              point within 30 feet. The badge forms a wall of petals making ranged
+              attacks more difficult to land. Until the end of the wielder's next turn
+              any ranged attack which targets a creature inside the cylinder has
+              disadvantage on the attack roll against that creature. The badge reforms
+              in the wielder's possession when the effect ends.
+            title: Bud of the Rose
+        _v: 2
+        proper: true
+        verb: releases the
+        phrase: A small metal rose, in which can be folded into a small bud- or tapped
+          on the top to open to form into a full roses' head. The petals start as
+          white, but can be interchanged for red ones to display rank within the
+          order.
+        activation_type: 3
+Comrade's Badge (Pledge):
+  counters:
+    - name: Comrade's Badge (Pledge)
+      desc: _Valor Guard_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Comrade's Badge (Pledge)
+        automation:
+          - type: counter
+            counter: Comrade's Badge (Pledge)
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: If a matching badge wearer is within 30ft. the user may use a bonus action
+              to teleport, switching places with the willing wearer who must use their
+              reaction to confirm the swap. A character can only be teleported in this
+              way once per long rest.
+            title: ""
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 3
+        phrase: Instilled within the metal plate of this badge is a uniquely crafted
+          magic that has come in handy for several adventurers over the ages.
+Comrade's Badge (Seeker):
+  counters:
+    - name: Comrade's Badge (Seeker)
+      desc: _Valor Guard_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Comrade's Badge (Seeker)
+        automation:
+          - type: counter
+            counter: Comrade's Badge (Seeker)
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              When another creature within 30 feet of the user who they can see is targeted by an attack, they may teleport to a point within 5 feet of the targeted creature. If there is no available space to teleport, this effect fails. The creature making the attack must succeed on a Dexterity saving throw(DC 14), or the attack is redirected to the badge's user and automatically hits.
+
+
+              This effect of the badge can be used once per long rest.
+            title: ""
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 4
+        phrase: Instilled within the metal plate of this badge is a uniquely crafted
+          magic that has come in handy for several adventurers over the ages.
+Shadow Mist Badge:
+  counters:
+    - name: Shadow Mist Badge
+      desc: _Shadow Keepers_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Shadow Mist Badge
+        automation:
+          - type: counter
+            counter: Shadow Mist Badge
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              The badge holds one charge that is regained at dawn.
+
+
+              You can expend the charge to cover your position with a 10-foot radius sphere of darkness that lasts for 3 minutes. This sphere does not move with your character.
+            title: ""
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 1
+        phrase: "This badge, which looks like a lightning bolt striking a mountain, is
+          enveloped by a dark, gentle mist when viewed up close."
+Silver Antlers (Seed):
+  counters:
+    - name: Silver Antlers
+      desc: _Silver Songbirds_
+      reset: long
+      min: 0
+      max: 3
+      type: bubble
+  automations:
+    - |
+      - name: Silver Antlers - Speak With Animals
+        automation:
+          - type: counter
+            counter: Silver Antlers
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: As an action while wearing the antlers, you can expend a charge to cast
+              Speak with Animals.
+            title: Silver Antlers
+          - type: spell
+            id: 2258
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: uses their
+        phrase: A set of wearable, faux antlers with silver filigree.
+        activation_type: 1
+Silver Antlers (Sprout):
+  counters:
+    - name: Silver Antlers
+      desc: _Silver Songbirds_
+      reset: long
+      min: 0
+      max: 3
+      type: bubble
+  automations:
+    - |
+      - name: Silver Antlers - Speak With Animals
+        automation:
+          - type: counter
+            counter: Silver Antlers
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: As an action while wearing the antlers, you can expend a charge to cast
+              Speak with Animals.
+            title: Silver Antlers
+          - type: spell
+            id: 2258
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: uses their
+        phrase: A set of wearable, faux antlers with silver filigree.
+        activation_type: 1
+    - |
+      - name: Silver Antlers - Animal Friendship
+        automation:
+          - type: counter
+            counter: Silver Antlers
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: As an action while wearing the antlers, you can expend a charge to cast
+              Animal Friendship from it using your spell save DC.
+            title: Silver Antlers
+          - type: spell
+            id: 1993
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: uses their
+        phrase: A set of wearable, faux antlers with silver filigree.
+        activation_type: 1
+Witch's Tarot Deck (Initiate):
+  counters:
+    - name: Witch's Tarot Deck
+      desc: _Coven of the Spheres_
+      reset: long
+      min: 0
+      max: 2
+      type: bubble
+  automations:
+    - |
+      - name: Witch's Tarot Deck - Identify
+        automation:
+          - type: counter
+            counter: Witch's Tarot Deck
+            amount: "1"
+            errorBehaviour: raise
+          - type: spell
+            id: 2152
+          - type: text
+            text: >-
+              You can spend one charge from the deck to cast the Identify spell from it
+              as the card picked by the wielder of the deck changes depending on the
+              school of magic of the item being identified. The wielder receives
+              visions explaining the property of the item.
+
+              (Abjuration: The Emperor, Conjuration: The Chariot, Divination: The Wheel of Fortune, Enchantment: The Lovers, Evocation: The Sun, Illusion: The Moon, Transmutation: Strength, Necromancy: Death, no school of magic: The Fool)
+            title: Witch's Tarot Deck
+        _v: 2
+        proper: true
+        verb: uses
+        activation_type: 1
+Witch's Tarot Deck (Acolyte):
+ counters:
+   - name: Witch's Tarot Deck
+     desc: _Coven of the Spheres_
+     reset: long
+     min: 0
+     max: 3
+     type: bubble
+ automations:
+   - |
+     - name: Witch's Tarot Deck - Identify
+       automation:
+         - type: counter
+           counter: Witch's Tarot Deck
+           amount: "1"
+           errorBehaviour: raise
+         - type: spell
+           id: 2152
+         - type: text
+           text: >-
+             You can spend one charge from the deck to cast the Identify spell from it
+             as the card picked by the wielder of the deck changes depending on the
+             school of magic of the item being identified. The wielder receives
+             visions explaining the property of the item.
+
+             (Abjuration: The Emperor, Conjuration: The Chariot, Divination: The Wheel of Fortune, Enchantment: The Lovers, Evocation: The Sun, Illusion: The Moon, Transmutation: Strength, Necromancy: Death, no school of magic: The Fool)
+           title: Witch's Tarot Deck
+       _v: 2
+       proper: true
+       verb: uses
+       activation_type: 1
+   - |
+     - name: Witch's Tarot Deck - Detect Magic
+       automation:
+         - type: counter
+           counter: Witch's Tarot Deck
+           amount: "1"
+           errorBehaviour: raise
+         - type: spell
+           id: 2065
+         - type: text
+           text: You can spend one charge from the deck to cast the Detect Magic spell from
+             it as the wielder puts the card in front of their eye, changing
+             depending what the wielder is looking at while the card becomes
+             translucent for the wielder.
+           title: Witch's Tarot Deck
+       _v: 2
+       proper: true
+       verb: uses
+       activation_type: 1
+   - |
+     - name: Witch's Tarot Deck - Augury
+       automation:
+         - type: counter
+           counter: Witch's Tarot Deck
+           amount: "2"
+           errorBehaviour: raise
+         - type: spell
+           id: 2007
+         - type: text
+           text: >-
+             You can spend two charges from the deck to cast the Augury spell, the card
+             picked by its wielder changing as well depending on the result.
+
+             (Weal: The Star, Woe: The Tower, Weal and Woe: The Devil, Nothing: The Fool)
+           title: Witch's Tarot Deck
+       _v: 2
+       proper: true
+       verb: uses
+       activation_type: 1
+Canting Quill (Letter):
+  counters:
+    - name: Canting Quill (Letter)
+      desc: _Talon Thieves' Guild_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Canting Quill - Illusory Script
+        automation:
+          - type: counter
+            counter: Canting Quill (Letter)
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              A small, nondescript feather who's magical properties are
+              exquisitely-crafted for the purposes of espionage, and thievery.
+
+
+              The user can cast Illusory Script once per day without material components. Other creatures who hold this quill are considered "designated" by the spell; The writing appears normal, written in the user's hand, and conveys whatever meaning the user intended when they wrote the text.
+            title: Effect
+          - type: spell
+            id: 2153
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: casts
+        activation_type: 6
+Canting Quill (Word):
+  counters:
+    - name: Canting Quill (Letter)
+      desc: _Talon Thieves' Guild_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+    - name: Canting Quill (Word)
+      desc: _Talon Thieves' Guild_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Canting Quill - Illusory Script
+        automation:
+          - type: counter
+            counter: Canting Quill (Letter)
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              A small, nondescript feather who's magical properties are
+              exquisitely-crafted for the purposes of espionage, and thievery.
+
+
+              Initiate (common)
+
+
+              The user can cast Illusory Script once per day without material components. Other creatures who hold this quill are considered "designated" by the spell; The writing appears normal, written in the user's hand, and conveys whatever meaning the user intended when they wrote the text.
+            title: Effect
+          - type: spell
+            id: 2153
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: casts
+        activation_type: 6
+    - |
+      - name: Canting Quill - Silent Image
+        automation:
+          - type: counter
+            counter: Canting Quill (Letter)
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              A small, nondescript feather who's magical properties are
+              exquisitely-crafted for the purposes of espionage, and thievery.
+
+
+              The user can cast Silent Image once per day without material components.
+            title: Effect
+          - type: spell
+            id: 2252
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: casts
+        activation_type: 1
+Canting Quill (Page):
+  counters:
+    - name: Canting Quill (Letter)
+      desc: _Talon Thieves' Guild_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+    - name: Canting Quill (Word)
+      desc: _Talon Thieves' Guild_
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      - name: Canting Quill - Illusory Script
+        automation:
+          - type: counter
+            counter: Canting Quill (Letter)
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              A small, nondescript feather who's magical properties are
+              exquisitely-crafted for the purposes of espionage, and thievery.
+
+
+              Initiate (common)
+
+
+              The user can cast Illusory Script once per day without material components. Other creatures who hold this quill are considered "designated" by the spell; The writing appears normal, written in the user's hand, and conveys whatever meaning the user intended when they wrote the text.
+            title: Effect
+          - type: spell
+            id: 2153
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: casts
+        activation_type: 6
+    - |
+      - name: Canting Quill - Silent Image
+        automation:
+          - type: counter
+            counter: Canting Quill (Letter)
+            amount: "1"
+            allowOverflow: null
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              A small, nondescript feather who's magical properties are
+              exquisitely-crafted for the purposes of espionage, and thievery.
+
+
+              The user can cast Silent Image once per day without material components.
+            title: Effect
+          - type: spell
+            id: 2252
+            level: null
+            dc: null
+            attackBonus: null
+            castingMod: null
+            parent: null
+        _v: 2
+        proper: true
+        verb: casts
+        activation_type: 1
+    - |
+      - name: Canting Quill - Thieves' Pocket
+        automation:
+          - type: text
+            text: By drawing a 1 foot wide circle with the quill, it opens up a small pocket
+              dimension that can hold up to 20 pounds of material, not exceeding a
+              volume of 2 cubic feet. Talons can use this pocket dimension to hide
+              valuable items only accessible by them. If the talon dies the quill
+              bursts into flames causing that information or items to be scattered
+              across the astral plane. This pocket dimension requires an Action to
+              open and to close.
+            title: Canting Quill
+        _v: 2
+        proper: true
+        verb: accesses the
+        activation_type: 1
+Star Gazer's Pocket Watch (Common):
+  counters:
+    - name: Stargazer's Pocket Watch
+      reset: long
+      min: 0
+      max: 1
+      type: star
+      desc: _Navi Alas_
+  automations:
+    - |
+      - name: Star Gazer's Pocket Watch
+        automation:
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground.
+
+
+              Once a day, you can use the pocket watch to cast the Mending cantrip.
+            title: Star Gazer's Pocket Watch
+        _v: 2
+        proper: true
+        verb: inspects their
+        activation_type: 2
+    - |
+      - name: Star Gazer's Pocket Watch - Mending
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground.
+
+
+              Once a day, you can use the pocket watch to cast the Mending cantrip.
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 2187
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+Star Gazer's Pocket Watch (Uncommon):
+  counters:
+    - name: Stargazer's Pocket Watch
+      reset: long
+      min: 0
+      max: 2
+      type: star
+      desc: _Navi Alas_
+  automations:
+    - |
+      - name: Star Gazer's Pocket Watch
+        automation:
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground.
+
+              Once a day, you can use the pocket watch to cast the Mending cantrip.
+              Additionally, you can use the watch to cast the Alarm spell once a day.
+
+              Use counter: 1 for Mending, 1 for Alarm.
+            title: Star Gazer's Pocket Watch
+        _v: 2
+        proper: true
+        verb: inspects their
+        activation_type: 2
+    - |
+      - name: Star Gazer's Pocket Watch - Mending
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground.
+
+              Once a day, you can use the pocket watch to cast the Mending cantrip.
+              Additionally, you can use the watch to cast the Alarm spell once a day.
+
+              Use counter: 1 for Mending, 1 for Alarm.
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 2187
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+    - |
+      - name: Star Gazer's Pocket Watch - Alarm
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground.
+
+              Once a day, you can use the pocket watch to cast the Mending cantrip.
+              Additionally, you can use the watch to cast the Alarm spell once a day.
+
+              Use counter: 1 for Mending, 1 for Alarm.
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 1991
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+Star Gazer's Pocket Watch (Rare):
+  counters:
+    - name: Stargazer's Pocket Watch
+      reset: long
+      min: 0
+      max: 5
+      type: star
+      desc: _Navi Alas_
+  automations:
+    - |
+      - name: Star Gazer's Pocket Watch
+        automation:
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has five charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+            title: Star Gazer's Pocket Watch
+        _v: 2
+        proper: true
+        verb: inspects their
+        activation_type: 2
+    - |
+      - name: Star Gazer's Pocket Watch - Mending
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has five charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 2187
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+    - |
+      - name: Star Gazer's Pocket Watch - Alarm
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "2"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has five charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 1991
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+    - |
+      - name: Star Gazer's Pocket Watch - Catnap
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "3"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has five charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 14754
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 1
+Star Gazer's Pocket Watch (Very Rare):
+  counters:
+    - name: Stargazer's Pocket Watch
+      reset: long
+      min: 0
+      max: 7
+      type: star
+      desc: _Navi Alas_
+  automations:
+    - |
+      - name: Star Gazer's Pocket Watch
+        automation:
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has seven charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+
+              - Tiny Hut (4 charges)
+            title: Star Gazer's Pocket Watch
+        _v: 2
+        proper: true
+        verb: inspects their
+        activation_type: 2
+    - |
+      - name: Star Gazer's Pocket Watch - Mending
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has seven charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+
+              - Tiny Hut (4 charges)
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 2187
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+    - |
+      - name: Star Gazer's Pocket Watch - Alarm
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "2"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has seven charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+
+              - Tiny Hut (4 charges)
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 1991
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+    - |
+      - name: Star Gazer's Pocket Watch - Catnap
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "3"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has seven charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+
+              - Tiny Hut (4 charges)
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 14754
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 1
+    - |
+      - name: Star Gazer's Pocket Watch - Tiny Hut
+        automation:
+          - type: counter
+            counter: Stargazer's Pocket Watch
+            amount: "4"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: text
+            text: >-
+              While holding this watch, you always know the time of day, regardless of if you're underground,
+              and you can always determine which way is north.
+
+              The watch now has seven charges which reset at dawn, you can use them for the following spells:
+
+              - Mending (1 charge)
+
+              - Alarm (2 charge)
+
+              - Catnap (3 charges)
+
+              - Tiny Hut (4 charges)
+            title: Star Gazer's Pocket Watch
+          - type: spell
+            id: 2280
+        _v: 2
+        proper: true
+        verb: activates the
+        activation_type: 6
+Tattoo of the Tenets (Pupil):
+  counters:
+    - name: Tattoo of the Tenets
+      reset: long
+      min: 0
+      max: 1
+      type: star
+      desc: _Blood Moon Kin_
+  automations:
+    - |
+      - name: Tattoo of the Tenents - Calm Emotions
+        automation:
+          - type: counter
+            counter: Tattoo of the Tenents
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              You can cast Calm Emotions, targeting a single humanoid.
+              You can't do so again until you finish a long rest.
+              The Save DC for this spell is 13.
+          - type: spell
+            id: 2023
+            dc: "13"
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 1
+Vital Vial (Common):
+  counters:
+    - name: Vital Vial
+      reset: long
+      min: 0
+      max: 1
+      type: star
+      desc: _Solas Leighis_
+  automations:
+    - |
+      - name: "Vital Vial: Spare the Dying"
+        automation:
+          - type: counter
+            counter: Vital Vial
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              Once per day, you may use this item to cast Spare the Dying.
+          - type: spell
+            id: 2257
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 1

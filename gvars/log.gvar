@@ -1,0 +1,42 @@
+# logger = '00186972-7692-4f56-9ab7-60f0089704a4'
+
+_LOG = []
+
+_LEVEL_WEIGHTS = {
+  'DEBUG':    10,
+  'INFO':     20,
+  'WARNING':  30,
+  'ERROR':    40,
+  'CRITICAL': 50,
+}
+
+LEVELS = {
+  'DEBUG':    'DEBUG',
+  'INFO':     'INFO',
+  'WARNING':  'WARNING',
+  'ERROR':    'ERROR',
+  'CRITICAL': 'CRITICAL',
+}
+
+def _log(level, args, kwargs):
+  _LOG.append((level, dump_json(args), dump_json(kwargs)))
+
+def debug(*args, **kwargs):
+  _log(LEVELS.DEBUG, args, kwargs)
+
+def info(*args, **kwargs):
+  _log(LEVELS.INFO, args, kwargs)
+
+def warning(*args, **kwargs):
+  _log(LEVELS.WARNING, args, kwargs)
+
+def error(*args, **kwargs):
+  _log(LEVELS.ERROR, args, kwargs)
+
+def critical(*args, **kwargs):
+  _log(LEVELS.CRITICAL, args, kwargs)
+
+def log_fields(level=LEVELS.DEBUG):
+  weight = _LEVEL_WEIGHTS.get(level, 0)
+  loaded_log = [(entry_level, load_json(args), load_json(kwargs)) for (entry_level, args, kwargs) in _LOG if _LEVEL_WEIGHTS.get(entry_level, _LEVEL_WEIGHTS.DEBUG) >= weight]
+  return [ { 'title': f'{index}: {entry_level} {", ".join(args)}', 'body': "\n".join([f"{key}: {val}" for (key, val) in kwargs.items()]) } for index, (entry_level, args, kwargs) in enumerate(loaded_log) ]

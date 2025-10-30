@@ -1,0 +1,362 @@
+<drac2>
+using(
+    downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
+    tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+)
+expect = tests.expect
+
+parsed_args = argparse(&ARGS&)
+current_character = character()
+
+DOWNTIME_CVARS = ['ashirma_downtime'] + ['last_Time']
+
+def reset_downtime():
+    current_character.delete_cvar(downtime.LAST_WORK_WEEK_VAR)
+    current_character.delete_cvar(downtime.DOWNTIME_CVAR)
+
+def with_cvar_side_effects(function):
+    if parsed_args.last('destroy_my_downtime_state'): # You were warned.
+        for cvar in DOWNTIME_CVARS:
+            current_character.delete_cvar(cvar)
+        reset_downtime()
+
+    for cvar in DOWNTIME_CVARS:
+        if current_character.get_cvar(cvar):
+            err(f"active character ({get('name')}) has used downtime, tests would overwrite cooldown")
+
+    original_coins = current_character.coinpurse.get_coins()
+    current_character.coinpurse.modify_coins(pp=1_000)
+    try:
+        result = function()
+    finally:
+        for cvar in DOWNTIME_CVARS:
+            current_character.delete_cvar(cvar)
+        reset_downtime()
+        current_character.coinpurse.set_coins(
+            pp=original_coins.pp,
+            gp=original_coins.gp,
+            ep=original_coins.ep,
+            sp=original_coins.sp,
+            cp=original_coins.cp
+        )
+    return result
+
+def test_use_downtime():
+    now = time()
+
+    test_suite = {}
+    test_suite['migrating data'] = {}
+    downtime.use_downtime(current_time=now)
+    test_suite['migrating data']['without a last_Time'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+
+    reset_downtime()
+
+    current_character.set_cvar(downtime.LAST_WORK_WEEK_VAR, now - 3 * downtime.WORK_WEEK_COOLDOWN)
+    downtime.use_downtime(current_time=now)
+    test_suite['migrating data']['with an old last_Time'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+
+    reset_downtime()
+
+    current_character.set_cvar(downtime.LAST_WORK_WEEK_VAR, now - 0.5 * downtime.WORK_WEEK_COOLDOWN)
+    downtime.use_downtime(current_time=now)
+    test_suite['migrating data']['with a recent last_Time'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+
+    reset_downtime()
+
+    current_character.set_cvar(downtime.LAST_WORK_WEEK_VAR, now + 0.5 * downtime.WORK_WEEK_COOLDOWN)
+    downtime.use_downtime(current_time=now)
+    test_suite['migrating data']['with a future last_Time'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+
+    reset_downtime()
+
+    downtime.use_downtime(current_time=now)
+    test_suite['after working for the first time'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+
+    downtime.use_downtime(current_time=now)
+    test_suite['after working for the second time'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+
+    downtime.use_downtime(workweeks=3, current_time=now)
+    test_suite['after an activity uses multiple work weeks'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + 3 * downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+
+    return test_suite
+
+def test_blockers():
+    now = time()
+    test_suite = {}
+    test_suite['without blockers'] = {
+        'downtime is available': expect(downtime.status()).to.be({
+            'available': True,
+            'blocked': False,
+            'workweek_ends': None,
+            'blockers': {},
+        }),
+    }
+
+    downtime.add_blocker(key="feeding", title="Feeding", desc="Can't work hungry", cooldown=0.5 * downtime.WORK_WEEK_COOLDOWN, current_time = now)
+    test_suite['with a blocker'] = {
+        'downtime is blocked': expect(downtime.status()).to.be({
+            'available': False,
+            'blocked': True,
+            'workweek_ends': None,
+            'blockers': {
+                'feeding': {
+                    'title': 'Feeding',
+                    'desc': "Can't work hungry",
+                    'cooldown': 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now,
+                    'dc': None,
+                    'skill': None
+                }
+            },
+        }),
+    }
+    downtime.complete_blocker(key="feeding", current_time = now)
+    test_suite['with a completed blocker'] = {
+        'downtime is available': expect(downtime.status()).to.be({
+            'available': True,
+            'blocked': False,
+            'workweek_ends': None,
+            'blockers': {
+                'feeding': {
+                    'title': 'Feeding',
+                    'desc': "Can't work hungry",
+                    'cooldown': 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now + 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                    'dc': None,
+                    'skill': None
+                }
+            },
+        }),
+    }
+    downtime.remove_blocker(key="feeding")
+    test_suite['after removing a blocker'] = {
+        'downtime is available': expect(downtime.status()).to.be({
+            'available': True,
+            'blocked': False,
+            'workweek_ends': None,
+            'blockers': {},
+        }),
+    }
+
+    downtime.add_blocker(key="vamp_feeding", title="Vampire Feeding", desc="Can't work hungry", cooldown=0.5 * downtime.WORK_WEEK_COOLDOWN, current_time = now)
+    downtime.add_blocker(key="were", title="Werewolf Walkies", desc="Need to go outside", cooldown=3 * downtime.WORK_WEEK_COOLDOWN, current_time = now)
+    test_suite['with multiple blockers'] = {
+        'downtime is unavailable': expect(downtime.status()).to.be({
+            'available': False,
+            'blocked': True,
+            'workweek_ends': None,
+            'blockers': {
+                'vamp_feeding': {
+                    'title': 'Vampire Feeding',
+                    'desc': "Can't work hungry",
+                    'cooldown': 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now,
+                    'dc': None,
+                    'skill': None
+                },
+                'were': {
+                    'title': 'Werewolf Walkies',
+                    'desc': "Need to go outside",
+                    'cooldown': 3 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now,
+                    'dc': None,
+                    'skill': None
+                },
+            },
+        }),
+    }
+    downtime.complete_blocker(key="were", current_time = now)
+    test_suite['with multiple blockers']['when some are complete'] = {
+        'downtime is unavailable': expect(downtime.status()).to.be({
+            'available': False,
+            'blocked': True,
+            'workweek_ends': None,
+            'blockers': {
+                'vamp_feeding': {
+                    'title': 'Vampire Feeding',
+                    'desc': "Can't work hungry",
+                    'cooldown': 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now,
+                    'dc': None,
+                    'skill': None
+                },
+                'were': {
+                    'title': 'Werewolf Walkies',
+                    'desc': "Need to go outside",
+                    'cooldown': 3 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now + 3 * downtime.WORK_WEEK_COOLDOWN,
+                    'dc': None,
+                    'skill': None
+                },
+            },
+        }),
+    }
+    downtime.complete_blocker(key="vamp_feeding", current_time = now)
+    test_suite['with multiple blockers']['when all are complete'] = {
+        'downtime is available': expect(downtime.status()).to.be({
+            'available': True,
+            'blocked': False,
+            'workweek_ends': None,
+            'blockers': {
+                'vamp_feeding': {
+                    'title': 'Vampire Feeding',
+                    'desc': "Can't work hungry",
+                    'cooldown': 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now + 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                    'dc': None,
+                    'skill': None
+                },
+                'were': {
+                    'title': 'Werewolf Walkies',
+                    'desc': "Need to go outside",
+                    'cooldown': 3 * downtime.WORK_WEEK_COOLDOWN,
+                    'next_due': now + 3 * downtime.WORK_WEEK_COOLDOWN,
+                    'dc': None,
+                    'skill': None
+                },
+            },
+        }),
+    }
+
+    downtime.remove_blocker(key="vamp_feeding")
+    downtime.remove_blocker(key="were")
+    downtime.add_blocker(key="tribute", title="Tribute", desc="Pay your dues", cooldown=f'(1d6 + 5) * {downtime.WORK_WEEK_COOLDOWN}', current_time = now)
+    downtime.complete_blocker(key="tribute", current_time=now)
+    tribute_status = downtime.status()
+    test_suite['with dice string cooldowns'] = {
+        'sets a next_due date beyond the minimum range': expect(tribute_status.blockers.tribute.next_due).to.be_greater_than(now + 6 * downtime.WORK_WEEK_COOLDOWN - 1),
+        'sets a next_due date below the maximum range': expect(tribute_status.blockers.tribute.next_due).to.be_less_than(now + 11 * downtime.WORK_WEEK_COOLDOWN + 1),
+    }
+
+    return test_suite
+
+def test_status():
+    test_suite = {}
+    now = time()
+    test_suite['when available'] = expect(downtime.status(current_time=now)).to.be({
+        'available': True,
+        'blocked': False,
+        'workweek_ends': None,
+        'blockers': {},
+    })
+    downtime.use_downtime(current_time=now)
+    test_suite['when busy'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+    reset_downtime()
+    downtime.add_blocker(key="feeding", title="Feeding", desc="Can't work hungry", cooldown=downtime.WORK_WEEK_COOLDOWN, current_time=now - 0.5 * downtime.WORK_WEEK_COOLDOWN)
+    test_suite['when blocked'] = expect(downtime.status(current_time=now + downtime.WORK_WEEK_COOLDOWN)).to.be({
+        'available': False,
+        'blocked': True,
+        'workweek_ends': None,
+        'blockers': {
+            'feeding': {
+                'title': 'Feeding',
+                'desc': "Can't work hungry",
+                'cooldown': downtime.WORK_WEEK_COOLDOWN,
+                'next_due': now - 0.5 * downtime.WORK_WEEK_COOLDOWN,
+                'dc': None,
+                'skill': None
+            }
+        },
+    })
+    downtime.complete_blocker(key='feeding', current_time=now)
+    test_suite['when available with blockers'] = expect(downtime.status(current_time=now)).to.be({
+        'available': True,
+        'blocked': False,
+        'workweek_ends': None,
+        'blockers': {
+            'feeding': {
+                'title': 'Feeding',
+                'desc': "Can't work hungry",
+                'cooldown': downtime.WORK_WEEK_COOLDOWN,
+                'next_due': now + downtime.WORK_WEEK_COOLDOWN,
+                'dc': None,
+                'skill': None
+            }
+        },
+    })
+    reset_downtime()
+    current_character.set_cvar(downtime.LAST_WORK_WEEK_VAR, now)
+    test_suite['with old data'] = expect(downtime.status(current_time=now)).to.be({
+        'available': False,
+        'blocked': False,
+        'workweek_ends': now + downtime.WORK_WEEK_COOLDOWN,
+        'blockers': {},
+    })
+    return test_suite
+
+def test_history():
+    test_suite = {}
+    now = time()
+    test_suite['when empty'] = expect(downtime.history()).to.be([])
+    downtime.use_downtime(activity='test', current_time=now)
+    test_suite['workweeks used'] = expect(downtime.history()).to.be([
+        {
+            'activity': 'test',
+            'time': now,
+        }
+    ])
+    downtime.add_blocker(key="feeding", title="Feeding", desc="Can't work hungry", cooldown=0.5 * downtime.WORK_WEEK_COOLDOWN, current_time=now)
+    downtime.complete_blocker(key="feeding", current_time=now)
+    downtime.complete_blocker(key="invalid", current_time=now)
+    test_suite['blockers completed'] = expect(downtime.history()).to.be([
+        {
+            'activity': 'test',
+            'time': now,
+        },
+        {
+            'blocker': 'feeding',
+            'cooldown': 0.5 * downtime.WORK_WEEK_COOLDOWN,
+            'time': now,
+            'dc': None,
+            'check': None
+        }
+    ])
+    return test_suite
+
+return tests.run({
+    'use_downtime': with_cvar_side_effects(test_use_downtime),
+    'blockers': with_cvar_side_effects(test_blockers),
+    'status': with_cvar_side_effects(test_status),
+    'history': with_cvar_side_effects(test_history),
+}).embed
+</drac2>

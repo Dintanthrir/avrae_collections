@@ -1,0 +1,45 @@
+<drac2>
+using(
+    tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+    roll_utils = '7207a79c-07b0-4317-8653-f671df7305ee',
+)
+expect = tests.expect
+
+def test_for_expression_mutation_side_effects():
+    skill_roll = vroll('1d20 +4 +3[prof]')
+    skill_roll_original_results = {
+        'dice': skill_roll.dice,
+        'total': skill_roll.total,
+        'full': skill_roll.full,
+        'consolidated': skill_roll.consolidated(),
+    }
+    skill_roll_minimum = roll_utils.minimum(skill_roll)
+    skill_roll_maximum = roll_utils.maximum(skill_roll)
+    
+    return {
+        'does not alter the roll dice string': expect(skill_roll_original_results.dice).to.be(skill_roll.dice),
+        'does not alter the roll total': expect(skill_roll_original_results.total).to.be(skill_roll.total),
+        'does not alter the roll full string': expect(skill_roll_original_results.full).to.be(skill_roll.full),
+        'does not alter the roll consolidated string': expect(skill_roll_original_results.consolidated).to.be(skill_roll.consolidated()),
+    }
+
+return tests.run({
+    'minimize simple roll': expect(roll_utils.minimum(vroll('1d6'))).to.be(1),
+    'minimize roll with constants': expect(roll_utils.minimum(vroll('1d6 + 4'))).to.be(5),
+    'minimize advantage roll': expect(roll_utils.minimum(vroll('2d20kh1'))).to.be(1),
+    'minimize disadvantage roll': expect(roll_utils.minimum(vroll('2d20kl1'))).to.be(1),
+    'minimize roll with min': expect(roll_utils.minimum(vroll('2d20kh1mi10'))).to.be(10),
+    'minimize roll with max': expect(roll_utils.minimum(vroll('1d20ma10'))).to.be(1),
+    'minimize roll with reroll': expect(roll_utils.minimum(vroll('1d20rr1'))).to.be(2),
+
+    'maximize simple roll': expect(roll_utils.maximum(vroll('1d6'))).to.be(6),
+    'maximize roll with constants': expect(roll_utils.maximum(vroll('1d6 + 4'))).to.be(10),
+    'maximize advantage roll': expect(roll_utils.maximum(vroll('2d20kh1'))).to.be(20),
+    'maximize disadvantage roll': expect(roll_utils.maximum(vroll('2d20kl1'))).to.be(20),
+    'maximize roll with min': expect(roll_utils.maximum(vroll('2d20kh1mi10'))).to.be(20),
+    'maximize roll with max': expect(roll_utils.maximum(vroll('1d20ma10'))).to.be(10),
+    'maximize roll with reroll': expect(roll_utils.maximum(vroll('1d20rr20'))).to.be(19),
+
+    'side_effects': test_for_expression_mutation_side_effects,
+}).embed
+</drac2>

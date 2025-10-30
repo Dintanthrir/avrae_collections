@@ -1,0 +1,41 @@
+<drac2>
+using(
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+DEFAULT_NOM_IMAGES_GVAR = 'eec1865c-91b3-49a7-8c5f-5d7696ccbb7b'
+IMAGES_LIST_VAR = 'nomlist'
+AUTHOR_NAME_VAR= 'hugname'
+
+escaped_args_string = '&*&'
+svar_contents = get_svar(IMAGES_LIST_VAR, None)
+display_name = ctx.author.display_name
+
+if len(nommer := get(AUTHOR_NAME_VAR, display_name).replace('"','\\"')) == 0:
+    nommer = display_name
+nomlist = get(IMAGES_LIST_VAR, svar_contents or get_gvar(DEFAULT_NOM_IMAGES_GVAR)).split('\n')
+
+victim = escaped_args_string.replace('"','\\"') or "you"
+nom_image = randchoice(nomlist)
+
+fields = []
+footer = f"Showing: {nom_image}"
+
+if not nom_image:
+    nom_image = 'https://cdn.discordapp.com/emojis/618899714040922112.png?v=1'
+    fields.append({
+        'title': "No image found.",
+        'body': "Expected a `nomlist` c/u/svar containing image urls separated by newlines."
+    })
+if not (exists("hugname") or exists("nomlist") or svar_contents):
+    footer = f"{ctx.prefix}help {ctx.alias} for customization options.\n" + footer
+
+return embeds.get_output(embed={
+    'title': "Nom!",
+    'desc': f"**{nommer} noms {victim}!**",
+    'image': nom_image,
+    'color': get("color"),
+    'footer': footer,
+    'fields': fields,
+})
+</drac2>
