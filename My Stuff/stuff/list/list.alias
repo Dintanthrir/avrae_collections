@@ -13,7 +13,7 @@ parsed_args = argparse(args)
 matching_groups = stuff.groups()
 
 # If a `-group` argument was given, use that to narrow the list of groups
-group_search_str = parsed_args.last('group', type_=str)
+group_search_str = parsed_args.last('group', type_=str) or parsed_args.last('type', type_=str)
 if group_search_str:
     matching_groups = fuzzy.get_matches_ignoring_punctuation(
         search=group_search_str,

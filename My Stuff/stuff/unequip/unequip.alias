@@ -11,7 +11,7 @@ args = &ARGS&
 parsed_args = argparse(args)
 current_character = character()
 
-group_search_str = parsed_args.last('group', type_=str)
+group_search_str = parsed_args.last('group', type_=str) or parsed_args.last('type', type_=str)
 item_search_str = parsed_args.last('item', type_=str)
 
 if not group_search_str:
