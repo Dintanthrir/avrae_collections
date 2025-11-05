@@ -1,4 +1,4 @@
-Set modifiers for a skill. 
+Set modifiers for a skill.
 _Note:_ These changes will only apply in aliases using the _Skill Check Modifiers_ module.
 
 ```
@@ -11,7 +11,7 @@ __Examples:__
 
 > **Silver Tongue**
 > *3rd-level College of Eloquence feature*
-> 
+>
 > You are a master at saying the right thing at the right time. When you make a Charisma (**Persuasion**) or Charisma (**Deception**) check, you can treat a d20 roll of 9 or lower as a 10.
 
 ```
@@ -24,4 +24,15 @@ __Examples:__
 ```
 !skill_check_mods set investigation -b 1d4
 !skill_check_mods set insight -b 1d4
+```
+
+> **Tireless Precision**
+> *Vedalken trait*
+>
+> You are proficient in one of the following skills of your choice: Arcana, History, Investigation, Medicine, Performance, or Sleight of Hand. You are also proficient with one tool of your choice.
+>
+> Whenever you make an ability check with the chosen skill or tool, roll a d4, and add the number rolled to the check’s total.
+
+```
+!skill_check_mods set arcana -b 1d4
 ```
