@@ -1,0 +1,472 @@
+# shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae'
+
+using(
+  baglib = '4119d62e-6a98-4153-bea9-0a99bb36da2c',
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
+)
+
+_SHOP_SVAR = 'shopping_config'
+_SHOP_SVAR_DEFAULT_VALUES = {
+  'cvar_name': 'shopping',
+  'sell_multipliers': {
+    'mundane': 0,
+    'common': 0,
+    'uncommon': 0,
+    'rare': 0,
+    'very rare': 0,
+    'legendary': 0,
+  },
+  'level_requirements': {
+    'mundane': 0,
+    'common': 0,
+    'uncommon': 6,
+    'rare': 12,
+    'very rare': 18,
+    'legendary': 20,
+  },
+  'gear': {
+    # '<category>': '<gvar>',
+  },
+  'merchant': {
+    'seek_cost': 100,
+    'continue_cost': 100,
+    'workweeks_required': 1,
+    'requests': {
+      'find_chance': 0.10,
+      'continue_increase': 0.05,
+    },
+    'inventory': {
+      # '<category>': '<gvar>',
+    },
+    'locations': [],
+    'prompts': [],
+    'item_tables': []
+  },
+}
+_SHOP_SVAR_DEFAULT = dump_yaml(_SHOP_SVAR_DEFAULT_VALUES)
+_SHOP_CVAR_DEFAULT_VALUES = {}
+
+_config_cache = None
+_character = character()
+
+def _is_gvar_id(string):
+    return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
+
+def load_config():
+  if not _config_cache:
+    svar_config = load_yaml(get_svar(_SHOP_SVAR, default=_SHOP_SVAR_DEFAULT))
+    _config_cache = load_yaml(get_gvar(svar_config)) if _is_gvar_id(svar_config) else svar_config
+  return _config_cache
+
+def _load_cvar():
+  config = load_config()
+  if cvar_name := config.get('cvar_name'):
+    return load_yaml(_character.get_cvar(cvar_name, '{}'))
+  else:
+    return _SHOP_CVAR_DEFAULT_VALUES
+
+def _update_cvar(stored_data):
+  config = load_config()
+  if cvar_name := config.get('cvar_name'):
+    yaml = dump_yaml(stored_data)
+    # check if we are about to hit the cvar length limit
+    while len(yaml) > 10_000 and stored_data.get('history') and len(stored_data.history) > 0:
+        stored_data['history'] = stored_data.history[:-1] # drop the oldest item from the history
+        yaml = dump_yaml(stored_data)
+    _character.set_cvar(cvar_name, yaml)
+
+def _load_item_data(category):
+  config = load_config()
+  if category_data := config.get('merchant', {}).get('inventory', {}).get(category):
+    if _is_gvar_id(category_data):
+      return load_yaml(get_gvar(category_data))
+    else:
+      return category_data
+  else:
+    return None
+
+def history() -> list[tuple[float, str]]:
+  """Return all log entries in the character's saved history.
+
+  :return: The list of log entries and their timestamps.
+  :rtype: list[tuple[float, str]]
+  """
+  return _load_cvar().get('history', [])
+
+def record_history(record:str, current_time=time()):
+  """Write a log of a transaction to the current character's cvar.
+
+  :param record: The log text
+  :type record: _type_str
+  :param at: Timestamp, defaults to time()
+  :type at: float, optional
+  """
+  data = _load_cvar()
+  data.get('history', []).append((current_time, record))
+  _update_cvar(data)
+
+def gear_buy(category_query:str=None, item_query:str=None, count:int=1, current_time:float=time()):
+  """Purchase a type of mundane item. The provided queries must return exactly one result identifying the item to buy.
+
+  :param category_query: A category to match containing the item, defaults to None
+  :type category_query: str, optional
+  :param item_query: A string to match against the item name, defaults to None
+  :type item_query: str, optional
+  :param count: The number of instances of the item to purchase, defaults to 1
+  :type count: int, optional
+  :return: Success and details of the purchase or an error.
+  :rtype: dict['success': bool]
+  """
+  category_items = gear_list(category_query=category_query, item_query=item_query)
+  category_keys = list(category_items.keys())
+  category_values = list(category_items.values())
+  if len(category_keys) == 0:
+    return {
+      'success': False,
+      'message': f"Unable to buy, no matches for:`{item_query}` in `{category_query}`."
+    }
+  if len(category_values[0]) == 0:
+    return {
+      'success': False,
+      'message': f"Unable to buy, no items match: `{item_query}`."
+    }
+  if len(category_keys) > 1:
+    return {
+      'success': False,
+      'message': f"Unable to buy, multiple categories match: `{category_query}`: {category_keys}."
+    }
+  if len(category_values[0]) > 1:
+    return {
+      'success': False,
+      'message': f"Unable to buy, multiple items match: {item_query}: {category_values}."
+    }
+  item = category_values[0][0]
+  name = item[0]
+  cost = float(item[1])
+  coin_cost = parse_coins(str(-1 * count * cost))
+  if _character.coinpurse.total < cost:
+    return {
+      'success': False,
+      'message': f"Insufficient money. Need {cost} but have {_character.coinpurse.total}"
+    }
+  _character.coinpurse.modify_coins(pp=coin_cost.pp, gp=coin_cost.gp, ep=coin_cost.ep, sp=coin_cost.sp, cp=coin_cost.cp, autoconvert = True)
+  record_history(f"Purchased gear, {category_keys[0]}:{name} x {count} for {cost}.", current_time=current_time)
+
+  item_counter = item[5] if len(item) >= 6 else None
+  if not item_counter:
+    bags = baglib.load_bags(ch=_character)
+    (bag_used, _, bag_error) = baglib.modify_item(bagsLoaded=bags, item=name, quantity=count)
+    bag_result = baglib.save_bags(bagsLoaded = bags)
+  else:
+    bag_used = None
+    bag_error = False
+    bag_result = 0
+
+  return {
+    'success': True,
+    'count': count,
+    'name': name,
+    'cost': cost,
+    'weight': item[2] if len(item) >= 3 else None,
+    'attributes': item[3] if len(item) >= 4 else None,
+    'desc': item[4] if len(item) >= 5 else None,
+    'counter': item_counter,
+    'bag': bag_used if bag_result > 0 and not bag_error else None,
+  }
+
+def gear_categories():
+  config = load_config()
+  categories = config.gear
+  
+  for (category, source) in categories.items():
+    if typeof(source) == 'str' and _is_gvar_id(source):
+      items = load_yaml(get_gvar(source))
+      categories[category] = len(items)
+    elif 'list' in typeof(source).lower():
+      categories[category] = len(source)
+    else:
+      err(f'Invalid settings. unable to parse `gear.{category}`: `{source}`')
+  
+  return categories
+
+def gear_list(category_query:str=None, item_query:str=None):
+  config = load_config()
+  categories = config.gear
+
+  # filter categories
+  if category_query is not None:
+    categories = {match:categories[match] for match in fuzzy.get_matches_ignoring_punctuation(category_query, categories.keys())}
+  
+  # load gvar contents
+  for (category, source) in categories.items():
+    if typeof(source) == 'str' and _is_gvar_id(source):
+      items = load_yaml(get_gvar(source))
+      if item_query is not None:
+        categories[category] = [item for item in fuzzy.get_matches_with_function(item_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), items, lambda x: x[0].lower().translate(fuzzy.NO_PUNCTUATION_TABLE))]
+      else:
+        categories[category] = items
+    elif 'list' in typeof(source).lower():
+      if item_query is not None:
+        categories[category] = [item for item in fuzzy.get_matches_with_function(item_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), categories, lambda x: x[0].lower().translate(fuzzy.NO_PUNCTUATION_TABLE))]
+    else:
+      err(f'Invalid settings. unable to parse `gear.{category}`: `{source}`')
+  
+  # filter out empty categories
+  if len(categories) > 1:
+    categories = {k:v for (k,v) in categories.items() if v and len(v) > 0}
+
+  return categories
+
+def merchant_categories():
+  config = load_config()
+  categories = config.merchant.inventory
+
+  for (category, source) in categories.items():
+    if typeof(source) == 'str' and _is_gvar_id(source):
+      items = load_yaml(get_gvar(source))
+      categories[category] = len(items) if items else 0
+    elif 'list' in typeof(source).lower():
+      categories[category] = len(source)
+    else:
+      err(f'Invalid settings. unable to parse `gear.{category}`: `{source}`')
+  
+  return categories
+
+def merchant_list(category_query:str=None, item_query:str=None):
+  config = load_config()
+  categories = config.merchant.inventory
+
+  # filter categories
+  if category_query is not None:
+    categories = {match:categories[match] for match in fuzzy.get_matches_ignoring_punctuation(category_query, categories.keys())}
+  
+  # load gvar contents
+  for (category, source) in categories.items():
+    if typeof(source) == 'str' and _is_gvar_id(source):
+      items = load_yaml(get_gvar(source))
+      if item_query is not None:
+        categories[category] = [item for item in fuzzy.get_matches_with_function(item_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), items, lambda x: x[0].lower().translate(fuzzy.NO_PUNCTUATION_TABLE))]
+      else:
+        categories[category] = items
+    elif 'list' in typeof(source).lower():
+      if item_query is not None:
+        categories = [item for item in fuzzy.get_matches_with_function(item_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), categories, lambda x: x[0].lower().translate(fuzzy.NO_PUNCTUATION_TABLE))]
+    else:
+      err(f'Invalid settings. unable to parse `merchant.inventory.{category}`: `{source}`')
+  
+  # filter out empty categories
+  categories = {k:v for (k,v) in categories.items() if v and len(v) > 0}
+
+  return categories
+
+def _merchant_resolve(merchant:dict, customer=_character):
+  continue_bonus = merchant.get('bonus', 0)
+  config = load_config()
+
+  loot_table_roll = vroll(f'(1d20 + {min(10, continue_bonus)}) * {customer.stats.prof_bonus} / 2 + 1d10')
+  item_table = None
+  total = 0
+  for i in config.merchant.item_tables:
+    total += i.get('weight', 0)
+    if total >= loot_table_roll.total:
+      item_table = i
+      break
+  if not item_table:
+    err(f'Failed to roll on item table: {loot_table_roll.full}')
+  
+  items_roll = vroll(item_table.get('item_count', '1d4'))
+  found_items = randchoices(item_table.get('items'), weights=[item[3] for item in item_table.get('items')], k=items_roll.total)
+  
+  if merchant.get('request'):
+    find_chance = config.merchant.get('requests', {}).get('find_chance', 0) + config.merchant.get('requests', {}).get('continue_increase', 0) * continue_bonus
+    if randint(100) < round(find_chance * 100):
+      found_items.append([merchant.request.category, merchant.request.item, 1])
+  merchant['inventory'] = [{'category':item[0], 'item':item[1], 'quantity': item[2]} for item in found_items]
+  if locations := config.merchant.get('locations'):
+    if prompts := config.merchant.get('prompts'):
+      merchant['location'] = randchoice(locations)
+      merchant['prompt'] = randchoice(prompts)
+
+  return merchant
+
+def merchant_status(current_time:float=time()):
+  stored_data = _load_cvar()
+  merchant = stored_data.get('merchant')
+  if merchant and merchant.returns_at < current_time and not merchant.get('inventory'):
+    merchant = _merchant_resolve(merchant=merchant)
+    stored_data['merchant'] = merchant
+    stored_data.get('history', []).append((current_time, 'merchant resolved' + str(merchant.inventory)))
+    _update_cvar(stored_data)
+  return merchant
+
+def merchant_seek(current_time:float=time(), request:dict=None, bonus=0):
+  stored_data = _load_cvar()
+  config = load_config()
+
+  downtime_status = downtime.status(current_time=current_time)
+  if not downtime_status.available:
+    return { 'success': False, 'message': 'Downtime not available.' }
+
+  cost = config.merchant.get('seek_cost', 0)
+  coin_cost = parse_coins(str(-1 * cost))
+  if _character.coinpurse.total < cost:
+    return {
+      'success': False,
+      'message': f"Insufficient money. Need {cost} but have {_character.coinpurse.total}"
+    }
+  _character.coinpurse.modify_coins(pp=coin_cost.pp, gp=coin_cost.gp, ep=coin_cost.ep, sp=coin_cost.sp, cp=coin_cost.cp, autoconvert = True)
+  downtime.use_downtime(activity='merchant seek', workweeks=config.merchant.get('workweeks_required', 1), current_time=current_time)
+  
+  downtime_status = downtime.status()
+  stored_data.get('history', []).append((current_time, 'merchant seek' + f' request={request}' if request else ''))
+  merchant = {
+    'request': request,
+    'returns_at': downtime_status.workweek_ends,
+    'bonus': bonus,
+  }
+  stored_data['merchant'] = merchant
+  _update_cvar(stored_data)
+  return {'success': True, 'cost': cost}
+
+def merchant_cancel(current_time:float=time()):
+  stored_data = _load_cvar()
+  if stored_data.get('merchant') and stored_data.merchant.get('returns_at', 0) > current_time:      
+    stored_data['merchant'] = None
+    stored_data.get('history', []).append((current_time, 'cancelled merchant activity'))
+    _update_cvar(stored_data)
+    return {'success': True}
+  else:
+    return {'success': False, 'message': "No merchant activity to cancel."}
+
+def merchant_continue(current_time:float=time()):
+  stored_data = _load_cvar()
+  downtime_status = downtime.status(current_time=current_time)
+  config = load_config()
+  
+  if not downtime_status.available:
+    return { 'success': False, 'message': 'Downtime not available.' }
+  if not stored_data.get('merchant'):
+    return { 'success': False, 'message': 'Nothing to continue.' }
+  if stored_data.get('merchant') and stored_data.merchant.get('returns_at', 0) > current_time:
+    return { 'success': False, 'message': 'Cannot continue while a search is in progress.' }
+  if stored_data.get('merchant') and len(stored_data.merchant.get('purchases', [])) > 0:
+    return { 'success': False, 'message': 'Cannot continue after making a purchase.' }
+  
+  cost = config.merchant.get('continue_cost', 0)
+  coin_cost = parse_coins(str(-1 * cost))
+  if _character.coinpurse.total < cost:
+    return {
+      'success': False,
+      'message': f"Insufficient money. Need {cost} but have {_character.coinpurse.total}"
+    }
+  _character.coinpurse.modify_coins(pp=coin_cost.pp, gp=coin_cost.gp, ep=coin_cost.ep, sp=coin_cost.sp, cp=coin_cost.cp, autoconvert = True)
+
+  downtime.use_downtime(activity='merchant continue', current_time=current_time)
+  downtime_status = downtime.status()
+  merchant = stored_data['merchant'] | { 'returns_at': downtime_status.workweek_ends }
+  merchant['inventory'] = None
+  merchant['bonus'] = merchant.get('bonus', 0) + 1
+  stored_data['merchant'] = merchant
+  stored_data.get('history', []).append((current_time, 'continued merchant search'))
+  _update_cvar(stored_data)
+  return {'success': True, 'cost': cost}
+  
+def merchant_buy(category_query:str=None, item_query:str=None, current_time:float=time(), quantity:int=1):
+  stored_data = _load_cvar()
+  config = load_config()
+
+  available_items = stored_data.get('merchant', {}).get('inventory', [])
+  matching_available_items = available_items
+  if category_query:
+    matching_categories = fuzzy.get_matches_with_function(category_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), available_items, lambda x: x.category.lower().translate(fuzzy.NO_PUNCTUATION_TABLE))
+    matching_category_names = [item.category for item in matching_categories]
+    matching_available_items = [item for item in available_items if item.category in matching_category_names]
+    logger.debug(available_items=available_items, matching_categories=matching_categories, matching_available_items=matching_available_items)
+  if item_query:
+    matching_items = fuzzy.get_matches_with_function(item_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), available_items, lambda x: x.item.lower().translate(fuzzy.NO_PUNCTUATION_TABLE))
+    matching_item_names = [item.item for item in matching_items]
+    matching_available_items = [item for item in matching_available_items if item.item in matching_item_names]
+    logger.debug(matching_available_items=matching_available_items)
+  if len(matching_available_items) == 0:
+    return {
+      'success': False,
+      'message': f"Unable to buy, no items match name: {item_query} and category: {category_query}."
+    }
+  if len(matching_available_items) > 1:
+    return {
+      'success': False,
+      'message': f"Unable to buy, multiple items match name: {item_query} and category: {category_query}: {matching_available_items}."
+    }
+  selected_category = _load_item_data(matching_available_items[0].category)
+  if not selected_category:
+    return {
+      'success': False,
+      'message': f"Unable to buy, category {matching_available_items[0].category} is not available."
+    }
+  selected_category_items = [item for item in selected_category if item[0] == matching_available_items[0].item]
+  if len(selected_category_items) == 0:
+    return {
+      'success': False,
+      'message': f"Unable to buy, item {matching_available_items[0].item} is not available."
+    }
+  if len(selected_category_items) > 1:
+    return {
+      'success': False,
+      'message': f"Unable to buy, item {matching_available_items[0].item} has multiple matches."
+    }
+  item_to_buy = selected_category_items[0]
+  cost = float(item_to_buy[3])
+  coin_cost = parse_coins(str(-1 * cost * quantity))
+  if _character.coinpurse.total < cost * quantity:
+    return {
+      'success': False,
+      'message': f"Insufficient money. Need {cost * quantity} but have {_character.coinpurse.total}"
+    }
+  rarity = item_to_buy[1]
+  rarity = 'mundane' if rarity == None or rarity == '' else rarity
+  required_level = config.level_requirements.get(rarity.lower(), 0)
+  if _character.levels.total_level < required_level:
+    return {
+      'success': False,
+      'message': f"Unable to buy. {rarity} items require at least level {required_level}"
+    }
+  for item in available_items:
+    if item.category == matching_available_items[0].category and item.item == item_to_buy[0]:
+      if item.quantity < quantity:
+        return {
+          'success': False,
+          'message': f"Insufficient quantity. Only {item.quantity} of {item.item} are available, cannot buy {quantity}."
+        }
+      item['quantity'] = item.quantity - quantity
+      break
+  _character.coinpurse.modify_coins(pp=coin_cost.pp, gp=coin_cost.gp, ep=coin_cost.ep, sp=coin_cost.sp, cp=coin_cost.cp, autoconvert = True)
+  stored_data.merchant['inventory'] = available_items
+  
+  purchased_items = stored_data.get('merchant', {}).get('purchases', [])
+  purchased_item = None
+  for item in purchased_items:
+    if item.category == matching_available_items[0].category and item.item == item_to_buy[0]:
+      item['quantity'] = item.quantity + quantity
+      purchased_item = item
+      break
+  if purchased_item is None:
+    purchased_items.append({
+      'category': matching_available_items[0].category, 
+      'item': matching_available_items[0].item, 
+      'quantity': quantity,
+    })
+  stored_data.merchant['purchases'] = purchased_items
+
+  stored_data.get('history', []).append((current_time, f'merchant buy: {quantity} x {item_to_buy[0]} for {cost * quantity}'))
+  
+  _update_cvar(stored_data)
+
+  bags = baglib.load_bags(ch=_character)
+  (bag_used, _, bag_error) = baglib.modify_item(bagsLoaded=bags, item=item_to_buy[0], quantity=quantity)
+  bag_result = baglib.save_bags(bagsLoaded = bags)
+
+  return {'success': True, 'item': item_to_buy, 'count': quantity, 'cost': cost, 'bag': bag_used if bag_result > 0 and not bag_error else None}

@@ -1,0 +1,63 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae',
+)
+
+COMMAND = f"{ctx.alias} gear buy"
+USAGE = f"{ctx.prefix}{COMMAND} [-type <\"query\">] [-item <\"query\">] [-count <number>]"
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+_character = character()
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+result = shop.gear_buy(category_query=parsed_args.last('type', type_=str), item_query=parsed_args.last('item', type_=str), count=parsed_args.last('count', type_=int, default=1))
+if not result.success:
+  return embeds.get_output(embed={
+    'title': 'Error. Transaction cancelled.',
+    'desc': result.message,
+  })
+
+cc = None
+if result.get('counter') and _character.cc_exists(result.counter):
+  _character.mod_cc(name=result.counter, val=result.count)
+  cc = _character.cc(result.counter)
+
+desc = docstring.trim(f"""
+  - **{result.name}** x {result.count}
+      _{' '.join([result.weight or '', result.attributes or '', result.desc or ''])}_
+""")
+if cc is not None:
+  desc += '\n' + docstring.trim(f"""
+    {('    ' +f'Counter `{cc.name}`: {cc.value} (+{result.count})') if cc else f'Counter `{result.get("counter")}` does not exist, skipping.'}
+  """)
+
+fields = [{
+  'title': "Coins",
+  'body': currency.format_transaction(result.get('cost', 0) * result.get('count', 1))
+}]
+
+if bag := result.get('bag'):
+  fields.append({
+    'title': "Bag",
+    'body': f"{result.name} x {result.count} added to _{bag}_."
+  })
+
+embed = {
+  'title': f"{_character.name} completes a purchase!",
+  'thumb': get('image'),
+  'color': get('color'),
+  'desc': desc,
+  'fields': fields,
+  'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

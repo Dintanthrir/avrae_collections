@@ -1,0 +1,1 @@
+Commission the merchant to hunt for items for sale.

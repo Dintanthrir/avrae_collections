@@ -1,0 +1,53 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae',
+)
+
+COMMAND = f"{ctx.alias}"
+USAGE = f"{ctx.prefix}{COMMAND}"
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+
+merchant_status = shop.merchant_status()
+fields = [
+  {
+    'title': "Adventuring Gear",
+    'body': f"Search for items using `{ctx.prefix}{COMMAND} gear` and purchase them using `{ctx.prefix}{COMMAND} gear buy`."
+  }
+]
+if merchant_status and (returns_at := merchant_status.get('returns_at', 0)) and returns_at > time():
+  fields.append({
+    'title': "Magic Items",
+    'body': f"The merchant will return with new items <t:{floor(returns_at)}:R>"
+  })
+elif merchant_status and (returns_at := merchant_status.get('returns_at', 0)) and returns_at <= time():
+  fields.append({
+    'title': "Magic Items",
+    'body': "The merchant is currently selling:\n" + '\n'.join([f"- {item.get('quantity')} x _{item.get('category')}_ {item.get('item')}" + '\n' + f"```{ctx.prefix}{COMMAND} merchant buy -type \"{item.get('category')}\" -item \"{item.get('item')}\"```" for item in merchant_status.get('inventory', [])])
+  })
+  if merchant_status.get('location') and merchant_status.get('prompt'):
+    fields.append({
+    'title': "The merchant says:",
+    'body': '"' + merchant_status.prompt % merchant_status.location + '"'
+  })
+else:
+  fields.append({
+    'title': "Merchant Inactive",
+    'body': f"Comission a merchant to search for magic items using ```{ctx.prefix}{COMMAND} seek```",
+  })
+
+embed = {
+  'title': f"{get('name')} goes shopping!",
+  'thumb': get('image'),
+  'color': get('color'),
+  'desc': "",
+  'fields': fields,
+  'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

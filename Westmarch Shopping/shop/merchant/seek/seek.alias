@@ -1,0 +1,62 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae',
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
+)
+
+COMMAND = f"{ctx.alias}"
+USAGE = f"{ctx.prefix}{COMMAND} merchant seek [-type \"<category>\" -item \"<item>\"]"
+
+_character = character()
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+request = None
+category_query = parsed_args.last('type', type_=str)
+item_query = parsed_args.last('item', type_=str)
+if category_query or item_query:
+  categories = shop.merchant_list(category_query=category_query, item_query=item_query)
+  logger.debug(categories=list(categories.keys()))
+  if len(categories) > 1:
+    return f'embed -title "⛔️ Invalid arguments!" -desc "`{category_query}` matches more than one category: {list(categories.keys())}"'
+  elif len(categories) == 0:
+    return f'embed -title "⛔️ Invalid arguments!" -desc "`{category_query}` does not match any categories."'
+  else:
+    items = list(categories.values())[0]
+    logger.debug(items=len(items))
+    if len(items) > 1:
+      return f'embed -title "⛔️ Invalid arguments!" -desc "`{item_query}` matches more than one item: {[item[0] for item in items]}"'
+    elif len(items) == 0:
+      return f'embed -title "⛔️ Invalid arguments!" -desc "`{item_query}` does not match any items."'
+    else:
+      request = {
+        'category_query': category_query,
+        'category': list(categories.keys())[0],
+        'item_query': item_query,
+        'item': items[0]
+      }
+
+embed = {
+  'title': f"{_character.name} starts their search!",
+  'thumb': get('image'),
+  'color': get('color'),
+  'desc': "",
+  'footer': USAGE,
+}
+
+result = shop.merchant_seek(request=request, bonus=0)
+
+if not result.success:
+  embed['title'] = f"{_character.name} cannot start their search!"
+  embed['desc'] = result.get('message', "")
+else:
+  embed['desc'] = currency.format_transaction(-1 * result.get('cost', 0))
+return embeds.get_output(embed = embed)
+</drac2>

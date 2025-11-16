@@ -1,0 +1,38 @@
+<drac2>
+using(
+  shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} history"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+history = shop.history()
+
+desc = ''
+fields = []
+if len(history) > 0:
+    desc = "Shopping history:"
+    for (timestamp, log_entry) in history:
+        fields.append({
+            'title': f"<t:{timestamp}:F>",
+            'body': log_entry,
+        })
+else:
+    desc = "No history of purchases."
+
+embed = {
+    'title': f"**{get('name')}** checks their shopping history",
+    'desc': desc,
+    'fields': fields,
+    'thumb': get('image'),
+    'footer': USAGE
+}
+
+return embeds.get_output(embed=embed)
+</drac2>

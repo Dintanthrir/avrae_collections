@@ -1,0 +1,1 @@
+Show a history of recent shopping events.

@@ -1,0 +1,53 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae',
+)
+
+COMMAND = f"{ctx.alias} merchant"
+USAGE = f"{ctx.prefix}{COMMAND} [-type \"query\"] [-item \"query\"]"
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+def _format_item(category:str, fields_list):
+  [name, rarity, attunement, value, source, text] = fields_list
+  return f"**{name}**, _{rarity}_" + (f" _({attunement})_ " if attunement and len(attunement) > 0 else " ") + currency.format_currency(value) + "\n\t" + f"{source}, {text}" + "\n" + f"    ```{ctx.prefix}{ctx.alias} merchant seek -type \"{category}\" -item \"{name}\"```"
+
+_character = character()
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+category_query=parsed_args.last('type', type_=str)
+item_query=parsed_args.last('item', type_=str)
+
+fields = []
+if not category_query and not item_query:
+  result = shop.merchant_categories()
+  for (category, item_count) in result.items():
+    fields.append({
+      'title': f'__{category}__',
+      'body': f'{item_count} items',
+    })
+else:
+  result = shop.merchant_list(category_query=category_query, item_query=item_query)
+  for (category, items) in result.items():
+    fields.append({
+      'title': f'__{category}__',
+      'body': '\n\n'.join([_format_item(category, item) for item in items]),
+    })
+
+embed = {
+  'title': f"{_character.name} looks for records of exotic equipment!",
+  'thumb': get('image'),
+  'color': get('color'),
+  'desc': "...and finds:" if len(fields) > 0 else "...but doesn't find anything!",
+  'fields': fields,
+  'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

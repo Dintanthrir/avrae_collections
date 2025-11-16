@@ -1,0 +1,1 @@
+Shop for adventuring gear and other mundane equipment; items which are always available for purchase.

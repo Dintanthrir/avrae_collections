@@ -1,0 +1,1 @@
+Cancel an item search in progress. Forfeit any progress but free up your downtime to start a new search or other activity.

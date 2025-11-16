@@ -1,0 +1,1 @@
+Repeat the most recent item search, improving the odds of finding a specific item and the average quality of all items.

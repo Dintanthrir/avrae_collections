@@ -1,0 +1,62 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae',
+)
+
+COMMAND = f"{ctx.alias} merchant buy"
+USAGE = f"{ctx.prefix}{COMMAND} -type \"<category>\" -item \"<item>\" [-quantity <quantity>]"
+
+_character = character()
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+result = None
+if (category_query := parsed_args.last('type', type_=str)) and (item_query := parsed_args.last('item', type_=str)):
+  categories = shop.merchant_list(category_query=category_query, item_query=item_query)
+  if len(categories) > 1:
+    return f'embed -title "⛔️ Invalid arguments!" -desc "`{category_query}` matches more than one type."'
+  elif len(categories) == 0:
+    return f'embed -title "⛔️ Invalid arguments!" -desc "`{category_query}` does not match any types."'
+  else:
+    if len(list(categories.values())[0]) > 1:
+      return f'embed -title "⛔️ Invalid arguments!" -desc "`{item_query}` matches more than one item."'
+    elif len(categories.values()) == 0:
+      return f'embed -title "⛔️ Invalid arguments!" -desc "`{item_query}` does not match any items."'
+    else:
+      result = shop.merchant_buy(category_query=category_query, item_query=item_query, quantity=parsed_args.last('quantity', type_=int, default=1))
+else:
+  return f'embed -title "⛔️ Invalid arguments!" -desc "type and item are required: `{USAGE}`"'
+
+fields = [{
+  'title': "Coins",
+  'body': currency.format_transaction(result.get('cost', 0) * result.get('count', 1))
+}]
+
+if bag := result.get('bag'):
+  fields.append({
+    'title': "Bag",
+    'body': f"{result.name} x {result.count} added to _{bag}_."
+  })
+
+embed = {
+  'title': f"{get('name')} buys an item!",
+  'thumb': get('image'),
+  'color': get('color'),
+  'desc': '',
+  'fields': fields,
+  'footer': USAGE,
+}
+
+if not result.success:
+  embed['title'] = f"{get('name')} cannot complete their purchase!"
+  embed['desc'] = result.get('message', 'An error occurred.')
+
+return embeds.get_output(embed = embed)
+</drac2>

@@ -1,0 +1,51 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  shop = '808e0b0c-eddc-4aff-af87-51a9943ef9ae',
+)
+
+COMMAND = f"{ctx.alias} gear"
+USAGE = f"{ctx.prefix}{COMMAND} [-type \"query\"] [-item \"query\"]"
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+_character = character()
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+category_query=parsed_args.last('type', type_=str)
+item_query=parsed_args.last('item', type_=str)
+
+fields = []
+
+if not category_query and not item_query:
+  result = shop.gear_categories()
+  for (category, item_count) in result.items():
+    fields.append({
+      'title': f'__{category}__',
+      'body': f'{item_count} items',
+    })
+else:
+  result = shop.gear_list(category_query=category_query, item_query=item_query)
+
+  newline = '\n'
+  for (category, items) in result.items():
+    fields.append({
+      'title': f'__{category}__',
+      'body': '\n\n'.join([f"- **{item[0]}** {item[1]} gp{(newline + '    _' + ' '.join(item[2:]) + '_') if len(item) > 2 else ''}{newline}    ```{ctx.prefix}{ctx.alias} gear buy -type \"{category}\" -item \"{item[0]}\" -count 1```" for item in items])
+    })
+
+embed = {
+  'title': f"{_character.name} searches the shop!",
+  'thumb': get('image'),
+  'color': get('color'),
+  'desc': "...and finds:" if len(fields) > 0 else "...but doesn't find anything!",
+  'fields': fields,
+  'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>
