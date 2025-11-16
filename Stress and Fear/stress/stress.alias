@@ -1,0 +1,24 @@
+embed
+<drac2>
+cc = "Stress Score"
+ch=character()
+if not ch.cc_exists(cc):
+    title="Stress Score counter initialized."
+    stress=ch.create_cc(
+        name=cc,
+        minVal=0,
+        maxVal=None,
+        reset=None,
+        dispType=None,
+        reset_to=None,
+        reset_by=None,
+        title=cc,
+        desc="Attempting to cope with dread and despair.",
+        initial_value=0
+    )
+else:
+    title="Stress Score counter exists."
+    stress=ch.get_cc(cc)
+</drac2>
+-title "{{title}}"
+-desc "Stress Score: {{stress}}"

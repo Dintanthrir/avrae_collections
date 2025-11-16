@@ -1,0 +1,42 @@
+embed
+<drac2>
+cc = "Stress Score"
+ch=character()
+ch.create_cc_nx(
+    name=cc,
+    minVal=0,
+    maxVal=None,
+    reset=None,
+    dispType=None,
+    reset_to=None,
+    reset_by=None,
+    title=cc,
+    desc="Attempting to cope with dread and despair.",
+    initial_value=0
+)
+stress=ch.get_cc(cc)
+current_combat=combat()
+if current_combat:
+    me=current_combat.me
+    result=me.add_effect(
+        name=cc,
+        args=None,
+        duration=None,
+        concentration=False,
+        parent=None,
+        end=False,
+        desc="Experiencing Stress.",
+        passive_effects={
+            "to_hit_bonus": -1 * stress,
+            "save_bonus": -1 * stress,
+            "check_bonus": -1 * stress
+        },
+        attacks=None,
+        buttons=None,
+    )
+else:
+    result="Not in combat."
+
+</drac2>
+-title "{{ch.name}}"
+-desc "{{result}}"

@@ -1,0 +1,24 @@
+<drac2>
+cc = "Stress Score"
+ch=character()
+ch.create_cc_nx(
+    name=cc,
+    minVal=0,
+    maxVal=None,
+    reset=None,
+    dispType=None,
+    reset_to=None,
+    reset_by=None,
+    title=cc,
+    desc="Attempting to cope with dread and despair.",
+    initial_value=0
+)
+stress=ch.get_cc(cc) * -1
+
+current_combat=combat()
+if current_combat:
+    me=current_combat.me
+    if me.get_effect(cc):
+        stress=0
+</drac2>
+-b {{stress}}

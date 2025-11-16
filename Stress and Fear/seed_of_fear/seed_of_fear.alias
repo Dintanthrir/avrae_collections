@@ -1,0 +1,20 @@
+embed 
+<drac2>
+seeds=[
+"I can't stand dark places.",
+"I'm terrified of a particular kind of animal.",
+"Deep water will be the death of me.",
+"I can't stand heights.",
+"I hate being stuck in tight spaces.",
+"Being around crowds unnerves me, for I always feel judged.",
+"I hate feeling isolated or being alone.",
+"Storms and extreme weather rattle me.",
+"Being followed chills my blood.",
+"Sudden noises or appearances fray my nerves.",
+"I can't be comfortable around creatures larger than I am.",
+"Reflections always seem like they're looking straight through me"
+]
+seed=randchoice(seeds)
+</drac2>
+-title "Seed of Fear"
+-desc "{{seed}}"
