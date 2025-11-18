@@ -41,7 +41,7 @@ if cc is not None:
 
 fields = [{
   'title': "Coins",
-  'body': currency.format_transaction(result.get('cost', 0) * result.get('count', 1))
+  'body': currency.format_transaction(-1 * result.get('cost', 0) * result.get('count', 1))
 }]
 
 if bag := result.get('bag'):
