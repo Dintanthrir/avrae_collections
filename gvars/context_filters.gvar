@@ -2,7 +2,7 @@
 #
 # CONTEXT FILTERS
 # ===============
-# Permissions for running aliases. Prevent your aliases from 
+# Permissions for running aliases. Prevent your aliases from
 # spamming channels, limit actions to channels where they can
 # be audited, make tools available only to users with certain
 # roles.
@@ -14,20 +14,23 @@
 #
 # CONFIGURATION
 # -------------
-# Create a `context_filters` svar containing a yaml dump of the following data structure: 
+# Create a `context_filters` svar containing a yaml dump of the following data structure:
 #
 # ```
 # default: 'allow', # allow or deny all participating aliases by default
 # rules: {
-#   <prefix string>: [                              # an alias/subalias sequence, the rule with the longest chain of space-delimited tokens matching a key will determine if it is available
-#     {
-#       filter: 'channel'|'role'|'category',        # which context attribute to filter on
-#       action: 'allow'|'deny',                     # does this rule allow or deny access to the alias
-#       match: [<channel, role, or category id>],   # a name, id, or array of names or ids to test the filter subject against
-#       display: 'channel, role, or category name'  # a user friendly name for this filter's subject(s), provides a more helpful explanation than channel/role ids
-#     },
-#     ...                                           # multiple filters under the same key are applied in order, with later filters able to override earlier ones
-#.  ]
+#   <prefix string>: {                                # an alias/subalias sequence, the rule with the longest chain of space-delimited tokens matching a key will determine if it is available
+#     message: <string>                                  # a user friendly message to show when the alias is prohibitted from running
+#     filters: [
+#       {
+#         filter: 'channel'|'role'|'category',        # which context attribute to filter on
+#         action: 'allow'|'deny',                     # does this rule allow or deny access to the alias
+#         match: [<channel, role, or category id>],   # a name, id, or array of names or ids to test the filter subject against
+#         display: 'channel, role, or category name'  # a user friendly name for this filter's subject(s), provides a more helpful explanation than channel/role ids
+#       },
+#       ...                                           # multiple filters under the same key are applied in order, with later filters able to override earlier ones
+#     ]
+#   }
 # }
 # ```
 #
@@ -40,14 +43,14 @@
 # using(
 #   context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
 # )
-# 
+#
 # COMMAND = f"{ctx.alias} subalias"
 # USAGE = f"{ctx.prefix}{COMMAND} [-type \"query\"] [-item \"query\"]"
-# 
+#
 # (valid, reason) = context_filters.validate(key=COMMAND)
 # if not valid:
 #   return f'embed -title "⛔️ Invalid command!" -desc "`{COMMAND}`cannot run, reason: {reason}"'
-# 
+#
 # return f'embed -title "normal things" -desc "doing stuff"'
 # </drac2>
 # ```
@@ -58,37 +61,40 @@
 # default: allow                  # anyone can run an alias, as normal
 # rules:
 #   shop:
-#     - filter: role              # everyone is prohibitted from running any alias command beginning with 'shop'
-#       action: deny
-#       match: 1234567890
-#       display: '@everyone'
-#     - filter: category          # unless they are running it in the 'shopping' category
-#       action: allow
-#       match: 1234567890
-#       display: '#shopping'
-#     - filter: role              # or have the Dragonspeaker role, in which case they can run the command anywhere
-#       action: allow
-#       match: Dragonspeaker
-#       display: Dragonspeakers
+#     filters:
+#       - filter: role              # everyone is prohibitted from running any alias command beginning with 'shop'
+#         action: deny
+#         match: 1234567890
+#         display: '@everyone'
+#       - filter: category          # unless they are running it in the 'shopping' category
+#         action: allow
+#         match: 1234567890
+#         display: '#shopping'
+#       - filter: role              # or have the Dragonspeaker role, in which case they can run the command anywhere
+#         action: allow
+#         match: Dragonspeaker
+#         display: Dragonspeakers
 #   shop reroll:
-#     - filter: role
-#       action: deny
-#       match: 1234567890
-#       display: '@everyone'
-#     - filter: role              # only Dragonspeakers can run this command
-#       action: allow
-#       match: Dragonspeaker
-#       display: Dragonspeakers
+#     filters:
+#       - filter: role
+#         action: deny
+#         match: 1234567890
+#         display: '@everyone'
+#       - filter: role              # only Dragonspeakers can run this command
+#         action: allow
+#         match: Dragonspeaker
+#         display: Dragonspeakers
 #   shop list:                    # noisy commands are prohibited in these specific channels
-#     - filter: channel
-#       action: deny
-#       match: [1234567890, 9876543210]
-#       display: 'transaction channels'
+#     filters:
+#       - filter: channel
+#         action: deny
+#         match: [1234567890, 9876543210]
+#         display: 'transaction channels'
 # ```
-# NOTE: 
+# NOTE:
 # - Only one set of rules is applied to any given alias. A command that matches `shop list` will
-# not be subject to any of the filter rules under `shop`. 
-# - Exact matches are not required. A command will use the longest matching rule. 
+# not be subject to any of the filter rules under `shop`.
+# - Exact matches are not required. A command will use the longest matching rule.
 # `shop history` would match the `shop` rule while `shop list all` would match `shop list`.
 # - Rule keys are split on whitespace; `shopping` would not match the `shop` rules.
 
@@ -155,7 +161,7 @@ def _matches(filter:dict, context:AliasContext) -> bool:
 
 _config = _DEFAULT_CONFIG | load_yaml(get_svar(SETTINGS_VAR, default={}))
 
-def validate(key:str=ctx.alias, context:AliasContext=ctx, config:dict=_config) -> tuple[bool|None, str|None]:
+def validate(key:str=ctx.alias, context:AliasContext=ctx, config:dict=_config) -> tuple[bool|None, str|None, str|None]:
   """Checks if a key (typically the current alias) can be run in the current context.
 
   :param key: an alias name or other key, defaults to ctx.alias
@@ -164,23 +170,36 @@ def validate(key:str=ctx.alias, context:AliasContext=ctx, config:dict=_config) -
   :type context: AliasContext, optional
   :param config: the rule config to use, defaults to the SETTINGS_VAR svar
   :type config: dict, optional
-  :return: A tuple reporting if the key should be available and, if not, an explanation the rule(s) which blocked access.
-  :rtype: tuple[bool|None, str|None]
+  :return: A tuple reporting if the key should be available and, if not, an explanation the rule(s) which blocked access and a message to the user.
+  :rtype: tuple[bool|None, str|None, str|None]
   """
   response = _should_allow(config.get('default'))
   summary = []
+  messages = []
 
   key_tokens = key.split()
   rule_key_tokens = {rule_key:rule_key.split() for rule_key in config.get('rules', {}).keys()}
   matching_rule_keys = [rule_key for rule_key, rule_tokens in rule_key_tokens.items() if key_tokens[:len(rule_tokens)] == rule_tokens]
   matching_rule_keys.sort(key=lambda x:len(rule_key_tokens[x]), reverse=True)
   if len(matching_rule_keys) > 0:
-    rule_list = config.rules[matching_rule_keys[0]]
-    for filter in rule_list:
+    rule = config.get('rules', {}).get(matching_rule_keys[0], {})
+    for filter in rule.get('filters', []):
       if typeof(filter) == 'str':
-        err(f"rule_list={rule_list} matching_rule_keys[0]={matching_rule_keys[0]} filter:{filter}")
+        err(f"rule={rule} matching_rule_keys[0]={matching_rule_keys[0]} filter:{filter}")
       if (action_value := _should_allow(filter.get('action', 'allow'))) is not None:
         if _matches(filter=filter, context=context):
           response = action_value
       summary.append(_reason_for(key=key, filter=filter))
-  return (response, '\n'.join(summary) if response == False else None)
+    if message := rule.get('message'):
+      messages.append(message)
+  return (response, '\n'.join(summary) if response == False and len(summary) > 0 else None, '\n'.join(messages) if response == False and len(messages) > 0 else None)
+
+def filter_embed(context:AliasContext=ctx, config:dict=_config) -> dict|None:
+  (valid, explanation, message) = validate(key=context.alias, context=context, config=config)
+  if not valid:
+    return {
+      'title': '⛔️ Invalid command!',
+      'desc': message,
+      'fields': [{'title': "Rules", 'body': explanation}],
+      'footer': f"{ctx.prefix}{ctx.alias}"
+    }
