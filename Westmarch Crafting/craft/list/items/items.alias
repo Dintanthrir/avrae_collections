@@ -1,0 +1,40 @@
+<drac2>
+using(
+    craft = 'a9c460f9-1b10-488b-9bcd-32cbc9f1b17a',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} list items -type <category> [-rarity <rarity]"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+search_term = parsed_args.last('type')
+if not search_term:
+    err(f"\nMissing `-type`.\nA category in `{craft.CATEGORIES}` is required.\n\n`{USAGE}`")
+
+VALID_RARITIES = ['common', 'uncommon', 'rare', 'very rare']
+rarities = [rarity_arg.lower() for rarity_arg in parsed_args.get('rarity', default=None)]
+[err(f"\n`{rarity}` is not a valid rarity,\nmust be one of `{VALID_RARITIES}`") for rarity in rarities if rarity.lower() not in VALID_RARITIES]
+
+matching_categories = craft.matching_categories(search_term)
+
+if len(matching_categories) == 0:
+    err(f"\nNo categories match `{search_term}`,\nexpected one of `{craft.CATEGORIES}`")
+if len(matching_categories) > 1:
+    err(f"\nMultiple matches for `{search_term}`:\n`{matching_categories}`")
+
+category = matching_categories[0]
+
+items = craft.list_items(category)
+if rarities:
+    items = [item for item in items if item.rarity in rarities]
+
+embed = {
+    'title': f"Craftable {category} items" + (f" ({', '.join(rarities)})" if rarities else ''),
+    'desc': '\n'.join([f"_**{item.name}**_ {item.rarity} {'consumable' if item.consumable else 'permanent'}" for item in items]),
+    'footer': USAGE
+}
+
+return embeds.get_output(embed=embed)
+</drac2>

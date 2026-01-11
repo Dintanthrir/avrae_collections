@@ -1,0 +1,29 @@
+<drac2>
+using(
+    craft = 'a9c460f9-1b10-488b-9bcd-32cbc9f1b17a',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} list sources [-type <category>]"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+categories = None
+search_term = parsed_args.last('type')
+if search_term:
+    categories = craft.matching_categories(search_term)
+
+    if len(categories) == 0:
+        err(f"\nNo categories match `{search_term}`,\nexpected one of `{craft.CATEGORIES}`")
+
+sources = craft.list_sources(categories)
+
+embed = {
+    'title': "Craftable item sources" + f" for {', '.join(categories)} items" if categories else '',
+    'desc': '\n'.join(sources),
+    'footer': USAGE
+}
+
+return embeds.get_output(embed=embed)
+</drac2>

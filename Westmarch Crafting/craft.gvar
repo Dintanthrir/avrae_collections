@@ -1,0 +1,1025 @@
+# craft = ''
+
+using(
+    currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+    docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+    downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
+    fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+    skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8',
+    tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
+)
+
+_CRAFT_SVAR = 'crafting_config'
+_CRAFT_SVAR_DEFAULT_VALUES = {
+  'cvar_name': 'crafting',
+  'cost_multipliers': {
+    'mundane': 0.5,
+    'common': 0.5,
+    'uncommon': 0.5,
+    'rare': 0.5,
+    'very rare': 0.5,
+    'legendary': 0.5,
+  },
+  'level_requirements': {
+    'mundane': 0,
+    'common': 0,
+    'uncommon': 6,
+    'rare': 12,
+    'very rare': 18,
+    'legendary': 20,
+  },
+  'gp_per_workweek': {
+    'mundane': 500,
+    'common': 200,
+    'uncommon': 1000,
+    'rare': 3300,
+    'very rare': 10000,
+    'legendary': 20000,
+  },
+  'inventory': {
+    # '<category>': '<gvar>' | ['<gvar>'],
+  },
+}
+_CRAFT_SVAR_DEFAULT = dump_yaml(_CRAFT_SVAR_DEFAULT_VALUES)
+_CRAFT_CVAR_DEFAULT_VALUES = {}
+
+_config_cache = None
+_character = character()
+
+def _is_gvar_id(id: str) -> bool:
+  """Test if the given string appears to be a gvar. Used when a value might contain either a gvar id or literal values.
+
+  :param id: The string to test.
+  :type id: str
+  :return: True if the string appears to be a gvar identifier.
+  :rtype: bool
+  """
+  return typeof(id) == 'str' and len(id) == 36 and [char for char in id if not char in '0123456789abcdef-'] == []
+
+def load_config():
+  """Returns the current config settings for crafting.
+
+  :return: The config loaded from an svar.
+  :rtype: dict
+  """
+  if not _config_cache:
+    svar_config = load_yaml(get_svar(_CRAFT_SVAR, default=_CRAFT_SVAR_DEFAULT))
+    _config_cache = load_yaml(get_gvar(svar_config)) if _is_gvar_id(svar_config) else svar_config
+  return _config_cache
+
+def _load_cvar():
+  config = load_config()
+  if cvar_name := config.get('cvar_name'):
+    return load_yaml(_character.get_cvar(cvar_name, '{}'))
+  else:
+    return _CRAFT_CVAR_DEFAULT_VALUES
+
+def _update_cvar(stored_data):
+  config = load_config()
+  if cvar_name := config.get('cvar_name'):
+    yaml = dump_yaml(stored_data)
+    # check if we are about to hit the cvar length limit
+    while len(yaml) > 10_000 and stored_data.get('history') and len(stored_data.history) > 0:
+        stored_data['history'] = stored_data.history[:-1] # drop the oldest item from the history
+        yaml = dump_yaml(stored_data)
+    _character.set_cvar(cvar_name, yaml)
+
+def _load_item_data(category):
+  config = load_config()
+  if category_data := config.get('merchant', {}).get('inventory', {}).get(category):
+    if _is_gvar_id(category_data):
+      return load_yaml(get_gvar(category_data))
+    else:
+      return category_data
+  else:
+    return None
+
+def craft():
+  """Advances the current item being crafted.
+  """
+  # get the craft in progress
+  # use downtime
+  # if starting charge fees
+  # roll
+  # if complete award item and clear craft
+  pass
+
+def discard():
+  """Abandons the current item being crafted.
+  """
+  stored_data = _load_cvar()
+  if stored_data.get('crafting'):
+    stored_data['crafting'] = None
+    stored_data.get('history', []).append((current_time, 'discarded progress'))
+    _update_cvar(stored_data)
+    return {'success': True}
+  else:
+    return {'success': False, 'message': "No crafting in progress to discard."}
+
+def history() -> list[tuple[float, str]]:
+  """Return all log entries in the character's saved history.
+
+  :return: The list of log entries and their timestamps.
+  :rtype: list[tuple[float, str]]
+  """
+  return _load_cvar().get('history', [])
+
+def list():
+  """Lists the available categories.
+  """
+  pass
+
+def search(category_query: str, item_query: str):
+  """Returns matching craftable items.
+  """
+  config = load_config()
+  matching_categories = fuzzy.get_matches_ignoring_punctuation(
+    search=category_query,
+    iterable=config.get('inventory', {}).keys(),
+  )
+  matching_items = []
+  for category in matching_categories:
+    item_data = _load_item_data(category)
+    fuzzy.get_matches_ignoring_punctuation(
+      search=item_query,
+      iterable=(item[0] for item in item_data)
+    )
+  pass
+
+def setup(category, item):
+  """Prepare to craft a new item.
+  """
+  pass
+
+def status():
+  """Return any current craft in progress.
+  """
+  stored_data = _load_cvar()
+  return stored_data.get('crafting', None)
+
+# ======================================================
+
+# Price
+
+_item_price_for_rarity = {
+    None: 0, # Mundane items will use their base purchase price instead.
+    'common': 50,
+    'uncommon': 350,
+    'rare': 3_500,
+    'very rare': 20_000,
+}
+
+def _item_price(base_price, rarity, consumable):
+    """
+    Returns the crafting materials cost for an item with a given purchase price, rarity, and consumable state.
+    :arg base_price float
+    :arg rarity str: one of ['common', 'uncommon', 'rare', 'very rare']
+    :arg consumable bool
+    """
+    if base_price:
+        # Mundane items cost half their base (purchase) price to craft.
+        return base_price / 2.0
+    else:
+        price = _item_price_for_rarity[rarity]
+        # Magical consumables cost half their normal crafting price.
+        return price / 2.0 if consumable else price
+
+# Level requirements
+
+_item_min_level_for_rarity = {
+    None: 0, # No level requirements for crafting mundane items.
+    'common': 5,
+    'uncommon': 7,
+    'rare': 10,
+    'very rare': 15,
+}
+
+# Crafting checks and DCs
+
+_item_dc_for_rarity = {
+    None: 0, # Mundane items always pass their checks.
+    'common': 10,
+    'uncommon': 15,
+    'rare': 20,
+    'very rare': 25,
+}
+
+def _item_checks_for_rarity(rarity, consumable=False):
+    """
+    Skill checks required to craft an item, before any character modifiers
+    :arg rarity str: one of ['common', 'uncommon', 'rare', 'very rare']
+    :arg consumable bool
+    :returns: the number of skill checks
+    :rtype int
+    """
+    if not rarity:
+        return 10 # For mundane items: Time = 10 WW (irl days) ~minus~ Stat mod used for the crafting.
+    permanent_checks = {
+        'common': 2,
+        'uncommon': 5,
+        'rare': 10,
+        'very rare': 15,
+    }
+    checks = permanent_checks[rarity]
+    if consumable:
+        checks = ceil(checks / 2)
+    return checks
+
+def _build_item(item_data):
+    """
+    Construct an item object from an item data row
+    :arg item_data [str, str | None, bool | None, float | None]
+    :rtype {
+        name: str        # item display name
+        rarity: str      # one of ['common', 'uncommon', 'rare', 'very rare']
+        consumable: bool
+        price: float     # purchase price in GP
+        min_level: int   # level required to craft
+        checks: int      # successes required to craft, before any character bonuses
+        check_dc: int    # DC for each skill check, before any character bonuses
+    }
+    """
+    [name, rarity, consumable, base_price] = item_data
+    return {
+        'name': name,
+        'rarity': rarity,
+        'consumable': consumable,
+        'price': _item_price(base_price=base_price, rarity=rarity, consumable=consumable),
+        'min_level': _item_min_level_for_rarity[rarity],
+        'checks': _item_checks_for_rarity(rarity=rarity, consumable=consumable),
+        'check_dc': _item_dc_for_rarity[rarity],
+    }
+
+# CVARS
+
+_CRAFT_CVAR = 'ashirma_crafting'
+_CRAFT_CVAR_DEFAULT = dump_yaml({ 'history': [], 'current_item': None })
+
+def _load_cvar():
+    """
+    Returns the contents of the craft cvar as a python object
+    :rtype {
+        'history': [{
+            'name':      str,             # name of the crafted item
+            'rarity':    str | None,      # rarity of the crafted item, None for mundane or if imported from !craft|alpha#1832 history
+            'ability':   str | None,      # ability used, None if using the tool's default
+            'tool':      str | None,      # tool used, None if imported from !craft|alpha#1832
+            'dwelling':  str | None,      # dwelling used to modify crafting requirements
+            'price':     float | None,    # materials price paid to start crafting, None if imported from !craft|alpha#1832
+            'checks':    int | None,      # checks required to complete the item, None if imported from !craft|alpha#1832
+            'dc':        int | None,      # dc for each check, None if imported from !craft|alpha#1832
+            'successes': int | None,      # successful checks completed, None if imported from !craft|alpha#1832
+            'completed_at': float | None, # timestamp of final successful check, None if imported from !craft|alpha#1832
+            'roll_history': [{            # history of all checks, success and failure, may be incomplete if imported from !craft|alpha#1832
+                'dice':      str,         # vroll full dice string
+                'rolled_at': float,       # timestamp of the check
+                'success':   bool,        # was the roll a success
+                'paid': {                 # costs paid as part of this check
+                    'currency': float | None,
+                    'spell_slot': int | None,
+                } | None,
+            }] | None
+        }],
+        'current_item': {
+            'name':      str,             # name of the current item
+            'rarity':    str | None,      # item rarity, None for mundane items
+            'ability':   str | None,      # ability used, None if using the tool's default
+            'tool':      str | None,      # tool used, None if imported from !craft|alpha#1832
+            'dwelling':  str | None,      # dwelling used to modify crafting requirements
+            'price':     float | None,    # materials price paid to start crafting, None if imported from !craft|alpha#1832
+            'checks':    int,             # checks required to complete the item
+            'dc':        int,             # dc for each check
+            'successes': int,             # successful checks completed
+            'roll_history': [{            # history of all checks, success and failure, may be incomplete if imported from !craft|alpha#1832
+                'dice':      str,         # vroll full dice string
+                'rolled_at': float,       # timestamp of the check
+                'success':   bool,        # was the roll a success
+                'paid': {                 # costs paid as part of this check
+                    'currency': float | None,
+                    'spell_slot': int | None,
+                } | None,
+            }]
+        } | None
+    }
+    """
+    return load_yaml(_character.get_cvar(_CRAFT_CVAR, default=_CRAFT_CVAR_DEFAULT))
+
+def _update_cvar(stored_data):
+    """
+    Writes the provided data to the craft cvar
+    :arg stored_data dict: see `_load_cvar()`
+    """
+    yaml = dump_yaml(stored_data)
+    # check if we are about to hit the cvar length limit
+    while len(yaml) > 10_000 and stored_data.get('history') and len(stored_data.history) > 0:
+        stored_data['history'] = stored_data.history[:-1] # drop the oldest item from the history
+        yaml = dump_yaml(stored_data)
+    _character.set_cvar(_CRAFT_CVAR, yaml)
+
+def _clear_alpha_craft_cvars():
+    """
+    Delete !craft|alpha#1832 cvars to prevent repeat migrations or progressing work in both aliases
+    """
+    _character.delete_cvar('last_craft')
+    _character.delete_cvar('craft_dc')
+    _character.delete_cvar('craft_goal')
+    _character.delete_cvar('craft_progress')
+    _character.delete_cvar('craft_parameters')
+    _character.delete_cvar('craft_history')
+
+def _migrate():
+    """
+    Migrate character data from `!craft` https://avrae.io/dashboard/workshop/5fd8f50f0260807c831ff58c by alpha#1832.
+    Preserves craft history and any crafting in progress.
+    """
+
+    # !craft|alpha#1832 CVARS
+    # craft_dc: int # skill check dc
+    # craft_goal: int # checks needed to complete item
+    # craft_progress: int # successful checks
+    # last_craft: float # timestamp
+    # craft_parameters: list
+    #   An expected use of the command would be:
+    #     !craft common "single use" "Spellwrought Tattoo (1st Level)" charisma
+    #   Which yields craft_parameters:
+    #     ['common', 'single use', 'Spellwrought Tattoo (1st Level)', 'charisma', 4]
+    #   where +4 is the character's charisma skill check mod.
+    #
+    #   Our server's current example command:
+    #     !craft uncommon permanent "Eldritch Claw Tattoo" dexterity -b 3
+    #   yields craft_parameters:
+    #     ['uncommon', 'permanent', 'Eldritch Claw Tattoo', 'dexterity', 4, '3', 4]
+    #   where +4 is the character's dexterity skill check mod.
+    #   The alias has unintended behavior here as the "-b 3" args are unexpected, the parameters are initialized with the command arguments
+    #     ['uncommon', 'permanent', "Eldritch Claw Tattoo", 'dexterity', '-b', '3']
+    #   then the ability mod it appended:
+    #     ['uncommon', 'permanent', "Eldritch Claw Tattoo", 'dexterity', '-b', '3', 4]
+    #   and then index 2, 3, and 4 are overwritten with the item name(with quotes removed), the ability used, and the ability mod
+    #     ['uncommon', 'permanent', 'Eldritch Claw Tattoo', 'dexterity', 4, '3', 4]
+    #   This is confusing but the only way to include a proficiency bonus on the first skill check.
+    #
+    # craft_history: list[str]
+    #   ["Potion of Climbing ('common', 'single use')", "Bottle of Boundless Coffee ('common', 'permanent')"]
+
+    stored_data = _load_cvar()
+
+    # load data from !craft|alpha#1832 cvars
+
+    craft_dc = int(_character.get_cvar('craft_dc')) if _character.get_cvar('craft_dc') else None
+    craft_goal = int(_character.get_cvar('craft_goal')) if _character.get_cvar('craft_goal') else None
+    craft_progress = int(_character.get_cvar('craft_progress')) if _character.get_cvar('craft_progress') else None
+    last_craft = float(_character.get_cvar('last_craft')) if _character.get_cvar('last_craft') else None
+
+    # !craft|alpha#1832 writes a python array to this cvar and then expects reads it back as json after rewriting the quotes. We do the same to be consistent while trying to get away from this.
+    craft_parameters = load_json(_character.get_cvar('craft_parameters').replace('\'', '"')) if _character.get_cvar('craft_parameters') else None
+
+    alpha_history = load_json(_character.get_cvar('craft_history', '[]'))
+
+    # do not overwrite an existing or already imported item
+    # all !craft|alpha#1832 vars must exist before attempting to import,
+    # be paranoid here as this might run against unknown future changes to !craft|alpha#1832 which could have changed its cvars
+    if not stored_data.current_item and craft_dc and craft_goal and craft_progress and last_craft and craft_parameters:
+        stored_data['current_item'] = {
+            'name': craft_parameters[2],
+            'rarity': craft_parameters[0],
+            'ability': craft_parameters[3] if len(craft_parameters) > 3 else 'dexterity', # !craft|alpha#1832 default ability
+            'tool': None,
+            'dwelling': None,
+            'price': None,
+            'successes': int(craft_progress),
+            'checks': int(craft_goal),
+            'dc': int(craft_dc),
+            'roll_history': [],
+        }
+
+        # update our downtime if !craft|alpha#1832 ran more recently than an Ashirma downtime command
+        if float(downtime.status().workweek_ends - downtime.WORK_WEEK_COOLDOWN) < last_craft:
+            downtime.use_downtime(current_time = last_craft)
+
+    # if history from !craft|alpha#1832 exists, import it
+    if (alpha_history):
+        for history_entry in alpha_history:
+            migrated_entry = {
+                'name': history_entry,
+                'rarity': None,
+                'ability': None,
+                'tool': None,
+                'dwelling': None,
+                'price': None,
+                'checks': None,
+                'dc': None,
+                'successes': None,
+                'completed_at': None,
+                'roll_history': None,
+            }
+            if stored_data.history.count(migrated_entry) < alpha_history.count(history_entry):
+                # do not import multiple times, do handle crafting the same item more than once
+                stored_data.history.append(migrated_entry)
+
+    _update_cvar(stored_data)
+
+# Character bonuses
+
+def _apply_character_bonuses(current_item):
+    """
+    Adds modifiers to an item's crafting requirements based on the active character.
+    This gives a transient view of the item, with values which could change over time or between characters.
+    For example, the checks required to craft a mundane item can only be determined once we have defined a
+    crafting project with an active character and selected tool and depend on the character's current ability
+    bonues which could also change over time.
+    We want to keep this distinct from the current item saved in a cvar becuase these values are unstable.
+    :returns: a mutated deep copy of the current item
+    :rtype {
+        bonus: str | None,            # an additional bonus dice string appended to the craft check
+        'costs: {                     # charged on the next crafting check
+            'currency': float | None, # price to charge in gp: e.g. materials price
+            'spell_slot': int | None, # spell slot level required
+        } | None,
+        ...                           # See `_load_cvar()`
+    }
+    """
+    result = current_item.copy()
+    result['roll_history'] = []
+    for log_item in current_item.roll_history:
+        log_item_copy = log_item.copy()
+        log_item_copy['paid'] = log_item.paid.copy() if log_item.paid else None
+        result.roll_history.append(log_item_copy)
+
+    # Report the ability being used
+    ability = result.ability or (tools.best_ability(result.tool) if result.tool else None)
+    result['ability'] = ability
+
+    # For mundane items: Time = 10 WW (irl days) ~minus~ Stat mod used for the crafting (max 5).
+    if not result.rarity and ability:
+        result['checks'] = result.checks - min(max(_character.stats.get_mod(ability), 0), 5)
+
+    # Charge materials cost on the first roll
+    if len(result.roll_history) == 0 and result.price and result.price > 0:
+        result['costs'] = { 'currency': result.price }
+
+    if result.get('dwelling'):
+        dwelling = _DWELLINGS[result.dwelling]
+        if result.dwelling == 'alchemistslab':
+            result['bonus'] = f'+{min(max(_character.stats.get_mod(ability), 0), dwelling.max_bonus)}[{dwelling.name}]'
+        elif result.dwelling == 'magicalenchanter':
+            result['dc'] = dwelling.resources[result.rarity].dc
+            if not result.get('costs'): # not the first check
+                result['costs'] = {}
+            else: # update materials cost on the first check
+                result.costs['currency'] = round(result.costs['currency'] * dwelling.resources[result.rarity].price_multiplier)
+            result.costs['spell_slot'] = dwelling.resources[result.rarity].spell_slot_level
+        elif result.dwelling == 'smithy':
+            result['checks'] = ceil(result.checks / 2.0)
+            if result.get('costs'):
+                result.costs['currency'] = result.costs['currency'] / 2
+    return result
+
+def _get_matches_ignoring_punctuation_with_function(search, iterable, function):
+    """
+    Returns a list of matching values from iterable,
+    applying a given function to each item in the iterable to get the string to match with,
+    and ignoring punctuation for purposes of partial matching.
+    See gvar '6431690e-ce47-4baa-bb3b-ba751e1a1817'
+
+    :arg str search: the string to match against.
+    :arg list|generator|tuple iterable: the iterable to search for matching values.
+    :arg value->str function: the function to apply to each value in the iterable.
+    :return: a list of matching values.
+    :rtype: list
+    """
+    search_lower = search.lower()
+    search_no_punctuation = search_lower.translate(fuzzy.NO_PUNCTUATION_TABLE)
+    if partial_matches := [
+        x
+        for x in iterable
+        if search_no_punctuation in function(x).lower().translate(fuzzy.NO_PUNCTUATION_TABLE)
+    ]:
+        if exact_matches := [x for x in partial_matches if search_lower == function(x).lower()]:
+            return exact_matches
+        else:
+            return partial_matches
+    else:
+        return []
+
+# ================================================
+# Public API
+# ================================================
+
+CATEGORIES = list(_category_gvars.keys())
+
+_CRAFTING_TOOLS = {
+    'alchemistssupplies':    "Potions & Drugs",
+    'brewerssupplies':       "Alcohols and Beverages",
+    'calligrapherssupplies': "Tattoos and Paper goods",
+    'carpenterstools':       "Bulkier/heavier wood items (Staffs, Wooden weapons, etc.)",
+    'cartographerstools':    "Navigation items and paper goods",
+    'cobblerstools':         "Shoes and gloves, Clothing and Cloth goods",
+    'cooksutensils':         "Foods",
+    'glassblowerstools':     "Glass items",
+    'herbalismkit':          "Healing related potions",
+    'jewelerstools':         "Rings, amulets, circlets, headbands, etc",
+    'leatherworkerstools':   "Leather Armors and Goods",
+    'masonstools':           "Stone Items",
+    'painterssupplies':      "Tattoos and Paper goods",
+    'poisonerskit':          "Poisons",
+    'potterstools':          "Pottery",
+    'smithstools':           "Non-firearm weapons, Armor, and Goods",
+    'tinkerstools':          "Misc wonderous items, special amunition, explosives",
+    'weaverstools':          "Shoes and gloves, Clothing and Cloth goods",
+    'woodcarverstools':      "Arrows and lighter wooden items (Rods and Wands)",
+}
+
+def all_crafting_tools():
+    """
+    Returns the set of all tools allowed for use in crafting
+    :returns: An extended `!tool` tool, see `exact_tool()` in `!gvar 6251e20c-7545-4c63-92af-31e0745f2b0c`
+    :rtype [{
+        key: str
+        name: str
+        type: str
+        abilities: [str]
+        note: str
+    }]
+    """
+    return [tools.exact_tool(tool_key) | {'note': note} for (tool_key, note) in _CRAFTING_TOOLS.items()]
+
+_DWELLINGS = {
+    'alchemistslab': {
+        'key': 'alchemistslab',
+        'name': "Alchemist's Lab",
+        'desc': docstring.trim("""
+            > This room comes equipped with _alchemist’s supplies_, a _poisoner’s kit_, and an _herbalism kit_ that are all inherently part of its architecture. As such, each of these sets of tools is always considered to be present here. Additionally, a creature **proficient with _alchemist’s supplies_** has a bonus to crafting magic items **in the potion category of very rare quality or lesser** while within this room. A creature **proficient with the _poisoner’s kit_** has this same bonus **when crafting poisons** within this room, such as basic poison or any of the poisons listed on pages 257-258 of the Dungeon Master’s Guide. ~~In either case, it takes the creature a quarter of the normal time to craft the item in question, and it costs half as much of the usual gold.~~ This bonus is not cumulative with similar bonuses from class features or other sources.
+            Instead of offering another time reduction for crafting, this room’s bonus to crafting a potion or poison is **a + equal to the ability score modifier of the ability being used in the crafting** (Intelligence or Wisdom) to a maximum of 5.
+        """),
+        'max_bonus': 5, # limit the bonus to craft rolls
+        'tools': {
+            'alchemistssupplies': {
+                'craftable_categories': ['potion'], # categories of items this dwelling can craft
+                'craftable_items': [], # other items can this dwelling can craft, regardless of their category
+                'craftable_rarities': [None, 'common', 'uncommon', 'rare','very rare'], # only apply to items of these rarities
+            },
+            'poisonerskit': {
+                'craftable_categories': [],
+                'craftable_items': [ # items can this dwelling can craft, regardless of their category
+                    'Assassin’s Blood',
+                    'Basic Poison (vial)',
+                    'Biza’s Breath',
+                    'Burnt Othur Fumes',
+                    'Carrion Crawler Mucus',
+                    'Drow Poison',
+                    'Essence of Ether',
+                    'Malice',
+                    'Midnight Tears',
+                    'Oil of Taggit',
+                    'Pale Tincture',
+                    'Purple Worm Poison',
+                    'Serpent Venom',
+                    'Torpor',
+                    'Truth Serum',
+                    'Wyvern Poison',
+                ],
+                'craftable_rarities': [None],
+            },
+        }
+    },
+    'magicalenchanter': {
+        'key': 'magicalenchanter',
+        'name': "Magical Enchanter",
+        'desc': docstring.trim("""
+            > A ~~spellcaster hireling or a~~ character **with the spellcasting or pact magic features** may use this room to make any magic item that is **not a potion or an artifact**. Crafting magic items requires the ability to cast at least one spell of a certain level. With higher levels corresponding to rarer items.
+            Rather than use the crafting time and gold that is listed in the book, we will be using the guidelines that the server uses with a few adjustments.
+            ```
+            ┏━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━┓
+            ┃ Rarity    ┃  GP Cost ┃ Spell Slot ┃ DC ┃
+            ┡━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━┩
+            │ Common    │     50gp │ 2nd level  │  7 │
+            │ Uncommon  │    200gp │ 3rd level  │  8 │
+            │ Rare      │   2000gp │ 4th level  │ 11 │
+            │ Very Rare │ 20,000gp │ 6th level  │ 20 │
+            └───────────┴──────────┴────────────┴────┘
+            ```
+            You will use your **spellcasting modifier or proficiency in the Arcana skill** to make the check required each day alongside the use of the spell slot to enchant this item. The DC to craft this item is listed above. You must succeed in every check in order to make the item, just as you would with regular crafting. If you fail a check one day, you must wait until the next to make it again and move on.
+        """),
+        'resources': {
+            'common': {
+                'price_multiplier': 1, # materials cost discount
+                'spell_slot_level': 2, # spell slot required for each craft check
+                'dc': 7,              # craft check dc override
+            },
+            'uncommon': {
+                'price_multiplier': 200/350,
+                'spell_slot_level': 3,
+                'dc': 8,
+            },
+            'rare': {
+                'price_multiplier': 2_000/3_500,
+                'spell_slot_level': 4,
+                'dc': 11,
+            },
+            'very rare': {
+                'price_multiplier': 1,
+                'spell_slot_level': 6,
+                'dc': 20,
+            },
+        },
+        'excluded_categories': ['potion'],
+    },
+    'smithy': {
+        'key': 'smithy',
+        'name': "Smithy",
+        'desc': docstring.trim("""
+        > This room is considered to always have the following sets of tools available: _carpenter’s tools_, _jeweler’s tools_, _leatherworker’s tools_, _smith’s tools_, _tinker’s tools_, and _woodcarver’s tools_. These tools are always present in this room, and individuals that are **proficient with these tools** can create items in **half the normal time** and with **half the crafting cost while** working in this room, ~~using the existing crafting downtime activity rules (PHB, p. 187; XGE, p. 128).~~
+        """),
+        'tools': ['carpenterstools', 'jewelerstools', 'leatherworkerstools', 'smithstools', 'tinkerstools', 'woodcarverstools'],
+    },
+}
+
+def craft(adv=None):
+    """
+    Attempts to advance the current crafting project, if any, if the character's downtime is available.
+    :arg adv bool: Whether this roll should be made at adv (True), dis (False), or normally (None). As in AliasSkill.d20()
+    :rtype {
+        success: bool | None,       # True/False if a craft check succeeded or failed, None if no check was performed.
+        status: dict | None,        # The current status after this roll, see `status()`
+        completed: dict | None,     # A new entry from the craft history if an item was completed with this check, see `history()`
+        charged: {
+            currency: float | None, # absolute currency charged in gp to cover the item materials cost
+            spell_slot: int | None  # spell slots required for crafting
+        } | None,
+    }
+    """
+    _migrate()
+
+    now = time()
+
+    stored_data = _load_cvar()
+    current_status = _apply_character_bonuses(stored_data.current_item) if stored_data.current_item else None
+
+    success = None
+    completed = None
+    charged = None
+
+    # Make sure we actually can craft before spending any resources
+    if current_status and downtime.status(current_time=now).available:
+        if current_status.get('tool'):
+            dice_str = tools.tool_check_dice_str(current_status.tool, ability_override=current_status.ability, base_adv=adv)
+        elif current_status.get('ability'):
+            bonus = None
+            # if we're working with just a base stat migrated from !craft|alpha#1832 we want to apply the character's proficiency bonus, under the assumption that they're using some unknown tool with which they are proficient
+            # limit this to just the base stats in case we have some option to use other skills in the future, we don't want to override skill_check_mods behavior
+            if current_status.ability in ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma']:
+                # bonus should be the character's proficiency bonus
+                # but we need to reduce that by any bonus already applied to the check, like from Jack of all Trades
+                # and then limit that to a positive bonus to make sure we don't penalize someone if they manage to have expertise on this check somehow
+                bonus = max(0, _character.stats.prof_bonus - floor(_character.skills[current_status.ability].prof * _character.stats.prof_bonus))
+            dice_str = skill_check_mods.d20(current_status.ability, base_adv=adv, bonus_override=bonus)
+        elif current_status.get('dwelling') == 'magicalenchanter':
+            # Magical enchanter rolls the better of arcana or a spell attack as a craft check
+            arcana_mod = _character.skills.arcana.value
+            spell_attack_bonus = _character.spellbook.sab or 0 # In a few edge cases you can construct characters without a sab, they shouldn't be able to use the enchanter but just to be safe avoid a comparison with None here and let them fail when checking for available spell slots
+            if arcana_mod >= spell_attack_bonus:
+                dice_str = skill_check_mods.d20('arcana', base_adv=adv)
+            else:
+                dice_str = f"{'1d20' if adv == None else ('2d20kh1' if adv else '2d20kl1')} + {spell_attack_bonus}[Spell Attack Bonus]"
+        else:
+            error("Configuration error, cannot craft without a tool or ability.") # Should never happen but fail loudly if we've generated an invalid configuration somehow
+
+        if current_status.get('bonus'):
+            dice_str += current_status.bonus
+
+        # Make sure we can afford to craft today
+        if current_status.get('costs'):
+            charged = {}
+            if current_status.costs.get('currency') and _character.coinpurse.total > current_status.costs.currency: # The character can afford the cost
+                fee = parse_coins(str(-1 * current_status.costs.currency))
+                _character.coinpurse.modify_coins(pp=fee.pp, gp=fee.gp, ep=fee.ep, sp=fee.sp, cp=fee.cp)
+                charged['currency'] = current_status.costs.currency
+            if current_status.costs.get('spell_slot'):
+                if _character.spellbook.get_slots(current_status.costs.spell_slot) > 0:
+                    charged['spell_slot'] = current_status.costs.spell_slot
+
+        # Only proceed with crafting if costs have been paid
+        if current_status.get('costs') is None or charged == current_status.costs:
+            check_roll = vroll(dice_str)
+            success = check_roll.total >= current_status.dc # Make sure to use current_status here to apply character modifiers to the dc
+
+            roll_history_item = {
+                'dice': check_roll.full,
+                'rolled_at': now,
+                'success': success,
+                'paid': charged.copy() if charged else None
+            }
+
+            # Update both copies so we update both what we store in the cvar and what we return to the caller
+            stored_data.current_item.roll_history.insert(0, roll_history_item)
+            current_status.roll_history.insert(0, roll_history_item)
+            if success:
+                stored_data.current_item['successes'] += 1
+                current_status['successes'] += 1
+
+            if current_status.successes >= current_status.checks: # Make sure to use current_status here to apply character modifiers to checks
+                # Note that we're recording current_status here, after applying character modifiers so our history shows the actual dc and number of checks required, not the defaults for this item
+                completed = {
+                    'name': current_status.name,
+                    'rarity': current_status.rarity,
+                    'ability': current_status.ability or (tools.best_ability(current_status.tool) if current_status.tool else None),
+                    'tool': current_status.tool,
+                    'dwelling': current_status.dwelling,
+                    'price': current_status.price,
+                    'checks': current_status.checks,
+                    'dc': current_status.dc,
+                    'successes': current_status.successes,
+                    'completed_at': now,
+                    'roll_history': []
+                }
+                for log_item in current_status.roll_history:
+                    log_item_copy = log_item.copy()
+                    log_item_copy['paid'] = log_item.paid.copy() if log_item.paid else None
+                    completed.roll_history.append(log_item_copy)
+
+                # Add log to the history stored in the cvar
+                stored_data.history.insert(0, completed)
+                stored_data['current_item'] = None
+
+            # Once we've made progress on an item we take ownership of the crafting and remove it from !craft|alpha#1832.
+            # If we do not do this you could complete the item in !craft|alpha#1832 and then again here since we cannot determine
+            # when an item was added to the !craft|alpha#1832 history and if a history entry represents the migrated item we have
+            # in progress or an older crafting of the same item.
+            _clear_alpha_craft_cvars()
+            _update_cvar(stored_data)
+            downtime.use_downtime(current_time=now)
+
+    return {
+        'success': success,
+        'completed': completed,
+        'status': current_status,
+        'charged': charged,
+    }
+
+def discard():
+    """
+    Abandon progress on any existing crafting.
+    Also clears progress in !craft|alpha#1832.
+    """
+    _migrate()
+    stored_data = _load_cvar()
+    stored_data['current_item'] = None
+    _update_cvar(stored_data)
+    _clear_alpha_craft_cvars()
+
+def fields_for_status(item_status, prefix="Currently crafting:"):
+    """
+    Constructs a list of field objects to display the state of a crafting project.
+    :arg item_status dict: A status as returned by `status()`
+    :returns list[dict]: Fields objects compatible with the embeds module
+    :rtype [{ title: str, body: str}]
+    """
+    status_body_lines = [f"**Rarity:** {item_status.get('rarity') or 'unknown'}"]
+    if item_status.get('costs'):
+        if item_status.costs.get('currency'):
+            status_body_lines.append(f"**Materials cost:** {currency.format_currency(item_status.costs.currency)}")
+        if item_status.costs.get('spell_slot'):
+            status_body_lines.append(f"**Spell slot required:** level {item_status.costs.spell_slot}")
+    if item_status.get('tool'):
+        status_body_lines.append(f"**Using:** {tools.tool_name_for(item_status.tool)} ({item_status.get('ability') or tools.best_ability(item_status.tool)})")
+    if item_status.get('dc') and item_status.dc > 0:
+        status_body_lines.append(f"**Skill check DC:** {item_status.dc}")
+    if item_status.get('dwelling'):
+        dwelling = _DWELLINGS[item_status.dwelling]
+        status_body_lines.append(f"**Dwelling:** {dwelling.name}")
+    status_field = {
+        'title': f"{prefix} _**{item_status.get('name')}**_",
+        'body': '\n'.join(status_body_lines)
+    }
+
+    progress_body_lines = []
+    if item_status.get('roll_history'):
+        for previous_roll in item_status.roll_history:
+            progress_body_lines.append(f"{':white_check_mark:' if previous_roll.get('success') else ':x:'} <t:{round(previous_roll.get('rolled_at'))}:R>┋{previous_roll.get('dice')}")
+            if previous_roll.get('paid'):
+                if previous_roll.paid.get('currency'):
+                    progress_body_lines.append(f"Paid {currency.format_currency(previous_roll.paid.currency)}")
+                if previous_roll.paid.get('spell_slot'):
+                    progress_body_lines.append(f"Used a level {previous_roll.paid.spell_slot} spell slot")
+    progress_field = {
+        'title': f"**Progress:** `{item_status.get('successes') or 0}/{item_status.get('checks') or 1}` successes, **{round((item_status.get('successes') or 0)/(item_status.get('checks') or 1) * 100)}%** complete.",
+        'body': '\n'.join(progress_body_lines),
+    }
+
+    return [status_field, progress_field]
+
+def history():
+    """
+    Return a list of previously crafted items. Values here reflect the bonuses applied at the time of crafting,
+    mundate items or items crafted using a dwelling room will show their final checks/dc values. This keeps the log
+    accurate if we change how those mechanics work in the future.
+    Returns: [{
+        'name':      str,
+        'rarity':    str | None,
+        'ability':   str | None,
+        'tool':      str | None,
+        'dwelling':  str | None,
+        'price':     float | None,
+        'checks':    int | None,
+        'dc':        int | None,
+        'successes': int | None,
+        'completed_at': float | None,
+        'roll_history': [{
+            'dice':      str,
+            'rolled_at': float,
+            'success':   bool,
+            'paid': {
+                'currency': float | None,
+                'spell_slot': int | None,
+            } | None,
+        }] | None
+    }]
+    """
+    _migrate()
+    return _load_cvar().get('history') or []
+
+def list_dwellings():
+    """
+    Returns the set of all dwellings which can be used to support item crafting
+    :rtype [{
+        key: str
+        name: str
+        desc: str
+        ... # dwelling specific properties
+    }]
+    """
+    return list(_DWELLINGS.values())
+
+def list_sources(categories=None):
+    """
+    Returns a list of source name abbreviations, e.g. ['DMG', 'PHB'] from which items are available.
+    If a category is given return only sources contributing items to that category.
+    If no category is given return all sources from all item categories.
+    :arg categories [str]: one of `CATEGORIES`
+    :rtype [str]
+    """
+    sources = set()
+    if not categories:
+        categories = CATEGORIES
+
+    for category in categories:
+        items = _load_item_data(category)
+        sources |= [key for (key, craftables) in items.items() if craftables and len(craftables) > 0]
+    sources_list = list(sources)
+    sources_list.sort()
+    return sources_list
+
+def list_items(category):
+    """
+    Return all items in a given category.
+    :arg category str: one of `CATEGORIES`
+    :rtype [{
+        name: str        # item display name
+        rarity: str      # one of ['common', 'uncommon', 'rare', 'very rare']
+        consumable: bool
+        price: float     # purchase price in GP
+        min_level: int   # level required to craft
+        checks: int      # successes required to craft, before any character bonuses
+        check_dc: int    # DC for each skill check, before any character bonuses
+    }]
+    """
+    items_data = _load_item_data(category)
+    items = []
+    for source_items_data in items_data.values():
+        if source_items_data:
+            items += [item for item in (_build_item(item_data) for item_data in source_items_data) if item.rarity or (item.price and item.price > 0)]
+    items.sort(key=lambda x: x.name)
+    return items
+
+def matching_categories(search_string):
+    """
+    Returns item categories which match the search string
+    :rtype list[string]
+    """
+    return fuzzy.get_matches_ignoring_punctuation(
+        search=search_string,
+        iterable=CATEGORIES,
+    )
+
+def matching_dwellings(search_string):
+    """
+    Returns dwellings which match the search string
+    """
+    return _get_matches_ignoring_punctuation_with_function(
+        search=search_string,
+        iterable=_DWELLINGS.values(),
+        function=lambda x: x.name
+    )
+
+def matching_tools(search_string):
+    """
+    Returns tools whose names match the search string
+    :returns: A `!tool` tool, see `exact_tool()` in `!gvar 6251e20c-7545-4c63-92af-31e0745f2b0c`
+    :rtype {
+        key: str
+        name: str
+        type: str
+        abilities: [str]
+    }
+    """
+    return _get_matches_ignoring_punctuation_with_function(
+        search=search_string,
+        iterable=all_crafting_tools(),
+        function=lambda x: x.name
+    )
+
+def search(search_string, category):
+    """
+    Search for craftable items in a given category.
+    :arg search_string str
+    :arg category str: one of `CATEGORIES`
+    :rtype [{
+        name: str        # item display name
+        rarity: str      # one of ['common', 'uncommon', 'rare', 'very rare']
+        consumable: bool
+        price: float     # purchase price in GP
+        min_level: int   # level required to craft
+        checks: int      # successes required to craft, before any character bonuses
+        check_dc: int    # DC for each skill check, before any character bonuses
+    }]
+    """
+    items = list_items(category)
+    return _get_matches_ignoring_punctuation_with_function(
+        search=search_string,
+        iterable=items,
+        function=lambda x: x.name
+    )
+
+def setup(item, tool_key, dwelling=None):
+    """
+    Prepares to craft an item.
+    Item will be started and in progress with no checks made or downtime used
+        this allow players to confirm their project and use `!craft` to then use their downtime
+        or `!craft discard` the project and change their selection.
+    :arg item dict: an item returned from `search()`
+    :arg tool_key str | None: a tool key from the !tool module, see `tools.matching_tools()`
+    :rtype {
+        new_item_setup: bool, # True if a new item was setup
+        status: dict | None,  # The current crafting status (see `status()`), may be the new item or an existing item or None if setup failed
+    }
+    """
+    _migrate()
+    stored_data = _load_cvar()
+    new_item_setup = False
+
+    if not stored_data.get('current_item'):
+        stored_data['current_item'] = {
+            'name': item.name,
+            'rarity': item.rarity,
+            'ability': None,
+            'tool': tool_key,
+            'dwelling': dwelling,
+            'price': item.price,
+            'successes': 0,
+            'checks': item.checks,
+            'dc': item.check_dc,
+            'roll_history': [],
+        }
+        _update_cvar(stored_data)
+        new_item_setup = True
+
+    return {
+        'new_item_setup': new_item_setup,
+        'status': _apply_character_bonuses(stored_data.get('current_item')),
+    }
+
+def status():
+    """
+    Returns that state of the current crafting project in progress, if any.
+    Values here reflect the current state of the character and can change over time.
+        For example if a character gains a bonus from their dwelling or levels up and takes an ASI then `checks` or `dc` may change
+    These values also reflect applying the current rules for any enabled dwelling.
+    :rtype {
+        'name':      str,                # name of the current item
+        'rarity':    str | None,         # item rarity, None for mundane items
+        'ability':   str | None,         # ability used, None if using the tool's default
+        'tool':      str | None,         # tool used, None if imported from !craft|alpha#1832
+        'dwelling':  str | None,         # dwelling used to modify crafting requirements
+        'price':     float | None,       # materials price, None if imported from !craft|alpha#1832
+        'costs: {                        # charged on the next crafting check, e.g. materials cost on the first check
+            'currency': float | None,    # price to charge in gp: materials price, None if imported from !craft|alpha#1832
+            'spell_slot': int | None,    # spell slot level required
+        } | None,
+        'bonus':     str | None,         # an additional bonus dice string appended to the craft check
+        'checks':    int,                # checks required to complete the item
+        'dc':        int,                # dc for each check
+        'successes': int,                # successful checks completed
+        'roll_history': [{               # history of all checks, success and failure, may be incomplete if imported from !craft|alpha#1832
+            'dice':      str,            # vroll full dice string
+            'rolled_at': float,          # timestamp of the check
+            'success':   bool,           # was the roll a success
+            'paid': {                    # costs paid as part of this check
+                'currency': float | None,
+                'spell_slot': int | None,
+            } | None,
+        }]
+    } | None
+    """
+    _migrate()
+    current_item = _load_cvar().get('current_item')
+    return _apply_character_bonuses(current_item) if current_item else None

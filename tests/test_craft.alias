@@ -1,0 +1,25 @@
+<drac2>
+using(
+    tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+    craft = '',
+)
+expect = tests.expect
+
+return tests.run({
+  'list': {
+    'returns a list of categories': expect(len(craft.list())).to.be_greater_than(0)
+  },
+  'search': {
+
+  },
+  'history': {
+
+  },
+  'setup, craft, and discard': {
+
+  },
+  'status': {
+
+  }
+}).embed
+</drac2>
