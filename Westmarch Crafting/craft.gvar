@@ -101,7 +101,7 @@ def _load_cvar():
   """
   config = load_config()
   if cvar_name := config.get('cvar_name'):
-    return load_yaml(_character.get_cvar(cvar_name, '{}'))
+    return load_yaml(_character.get_cvar(cvar_name, '{}')) or {}
   else:
     return _CRAFT_CVAR_DEFAULT_VALUES
 
