@@ -1,0 +1,13 @@
+<drac2>
+using(
+    downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias}"
+
+status = downtime.status_embed()
+status['footer'] = USAGE
+
+return embeds.get_output(embed=status)
+</drac2>
