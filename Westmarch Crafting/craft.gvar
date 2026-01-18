@@ -192,6 +192,8 @@ def craft():
   """
   now = time()
 
+  result = {}
+
   # get the craft in progress
   stored_data = _load_cvar()
   if in_progress := stored_data.get('crafting', None):
@@ -202,6 +204,7 @@ def craft():
         fee = parse_coins(str(-1 * in_progress.craft_price))
         _character.coinpurse.modify_coins(pp=fee.pp, gp=fee.gp, ep=fee.ep, sp=fee.sp, cp=fee.cp)
         stored_data['history'] = stored_data.get('history', []).append((now, f'started crafting {in_progress.quantity}x{in_progress.name}'))
+        result['started'] = True
       else:
         return {'success': False, 'message': f"Crafting requires {in_progress.craft_price} but character only has {_character.coinpurse.total}."}
     downtime.use_downtime(current_time=now)
@@ -213,10 +216,11 @@ def craft():
       bag_result = baglib.save_bags(bagsLoaded = bags)
       stored_data['history'] = stored_data.get('history', []).append((now, f'completed {in_progress.quantity}x{in_progress.name}'))
       stored_data['crafting'] = None
+      result['completed'] = True
     else:
       stored_data['crafting'] = in_progress
     _update_cvar(stored_data)
-  return {'success': True, 'crafting': in_progress}
+  return {'success': True, 'crafting': in_progress} | result
 
 def discard():
   """Abandons the current item being crafted.
