@@ -5,7 +5,7 @@ using(
   embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
   tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
 )
-USAGE = f"{ctx.prefix}{ctx.alias} setup -type <category> -item \"<item>\" [-rarity <rarity] [-tool \"<tool>\"]"
+USAGE = f"{ctx.prefix}{ctx.alias} setup gear -type <category> -item \"<item>\" [-rarity <rarity] [-tool \"<tool>\"]"
 
 def validate_args(parsed_args):
   # Validate type arg
