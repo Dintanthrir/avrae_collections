@@ -1,6 +1,6 @@
 <drac2>
 using(
-    craft = 'a9c460f9-1b10-488b-9bcd-32cbc9f1b17a',
+    craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
     currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
     downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
     embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649

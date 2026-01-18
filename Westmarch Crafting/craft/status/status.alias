@@ -1,6 +1,6 @@
 <drac2>
 using(
-    craft = 'a9c460f9-1b10-488b-9bcd-32cbc9f1b17a',
+    craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
     embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
 )
 
@@ -12,7 +12,7 @@ desc = ''
 fields = []
 if status:
     desc = f"An item is in progress.\nYou can use `{ctx.prefix}{ctx.alias} discard` to abandon your work if you want to start crafting a different item."
-    fields += craft.fields_for_status(status)
+    fields += craft.status_fields()
 else:
     desc = f"No crafting in progress.\nUse `{ctx.prefix}{ctx.alias} setup` to start crafting."
 

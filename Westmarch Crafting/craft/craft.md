@@ -5,14 +5,12 @@ __*Example*__
 Prepare to craft a _Potion of Healing_ (requires that your active character is proficient with _Alchemist's Supplies_).
 
 __**Searching**__
-To search an item within the craft list use: `!craft search -type <category> -name <search term> [-rarity <rarity]`
+To search an item within the craft list use: `!craft search -type <category> -name <search term> [-rarity <rarity>]`
 
 __**Crafting**__
 
-**Requirements** 
+**Requirements**
 To begin crafting you need to have tool proficiency / expertise correctly setup using `!tool`.
-
-The only exception to this is the Magical Enchanter as this uses Arcana / Spell Attack modifier. 
 
 **Resources**
 Engaging in this activity requires one workweek of effort from a character.
@@ -33,10 +31,3 @@ The command output will report when you have completed your item. Items are not 
 Add your new possession to your character sheet and optionally to `!manage items` or `!bag`.
 
 `setup` does not require that your downtime be available so you can setup a new crafting project immediately after completing one.
-
-**Migration**
-The Ashirma version of `craft` replaces "Crafting by alpha#1832" https://avrae.io/dashboard/workshop/5fd8f50f0260807c831ff58c
-
-Running this command or any of the `craft`, `discard`, `history`, `setup`, or `status` subcommands will migrate your active character's crafting history and any items in progress into this tool.
-
-Completing an item or running the `discard` subcommand will clear your status and history in "Crafting by alpha#1832".

@@ -1,8 +1,8 @@
 <drac2>
 using(
-    craft = 'a9c460f9-1b10-488b-9bcd-32cbc9f1b17a',
-    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
-tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
+  craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
 )
 
 USAGE = f"{ctx.prefix}{ctx.alias} history"
@@ -15,27 +15,21 @@ history = craft.history()
 desc = ''
 fields = []
 if len(history) > 0:
-    desc = "Crafting history:"
-    for history_item in history:
-        rarity = history_item.get('rarity') or 'unknown'
-        tool_name = tools.tool_name_for(history_item.get('tool')) if history_item.get('tool') else 'unspecified tool'
-        ability = history_item.get('ability') or ('default ability')
-        dwelling_name = None
-        if history_item.get('dwelling'):
-            dwelling_name = [current_dwelling.name for current_dwelling in craft.list_dwellings() if current_dwelling.key == history_item.dwelling][0]
-        fields.append({
-            'title': f"Completed _**{history_item.name}**_{f' <t:{round(history_item.completed_at)}:R>' if history_item.completed_at else ''}",
-            'body': f"**Rarity:** {rarity}\n**Using:** {tool_name} ({ability}){(' | ' + dwelling_name) if dwelling_name else ''}",
-        })
+  desc = "Crafting history:"
+  for (timestamp, action) in history:
+    fields.append({
+      'title': f'<t:{round(history_item.completed_at)}:R>',
+      'body': action,
+    })
 else:
-    desc = "No crafting in progress, nothing changed."
+  desc = "No crafting history."
 
 embed = {
-    'title': f"**{get('name')}** checks their crafting logs",
-    'desc': desc,
-    'fields': fields,
-    'thumb': get('image'),
-    'footer': USAGE
+  'title': f"**{get('name')}** checks their crafting logs",
+  'desc': desc,
+  'fields': fields,
+  'thumb': get('image'),
+  'footer': USAGE
 }
 
 return embeds.get_output(embed=embed)

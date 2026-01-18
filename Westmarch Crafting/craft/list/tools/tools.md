@@ -1,1 +1,0 @@
-List available crafting tools and the types of items they can craft.
