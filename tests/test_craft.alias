@@ -1,0 +1,39 @@
+<drac2>
+using(
+  tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+  craft = '',
+)
+expect = tests.expect
+
+return tests.run({
+  'list': {
+    'returns a list of categories': expect(len(craft.list())).to.be_greater_than(0)
+  },
+  'search': {
+    'partial matches': {},
+    'matching category': {},
+    'matching item': {},
+    'exact match': {},
+  },
+  'history': {
+    'returns history entries': expect(len(craft.history())).to.be_greater_than(0)
+  },
+  'setup, craft, and discard': {
+    'without an exact match': {
+      'setup fails': expect(craft.setup('not', 'found').get('success').to.be(False))
+    },
+    'without meeting the level requirements': {
+        'setup fails': expect(craft.setup().get('success').to.be(False))
+    },
+    'with an exact match': {
+      'setup prepares to craft': expect(craft.setup()).to.be({})
+    },
+    'without being able to afford the item': {
+        'craft fails': expect(craft.setup().get('success').to.be(False))
+    },
+  },
+  'status': {
+    'returns a status dict': expect(craft.status()).to.be({})
+  },
+}).embed
+</drac2>

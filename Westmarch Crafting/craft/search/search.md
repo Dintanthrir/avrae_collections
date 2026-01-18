@@ -1,0 +1,1 @@
+Lists categories available to search. See subcommands to search either adventuring gear or magic items.

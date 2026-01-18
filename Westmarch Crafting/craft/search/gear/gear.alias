@@ -1,0 +1,50 @@
+<drac2>
+using(
+  craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} search -type <category> -item <search term>"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+category_search_term = parsed_args.last('type')
+if not category_search_term:
+  err(f"\nMissing `-type`\nA category in `{', '.join(craft.categories())}` is required.\n\n`{USAGE}`")
+categories = craft.matching_categories(category_search_term, adventuring_gear=True)
+if len(categories) > 1:
+  err(f"\nMultiple categories match `{category_search_term}`.")
+elif len(categories) == 0:
+  err(f"\nNo categories match `{category_search_term}`.")
+
+item_search_term = parsed_args.last('item')
+if not item_search_term:
+  err(f"\nMissing `-item`\nA search term is required.\n\n`{USAGE}`")
+
+items = craft.search(adventuring_gear=True, category=categories[0], item_query=item_search_term)
+
+if len(items) >= embeds.MAX_FIELDS: # Too many results to render a field per item. Dump a list.
+  embed = {
+    'title': f"Craftable {categories[0]} items" + (f" ({', '.join(rarities)})" if rarities else ''),
+    'desc': '\n'.join([f"_**{item.name}**_ {item.rarity}" for item in items]),
+    'footer': USAGE
+  }
+else:
+  embed = {
+    'title': f"Craftable {categories[0]} items",
+    'fields': [{
+      'title': item.name,
+      'body': '\n'.join([
+        f"_{item.rarity}_",
+        f"materials price: {currency.format_currency(item.craft_price)}",
+        f"min level to craft: {item.min_level}",
+        f"requires {item.workweeks_required} workweeks to craft",
+      ])
+    } for item in items],
+    'footer': USAGE
+  }
+
+return embeds.get_output(embed=embed)
+</drac2>

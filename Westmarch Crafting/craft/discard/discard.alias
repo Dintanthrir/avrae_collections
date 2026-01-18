@@ -1,0 +1,35 @@
+<drac2>
+using(
+  craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} discard"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+status = craft.status()
+craft.discard()
+
+title = ''
+desc = ''
+fields = []
+if status:
+  title = f"**{get('name')}** abandons work on their _**{status.name}**_"
+  desc = f"Use `{ctx.prefix}{ctx.alias} setup` to plan your next project."
+  fields += craft.status_fields()
+else:
+  title = f"**{get('name')}** is not currently crafting anything."
+  desc = "Nothing changed."
+
+embed = {
+  'title': title,
+  'desc': desc,
+  'fields': fields,
+  'thumb': get('image'),
+  'footer': USAGE
+}
+
+return embeds.get_output(embed=embed)
+</drac2>

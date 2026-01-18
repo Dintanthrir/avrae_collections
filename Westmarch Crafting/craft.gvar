@@ -1,0 +1,326 @@
+# craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a'
+
+using(
+  baglib = '4119d62e-6a98-4153-bea9-0a99bb36da2c',
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+  downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
+  fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+  skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8',
+  tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
+)
+
+_CRAFT_SVAR = 'crafting_config'
+_CRAFT_SVAR_DEFAULT_VALUES = {
+  'cvar_name': 'crafting',
+  'cost_multipliers': {
+    'mundane': 0.5,
+    'common': 0.5,
+    'uncommon': 0.5,
+    'rare': 0.5,
+    'very rare': 0.5,
+    'legendary': 0.5,
+  },
+  'level_requirements': {
+    'mundane': 0,
+    'common': 0,
+    'uncommon': 6,
+    'rare': 12,
+    'very rare': 18,
+    'legendary': 20,
+  },
+  'gp_per_workweek': {
+    'mundane': 500,
+    'common': 200,
+    'uncommon': 1000,
+    'rare': 3300,
+    'very rare': 10000,
+    'legendary': 20000,
+  },
+  'gear_inventory': {
+    # '<category>': '<gvar>' | ['<gvar>'],
+  },
+  'magic_inventory': {
+    # '<category>': '<gvar>' | ['<gvar>'],
+  },
+  'complications': [
+    "Rumors swirl that what you’re working on is unstable and a threat to the community.",
+    "Your tools are stolen, forcing you to buy new ones.",
+    "A local wizard shows keen interest in your work and insists on observing you.",
+    "A powerful noble offers a hefty price for your work and is not interested in hearing no for an answer.",
+    "A dwarf clan accuses you of stealing its secret lore to fuel your work.",
+    "A competitor spreads rumors that your work is shoddy and prone to failure.",
+  ],
+  'complication_chance': 2, # % chance per workweek
+}
+_CRAFT_SVAR_DEFAULT = dump_yaml(_CRAFT_SVAR_DEFAULT_VALUES)
+_CRAFT_CVAR_DEFAULT_VALUES = {}
+
+_config_cache = None
+_character = character()
+
+def _is_gvar_id(id: str) -> bool:
+  """Test if the given string appears to be a gvar. Used when a value might contain either a gvar id or literal values.
+
+  :param id: The string to test.
+  :type id: str
+  :return: True if the string appears to be a gvar identifier.
+  :rtype: bool
+  """
+  return typeof(id) == 'str' and len(id) == 36 and [char for char in id if not char in '0123456789abcdef-'] == []
+
+def load_config():
+  """Returns the current config settings for crafting.
+
+  :return: The config loaded from an svar.
+  :rtype: dict
+  """
+  if not _config_cache:
+    svar_config = load_yaml(get_svar(_CRAFT_SVAR, default=_CRAFT_SVAR_DEFAULT))
+    _config_cache = _CRAFT_SVAR_DEFAULT_VALUES | (load_yaml(get_gvar(svar_config)) if _is_gvar_id(svar_config) else svar_config)
+  return _config_cache
+
+def _load_cvar():
+  """
+  Docstring for _load_cvar
+
+  :return: Description
+  :rtype: {
+    'history': list[tuple[float, str]] | None
+    'crafting': {
+      'name': str
+      'category': str
+      'quantity': int
+      'base_price': int
+      'craft_price': int
+      'tool_key': int | None
+      'workweeks_required': int
+      'workweeks_completed': int
+    } | None
+  }
+  """
+  config = load_config()
+  if cvar_name := config.get('cvar_name'):
+    return load_yaml(_character.get_cvar(cvar_name, '{}'))
+  else:
+    return _CRAFT_CVAR_DEFAULT_VALUES
+
+def _update_cvar(stored_data):
+  config = load_config()
+  if cvar_name := config.get('cvar_name'):
+    yaml = dump_yaml(stored_data)
+    # check if we are about to hit the cvar length limit
+    while len(yaml) > 10_000 and stored_data.get('history') and len(stored_data.history) > 0:
+        stored_data['history'] = stored_data.history[:-1] # drop the oldest item from the history
+        yaml = dump_yaml(stored_data)
+    _character.set_cvar(cvar_name, yaml)
+
+def _load_item_data(category, adventuring_gear=False):
+  config = load_config()
+  if category_data := config.get('magic_inventory' if not adventuring_gear else 'gear_inventory', {}).get(category):
+    if _is_gvar_id(category_data):
+      return load_yaml(get_gvar(category_data))
+    elif category_data.all(_is_gvar_id):
+      items = []
+      for item in category_data:
+         items += load_yaml(get_gvar(item))
+      return items
+    else:
+      return category_data
+  else:
+    return None
+
+def _get_matches_ignoring_punctuation_with_function(search, iterable, function):
+  """
+  Returns a list of matching values from iterable,
+  applying a given function to each item in the iterable to get the string to match with,
+  and ignoring punctuation for purposes of partial matching.
+  See gvar '6431690e-ce47-4baa-bb3b-ba751e1a1817'
+
+  :arg str search: the string to match against.
+  :arg list|generator|tuple iterable: the iterable to search for matching values.
+  :arg value->str function: the function to apply to each value in the iterable.
+  :return: a list of matching values.
+  :rtype: list
+  """
+  search_lower = search.lower()
+  search_no_punctuation = search_lower.translate(fuzzy.NO_PUNCTUATION_TABLE)
+  if partial_matches := [
+    x
+    for x in iterable
+    if search_no_punctuation in function(x).lower().translate(fuzzy.NO_PUNCTUATION_TABLE)
+  ]:
+    if exact_matches := [x for x in partial_matches if search_lower == function(x).lower()]:
+      return exact_matches
+    else:
+      return partial_matches
+  else:
+    return []
+
+def _magic_item(item_data, quantity=1): # Name,Rarity,Attunement,Value,Source,Text
+  config = load_config()
+  rarity = item_data[1]
+  base_price = item_data[3]
+  craft_price = base_price * config.cost_multipliers[rarity] * quantity
+  workweeks_required = ceil(craft_price / config.gp_per_workweek[rarity])
+  return {
+    'name': item_data[0],
+    'rarity': rarity,
+    'base_price': base_price,
+    'craft_price': craft_price,
+    'workweeks_required': workweeks_required,
+    'min_level': config.level_requirements[rarity],
+  }
+
+def _mundane_item(item_data, quantity=1): # name | price | weight? | attributes? | description?
+  config = load_config()
+  rarity = 'mundane'
+  base_price = item_data[2]
+  craft_price = base_price * config.cost_multipliers[rarity] * quantity
+  workweeks_required = ceil(craft_price / config.gp_per_workweek[rarity])
+  return {
+    'name': item_data[0],
+    'rarity': 'mundane',
+    'base_price': item_data[2],
+    'craft_price': craft_price,
+    'workweeks_required': workweeks_required,
+    'min_level': config.level_requirements['mundane'],
+  }
+
+def craft():
+  """Advances the current item being crafted.
+  """
+  now = time()
+
+  # get the craft in progress
+  stored_data = _load_cvar()
+  if in_progress := stored_data.get('crafting', None):
+    if not downtime.status(current_time=now).available:
+       return {'success': False, 'message': "Downtime not available."}
+    if in_progress.workweeks_completed == 0:
+      if _character.coinpurse.total > in_progress.craft_price: # The character can afford the cost
+        fee = parse_coins(str(-1 * in_progress.craft_price))
+        _character.coinpurse.modify_coins(pp=fee.pp, gp=fee.gp, ep=fee.ep, sp=fee.sp, cp=fee.cp)
+        stored_data['history'] = stored_data.get('history', []).append((now, f'started crafting {in_progress.quantity}x{in_progress.name}'))
+      else:
+        return {'success': False, 'message': f"Crafting requires {in_progress.craft_price} but character only has {_character.coinpurse.total}."}
+    downtime.use_downtime(current_time=now)
+    in_progress['workweeks_completed'] = in_progress.workweeks_completed + 1
+    stored_data['history'] = stored_data.get('history', []).append((now, f'spent one workweek crafting {in_progress.quantity}x{in_progress.name}'))
+    if in_progress.workweeks_completed >= in_progress.workweeks_required: # if complete award item and clear craft
+      bags = baglib.load_bags(ch=_character)
+      (bag_used, _, bag_error) = baglib.modify_item(bagsLoaded=bags, item=in_progress.name, quantity=in_progress.quantity)
+      bag_result = baglib.save_bags(bagsLoaded = bags)
+      stored_data['history'] = stored_data.get('history', []).append((now, f'completed {in_progress.quantity}x{in_progress.name}'))
+      stored_data['crafting'] = None
+    else:
+      stored_data['crafting'] = in_progress
+    _update_cvar(stored_data)
+  return {'success': True, 'crafting': in_progress}
+
+def discard():
+  """Abandons the current item being crafted.
+  """
+  now = time()
+  stored_data = _load_cvar()
+  if stored_data.get('crafting'):
+    stored_data['crafting'] = None
+    stored_data['history'] = stored_data.get('history', []).append((now, 'discarded progress'))
+    _update_cvar(stored_data)
+    return {'success': True}
+  else:
+    return {'success': False, 'message': "No crafting in progress to discard."}
+
+def history() -> list[tuple[float, str]]:
+  """Return all log entries in the character's saved history.
+
+  :return: The list of log entries and their timestamps.
+  :rtype: list[tuple[float, str]]
+  """
+  return _load_cvar().get('history', [])
+
+def categories(adventuring_gear=False):
+  """Lists the available categories.
+  """
+  config = load_config()
+  return config.get('magic_inventory' if not adventuring_gear else 'gear_inventory', {}).keys()
+
+def matching_categories(search_string, adventuring_gear=False):
+  """
+  Returns item categories which match the search string
+  :rtype list[string]
+  """
+  return fuzzy.get_matches_ignoring_punctuation(
+    search=search_string,
+    iterable=categories(adventuring_gear=adventuring_gear),
+  )
+
+def matching_tools(search_string):
+  """
+  Returns tools whose names match the search string
+  :returns: A `!tool` tool, see `exact_tool()` in `!gvar 6251e20c-7545-4c63-92af-31e0745f2b0c`
+  :rtype {
+    key: str
+    name: str
+    type: str
+    abilities: [str]
+  }
+  """
+  return [tools.exact_tool(key) for key in tools.matching_tools(search_string)]
+
+def search(adventuring_gear: bool, category: str, item_query: str):
+  """Returns matching craftable items.
+  """
+  item_data = _load_item_data(category)
+  return [_magic_item(item) for item in _get_matches_ignoring_punctuation_with_function(
+    search=item_query,
+    iterable=item_data,
+    function=lambda item: item[0]
+  )]
+
+def setup(adventuring_gear: bool, category: str, item:dict, tool_key:str | None, quantity:int = 1):
+  """Prepare to craft a new item.
+  """
+  stored_data = _load_cvar()
+
+  if stored_data.get('crafting', None):
+    return {'success': False, 'message': "Crafting in progress."}
+
+  config = load_config()
+
+  if _character.levels.total_level < config.level_requirements[item.rarity]:
+    return {'success': False, 'message': f"A {item.rarity} item requires level {config.level_requirements[rarity]}."}
+
+  if tool_key and not tools.is_proficient(tool_key):
+    return {'success': False, 'message': f"You must be proficient with the tool used in crafting."}
+  if tool_key and tools.tool_type_for(tool_key) != 'artisan':
+    return {'success': False, 'message': f"Crafting requires an artisan tool or proficiency in the arcana skill."}
+  if not tool_key and _character.skills.arcana.prof < 1:
+    return {'success': False, 'message': f"Crafting requires an artisan tool or proficiency in the arcana skill."}
+
+  stored_data['crafting'] = item | {
+    'adventuring_gear': adventuring_gear,
+    'category': category,
+    'quantity': quantity,
+    'tool_key': tool_key,
+    'workweeks_completed': 0,
+  }
+  _update_cvar(stored_data)
+  return {'success': True, 'crafting': stored_data.crafting}
+
+def status():
+  """Return any current craft in progress.
+  """
+  stored_data = _load_cvar()
+  return stored_data.get('crafting', None)
+
+def status_fields():
+  fields = []
+  current_status = status()
+  if not current_status:
+    fields.append({'title': 'Nothing in progress', 'body': f"Use `{ctx.prefix}craft setup` to start a new crafting project."})
+  else:
+    fields.append({'title': 'Crafting', 'body': f'{current_status.quantity} x {current_status.name}'})
+    fields.append({'title': 'Cost', 'body': f"{current_status.craft_price}{' (paid)' if current_status.workweeks_completed > 0 else ''}"})
+    fields.append({'title': 'Progress', 'body': f"{current_status.workweeks_completed}/{current_status.workweeks_required} workweeks."})
+  return fields

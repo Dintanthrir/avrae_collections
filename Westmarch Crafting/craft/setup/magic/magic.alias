@@ -1,0 +1,101 @@
+<drac2>
+using(
+  craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
+  docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
+)
+USAGE = f"{ctx.prefix}{ctx.alias} setup -type <category> -item \"<item>\" [-rarity <rarity] [-tool \"<tool>\"]"
+
+def validate_args(parsed_args):
+  # Validate type arg
+  category_search_term = parsed_args.last('type', type_=str)
+  if not category_search_term:
+    err(f"\nMissing `-type`\nA category in `{craft.categories()}` is required:\n\n`{USAGE}`")
+
+  matching_categories = craft.matching_categories(category_search_term, adventuring_gear=False)
+  if len(matching_categories) == 0:
+    err(f"\nNo categories match `{category_search_term}`,\nexpected one of `{craft.CATEGORIES}`")
+  elif len(matching_categories) > 1:
+    err(f"\nMultiple matches for category `{category_search_term}`:\n`{matching_categories}`")
+  category = matching_categories[0]
+
+  # Validate rarities
+  VALID_RARITIES = ['common', 'uncommon', 'rare', 'very rare', 'legendary']
+  rarities = [rarity_arg.lower() for rarity_arg in parsed_args.get('rarity', default=None)]
+  for rarity in rarities:
+    if rarity.lower() not in VALID_RARITIES:
+      err(f"\n`{rarity}` is not a valid rarity,\nmust be one of `{VALID_RARITIES}`")
+
+  # Validate item arg
+  item_search_term = parsed_args.last('item', type_=str)
+  if not item_search_term:
+    err(f"\nMissing `-item`\nAn item name is required:\n\n`{USAGE}`")
+  matching_items = craft.search(adventuring_gear=False, category=category, item_query=item_search_term)
+  if rarities:
+    matching_items = [(category, item) for (category, item) in matching_items if item.rarity in rarities]
+  if len(matching_items) == 0:
+    err(f"\nNo items in categories matching `{category_search_term}` match `{item_search_term}`")
+  if len(matching_items) > 1:
+    err(f"\nMultiple matches for item `{item_search_term}` ({len(matching_items)} matches)\nUse `{ctx.prefix}{ctx.alias} search` to find an exact item name.")
+  item = matching_items[0]
+
+  if item.get('min_level') and item.min_level > character().levels.total_level:
+    err(f"\nYou must be at least level **{item.min_level}** to craft a **{item.rarity}** **{item.name}**")
+
+  # Validate tool arg
+  tool_search_term = parsed_args.last('tool', type_=str)
+  if tool_search_term:
+    matching_tools = craft.matching_tools(tool_search_term)
+    if len(matching_tools) == 0:
+      err(f"\nNo tools match `{tool_search_term}`\nexpected one of `{[tool.name for tool in craft.all_crafting_tools()]}`")
+    elif len(matching_tools) > 1:
+      err(f"\nMultiple matches for tool `{tool_search_term}`:\n`{[tool.name for tool in matching_tools]}`")
+    tool = matching_tools[0]
+    if not tools.is_proficient(tool.key):
+      err(f"\n**{get('name')}** is not proficient with **{tool.name}**")
+    if not matching_tools[0].type == 'artisan':
+      err(f"\n`{tool.name}` is not an artisan's tool.")
+  else:
+    tool = None
+
+  quantity = parsed_args.last('quantity', type_=int, default=1)
+  if quantity <= 0:
+    err(f"\nInvalid quantity.")
+
+  return (category, item, tool, quantity)
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+(category, item, tool, quantity) = validate_args(parsed_args)
+
+setup_results = craft.setup(category=category, item=item, tool_key=tool.key if tool else None, quantity=quantity, adventuring_gear=False)
+
+embed = {
+  'title': f"**{get('name')}**",
+  'desc': '',
+  'fields': [],
+  'thumb': get('image'),
+  'footer': USAGE
+}
+
+if not setup_results.success:
+  embed['title'] += f" cannot begin crafting _{item.name}_!"
+  if craft.status():
+    embed['desc'] += docstring.trim(f"""
+      Another item is already in progress.
+      You can use `{ctx.prefix}{ctx.alias} discard` to abandon your work.
+      """)
+  embed['fields'] += [{'title': "Error", 'body': setup_results.get('message', 'None')}]
+else:
+  embed['title'] += f" is ready to craft _**{setup_results.crafting.name}**_!"
+  embed['desc'] += docstring.trim(f"""
+    You have not yet been charged for materials and have not begun crafting.
+    Use `{ctx.prefix}{ctx.alias}` to pay the {setup_results.crafting.craft_price}gp materials cost and use your first workweek of downtime.
+    You can use `{ctx.prefix}{ctx.alias} discard` to abandon this project and choose a different item.
+    """)
+  embed['fields'] += craft.status_fields()
+
+return embeds.get_output(embed=embed)
+</drac2>

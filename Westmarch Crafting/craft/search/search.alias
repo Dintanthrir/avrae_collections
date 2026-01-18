@@ -1,0 +1,35 @@
+<drac2>
+using(
+  craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} search"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+config = craft.load_config()
+
+desc = 'Use the `gear` and `magic` subcommands to search adventuring gear or magic items.'
+fields = [
+  {
+    'title': "Adventuring Gear",
+    'body': '\n'.join(config.get('gear_inventory', {}).keys())
+  },
+  {
+    'title': "Magic Items",
+    'body': '\n'.join(config.get('magic_inventory', {}).keys())
+  },
+]
+
+embed = {
+  'title': f"Craftable Item Types",
+  'desc': desc,
+  'fields': fields,
+  'thumb': get('image'),
+  'footer': USAGE
+}
+
+return embeds.get_output(embed=embed)
+</drac2>

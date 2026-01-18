@@ -1,0 +1,78 @@
+<drac2>
+using(
+    craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
+    currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+    downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+    tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} [-help] [adv|dis]"
+
+args = &ARGS&
+parsed_args = argparse(args)
+_character = character()
+_time = time()
+
+# This is replacing !craft|alpha#1832 which preferred `!craft help` over `!help craft` so maintain support for that option.
+if parsed_args.last('help'):
+    return f"help {ctx.alias}"
+
+embed = {
+    'fields': [],
+    'thumb': get('image'),
+    'footer': USAGE
+}
+
+# Check if the character can use their downtime.
+if not downtime.status(current_time = _time).available:
+    # Tell the player how long they need to wait.
+    embed |= downtime.status_embed(current_time = _time)
+else:
+    # Attempt to make a crafting check, this will use the character's downtime and charge them as needed
+    craft_results = craft.craft(adv = parsed_args.adv(boolwise=True))
+
+    # Report the results
+    if craft_results.get('success') is None: # A check was not performed
+        if craft_results.get('status') is None: # Nothing in progress to continue
+            embed['title'] = f"**{get('name')}** is not crafting anything."
+            embed['desc'] = f"Use `{ctx.prefix}{ctx.alias} setup` start crafting."
+        elif craft_results.status.get('tool') and not tools.is_proficient(craft_results.status.tool): # because the character is missing tool proficiency
+            embed['title'] = f"**{get('name')}** cannot proceed with crafting _{craft_results.status.name}_!"
+            embed['desc'] = f"**{get('name')}** is not proficient with the {tools.tool_name_for(craft_results.status.tool)} used to craft this item."
+        elif craft_results.status.get('costs') and craft_results.status.costs.get('currency') and craft_results.status.costs.currency > _character.coinpurse.total: # because the character could not afford materials
+            embed['title'] = f"**{get('name')}** cannot proceed with crafting _{craft_results.status.name}_!"
+            embed['desc'] = f"**{get('name')}** has `{currency.format_coins(_character.coinpurse.get_coins())}` which is not enought to buy `{currency.format_currency(craft_results.status.price)}` worth of materials to start crafting."
+        elif craft_results.status.get('costs') and craft_results.status.costs.get('spell_slot') and _character.spellbook.get_slots(craft_results.status.costs.spell_slot) == 0:
+            embed['title'] = f"**{get('name')}** cannot proceed with crafting _{craft_results.status.name}_!"
+            embed['desc'] = f"**{get('name')}** does not have an available level {craft_results.status.costs.spell_slot} spell slot required to craft the item."
+        elif not downtime.status(current_time = _time).available: # migration changed downtime availability
+            embed |= downtime.status_embed(current_time = _time)
+        else: # all possible reasons for failure _should_ have been caught before we get here
+            err("An unhandled error has prevented crafting from making a check.") # halt if this does manage to happen to make sure we don't do anything else
+    else:
+        if craft_results.get('completed') is not None: # Item finished, this might also be the first check for a consumable common item
+            embed['title'] = f"**{get('name')}** completed their _{craft_results.completed.name}_!"
+        elif len(craft_results.status.roll_history) == 1: # Started but did not complete the item
+            embed['title'] = f"**{get('name')}** began work on their _{craft_results.status.name}_!"
+        else: # Continued work on the item but did not finish
+            embed['title'] = f"**{get('name')}** continued work on their _{craft_results.status.name}_!"
+
+        desc = f"{craft_results.status.roll_history[-1].dice} {'Success!' if craft_results.status.roll_history[-1].success else 'No progress!'}"
+
+        embed['fields'] += craft.fields_for_status(craft_results.status, prefix=("Completed:" if craft_results.completed is not None else "Currently crafting:"))
+
+        if craft_results.get('charged'):
+            if craft_results.charged.get('currency'):
+                embed.fields.append({
+                    'title': 'Materials purchased',
+                    'body': currency.format_transaction((-1 * craft_results.charged.currency), coinpurse=_character.coinpurse)
+                })
+            if craft_results.charged.get('spell_slot'):
+                embed.fields.append({
+                    'title': 'Spell slot consumed',
+                    'body': f"A level {craft_results.charged.spell_slot} spell slot was used during crafting"
+                })
+
+return embeds.get_output(embed = embed)
+</drac2>
