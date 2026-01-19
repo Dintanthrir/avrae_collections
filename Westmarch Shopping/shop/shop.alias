@@ -37,7 +37,7 @@ elif merchant_status and (returns_at := merchant_status.get('returns_at', 0)) an
 else:
   fields.append({
     'title': "Merchant Inactive",
-    'body': f"Comission a merchant to search for magic items using ```{ctx.prefix}{COMMAND} seek```",
+    'body': f"Comission a merchant to search for magic items using ```{ctx.prefix}{COMMAND} merchant seek```",
   })
 
 embed = {

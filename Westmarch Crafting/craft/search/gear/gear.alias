@@ -5,14 +5,14 @@ using(
   embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
 )
 
-USAGE = f"{ctx.prefix}{ctx.alias} search -type <category> -item <search term>"
+USAGE = f"{ctx.prefix}{ctx.alias} search gear -type <category> -item <search term>"
 
 args = &ARGS&
 parsed_args = argparse(args)
 
 category_search_term = parsed_args.last('type')
 if not category_search_term:
-  err(f"\nMissing `-type`\nA category in `{', '.join(craft.categories())}` is required.\n\n`{USAGE}`")
+  err(f"\nMissing `-type`\nA category in `{', '.join(craft.categories(adventuring_gear=True))}` is required.\n\n`{USAGE}`")
 categories = craft.matching_categories(category_search_term, adventuring_gear=True)
 if len(categories) > 1:
   err(f"\nMultiple categories match `{category_search_term}`.")
