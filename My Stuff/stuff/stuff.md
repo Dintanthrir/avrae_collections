@@ -18,7 +18,7 @@ Alchemist's Fire:
 ```
 Note the use of yaml [literal style](https://yaml.org/spec/1.2-old/spec.html#style/block/literal) `|` to treat the nested yaml for each automation as a multiline string.
 
-ALternately an entry in an items list can contain a dict with `counters` and `automations` keys instead of a list of automations. Any missing counters will be created when the item is equipped on a character.
+Alternately an entry in an items list can contain a dict with `counters` and `automations` keys instead of a list of automations. Any missing counters will be created when the item is equipped on a character.
 
 ```yaml
 My Item:
