@@ -220,7 +220,7 @@ def craft():
         stored_data['history'] = stored_data.get('history', []).append((now, f'started crafting {in_progress.quantity}x{in_progress.name}'))
         result['started'] = True
       else:
-        return {'success': False, 'message': f"Crafting requires {in_progress.craft_price} but character only has {_character.coinpurse.total}."}
+        return {'success': False, 'message': f"Crafting requires {currency.format_currency(in_progress.craft_price)} but character only has {currency.format_currency(_character.coinpurse.total)}."}
     downtime.use_downtime(current_time=now)
     in_progress['workweeks_completed'] = in_progress.workweeks_completed + 1
     stored_data['history'] = stored_data.get('history', []).append((now, f'spent one workweek crafting {in_progress.quantity}x{in_progress.name}'))
