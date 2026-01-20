@@ -1,0 +1,70 @@
+2014:
+  subclasses:
+    # Grim Hollow Player Pack
+    Path of the Carrion Raven:
+      parent: Barbarian
+      features:
+        Martial Maneuvers: { type: list, level: 3 }
+    College of Requiems: { parent: Bard }
+    Inquisition Domain: { parent: Cleric }
+    Blade Breaker:
+      parent: Fighter
+      features:
+        Maneuvers: { type: list, level: 3 }
+    Oath of the Zeal: { parent: Paladin }
+    Misfortune Bringer: 
+      parent: Rogue
+      features:
+        Misfortunes: { type: list, level: 3 }
+    # Grim Hollow Player's Guide
+    # Barbarian
+    Path of the Fractured: { parent: Barbarian}
+    Path of the Primal Spirit:
+      parent: Barbarian
+      features:
+        Primal Companion: { type: string, level: 3 }
+    # Bard
+    College of Adventurers:
+      parent: Bard
+      features:
+        Adventurer’s Talents: { type: list, level: 3 }
+    College of Dirge Singers: { parent: Bard }
+    # Cleric
+    Eldritch Domain: { parent: Cleric }
+    # Inquisition Domain: { parent: Cleric }
+    # Druid
+    Circle of Blood: { parent: Druid }
+    Circle of Mutation: { parent: Druid }
+    # Fighter
+    Bulwark Warrior: { parent: Fighter }
+    Living Crucible: 
+      parent: Fighter
+      features:
+        Compounds: { type: list, level: 3 }
+    # Monk
+    Way of the Leaden Crown: { parent: Monk }
+    Way of Pride: { parent: Monk }
+    # Paladin
+    Oath of Pestilence: { parent: Paladin }
+    # Oath of Zeal: { parent: Paladin }
+    # Ranger
+    Green Reaper: { parent: Ranger }
+    Vermin Lord: { parent: Ranger }
+    # Rogue
+    Highway Rider: { parent: Rogue }
+    # Misfortune Bringer: { parent: Rogue }
+    # Sorcerer
+    Haunted: { parent: Sorcerer }
+    Wretched Bloodline:
+      parent: Sorcerer
+      features:
+        Wretched Curse: { type: string, level: 1 }
+    # Warlock
+    The First Vampire: { parent: Warlock }
+    The Parasite:
+      parent: Warlock
+      features:
+        Physical Specimen: { type: list, level: 1 }
+    # Wizard
+    Plague Doctor: { parent: Wizard }
+    Sangromancer: { parent: Wizard }

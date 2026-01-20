@@ -1,0 +1,7 @@
+2014:
+  subclasses:
+    # Heliana's Guide to Monster Hunting - Part One
+    College of Fleshweaving: { parent: Bard }
+    Circle of the Hive: { parent: Druid }
+    Oath of the Harvest: { parent: Paladin }
+    School of Biomancy: { parent: Wizard }

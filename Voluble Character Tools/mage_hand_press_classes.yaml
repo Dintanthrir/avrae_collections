@@ -1,0 +1,14 @@
+2014:
+  classes:
+    # The Gunslinger Class: Valda’s Spire of Secrets
+    Gunslinger:
+      hit_die: 8
+      sub_level: 3
+  subclasses:
+    # Gunslinger
+    Spellslinger: { parent: Gunslinger }
+    Deadeye: { parent: Gunslinger }
+    Secret Agent: { parent: Gunslinger }
+    White Hat: { parent: Gunslinger }
+    High Roller: { parent: Gunslinger }
+    Trick Shot: { parent: Gunslinger }

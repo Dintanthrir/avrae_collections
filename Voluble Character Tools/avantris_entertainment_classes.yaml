@@ -1,0 +1,18 @@
+2014:
+  subclasses:
+    # The Crooked Moon Part One: Player Options & Campaign Setting
+    Path of the Experiment: { parent: Barbarian }
+    College of Whistles: { parent: Bard }
+    Harvest Domain: { parent: Cleric }
+    Circle of the Old Ways: { parent: Druid }
+    Circle of Wicker: { parent: Druid }
+    Barrow Guard: { parent: Fighter }
+    Warrior of the Pestilent Haze: { parent: Monk }
+    Oath of Castigation: { parent: Paladin }
+    Grim Harbinger: { parent: Ranger }
+    Sinner: { parent: Rogue }
+    Crimson Sorcery: { parent: Sorcerer }
+    Great Fool: { parent: Warlock }
+    Horned King: { parent: Warlock }
+    Occultist: { parent: Wizard }
+    Philosopher: { parent: Wizard }

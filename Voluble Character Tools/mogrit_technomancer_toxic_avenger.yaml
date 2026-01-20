@@ -1,0 +1,402 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Toxic_Avenger = '86ccdf2c-898f-4155-a79f-08ec83adc5ba'
+name: Toxic Avenger
+parent: Fighter
+counters:
+  3:
+    - name: Catalyst
+      minVal: 0
+      maxVal: constitutionMod + proficiencyBonus
+      reset: long
+      dispType: bubble
+  7:
+    - name: High Life
+      minVal: 0
+      maxVal: 1
+      reset: long
+      dispType: bubble
+    - name: Equilibrium
+      minVal: 0
+      maxVal: 1
+      reset: long
+      dispType: bubble
+automations:
+  Catalyst:
+    level: 3
+    actions:
+      - |
+        - name: Catalyst
+          automation:
+            - type: counter
+              counter: Catalyst
+              amount: "1"
+              fixedValue: false
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d4
+              name: Catalyst
+            - type: text
+              text: >-
+                Starting at 3rd level, you become capable of harnessing your body's glands
+                and organs to produce powerful chemicals that give you an edge. As a bonus
+                action, or as a part of any other bonus action you take, you can choose to
+                use a Volatile Catalyst or a Stable Catalyst. Roll a d4 on either table to
+                determine its effect, or spend a Hit Die to choose one effect from either
+                table. If you use this ability and gain an effect that is already
+                effecting you, the new effect replaces the older one.
+
+
+                You can use this feature a number of times equal to your Constitution modifier + your proficiency bonus, and you regain all expended uses when you finish a long rest.
+
+
+                Alternatively, you can spend your Second Wind feature to use this feature. Using the feature in this manner does not count against your normal number of uses.
+            - type: condition
+              condition: choice.lower() in 'volatile'
+              onTrue:
+                - type: text
+                  text: >-
+                    1. `!a "Volatile Catalyst 1"` You roll a d4 and add the number rolled to
+                    all attack rolls for 1 minute.
+
+                    2. `!a "Volatile Catalyst 2"` You gain resistance to all damage until the end of your next turn.
+
+                    3. `!a "Volatile Catalyst 3"` You gain advantage on all weapon attack rolls until the end of the current turn.
+
+                    4. `!a "Volatile Catalyst 4"` You gain advantage on Strength, Dexterity, or Constitution (your choice) ability checks and saving throws for 1 hour.
+                  title: Volatile Catalyst
+              onFalse: []
+              errorBehaviour: "false"
+            - type: condition
+              condition: choice.lower() in 'stable'
+              onTrue:
+                - type: text
+                  text: >-
+                    1. `!a "Stable Catalyst 1"` You roll a d4 and add the number rolled to all
+                    ability checks for the next hour.
+
+                    2. `!a "Stable Catalyst 2"` You can't be charmed or frightened for 10 minutes. If you are charmed or frightened when you gain this effect, the effect is suspended for the duration.
+
+                    3. `!a "Stable Catalyst 3"` You gain temporary hit points equal to twice your fighter level.
+
+                    4. `!a "Stable Catalyst 4"` You gain advantage on Intelligence, Wisdom, or Charisma (your choice) ability checks and saving throws for 1 hour.
+                  title: Stable Catalyst
+              onFalse: []
+              errorBehaviour: "false"
+          _v: 2
+          proper: false
+          verb: uses
+          activation_type: 3
+        - name: Volatile Catalyst 1
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Volatile Catalyst 1
+                  duration: "10"
+                  effects:
+                    to_hit_bonus: 1d4
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+        - name: Volatile Catalyst 2
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Volatile Catalyst 2
+                  duration: "2"
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - acid
+                      - cold
+                      - fire
+                      - force
+                      - lightning
+                      - necrotic
+                      - poison
+                      - psychic
+                      - radiant
+                      - thunder
+                  end: true
+                  tick_on_caster: true
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+        - name: Volatile Catalyst 3
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Volatile Catalyst 3
+                  duration: "1"
+                  effects:
+                    attack_advantage: "1"
+                  end: true
+                  tick_on_caster: true
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+        - name: Volatile Catalyst 4
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Volatile Catalyst 4
+                  duration: "600"
+                  effects:
+                    save_adv:
+                      - "{choice}"
+                  end: true
+                  tick_on_caster: true
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+        - name: Stable Catalyst 1
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Stable Catalyst 1
+                  duration: "600"
+                  effects:
+                    check_bonus: 1d4
+                  end: true
+                  tick_on_caster: true
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+        - name: Stable Catalyst 2
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Stable Catalyst 2
+                  duration: "60"
+                  effects:
+                    immunities:
+                      - charm
+                      - frightened
+                  end: true
+                  tick_on_caster: true
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+        - name: Stable Catalyst 3
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: "{2 * caster.levels.get('Fighter')}"
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+        - name: Stable Catalyst 4
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Stable Catalyst 4
+                  duration: "600"
+                  effects:
+                    save_adv:
+                      - "{choice}"
+                    check_adv:
+                      - "{choice}"
+                  end: true
+                  tick_on_caster: true
+          _v: 2
+          proper: true
+          verb: is affected by
+          activation_type: 2
+  High Life:
+    level: 7
+    actions:
+      - |
+        - name: High Life
+          automation:
+            - type: counter
+              counter: High Life
+              amount: "1"
+            - type: text
+              text: >-
+                Starting at 7th level, you become more accustomed to the ebb and flow of
+                toxins in your body. You have advantage on saving throws against drug
+                addiction.
+
+
+                While you are at addiction level 3 with a drug, you can still gain benefits from consuming that drug. Once you do so, you cannot gain that drug's benefits again until you finish a long rest.
+          _v: 2
+          proper: true
+          verb: is living the
+          activation_type: 2
+  Equilibrium:
+    level: 10
+    actions:
+      - |
+        - name: Catalyst
+          automation:
+            - type: counter
+              counter: Catalyst
+              amount: "1"
+              fixedValue: false
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d4
+              name: Catalyst 1
+            - type: roll
+              dice: 1d4
+              name: Catalyst 2
+            - type: text
+              text: >-
+                Starting at 3rd level, you become capable of harnessing your body's glands
+                and organs to produce powerful chemicals that give you an edge. As a bonus
+                action, or as a part of any other bonus action you take, you can choose to
+                use a Volatile Catalyst or a Stable Catalyst. Roll a d4 on either table to
+                determine its effect, or spend a Hit Die to choose one effect from either
+                table. If you use this ability and gain an effect that is already
+                effecting you, the new effect replaces the older one.
+
+
+                You can use this feature a number of times equal to your Constitution modifier + your proficiency bonus, and you regain all expended uses when you finish a long rest.
+
+
+                Alternatively, you can spend your Second Wind feature to use this feature. Using the feature in this manner does not count against your normal number of uses.
+            - type: condition
+              condition: choice.lower() in 'volatile'
+              onTrue:
+                - type: text
+                  text: >-
+                    1. `!a "Volatile Catalyst 1"` You roll a d4 and add the number rolled to
+                    all attack rolls for 1 minute.
+
+                    2. `!a "Volatile Catalyst 2"` You gain resistance to all damage until the end of your next turn.
+
+                    3. `!a "Volatile Catalyst 3"` You gain advantage on all weapon attack rolls until the end of the current turn.
+
+                    4. `!a "Volatile Catalyst 4"` You gain advantage on Strength, Dexterity, or Constitution (your choice) ability checks and saving throws for 1 hour.
+                  title: Volatile Catalyst
+              onFalse: []
+              errorBehaviour: "false"
+            - type: condition
+              condition: choice.lower() in 'stable'
+              onTrue:
+                - type: text
+                  text: >-
+                    1. `!a "Stable Catalyst 1"` You roll a d4 and add the number rolled to all
+                    ability checks for the next hour.
+
+                    2. `!a "Stable Catalyst 2"` You can't be charmed or frightened for 10 minutes. If you are charmed or frightened when you gain this effect, the effect is suspended for the duration.
+
+                    3. `!a "Stable Catalyst 3"` You gain temporary hit points equal to twice your fighter level.
+
+                    4. `!a "Stable Catalyst 4"` You gain advantage on Intelligence, Wisdom, or Charisma (your choice) ability checks and saving throws for 1 hour.
+                  title: Stable Catalyst
+              onFalse: []
+              errorBehaviour: "false"
+            - type: condition
+              condition: choice.lower() in 'both'
+              onTrue:
+                - type: text
+                  text: >-
+                    1. `!a "Stable Catalyst 1"` You roll a d4 and add the number rolled to all
+                    ability checks for the next hour.
+
+                    2. `!a "Stable Catalyst 2"` You can't be charmed or frightened for 10 minutes. If you are charmed or frightened when you gain this effect, the effect is suspended for the duration.
+
+                    3. `!a "Stable Catalyst 3"` You gain temporary hit points equal to twice your fighter level.
+
+                    4. `!a "Stable Catalyst 4"` You gain advantage on Intelligence, Wisdom, or Charisma (your choice) ability checks and saving throws for 1 hour.
+                  title: Stable Catalyst
+                - type: text
+                  text: >-
+                    1. `!a "Volatile Catalyst 1"` You roll a d4 and add the number rolled to
+                    all attack rolls for 1 minute.
+
+                    2. `!a "Volatile Catalyst 2"` You gain resistance to all damage until the end of your next turn.
+
+                    3. `!a "Volatile Catalyst 3"` You gain advantage on all weapon attack rolls until the end of the current turn.
+
+                    4. `!a "Volatile Catalyst 4"` You gain advantage on Strength, Dexterity, or Constitution (your choice) ability checks and saving throws for 1 hour.
+                  title: Volatile Catalyst
+              onFalse: []
+          _v: 2
+          proper: false
+          verb: uses
+          activation_type: 3
+        - name: Equilibrium
+          automation:
+            - type: counter
+              counter: Equilibrium
+              amount: "1"
+            - type: text
+              text: >-
+                At 10th level, you become adept in manipulating and balancing your
+                internal chemistry. When you roll to determine your Catalyst effect, you
+                can roll 2d4. You can roll both dice on a single Catalyst table, or roll
+                one d4 for both the Volatile and Stable Catalyst tables. You can choose to
+                gain the effects of either result.
+
+
+                Additionally, if you roll two dice, you can also choose to gain the effects of both results. Once you gain both effects in this manner, you cannot do so again until you finish a long rest.
+          _v: 2
+          proper: true
+          verb: finds their
+          activation_type: 2
+  Chemical Burn:
+    level: 15
+    actions:
+      - |
+        - name: Chemical Burn
+          automation:
+            - type: counter
+              counter: ChemicalBurnPlaceholderCounter
+              amount: "0"
+              allowOverflow: true
+              fixedValue: false
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{min(4, lastCounterRequestedAmount)}d8 [acid]"
+          _v: 2
+          proper: false
+          verb: inflicts
+          activation_type: 2
+  Toxic Mania:
+    level: 18
+    actions:
+      - |
+        - name: Toxic Mania
+          automation:
+            - type: text
+              text: >-
+                Starting at 18th level, you can flush your system with chemicals to fuel
+                your body past its limits. When you are reduced to 0 hit points but not
+                killed out-right, you can end one of your Catalyst effects, if you have
+                any, causing you to drop to 1 hit point instead of 0.
+
+
+                In addition, when you roll initiative and have no uses of your Catalyst feature left, you regain one use of that feature.
+          _v: 2
+          proper: true
+          verb: experiences
+          activation_type: 2

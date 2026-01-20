@@ -1,0 +1,849 @@
+# voluble = 'c3bfadbf-67b5-48c7-969b-e959ea1e3962'
+
+using(
+  fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
+)
+
+SETTINGS_VAR = 'voluble_config'
+CONFIG_DEFAULTS = {
+  'Core Rules': '6763dffc-f626-4836-b82c-7e96f53c63d9',
+}
+
+_character = character()
+_caches = {
+  'config_cache': None, # only load list of sources once, see _load_config()
+  'cvar_cache': None,
+}
+
+_sheet_levels = { cls:level for (cls, level) in _character.levels }
+_sheet_rules_version = { 'version': int(_character.csettings.get('version', 2014)) } # cannot reassign globals, must use a mutable type
+
+def set_sheet_overrides(levels, rules_version):
+  """
+  Override for testing, uses the provided AliasLevels and version string instead of values obtained from the current character.
+
+  :param levels: https://avrae.readthedocs.io/en/stable/aliasing/api.html#aliasing.api.character.AliasCharacter.levels
+  :type levels: AliasLevels
+  :param rules_version: The default rules version from the character's csettings: https://avrae.readthedocs.io/en/stable/aliasing/api.html#aliasing.api.character.AliasCharacter.csettings
+  :type rules_version: dict
+  """  
+  _sheet_levels.update(levels) # mutate, don't reassign
+  _sheet_rules_version['version'] = rules_version
+
+def _load_config() -> dict:
+  """
+  Load configured classes and subclasses we know how to add to a character.
+
+  :return: Parsed svar contents listing available class/subclass sources
+  :rtype: dict[str, str | {
+    2014:
+      classes: dict[str, {
+        hit_die: int
+        sub_level: int
+        automations: dict[str, { actions: [str], level: int }]
+        counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
+        features: dict[str, { name: str, type: str, level: int }]
+      }]
+      subclasses: dict[str, {
+        parent: str,
+        automations: dict[str, { actions: [str], level: int }]
+        counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
+        features: dict[str, { name: str, type: str, level: int }]
+      }]
+    2024:
+      classes: dict[str, {
+        hit_die: int
+        sub_level: int
+        automations: dict[str, { actions: [str], level: int }]
+        counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
+        features: dict[str, { name: str, type: str, level: int }]
+      }]
+      subclasses: dict[str, {
+        parent: str,
+        automations: dict[str, { actions: [str], level: int }]
+        counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
+        features: dict[str, { name: str, type: str, level: int }]
+      }]
+  }]
+  """
+  if not _caches.config_cache:
+    config = CONFIG_DEFAULTS
+    config |= load_yaml(get_svar(SETTINGS_VAR, '{}'))
+    config |= load_yaml(get_uvar(SETTINGS_VAR, '{}'))
+    config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}'))
+
+    for (config_name, config_value) in config.items():
+      if typeof(config_value) == 'str':
+        config[config_name] = load_yaml(get_gvar(config_value))
+        for version in [2014, 2024]:
+          version_items = config_value.get(version, {})
+          for category in ['classes', 'subclasses']:
+            category_items = version_items.get(category, {})
+            for (item, item_value) in category_items.items():
+              if typeof(item_value) == 'str':
+                category_items[item] = load_yaml(get_gvar(item_value))
+
+    _caches.config_cache = config
+  return _caches.config_cache
+
+def _save(levels):
+  """
+  Merge `levels` into the `subclass` cvar
+
+  :param levels: Dictionary to store in the `subclass` cvar
+  :type levels: {
+    (class)Level: <subclassName>, # For compatibility with verbose character tools
+    classes: {
+      class_name: {
+        level:int, 
+        source?: str,
+        rules_version: int,
+        last_update?: {
+          updated_at: timestamp,
+          level: int,
+          hit_die: str,
+          rules_version: int,
+          automations: dict(str:list[str]),
+          counters: dict(str:counter),
+          features: dict(str:feature),
+        },
+      },
+    },
+    subclasses: {
+      subclass_name: {
+        source: str,
+        rules_version: int,
+        parent: str,
+        last_update: {
+          updated_at: timestamp,
+          level: int,
+          rules_version: int,
+          automations: dict(str:list[str]),
+          counters: dict(str:counter),
+          features: dict(str:feature),
+        },
+      },
+    },
+  }
+  """
+  pruned_cvar = {'classes': {}, 'subclasses': {}}
+  # Ensure compatibility with Verbose Character Tools
+  for (class_name, details) in levels.get('classes', {}).items():
+    if details: # could be None after removing a class
+      pruned_cvar[class_name + 'Level'] = None
+      classes_dict = pruned_cvar.get('classes', {})
+      classes_dict[class_name] = details
+      pruned_cvar['classes'] = classes_dict
+  for (subclass_name, details) in levels.get('subclasses', {}).items():
+    if details:
+      subclasses_dict = pruned_cvar.get('subclasses', {})
+      subclasses_dict[subclass_name] = details
+      if parent_class := details.get('parent'):
+        short_name = subclass_name.lower()
+        for term in ["path","college","circle","way","the","domain","oath","bloodline","school","of", " "]:
+          short_name = short_name.replace(term, '')
+        pruned_cvar[parent_class + 'Level'] = short_name
+      pruned_cvar['subclasses'] = subclasses_dict
+
+  _character.set_cvar('subclass', dump_json(pruned_cvar))
+  _caches['cvar_cache'] = pruned_cvar # update the cache for two step processes, like adding class and subclass together
+
+def _update_hit_die_counters():
+  """Calculate current hit dice and create counters. Delete any other hit dice counters.
+
+  :return: A dict of added and removed counters.
+  :rtype: {
+    added: [str:{name: str, minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int}],
+    removed: [str:{name: str, minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int}],
+  }
+  """
+  class_levels = current_levels().get('classes')
+
+  added = []
+  removed = []
+
+  hit_dice = {}
+  for (class_name, class_data) in class_levels.items():
+    if class_data is None: # This can happen after removing a [sub]class since we don't have `del` in aliases to remove the key.
+      continue
+    level = class_data.get('level')
+    source_config = load_yaml(get_gvar(class_data.get('source', list(CONFIG_DEFAULTS.values())[0]))) # Try falling back to our default classes list if a source has not yet been set. We can still set hit dice for a core rules class.
+    class_config = None
+    if class_data.get('rules_version') is not None:
+      class_config = source_config.get(class_data.get('rules_version'), {}).get('classes', {}).get(class_name, None)
+    else: # before adding a subclass the rules version for the class can be unknown, try to respect the character's csettings but check the other rule set as well if the class is not found
+      class_config = source_config.get(_sheet_rules_version.version, {}).get('classes', {}).get(class_name, None)
+      if class_config is None:
+        alternate_rules_version = 2014 if _sheet_rules_version.version == 2024 else 2024
+        class_config = source_config.get(alternate_rules_version, {}).get('classes', {}).get(class_name, None)
+    if class_config and typeof(class_config) == 'str':
+      class_config = load_yaml(get_gvar(class_config))
+    if class_config is not None:
+      hit_die = class_config.get('hit_die')
+      hit_dice[hit_die] = hit_dice.get(hit_die, 0) + level
+
+  unused_die_sizes = [4,6,8,10,12]
+  for (die_size, die_count) in hit_dice.items():
+    counter = {
+      'name': f'Hit Dice (d{die_size})', 
+      'minVal': 0,
+      'maxVal': die_count,
+      'reset': 'long',
+      'dispType': None,
+      'reset_to': die_count,
+      'initial_value': die_count,
+    }
+    added.append(counter)
+    _character.create_cc(**counter)
+    if die_size in unused_die_sizes:
+      unused_die_sizes.remove(die_size)
+
+  for die_size in unused_die_sizes:
+    counter_name = f'Hit Dice (d{die_size})'
+    if _character.cc_exists(counter_name):
+      removed_counter = _character.cc(counter_name)
+      removed.append({
+        'name': removed_counter.name, 
+        'minVal': removed_counter.min,
+        'maxVal': removed_counter.max,
+        'reset': removed_counter.reset_on,
+        'dispType': removed_counter.display_type,
+        'reset_to': removed_counter.reset_to,
+        'title': removed_counter.title,
+        'desc': removed_counter.desc,
+        'initial_value': removed_counter.value,
+      })
+      _character.delete_cc(counter_name)
+
+  return {
+    'added': added,
+    'removed': removed,
+  }
+
+def resolve_source(query:str) -> str:
+  """Resolve a source string into a gvar id.
+
+  :param query: a gvar id or string to match against source keys
+  :type query: str
+  :return: the given gvar id, or the gvar id of a unique match of the source query against config keys, or None
+  :rtype: str | None
+  """
+  if typeof(query) == 'str' and len(query) == 36 and [char for char in query if not char in '0123456789abcdef-'] == []:
+    return query
+  
+  config = CONFIG_DEFAULTS
+  config |= load_yaml(get_svar(SETTINGS_VAR, '{}'))
+  config |= load_yaml(get_uvar(SETTINGS_VAR, '{}'))
+  config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}'))
+  matches = fuzzy.get_matches_ignoring_punctuation(query, config.keys())
+  if len(matches) != 1:
+    return None
+  else:
+    return config[matches[0]]
+
+def list_options(version) -> dict:
+  """
+  Classes and subclasses which can be managed by `!level class`
+  
+  :return: Returns a dict of classes and subclasses and their source gvars or the location in which they are defined ('svar'|'uvar'|'cvar').
+  :rtype: dict[str, dict[str, (str, str)]] | {
+    'classes': dict[class_name: (label, gvar|'svar'|'uvar'|'cvar')],
+    'subclasses': dict[subclass_name: (label, gvar|'svar'|'uvar'|'cvar')],
+  }
+  """
+  config_locations = [
+    (CONFIG_DEFAULTS, None),
+    (load_yaml(get_svar(SETTINGS_VAR, '{}')), 'svar'),
+    (load_yaml(get_uvar(SETTINGS_VAR, '{}')), 'uvar'),
+    (load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')), 'cvar')
+  ]
+
+  combined_config = {'classes': {}, 'subclasses': {}}
+  for (config, config_name) in config_locations:
+    for (label) in config.keys():
+      gvar_or_local_definition = config.get(label)
+      load_from = None
+      config_content = None
+      if typeof(gvar_or_local_definition) == 'str':
+        load_from = gvar_or_local_definition
+        config_content = load_yaml(get_gvar(gvar_or_local_definition))
+      else:
+        load_from = config_name
+        config_content = gvar_or_local_definition
+
+      for (current_version, options) in config_content.items():
+        if int(current_version) == version:
+          for option_type in ['classes', 'subclasses']:
+            for (option, details) in options.get(option_type, {}).items():
+              combined_config.get(option_type)[option] = (label, load_from)
+  
+  return combined_config
+
+def current_levels() -> dict:
+  """
+  Report the character's levels in registered classes.
+
+  :return: A dict of classes and subclasses.
+  :rtype: {
+    classes: {
+      class_name: {
+        level:int, 
+        source?: str, # None if obtained from AliasLevels
+        rules_version?: int, # None if obtained from AliasLevels
+        last_update?: {
+          updated_at: timestamp,
+          level: int,
+          hit_die: str,
+          rules_version: int,
+          automations: dict(str:list(str)),
+          counters: list(str),
+          features: list(str),
+        }
+      }
+    },
+    subclasses: {
+      subclass_name: {
+        source: str,
+        rules_version: int,
+        parent: str,
+        last_update?: {
+          updated_at: timestamp,
+          level: int,
+          rules_version: int,
+          automations: dict(str:list(str)),
+          counters: list(str),
+          features: list(str),
+        }
+      }, 
+    }
+  }
+  """
+  if _caches.cvar_cache is None:
+    _caches['cvar_cache'] = {'classes': {}, 'subclasses': {}} | load_json(_character.get_cvar("subclass","{}"))
+  return _caches.cvar_cache
+
+def current_cvars() -> dict:
+  """Return a list of cvars used to track class features for the characters classes, at their current levels.
+
+  :return: A list of cvar names
+  :rtype: dict[str: {type: str, level: int}]
+  """
+  registered_cvars = {}
+  levels = current_levels()
+  for (class_name, class_config) in levels.classes.items():
+    if (source := class_config.get('source')) is not None and (version := class_config.get('rules_version')) is not None:
+      class_config = load_yaml(get_gvar(source)).get(version, {}).get('classes', {}).get(class_name, {})
+      if class_config and typeof(class_config) == 'str':
+        class_config = load_yaml(get_gvar(class_config))
+      class_features = class_config.get('features', {})
+      registered_cvars |= {feature_name:feature for (feature_name, feature) in class_features.items() if feature.level <= (class_config.get('level') or _character.levels.get(class_name))}
+  for (subclass_name, subclass_config) in levels.subclasses.items():
+    subclass_config = load_yaml(get_gvar(subclass_config.source)).get(version, {}).get('subclasses', {}).get(subclass_name, {})
+    if subclass_config and typeof(subclass_config) == 'str':
+      subclass_config = load_yaml(get_gvar(subclass_config))
+    subclass_features = subclass_config.get('features', {})
+    registered_cvars |= {feature_name:feature for (feature_name, feature) in subclass_features.items() if feature.level <= (levels.classes[subclass_config.parent].get('level') or _character.levels.get(subclass_config.parent))}
+  return registered_cvars
+
+def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -> dict:
+  """Add levels of a class not managed by Avrae's character sheet.
+
+  :param class_name: The class to add.
+  :type class_name: str
+  :param level: The final number of levels in the class. Not necessarily the number to add.
+  :type level: int
+  :param rules_version: 2014 or 2024, to differentiate classes with identical names.
+  :type rules_version: int
+  :param source: The gvar in which this class is defined.
+  :type source: str
+  
+  :return: Returns a dict of automations to add and any feature cvars and counters already added
+  :rtype: {
+    success: bool,        # True if the subclass was added, False otherwise.
+    message: str | None,  # None on success, otherwise an error string.
+    added: {
+      counters: dict[str:{name: str, minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int}],
+      features: dict[str:str],
+    },
+    add: {
+      automations: list(str),
+    }
+  }
+  """
+  if level < _sheet_levels.get(class_name, 0):
+    return {'success': False, 'message': f'Cannot override levels defined on a character sheet to set level to {level}. Avrae manages this level {_sheet_levels.get(class_name, 0)} {class_name}.'}
+  
+  hit_dice = None
+  added_counters = {}
+  added_vars = {}
+  added_automations = []
+  
+  gvar_content = load_yaml(get_gvar(source))
+  levels = current_levels()
+  
+  if (class_config := gvar_content.get(int(rules_version), {}).get('classes', {}).get(class_name, None)) == None:
+    return {'success': False, 'message': f'{rules_version} class `{class_name}` was not found in `{source}`'}
+
+  # check for and validate a subclass before making any edits
+  existing_subclass = None
+  for (subclass_name, subclass) in levels.get('subclasses', {}).items():
+    if typeof(subclass) == 'str':
+      subclass = load_yaml(get_gvar(subclass))
+    if subclass.get('parent', None) == class_name:
+      source = subclass.get('source', None)
+      # Check that the subclass source is valid
+      if source is None:
+        return {'success': False, 'message': f'{subclass_name} source not defined in the `subclass` cvar'}
+      gvar_content = load_yaml(get_gvar(source))
+      subclass_config = gvar_content.get(subclass.get('last_update', {}).get('rules_version', 2014), {}).get('subclasses', {}).get(subclass_name, None)
+      if typeof(subclass_config) == 'str':
+        subclass_config = load_yaml(get_gvar(subclass_config))
+      if subclass_config is None:
+        return {'success': False, 'message': f'{subclass_name} not found in {source}'}
+      existing_subclass = { 'config': subclass_config, 'name': subclass_name, 'last_update': subclass.get('last_update', {}) }
+
+  previous_level = levels.get('classes', {}).get(class_name, {}).get('level', 0)
+
+  for (counter_name, counter) in class_config.get('counters', {}).items():
+    counter_level = counter.get('level', 1)
+    if counter_level <= level and counter_level > previous_level and not _character.cc_exists(cc): # TODO: support `-cc` to force (re)creation
+      _character.create_cc(**counter)
+      added_counters[counter_name] = counter
+
+  for (cvar_name, cvar) in class_config.get('features', {}).items():
+    feature_level = cvar.get('level', 0)
+    if feature_level <= level and feature_level > previous_level:
+      _character.set_cvar_nx(cvar_name, cvar.get('default', [] if cvar.type == 'list' else '')) # TODO: support `-cc` to force (re)creation
+      added_vars[cvar_name] = cvar
+
+  hit_dice = {'count': level, 'size': class_config.hit_die}
+
+  added_automations = [action for (automation_name, automation) in class_config.get('automations', {}).items() for action in automation.get('actions', '') if automation.get('level', 1) <= level and automation.get('level', 1) > previous_level]
+
+  last_update = {
+    'updated_at': time(),
+    'level': level,
+    'rules_version': rules_version,
+    'automations': [action.name for automation in added_automations for action in load_yaml(automation)],
+    'counters': added_counters,
+    'features': added_vars,
+  }
+
+  levels.classes[class_name] = {'source': source, 'rules_version': rules_version, 'level': level, 'last_update': last_update}
+
+  # When leveling up an existing class, apply subclass features as well
+  subclass_vars_to_add = {}
+  subclass_counters_to_add = {}
+  subclass_automations_to_add = []
+  if existing_subclass is not None:
+    applied_level = existing_subclass.last_update.get('level', 0)
+      
+    # Add any cvars added by the subclass
+    for (cvar_name, cvar) in existing_subclass.config.get('features', {}).items():
+      if cvar.get('level', 0) > applied_level and cvar.get('level', 0) <= level:
+        _character.set_cvar_nx(cvar_name, cvar.get('default', [] if cvar.type == 'list' else '')) # TODO: support `-cc` to force (re)creation
+        subclass_vars_to_add[cvar_name] = cvar
+    # Add any counters added by the subclass
+    for (counter_level, counter) in existing_subclass.config.get('counters', {}).items():
+      if counter_level > applied_level and counter_level <= level:
+        _character.create_cc(**counter)
+        subclass_counters_to_add[counter.name] = counter
+    # Collect names of any existing automations probably added by the subclass
+    subclass_automations_to_add = [action for (automation_name, automation) in existing_subclass.config.get('automations', {}).items() for action in automation.get('actions', '') if automation.get('level', 0) > applied_level and automation.get('level', 0) <= level]
+
+    existing_subclass_last_update = {
+      'updated_at': time(),
+      'level': level,
+      'rules_version': rules_version,
+      'automations': [action.name for automation in subclass_automations_to_add for action in load_yaml(automation)],
+      'counters': subclass_counters_to_add,
+      'features': subclass_vars_to_add,
+    }
+    levels.subclasses[existing_subclass.name].update({'last_update': existing_subclass_last_update})
+
+  _save(levels)
+
+  _update_hit_die_counters()
+
+  return {
+    'success': True,
+    'added': {
+      'counters': added_counters | subclass_counters_to_add,
+      'features': added_vars | subclass_vars_to_add,
+    },
+    'add': {
+      'automations': added_automations + subclass_automations_to_add,
+    },
+    'hit_dice': hit_dice
+  }
+
+def remove_class_levels(class_name:str, level:int, rules_version:int, source:str) -> dict:
+  """Remove levels of a class not managed by Avrae's character sheet.
+
+  :param class_name: The class to remove levels from.
+  :type class_name: str
+  :param level: The final number of levels the class should have. Not necessarily the number removed.
+  :type level: int
+  :param rules_version: 2014 or 2024, to differentiate classes with identical names.
+  :type rules_version: int
+  :param source: The gvar in which this class is defined.
+  :type source: str
+  
+  :return: Returns a dict of automations to remove and any feature cvars and counters already removed
+  :rtype: {
+    success: bool,        # True if the subclass was removed, False otherwise.
+    message: str | None,  # None on success, otherwise an error string.
+    removed: {
+      counters: dict[str:{name: str, minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int}],
+      features: dict[str:str],
+    },
+    remove: {
+      automations: list(str),
+    }
+  }
+  """  
+  if (sheet_level := _sheet_levels.get(class_name, None)) is not None and level < sheet_level:
+    return {'success': False, 'message': f'Cannot override levels defined on a character sheet. Avrae manages this level {_sheet_levels.get(class_name, 0)} {class_name}.'}
+  
+  hit_dice = None
+  removed_counters = []
+  removed_vars = []
+  class_automations_to_remove = {}
+  
+  gvar_content = load_yaml(get_gvar(source))
+  levels = current_levels()
+  
+  if (class_config := gvar_content.get(rules_version, {}).get('classes', {}).get(class_name, None)) == None:
+    err(f'{rules_version} class `{class_name}` was not found in `{source}`')
+
+  # check for and validate a subclass before making any edits
+  existing_subclass = None
+  for (subclass_name, subclass) in levels.get('subclasses', {}).items():
+    if typeof(subclass) == 'str':
+      subclass = load_yaml(get_gvar(subclass))
+    if subclass.get('parent', None) == class_name:
+      source = subclass.get('source', None)
+      # Check that the subclass source is valid
+      if source is None:
+        return {'success': False, 'message': f'{subclass_name} source not defined in the `subclass` cvar'}
+      gvar_content = load_yaml(get_gvar(source))
+      subclass_config = gvar_content.get(subclass.get('last_update', {}).get('rules_version', 2014), {}).get('subclasses', {}).get(subclass_name, None)
+      if subclass_config is None:
+        return {'success': False, 'message': f'{subclass_name} not found in {source}'}
+      existing_subclass = { 'config': subclass_config, 'name': subclass_name, 'last_update': subclass.get('last_update', {}) }
+
+  previous_level = levels.get('classes', {}).get(class_name, {}).get('last_update', {}).get('level', 0)
+
+  for (counter_name, counter) in class_config.get('counters', {}).items():
+    counter_level = counter.get('level', 1)
+    if counter_level > level and counter_level < previous_level and not _character.cc_exists(cc):
+      _character.delete_cc(counter_name)
+      removed_counters.append(counter)
+
+  for (cvar_name, cvar) in class_config.get('features', {}).items():
+    feature_level = cvar.get('level', 0)
+    if feature_level > level and feature_level < previous_level:
+      _character.delete_cvar(cvar_name)
+      removed_vars.append(cvar_name)
+    
+  hit_dice = {'count': level, 'size': class_config.hit_die}
+
+  class_automations_to_remove = [load_yaml(action).name for (automation_name, automation) in class_config.get('automations', {}).items() for action in automation.get('actions', []) if automation.get('level', 1) > level and automation.get('level', 1) < previous_level]
+
+  last_update = {
+    'updated_at': time(),
+    'level': level,
+    'rules_version': rules_version,
+    'automations': class_automations_to_remove,
+    'counters': removed_counters,
+    'features': removed_vars,
+  }
+  levels.classes[class_name] = {'source': source, 'rules_version': rules_version, 'level': level, 'last_update': last_update}
+  
+  existing_subclass_vars = []
+  existing_subclass_counters = []
+  existing_subclass_automations_to_remove = []
+  if existing_subclass is not None:
+    applied_level = existing_subclass.last_update.get('level', 0)
+      
+    # Remove any existing cvars added by the subclass
+    for (cvar_name, cvar) in existing_subclass.config.get('features', {}).items():
+      if cvar.get('level', 0) <= applied_level and cvar.get('level', 0) > level and _character.get_cvar(cvar) != None:
+        _character.delete_cvar(cvar_name)
+        existing_subclass_vars.append(cvar_name)
+    # Remove any existing counters added by the subclass
+    for (counter_level, counters) in existing_subclass.config.get('counters', {}).items():
+      for counter in counters:
+        if counter_level <= applied_level and counter_level > level and _character.cc_exists(counter.name):
+          existing_subclass_counters.append(_character.cc(counter.name))
+          _character.delete_cc(counter.name)
+    # Collect names of any existing automations probably added by the subclass
+    automation_names = [action.name for action in _character.actions] + [attack.name for attack in _character.attacks]
+    existing_subclass_actions = [load_yaml(action) for (automation_name, automation) in existing_subclass.config.get('automations', {}).items() for action in automation.get('actions', []) if automation.get('level', 0) <= applied_level and automation.get('level', 0) > level]
+    for action in existing_subclass_actions:
+      if 'List' in typeof(action):
+        existing_subclass_automations_to_remove += action
+      else:
+        existing_subclass_automations_to_remove.append(action)
+    existing_subclass_automations_to_remove =  [action_name for action_name in existing_subclass_automations_to_remove if action_name in automation_names]
+
+    existing_subclass_last_update = {
+      'updated_at': time(),
+      'level': level,
+      'rules_version': rules_version,
+      'automations': existing_subclass_automations_to_remove,
+      'counters': existing_subclass_counters,
+      'features': existing_subclass_vars,
+    }
+    levels.subclasses[existing_subclass.name].update({'last_update': existing_subclass_last_update})
+
+    # if we are now too low level to have a subclass then remove it entirely
+    if level < class_config.get('sub_level', 0):
+      levels.get('subclasses', {})[existing_subclass.name] = None
+
+  # if the class is set to level 0 remove it and any subclass entirely
+  if level == 0:
+    if existing_subclass is not None:
+      levels.get('subclasses', {})[existing_subclass.name] = None
+    levels.get('classes', {})[class_name] = None
+
+  _save(levels)
+
+  _update_hit_die_counters()
+
+  return {
+    'success': True,
+    'removed': {
+      'counters': removed_counters + existing_subclass_counters,
+      'features': removed_vars + existing_subclass_vars,
+    },
+    'remove': {
+      'automations': class_automations_to_remove + existing_subclass_automations_to_remove,
+    },
+    'hit_dice': hit_dice
+  }
+  
+def add_subclass(subclass_name:str, rules_version:int, source:str) -> dict:
+  """
+  Add a subclass
+
+  :param subclass_name: The subclass to add.
+  :type subclass_name: str
+  :param rules_version: 2014 or 2024, to differentiate subclasses with identical names in both versions.
+  :type rules_version: int
+  :param source: The gvar in which this subclass is defined.
+  :type source: str
+  
+  :return: Returns a dict of automations to add/remove and any feature cvars and counters already added/removed
+  :rtype: {
+    success: bool,        # True if the subclass was removed, False otherwise.
+    message: str | None,  # None on success, otherwise an error string.
+    added: {
+      counters: dict[str:{name: str, minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int}],
+      features: dict[str:str],
+    },
+    add: {
+      automations: list(str),
+    }
+  }
+  """
+  
+  gvar_content = load_yaml(get_gvar(source))
+  subclass_config = gvar_content.get(rules_version, {}).get('subclasses', {}).get(subclass_name, None)
+
+  if subclass_config is None:
+    return {'success': False, 'message': f'{subclass_name} not found in {source}'}
+  if typeof(subclass_config) == 'str':
+    subclass_config = load_yaml(get_gvar(subclass_config))
+
+  parent_class_name = subclass_config.get('parent', None)
+  parent_class = current_levels().get('classes', {}).get(parent_class_name, None)
+
+  if parent_class is None:
+    return {'success': False, 'message': f'Not a member of {subclass_config.get("parent", None)}'}
+  
+  if parent_class.get('source', None) is None:
+    return {'success': False, 'message': f'Cannot add a subclass until {parent_class_name} has been configured with a source'}
+
+  parent_gvar_content = load_yaml(get_gvar(parent_class.source))
+  parent_class_config = parent_gvar_content.get(rules_version, {}).get('classes', {}).get(subclass_config.get('parent', None), None)
+  if parent_class_config is None:
+    return {'success': False, 'message': f'{parent_class_name} not found in {parent_class.source}'}
+  if typeof(parent_class_config) == 'str':
+    parent_class_config = load_yaml(get_gvar(parent_class_config))
+
+  level=parent_class.get('level', 0)
+  previous_level = 0
+
+  if (sub_level := parent_class_config.get('sub_level', None)) is None or sub_level > level:
+    return {
+      'success': False,
+      'message': f"Cannot add a {parent_class_name} subclass until level {parent_class.get('sub_level', None)}, currently level {level}",
+    }
+  
+  existing_subclasses = [subclass_name for subclass_name, subclass_data in current_levels().get('subclasses', {}).items() if subclass_data.get('parent') == parent_class_name]
+  if len(existing_subclasses) > 0:
+    return {
+      'success': False,
+      'message': f"Only one subclass allowed per class. Already a {parent_class_name} subclass: {existing_subclasses[0]}",
+    }
+
+  added_counters = []
+  for (counter_level, counters) in subclass_config.get('counters', {}).items():
+    for counter in counters:
+      if counter_level <= level and counter_level > previous_level and not _character.cc_exists(counter.name): # TODO: support `-cc` to force (re)creation
+        _character.create_cc(**counter)
+        added_counters.append(counter)
+
+  added_vars = {}
+  for (cvar_name, cvar) in subclass_config.get('features', {}).items():
+    feature_level = cvar.get('level', 0)
+    if feature_level <= level and feature_level > previous_level:
+      _character.set_cvar_nx(cvar_name, cvar.get('default', [] if cvar.type == 'list' else '')) # TODO: support `-cc` to force (re)creation
+      added_vars[cvar_name] = cvar
+
+  automations_to_add = [action for (automation_name, automation) in subclass_config.get('automations', {}).items() for action in automation.get('actions', '') if (automation.get('level', 1) <= level) and (automation.get('level', 1) > previous_level)]
+
+  last_update = {
+    'updated_at': time(),
+    'level': level,
+    'rules_version': rules_version,
+    'automations': [action.name for automation in automations_to_add for action in load_yaml(automation)],
+    'counters': added_counters,
+    'features': added_vars,
+  }
+  
+  levels = current_levels()
+  levels.subclasses[subclass_name] = {'source': source, 'rules_version': rules_version, 'parent': subclass_config.get('parent'), 'last_update': last_update}
+  _save(levels)
+  
+  return {
+    'success': True,
+    'added': {
+      'counters': added_counters,
+      'features': added_vars,
+    },
+    'add': {
+      'automations': automations_to_add,
+    }
+  }
+
+def remove_subclass(subclass_name:str) -> dict:
+  """
+  Remove a subclass
+
+  :return: Returns a dict of automations to remove and features and counters already removed.
+  :rtype: {
+    success: bool,        # True if the subclass was removed, False otherwise.
+    message: str | None,  # None on success, otherwise an error string.
+    removed: {
+      counters: [str:{name: str, minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int}],
+      features: dict[str:str],
+    },
+    remove: {
+      automations: list(str),
+    }
+  }
+  """  
+  levels = current_levels()
+  removed = levels.get('subclasses', {}).pop(subclass_name, None)
+  
+  # Check if this subclass exists
+  if removed is None:
+    return {'success': False, 'message': f'{subclass_name} is not a current subclass'}
+  source = removed.get('source', None)
+  # Check that the subclass source is valid
+  if source is None:
+    return {'success': False, 'message': f'{subclass_name} source not defined in the `subclass` cvar'}
+  gvar_content = load_yaml(get_gvar(source))
+  subclass = gvar_content.get(removed.get('last_update', {}).get('rules_version', 2014), {}).get('subclasses', {}).get(subclass_name, None)
+  if subclass is None:
+    return {'success': False, 'message': f'{subclass_name} not found in {source}'}
+  if typeof(subclass) == 'str':
+    subclass = load_yaml(get_gvar(subclass))
+
+  applied_level = removed.get('last_update', {}).get('level', 0)
+  
+  # Remove any existing cvars added by the subclass
+  removed_vars = {}
+  for (cvar_name, cvar) in subclass.get('features', {}).items():
+    if cvar.get('level', 0) <= applied_level and _character.get_cvar(cvar) != None:
+      _character.delete_cvar(cvar_name)
+      removed_vars[cvar_name] = cvar
+  # Remove any existing counters added by the subclass
+  removed_counters = []
+  for (counter_level, counter) in subclass.get('counters', {}).items():
+    if counter_level <= applied_level and _character.cc_exists(counter_name):
+      removed_counters.append(_character.cc(counter_name))
+      _character.delete_cc(counter_name)
+  # Collect names of any existing automations probably added by the subclass
+  automation_names = [action.name for action in _character.actions] + [attack.name for attack in _character.attacks]
+  automations_to_remove = [action.name for (automation_name, automation) in subclass.get('automations', {}).items() for actions in automation.get('actions', []) for action in load_yaml(actions) if automation.get('level', 0) <= applied_level]
+  automations_to_remove = [name for name in automations_to_remove if name in automation_names]
+  logger.debug(applied_level=applied_level, automation_names=automation_names, automations_to_remove=automations_to_remove, automation_levels = [automation.get('level') for (automation_name, automation) in subclass.get('automations', {}).items()])
+  # Update the `subclasses` cvar
+  _save(levels)
+  
+  return {
+    'success': True,
+    'removed': {
+      'subclass': subclass_name,
+      'features': removed_vars,
+      'counters': removed_counters,
+    },
+    'remove': {
+      'automations': automations_to_remove,
+    },
+  }
+  
+def apply_levels() -> dict:
+  """
+  Update the character's existing class and subclass selections by adding any additional class levels reported by Avrae.
+  Only applies increases in level. Does not add new classes, use add_class_levels to explicitly adopt a new class.
+
+  :return: Returns a dict of automations to add and any features and counters already added for each class and subclass.
+  :rtype: {
+    success: bool,        # True if levels were updated, False otherwise.
+    message: str | None,  # None on success, otherwise an error string.
+    added: {
+      counters: [{name: str, minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int}],
+      features: dict[str],
+      class_levels: dict[str:int]
+    },
+    skipped: {
+      class_levels: dict[str:int]
+    }
+    add: {
+      automations: dict(str:list(str)),
+    }
+  }
+  """  
+  levels = current_levels()
+  results = {'success': True, 'added': {'counters': [], 'features': {}, 'class_levels': {}}, 'skipped': {'class_levels': {}}, 'failed': {'class_levels': {}}, 'add': {'automations': {}}, 'removed': {'counters': [], 'features': {}}, 'remove': {}}
+  for (sheet_class_name, sheet_level) in _sheet_levels.items():
+    class_data = levels.get('classes', {}).get(sheet_class_name, {})
+    homebrew_level = class_data.get('level', 0)
+    if sheet_level > homebrew_level:
+      default_version = _sheet_rules_version.version
+      version = class_data.get('rules_version') or default_version
+      options = list_options(version=version)
+      source = class_data.get('source') or options.classes.get(sheet_class_name, (None, None))[1]
+      class_results = add_class_levels(class_name=sheet_class_name, level=sheet_level, rules_version=version, source=source)
+      if class_results.success: 
+        results.added.counters.extend(class_results.get('added', {}).get('counters', []))
+        results.added.features.update(class_results.get('added', {}).get('features', {}))
+        results.added.class_levels[sheet_class_name] = sheet_level
+        results.add.automations.update(class_results.get('added', {}).get('automations', {}))
+      else:
+        results.failed.class_levels[sheet_class_name] = sheet_level
+        if message := class_results.get('message'):
+          logger.debug(sheet_class_name=sheet_class_name, sheet_level=sheet_level, message=message)
+    else:
+      results.skipped.class_levels[sheet_class_name] = sheet_level
+  hd_results = _update_hit_die_counters()
+  results.added.counters.extend(hd_results.added)
+  results.removed.counters.extend(hd_results.removed)
+  _save(levels)
+
+  return results

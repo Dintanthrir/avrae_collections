@@ -1,0 +1,14 @@
+2014:
+  subclasses:
+    # Obojima: Tales from the Tall Grass
+    Path of the Belly Brewer: { parent: Barbarian }
+    College of Masks: { parent: Bard }
+    Circle of the Petal: { parent: Druid }
+    The Spirit-Fused: { parent: Fighter }
+    Sheep Dragon Shepherd: { parent: Monk }
+    Oath of the River: { parent: Paladin }
+    Corrupted Ranger: { parent: Ranger }
+    Waxwork Rogue: { parent: Rogue }
+    Oni Bloodline: { parent: Sorcerer }
+    The Lantern: { parent: Warlock }
+    Origami Mage: { parent: Wizard }

@@ -1,0 +1,16 @@
+2014:
+  subclasses:
+    # Book of Ebon Tides
+    Shadow Gnawer: { parent: Barbarian }
+    College of Shadows: { parent: Bard }
+    Keeper Domain: { parent: Cleric }
+    Shadow Domain: { parent: Cleric }
+    Circle of Shadows: { parent: Druid }
+    Way of the Prophet: { parent: Monk }
+    Umbral Binder: { parent: Rogue }
+    Light Weaver:
+          parent: Sorcerer
+          features:
+            Flickering Aura: { type: string, level: 1 }
+    Mother of Sorrows: { parent: Warlock }
+    Shadow Arcane Tradition: { parent: Wizard }

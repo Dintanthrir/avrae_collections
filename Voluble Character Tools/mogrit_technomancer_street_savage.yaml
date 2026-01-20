@@ -1,0 +1,312 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Street_Savage = 'e86d22f0-3cb3-44e9-aa66-c1aef4bf0e6d'
+name: Street Savage
+parent: Barbarian
+features:
+  savage_accessories: { type: list, level: 3, title: Savage Accessories, desc: Accessories created and the weapons they are attached to. }
+counters:
+  3:
+    - name: Bola Ammunition
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+    - name: Grapple Harpoon Ammunition
+      minVal: 0
+      maxVal: 1
+      reset: none
+      reset_to: 1
+automations:
+  Savage Accessories:
+    level: 3
+    actions:
+      - |
+        - name: Savage Accessory - Belt Feed
+          automation:
+            - type: text
+              text: If this firearm lacks the blast property, it ignores the reload property.
+                You can swap ammo types loaded into this firearm on your turn (no action
+                required).
+          _v: 2
+          proper: false
+          verb: has equipped
+          activation_type: 2
+        - name: Savage Accessory - Blast Shield
+          automation:
+            - type: text
+              text: While you are holding this weapon you are not affected by the blast property on weapons and you have resistance to thunder damage.
+          _v: 2
+          proper: false
+          verb: has equipped
+          activation_type: 2
+        - name: Savage Accessory - Bola Launcher
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: counter
+                  counter: Bola Ammunition
+                  amount: "1"
+                  allowOverflow: false
+                  errorBehaviour: warn
+                - type: condition
+                  condition: lastCounterUsedAmount > 0
+                  onTrue:
+                    - type: attack
+                      hit:
+                        - type: ieffect2
+                          name: Restrained (Bola)
+                          effects:
+                            attack_advantage: "-1"
+                            save_dis:
+                              - dex
+                          buttons:
+                            - label: Break Bola (Action)
+                              automation:
+                                - type: target
+                                  target: self
+                                  effects:
+                                    - type: check
+                                      ability: strength
+                                      dc: "10"
+                                      success:
+                                        - type: remove_ieffect
+                                      fail: []
+                              style: "1"
+                          desc: >-
+                            - The creature's speed becomes 0, and it can't benefit from any bonus to
+                            its speed.
+
+                            - Attack rolls against the creature have advantage.
+                      miss: []
+                      attackBonus: strengthMod + proficiencyBonus
+                  onFalse:
+                    - type: text
+                      text: Not enough ammunition to attack {target}
+                      title: Out of ammo
+                  errorBehaviour: "false"
+            - type: text
+              text: As an attack with this firearm, you can launch a bola at a creature. A
+                bola functions similarly to a net, except that it is range 20/60, and you
+                can make your normal number of attacks. You can reload this launcher over
+                the course of a short or long rest.
+            - type: text
+              text: A Large or smaller creature hit by a bola is restrained until it is freed.
+                A bola has no effect on creatures that are formless, or creatures that are
+                Huge or larger. A creature can use its action to make a DC 10 Strength
+                check, freeing itself or another creature within its reach on a success.
+                Dealing 5 slashing damage to the bola (AC 10) also frees the creature
+                without harming it, ending the effect and destroying the bola.
+              title: Bola
+          _v: 2
+          proper: false
+          verb: fires
+        - name: Savage Accessory - Chainsaw
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: counter
+                  counter: Chainsaw Ammunition
+                  amount: "1"
+                  allowOverflow: false
+                  errorBehaviour: warn
+                - type: condition
+                  condition: lastCounterUsedAmount > 0
+                  onTrue:
+                    - type: attack
+                      hit:
+                        - type: damage
+                          damage: 2d6 + {strengthMod} [slashing]
+                          overheal: false
+                      miss: []
+                      attackBonus: strengthMod + proficiencyBonus
+                  onFalse:
+                    - type: text
+                      text: Not enough ammunition to attack {target}
+                      title: Out of ammo
+                  errorBehaviour: "false"
+            - type: text
+              text: >-
+                _Martial Melee Weapon_
+                0₵ 2d6 slashing - lb. Automatic, heavy, reload (30, action), special, two-handed
+
+                **Automatic.** When you take the Attack action, you can choose to make an additional weapon attack for each attack you make with an automatic weapon this turn. Until the end of your turn, all attacks made with automatic weapons are made with disadvantage, and advantage cannot affect the roll. When making use of the automatic property, you can only attack at half of the normal range of the weapon. When a creature that is Medium size or smaller uses the automatic weapon property on a weapon, melee attacks have advantage against them until the start of their next turn. You can't use this property in the same turn you've used the burst-fire weapon property. You can make no more than four additional attacks in this manner in a single turn.
+
+                **Chainsaw.** While running, it constantly makes a loud noise. It has the automatic property from firearm properties, but the weapon's range is unchanged when using the property. It also has the reload (30, action) property from firearm properties, the weapon must be loaded with fuel (see “Ammunition”) to function, and each attack made with the weapon consumes 1 fuel.
+
+                **Savage Accessory.** This weapon also functions as a chainsaw for melee attack purposes, including opportunity attacks, except that it does not require a pull start in order to be used.
+              title: Chainsaw
+          _v: 2
+          activation_type: 1
+        - name: Savage Accessory - Dead Man's Switch
+          automation:
+            - type: text
+              text: You can attach an explosive that requires an action to use to this firearm. If you are holding the firearm when you are reduced to 0 hit points, you can activate the explosive at a point within your space. You can replace the explosive over the course of a short or long rest.
+          _v: 2
+          proper: false
+          verb: has equipped
+          activation_type: 2
+        - name: Savage Accessory - Grapple Harpoon
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: counter
+                  counter: Grapple Harpoon Ammunition
+                  amount: "1"
+                  allowOverflow: false
+                  errorBehaviour: warn
+                - type: condition
+                  condition: lastCounterUsedAmount > 0
+                  onTrue:
+                    - type: attack
+                      hit:
+                        - type: damage
+                          damage: 2d10[piercing]
+                        - type: check
+                          ability: athletics
+                          contestAbility: athletics
+                          contestTie: success
+                          success: []
+                          fail: []
+                      miss: []
+                      attackBonus: strengthMod + proficiencyBonus
+                  onFalse:
+                    - type: text
+                      text: Not enough ammunition to attack {target}
+                      title: Out of ammo
+                  errorBehaviour: "false"
+            - type: condition
+              condition: not lastCheckDidPass
+              onTrue:
+                - type: target
+                  target: self
+                  effects:
+                    - type: ieffect2
+                      name: Grappling
+                      desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                        targets[0]}}
+                      buttons:
+                        - label: Release Grapple
+                          verb: lets go of their target
+                          style: "1"
+                          automation:
+                            - type: remove_ieffect
+                              removeParent: always
+                      parent: grapple
+              onFalse: []
+              errorBehaviour: "false"
+            - type: text
+              text: |-
+                This weapon can launch a harpoon at
+                a target. It functions similarly to a spear gun except that it is
+                range 30/60. When you hit a creature with a harpoon from
+                this weapon, and the target is a creature your size or smaller,
+                you can make a contested Strength (Athletics) check to pull it
+                next to you and grapple it with a free hand. If there is no
+                open adjacent space, then the creature stops in the nearest
+                available open space and is not grappled. Alternatively, if the
+                target is larger than you, you can choose to be pulled to it.
+                However, this does not grapple it.
+            - type: text
+              text: >-
+                _Martial Firearm_
+
+                0₵ 2d10 piercing - lb. Harpoons Ammunition (range 60/240), reload (1 shot), marine, two-handed
+
+
+                **Marine.** This weapon is not affected by the rules of underwater combat.
+              title: Spear Gun
+          _v: 2
+          proper: false
+          verb: fires
+        - name: Savage Accessory - Under-Barrel Rocket Launcher
+          automation:
+            - type: text
+              text: This weapon also functions as a rocket launcher. This accessory is not compatible with other under-barrel accessories.
+          _v: 2
+          proper: false
+          verb: has equipped
+          activation_type: 2
+        - name: Savage Accessory - Unauthorized User
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 2d4[{choice if choice else 'slashing'}]
+            - type: text
+              text: |-
+                If a creature other than you attempts to use one of your
+                savage accessories or the firearm it is attached to, the attempt
+                will fail and the firearm will malfunction, causing the
+                creature to take 2d4 slashing or piercing damage (your
+                choice).
+          _v: 2
+          proper: true
+          verb: triggers
+  Road Rage:
+    level: 6
+    actions:
+      - |
+        - name: Road Rage
+          automation:
+            - type: text
+              text: |-
+                At 6th level, you become a fierce road warrior who gives new
+                meaning to the term muscle car. If you enter a rage while you
+                are driving a vehicle, the benefits of your rage also apply to
+                your vehicle until the rage ends.
+
+
+                Your rage doesn’t end early if your vehicle has attacked a
+                hostile creature or taken damage since your last turn. While
+                you are driving a vehicle and raging, the vehicle can make
+                ranged attacks using your Strength modifier, instead of
+                Dexterity, for the attack rolls.
+
+
+                Additionally, you can control a vehicle without having a
+                free hand for the vehicle’s controls.
+          _v: 2
+          proper: true
+          verb: experiences
+          activation_type: 2
+  Blaze of Glory:
+    level: 10
+    actions:
+      - |
+        - name: Blaze of Glory
+          automation:
+            - type: text
+              text: |-
+                At 10th level, when a vehicle you are driving is reduced to 0 hit points, you can use a reaction to have the vehicle move up to its movement speed. This movement doesn’t provoke opportunity attacks. If a vehicle would explode when it is reduced to 0 hit points, the explosion occurs immediately after this movement.
+
+                Additionally, you gain resistance to fire damage and you take no damage from explosion effects caused by a vehicle or any other object reaching 0 hit points.
+          _v: 2
+          proper: false
+          verb: goes out in
+          activation_type: 2
+  Death Machine:
+    level: 14
+    actions:
+      - |
+        - name: Death Machine
+          automation:
+            - type: text
+              text: |-
+                Beginning at 14th level, your adrenaline fueled rage allows
+                you to maintain an iron grip on two weapons of mass
+                destruction simultaneously. While you’re raging, you can
+                ignore the two-handed property on all firearms. As a bonus
+                action, you can engage in two-weapon fighting with any
+                firearm.
+
+
+                Additionally, you can draw or stow two firearms when you
+                would normally be able to draw or stow only one.
+          _v: 2
+          proper: true
+          verb: is a
+          activation_type: 2

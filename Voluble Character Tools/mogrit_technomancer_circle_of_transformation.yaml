@@ -1,0 +1,148 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Circle_of_Transformation = '92249079-7f6e-4b5e-b939-2051ea2408f7'
+name: Circle of Transformation
+parent: Druid
+automations:
+  Metal Beast:
+    level: 2
+    actions:
+      - |
+        - name: Metal Beast
+          automation:
+            - type: counter
+              counter:
+                slot: choice
+              amount: "1"
+              fixedValue: true
+            - type: condition
+              condition: lastCounterUsedAmount >= 1
+              onTrue:
+                - type: target
+                  target: self
+                  effects:
+                    - type: ieffect2
+                      name: Metal Beast
+                      end: true
+                      duration: "1"
+                      tick_on_caster: true
+                      desc: Speed increased by {10 * int(choice)}.
+              onFalse: []
+              errorBehaviour: "false"
+            - type: text
+              text: You gain the ability to use Wild Shape on your turn as a bonus action,
+                rather than as an action.
+              
+                While you are transformed by Wild Shape, you can use a bonus action to
+                expend one spell slot to increase your speed by 10 feet per level of the
+                spell slot expended until the end of your current turn.
+          _v: 2
+          proper: false
+          verb: accelerates as
+          activation_type: 3
+  All-Terrain Forms:
+    level: 2
+    actions:
+      - |
+        - name: All-Terrain Forms
+          automation:
+            - type: text
+              text: |-
+                The rites of your circle grant you the ability to transform into
+                a variety of vehicles. Starting at 2nd level, you can use your
+                Wild Shape to transform into a sentient vehicle with a
+                challenge rating as high as your druid level divided by 4. For
+                example, at 2nd level, you can transform into a vehicle with a
+                challenge rating of 1/2, such as a motorcycle or jet ski.
+
+                When you transform, your vehicle form can have a melee
+                weapon mount installed (you choose the type), per the
+                vehicle modification (see Chapter 4). You can use your
+                proficiency bonus instead of the vehicle's when making
+                attacks with this weapon. You don't gain any of the vehicle's
+                immunity to conditions.
+
+                You ignore the Max. CR column of the Beast Shapes table,
+                but must abide by the other limitations there. All creatures
+                are treated as the same size as you for the purposes of
+                determining crashing damage. The DC for the Dexterity save
+                to avoid being crashed into by you is equal to your spell save
+                DC. If your form has an explosion effect when you are
+                reduced to 0 hit points, you are not damaged by your
+                explosion.
+          _v: 2
+          proper: true
+          verb: can take on
+          activation_type: 2
+  Mystic Munitions:
+    level: 6
+    actions:
+      - |
+        - name: Mystic Munitions
+          automation:
+            - type: text
+              text: |-
+                Starting at 6th level, your attacks in vehicle form count as
+                magical for the purpose of overcoming resistance and
+                immunity to nonmagical attacks and damage.
+
+                Additionally, when you transform into a Large or larger
+                vehicle, you can have a ranged weapon mount installed with
+                a gatling gun, assault cannon, or rocket launcher, per the
+                vehicle modification. Ammunition for these weapons is
+                magically created when you attack with them. You can use
+                your proficiency bonus instead of the vehicle's when making
+                attacks with these weapons.
+          _v: 2
+          proper: true
+          verb: is equipped with
+          activation_type: 2
+  Mayhem Shape:
+    level: 10
+    actions:
+      - |
+        - name: Mayhem Shape
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "2"
+              fixedValue: true
+            - type: text
+              text: You can expend two uses of Wild Shape at the same time to transform into a
+                sentient vehicle with a challenge rating as high as 5.
+          _v: 2
+          proper: false
+          verb: takes on
+          activation_type: 3
+  Mayhem Shape Improvement:
+    level: 14
+    actions:
+      - |
+        - name: Mayhem Shape
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "2"
+              fixedValue: true
+            - type: text
+              text: You can expend two uses of Wild Shape at the same time to transform into a
+                sentient vehicle with a challenge rating as high as 6.
+          _v: 2
+          proper: false
+          verb: takes on
+          activation_type: 3
+  Overhaul:
+    level: 14
+    actions:
+      - |
+        - name: Overhaul
+          automation:
+            - type: text
+              text: "You have mastered your vehicle shape and can begin making modifications
+                to your vehicle forms. When you transform into a vehicle you can choose to
+                gain two from the following vehicle modifications: chameleon coating,
+                ejection seating, environmental shielding, gold plated, hyper thrusters
+                (air vehicle only), and rocket thrusters (land or water vehicle only)."
+          _v: 2
+          proper: true
+          verb: performs an
+          activation_type: 2

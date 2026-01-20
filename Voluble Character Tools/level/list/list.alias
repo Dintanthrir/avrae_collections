@@ -1,0 +1,62 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  voluble = 'c3bfadbf-67b5-48c7-969b-e959ea1e3962',
+)
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+versions = parsed_args.get('version', type_=int, default=[int(character().csettings.get('version', 2014))])
+
+desc_lines = []
+for version in versions:
+  options = voluble.list_options(version)
+  
+  grouped_classes = {}
+  for (class_name, source) in options.classes.items():
+    grouped_classes.setdefault(source, []).append(class_name)
+  
+  grouped_subclasses = {}
+  for (subclass_name, source) in options.subclasses.items():
+    grouped_subclasses.setdefault(source, []).append(subclass_name)
+  
+  desc_lines.append(f"**__{version}__**")
+  desc_lines.append("**Classes**")
+  for ((label, location), classes) in grouped_classes.items():
+    desc_lines.append(f"_{label}_ ({location})")
+    desc_lines += classes
+    desc_lines.append('')
+  desc_lines.append("**Subclasses**")
+  for ((label, location), subclasses) in grouped_subclasses.items():
+    desc_lines.append(f"_{label}_ ({location})")
+    desc_lines += subclasses
+    desc_lines.append('')
+
+fields = [
+  {
+    'title': 'Sources', 
+    'body': docstring.trim(f"""
+      `{voluble.SETTINGS_VAR}`
+      svar:{'☑︎' if get_svar(voluble.SETTINGS_VAR) is not None else '☒'}
+      uvar:{'☑︎' if uvar_exists(voluble.SETTINGS_VAR) else '☒'}
+      cvar:{'☑︎' if voluble.SETTINGS_VAR in character().cvars else '☒'}
+    """),
+  },
+]
+
+embed = {
+    'title': f"Options for {get('name')}",
+    'color': get('color'),
+    'desc': '\n'.join(desc_lines),
+    'fields': fields,
+    'footer': f"{ctx.prefix}{ctx.alias} [-version {{2014|2024}}]"
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

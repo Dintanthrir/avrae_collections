@@ -1,0 +1,298 @@
+<drac2>
+using(
+  docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+  tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7',
+  voluble = 'c3bfadbf-67b5-48c7-969b-e959ea1e3962',
+)
+expect = tests.expect
+
+parsed_args = argparse(&ARGS&)
+current_character = character()
+
+LEVEL_CVARS = ['subclass']
+
+def with_cvar_side_effects(function):
+  _cvar_cache = None
+  if not parsed_args.last('destroy_my_cvars'): # You were warned.
+      err(f"Halting, tests can modify {current_character.name}'s cvars and fail to revert changes on an error, add `destroy_my_cvars` to proceed.")
+
+  _cvar_cache = load_yaml(dump_yaml(current_character.cvars)) #deep copy
+
+  # store the character's current coinpurse
+  original_coins = current_character.coinpurse.get_coins()
+
+  # store the character's consumable counters
+  original_consumables = {consumable.name:{'minVal': consumable.min, 'maxVal': consumable.max, 'reset': consumable.reset_on, 'dispType': consumable.display_type, 'reset_to': consumable.reset_to, 'reset_by': consumable.reset_by, 'title': consumable.title, 'desc': consumable.desc, 'value':consumable.value} for consumable in current_character.consumables}
+
+  # Delete relevant cvars to reset initial state
+  for cvar_name in LEVEL_CVARS:
+    current_character.delete_cvar(cvar_name)
+  try:
+    result = function()
+  finally:
+    # restore cvar values, delete any new cvars created during the test
+    _post_test_cvar_names = list(current_character.cvars.keys())
+    for (cvar_name, cvar_value) in _cvar_cache.items():
+      current_character.set_cvar(cvar_name, cvar_value)
+    for cvar_name in _post_test_cvar_names:
+      if cvar_name not in _cvar_cache:
+        current_character.delete_cvar(cvar_name)
+    # restore the consumables
+    for (name, consumable) in original_consumables.items():
+      # recreate original consumables, replacing any current consumables with the same name
+      current_character.create_cc(name=name, minVal=consumable.minVal, maxVal=consumable.maxVal, reset=consumable.reset, dispType=consumable.dispType, reset_to=consumable.reset_to, reset_by=consumable.reset_by, title=consumable.title, desc=consumable.desc, initial_value=consumable.value)
+    for consumable in current_character.consumables:
+      if consumable.name not in original_consumables.keys():
+        # delete any newly created consumables
+        current_character.delete_cc(consumable.name)
+    # restore the coinpurse to undo any changes
+    current_character.coinpurse.set_coins(
+      pp=original_coins.pp,
+      gp=original_coins.gp,
+      ep=original_coins.ep,
+      sp=original_coins.sp,
+      cp=original_coins.cp
+    )
+  return result
+
+def test_list_options():
+  CORE_RULES = ('Core Rules', '6763dffc-f626-4836-b82c-7e96f53c63d9')
+  LOTR = ('Lord of the Rings', 'e391a21a-f5ac-4246-9048-d1da740d6f0c')
+  current_character.set_cvar(voluble.SETTINGS_VAR, dump_json({
+    'Lord of the Rings': 'e391a21a-f5ac-4246-9048-d1da740d6f0c',
+    'hobbit classes': {
+      2014: {
+        'classes': {
+          'Gardener': {
+            'hit_die': 8,
+            'sub_level': 3,
+            'automations': {},
+            'counters': {},
+            'features': {},
+          }
+        }
+      }
+    }
+  }))
+  options = voluble.list_options(2014)
+  return {
+    'returns default classes': expect(options.classes.get('Fighter')).to.be(CORE_RULES),
+    'returns classes with gvar sources': expect(options.classes.get('Captain')).to.be(LOTR),
+    'returns classes with local definitions': expect(options.classes.get('Gardener')).to.be(('hobbit classes', 'cvar')),
+    'returns only the current config': expect(options.classes.get('Blood Hunter')).to.be(None),
+    'returns subclasses with gvar sources': expect(options.subclasses.get('Chieftain')).to.be(LOTR),
+  }
+
+def test_available_classes():
+  len_2014_classes = len(voluble.available_classes(2014))
+  len_2024_classes = len(voluble.available_classes(2024))
+  return {
+    'returns a list of 2014 classes': expect(len_2014_classes).to.be_greater_than(0),
+    'returns a list of 2014 and 2024 classes': expect(len_2024_classes).to.be(len_2014_classes),
+  }
+
+def test_available_subclasses():
+  len_2014_subclasses = len(voluble.available_subclasses(2014))
+  len_2024_subclasses = len(voluble.available_subclasses(2024))
+  return {
+    'returns a list of 2014 subclasses': expect(len_2014_subclasses).to.be_greater_than(0),
+      'returns a list of 2014 and 2024 subclasses': expect(len_2024_subclasses).to.be_greater_than(len_2014_subclasses),
+  }
+
+def test_current_levels():
+  current_character.set_cvar('subclass', dump_json({
+    "RangerLevel": "Drakewarden",
+    "classes": {
+      "Ranger": {
+        "level": 3,
+        "source": "6763dffc-f626-4836-b82c-7e96f53c63d9",
+        "rules_version": 2014,
+        "last_update": {
+          "updated_at": 1755291730.787449,
+          "level": 3,
+          "rules_version": 2014,
+          "automations": [],
+          "counters": [],
+          "features": [],
+        }
+      }
+    },
+    "subclasses": {
+        "Drakewarden": {
+          "level": 3,
+          "source": "6763dffc-f626-4836-b82c-7e96f53c63d9",
+          "rules_version": 2014,
+          "last_update": {
+            "updated_at": 1755291730.787449,
+            "level": 3,
+            "rules_version": 2014,
+            "automations": [],
+            "counters": [],
+            "features": [],
+          }
+        }
+      }
+    }))
+  levels = voluble.current_levels()
+  return {
+    'includes configured class': expect(levels.classes.get("Ranger", None)).to.be({
+        "level": 3,
+        "source": "6763dffc-f626-4836-b82c-7e96f53c63d9",
+        "rules_version": 2014,
+        "last_update": {
+          "updated_at": 1755291730.787449,
+          "level": 3,
+          "rules_version": 2014,
+          "automations": [],
+          "counters": [],
+          "features": [],
+        }
+    }),
+    'includes configured subclass': expect(levels.subclasses).to.be({
+            "Drakewarden": {
+                "level": 3,
+                "source": "6763dffc-f626-4836-b82c-7e96f53c63d9",
+                "rules_version": 2014,
+                "last_update": {
+                    "updated_at": 1755291730.787449,
+                    "level": 3,
+                    "rules_version": 2014,
+                    "automations": [],
+                    "counters": [],
+                    "features": [],
+                }
+            }
+        }),
+  }
+
+def test_add_and_remove_class_levels():
+  test_results = {}
+  voluble.set_sheet_overrides(levels={'Bard': 10, 'Blood Hunter': 1, 'total_level': 11}, rules_version=2014)
+  
+  blood_hunter_level_up = voluble.add_class_levels(class_name='Blood Hunter', level=3, rules_version=2014, source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+
+  test_results['leveling up'] = {
+    'returns success': expect(blood_hunter_level_up.get('success', None)).to.be(True),
+    'has no message': expect(blood_hunter_level_up.get('message', None)).to.be(None),
+    'returns added counters': expect(blood_hunter_level_up.get('added', {}).get('counters')).to.be({}),
+    'returns cvars to use': expect(list(blood_hunter_level_up.get('added', {}).get('features', {}).keys())).to.be(['blood_curses', 'fighting_styles', 'crimson_rites']),
+    'returns automations to add': expect(blood_hunter_level_up.get('add', {}).get('automations')).to.be([]),
+  }
+  blood_hunter_level_down = voluble.remove_class_levels(class_name='Blood Hunter', level=1, rules_version=2014, source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+
+  test_results['leveling down'] = {
+    'returns success': expect(blood_hunter_level_down.get('success', None)).to.be(True),
+    'has no message': expect(blood_hunter_level_down.get('message', None)).to.be(None),
+    'returns removed counters': expect(blood_hunter_level_down.get('removed', {}).get('counters')).to.be([]),
+    'returns removed cvars': expect(list(blood_hunter_level_down.get('removed', {}).get('features'))).to.be(['fighting_styles', 'crimson_rites']),
+    'returns automations to remove': expect(blood_hunter_level_down.get('remove', {}).get('automations')).to.be([]),
+  }
+
+  blood_hunter_removed = voluble.remove_class_levels(class_name='Blood Hunter', level=0, rules_version=2014, source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+
+  test_results['removing character sheet levels'] = {    
+    'fails when asked to remove levels from character sheet': expect(blood_hunter_removed.get('success')).to.be(False),
+    'includes an error message': expect(blood_hunter_removed.get('message')).not_to.be(None),
+  }
+
+  add_fighter_levels = voluble.add_class_levels(class_name='Fighter', level=3, rules_version=2014, source='6763dffc-f626-4836-b82c-7e96f53c63d9')
+  remove_fighter_levels = voluble.remove_class_levels(class_name='Fighter', level=0, rules_version=2014, source='6763dffc-f626-4836-b82c-7e96f53c63d9')
+
+  test_results['removing a class not on the character sheet'] = {
+    'returns success': expect(remove_fighter_levels.get('success')).to.be(True),
+    'has no message': expect(remove_fighter_levels.get('message')).to.be(None),
+    'returns removed counters': expect(remove_fighter_levels.get('removed', {}).get('counters')).to.be([]),
+    'returns removed cvars': expect(list(remove_fighter_levels.get('removed', {}).get('features'))).to.be(['fighting_styles']),
+    'returns automations to remove': expect(remove_fighter_levels.get('remove', {}).get('automations')).to.be([]),
+  }
+
+  return test_results
+
+def test_add_subclass():
+  voluble.set_sheet_overrides(levels={'Bard': 10, 'Blood Hunter': 1, 'total_level': 11}, rules_version=2014)
+  
+  lycan_added_early = voluble.add_subclass(rules_version=2014, subclass_name='Lycan', source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+  blood_hunter_level_up = voluble.add_class_levels(class_name='Blood Hunter', level=3, rules_version=2014, source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+  voluble.set_sheet_overrides(levels={'Bard': 10, 'Blood Hunter': 3, 'total_level': 13}, rules_version=2014)
+  lycan_added = voluble.add_subclass(rules_version=2014, subclass_name='Lycan', source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+  mutant_added = voluble.add_subclass(rules_version=2014, subclass_name='Mutant', source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+  echo_knight_added = voluble.add_subclass(rules_version=2014, subclass_name='Echo Knight', source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+  
+  mutant_added = voluble.add_subclass(rules_version=2014, subclass_name='Mutant', source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+
+  return {
+    'when a subclass is not available': {      
+      'adding a subclass fails': expect(lycan_added_early.get('success')).to.be(False),
+    },
+    'when a subclass is available': {
+      'adding a subclass succeeds': expect(lycan_added.get('success')).to.be(True),
+    },
+    'when a subclass is already set': {
+      'adding a subclass fails': expect(mutant_added.get('success')).to.be(False),
+    },
+    'without levels in the class': {
+      'adding a subclass fails': expect(mutant_added.get('success')).to.be(False),
+    },
+  }
+
+def test_remove_subclass():
+  voluble.set_sheet_overrides(levels={'Bard': 10, 'Blood Hunter': 1, 'total_level': 11}, rules_version=2014)
+
+  blood_hunter_level_up = voluble.add_class_levels(class_name='Blood Hunter', level=3, rules_version=2014, source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+  voluble.set_sheet_overrides(levels={'Bard': 10, 'Blood Hunter': 3, 'total_level': 13}, rules_version=2014)
+  blood_hunter_subclass_added = voluble.add_subclass(rules_version=2014, subclass_name='Lycan', source='6c2e4fa2-d986-43d3-af04-a5b9ae480f1d')
+  blood_hunter_subclass_removed = voluble.remove_subclass(subclass_name='Lycan')
+  wrong_subclass_removed = voluble.remove_subclass(subclass_name='Mutant')
+  
+  return {
+    'removes a subclass': expect(blood_hunter_subclass_removed.get('success')).to.be(True),
+    'removing a non-existant subclass fails': expect(wrong_subclass_removed.get('success')).to.be(False),
+  }
+
+def test_apply_levels():
+  voluble.set_sheet_overrides(levels={'Bard': 10, 'Blood Hunter': 2, 'total_level': 12}, rules_version=2014)
+
+  character().set_cvar('subclass', dump_json({
+    'BardLevel': None, 
+    'Blood HunterLevel': None, 
+    'classes': {
+      'Bard': {'level': 5, 'source': '6763dffc-f626-4836-b82c-7e96f53c63d9', 'rules_version': 2014}, 
+      'Blood Hunter': {'level': 1, 'source': '6c2e4fa2-d986-43d3-af04-a5b9ae480f1d', 'rules_version': 2014}
+    }
+  }))
+  character().create_cc(name='Hit Dice (d8)', minVal=0, maxVal=5, reset='long', reset_to=5, initial_value=5)
+  character().create_cc(name='Hit Dice (d10)', minVal=0, maxVal=1, reset='long', reset_to=1, initial_value=1)
+  voluble.add_subclass('College of Eloquence', 2014, '6763dffc-f626-4836-b82c-7e96f53c63d9')
+  
+  apply_levels_result = voluble.apply_levels()
+
+  return {
+    'adds levels gained to a class': expect(apply_levels_result).to.be({
+      'added': {
+        'counters': {
+          'Hit Dice (d8)': {'name': 'Hit Dice (d8)', 'minVal': 0, 'maxVal': 10, 'reset': 'long', 'dispType': None, 'reset_to': 10, 'initial_value': 10}, 
+          'Hit Dice (d10)': {'name': 'Hit Dice (d10)', 'minVal': 0, 'maxVal': 2, 'reset': 'long', 'dispType': None, 'reset_to': 2, 'initial_value': 2}
+        }, 
+        'features': {}
+      }, 
+      'add': {
+        'automations': {}
+      }, 
+      'removed': {
+        'counters': {}, 
+        'features': {}
+      }, 
+      'remove': {}
+      }
+    ),
+  }
+
+return tests.run({
+  'test_list_options': lambda : test_list_options(),
+  'test_current_levels': lambda : with_cvar_side_effects(test_current_levels),
+  'test_add_and_remove_class_levels': lambda : with_cvar_side_effects(test_add_and_remove_class_levels),
+  'test_add_subclass': lambda : with_cvar_side_effects(test_add_subclass),
+  'test_remove_subclass': lambda : with_cvar_side_effects(test_remove_subclass),
+  'test_apply_levels': lambda : with_cvar_side_effects(test_apply_levels),
+}).embed
+</drac2>

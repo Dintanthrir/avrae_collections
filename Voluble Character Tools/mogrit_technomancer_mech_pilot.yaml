@@ -1,0 +1,385 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Mech_Pilot = '5d8d17ba-d379-4383-9e22-808c50b285e7'
+name: Mech Pilot
+parent: Artificer
+features:
+  battle_mech_mode: { type: string, level: 3, title: Battle Mech, desc: "Current mech mode: Valkyrie|Hellion|Titan" }
+counters:
+  9:
+    - name: Overdrive - Hellion
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+      dispType: bubble
+    - name: Overdrive - Valkyrie
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+      dispType: bubble
+    - name: Overdrive - Titan
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+      dispType: bubble
+automations:
+  Battle Mech:
+    level: 3
+    actions: 
+      - |
+        - name: "Battle Mech - Valkyrie: Blitz"
+          automation:
+            - type: text
+              text: >-
+                You can Dash or Disengage as a bonus action.
+
+                When you Dash, you gain the effects of the jump spell until the end of your turn, and if you move at least 10 feet in a straight line straight toward a target before hitting it with a weapon attack, it takes an extra 1d8 lightning damage. You can deal this extra damage only once on each of your turns. This extra damage increases to 2d8 at level 9.
+
+
+                **Jumping**
+
+
+                **Long Jump.** {strength * 3} feet if you move at least 10 feet on foot immediately before the jump, otherwise only half that distance. DC 10 Dexterity (Acrobatics) check to avoid landing prone in difficult terrain.
+
+
+                **High Jump.** {(3 + strengthMod) * 3} feet if you move at least 10 feet on foot immediately before the jump, otherwise only half that distance.
+              title: Effect
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: "Battle Mech - Valkyrie: Blitz (damage)"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: caster.levels.get('Artificer') >= 9
+                  onTrue:
+                    - type: damage
+                      damage: 2d8 [lightning]
+                  onFalse:
+                    - type: damage
+                      damage: 1d8 [lightning]
+                  errorBehaviour: "false"
+            - type: text
+              text: |-
+                You can Dash or Disengage as a bonus action.
+                When you Dash, you gain the effects of the jump spell
+                until the end of your turn, and if you move at least 10 feet
+                in a straight line straight toward a target before hitting it
+                with a weapon attack, it takes an extra 1d8 lightning
+                damage. You can deal this extra damage only once on
+                each of your turns. This extra damage increases to 2d8 at
+                level 9.
+              title: Effect
+          _v: 2
+          proper: true
+          verb: deals
+          activation_type: 2
+        - name: "Battle Mech - Hellion: Bombardment"
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can assume a
+                braced firing stance if you are standing on a solid surface.
+                While in this stance, you can use a bonus action to make a
+                ranged weapon attack. Additionally, attacking at long
+                range doesn't impose disadvantage on your ranged
+                weapon attack rolls, your speed becomes 0, you can’t be
+                knocked prone, and you cannot be pushed or pulled by
+                any effect. As a bonus action, you can exit this stance.
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Bombardment
+                  buttons:
+                    - label: End Bombardment (BA)
+                      automation:
+                        - type: remove_ieffect
+                      style: "2"
+          _v: 2
+          proper: true
+          verb: activates
+          activation_type: 3
+        - name: "Battle Mech - Titan: Rebuff"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: str
+                  fail: []
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: |-
+                When you hit a creature that is no more than two
+                sizes larger than you with a melee weapon attack, you can
+                immediately use a bonus action to force it to make a
+                Strength saving throw against your spell save DC. On a
+                failed save, you can push the creature up to 15 feet away
+                from you.
+          _v: 2
+          proper: true
+          activation_type: 3
+        - name: "Battle Mech - Titan: Bulwark"
+          automation:
+            - type: target
+              target: all
+              effects: []
+            - type: text
+              text: |-
+                When a creature you can see attacks a target
+                other than you, you can use your reaction to move up to
+                half your movement speed. At the end of this movement,
+                if you are within 5 feet of the target of the attack, you can
+                force the attack to target you instead. This movement
+                doesn’t provoke opportunity attacks.
+          _v: 2
+          proper: true
+          activation_type: 4
+  Overdrive:
+    level: 9
+    actions:
+      - |
+        - name: "Overdrive - Hellion"
+          automation:
+            - type: counter
+              counter: Overdrive - Hellion
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Overdrive
+                  duration: "10"
+                  desc: Advantage on ranged weapon attacks.
+            - type: text
+              text: |-
+                At 9th level, you can push your battle mech to its limits. As
+                an action, you can activate your battle mech’s Overdrive
+                ability, which grants you effects based on its mode, as shown
+                below. This ability requires a loud vocal component, and you
+                must be wearing your battle mech to use it. Once you have
+                used a mode’s Overdrive ability, you cannot use that mode’s
+                Overdrive ability again until you have finished a long rest.
+
+                **Hellion.** You gain advantage on your ranged weapon
+                attacks for 1 minute.
+          _v: 2
+          proper: true
+          verb: activates
+          activation_type: 1
+        - name: Overdrive - Valkyrie
+          automation:
+            - type: counter
+              counter: Overdrive - Valkyrie
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Overdrive
+                  desc: >-
+                    The target's speed is doubled
+                    - They gain an additional action on each of its turns
+                    - When the spell ends, the target can't move or take actions until after its next turn
+                  duration: "11"
+                  effects:
+                    ac_bonus: "2"
+                    save_adv:
+                      - dex
+                - type: text
+                  text: >-
+                    Until the spell ends, the target’s speed is doubled, it gains a +2 bonus
+                    to AC, it has advantage on Dexterity saving throws, and it gains an
+                    additional action on each of its turns. That action can be used only
+                    to take the Attack (one weapon attack only), Dash, Disengage, Hide, or
+                    Use an Object action.
+
+
+                    When the spell ends, the target can’t move or take actions until after its next turn, as a wave of lethargy sweeps over it.
+                  title: Haste
+            - type: text
+              text: |-
+                At 9th level, you can push your battle mech to its limits. As
+                an action, you can activate your battle mech’s Overdrive
+                ability, which grants you effects based on its mode, as shown
+                below. This ability requires a loud vocal component, and you
+                must be wearing your battle mech to use it. Once you have
+                used a mode’s Overdrive ability, you cannot use that mode’s
+                Overdrive ability again until you have finished a long rest.
+
+                **Valkyrie.** You cast the haste spell on yourself without
+                somatic or material components and without requiring your
+                concentration.
+          _v: 2
+          proper: true
+          verb: activates
+          activation_type: 1
+        - name: Overdrive - Titan
+          automation:
+            - type: text
+              text: |-
+                At 9th level, you can push your battle mech to its limits. As
+                an action, you can activate your battle mech’s Overdrive
+                ability, which grants you effects based on its mode, as shown
+                below. This ability requires a loud vocal component, and you
+                must be wearing your battle mech to use it. Once you have
+                used a mode’s Overdrive ability, you cannot use that mode’s
+                Overdrive ability again until you have finished a long rest.
+
+                **Titan.** You cast the enlarge/reduce spell on yourself
+                without somatic or material components and without
+                requiring your concentration. While you are under the effect
+                of the spell, you gain temporary hit points equal to your
+                artificer level at the end of each turn. When you use your
+                Rebuff feature against a target, you can deal 1d6 thunder
+                damage to every target of your choice within 10 feet of it.
+              title: Effect
+            - type: target
+              target: self
+              effects:
+                - type: text
+                  text: >-
+                    You grow larger for the duration. Everything you are wearing and carrying
+                    changes size with you. Any item dropped by an affected creature
+                    returns to normal size at once.
+
+
+                    Your size doubles in all dimensions, and your weight is multiplied by eight. This growth increases its size by one category. If there isn't enough room for you to double your size, you attain the maximum possible size in the space available. Until the spell ends, you also have advantage on Strength checks and Strength saving throws. Your weapons also grow to match its new size. While these weapons are enlarged, your attacks with them deal 1d4 extra damage.
+                  title: Enlarge
+                - type: ieffect2
+                  name: Overdrive
+                  duration: "11"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+                  attacks:
+                    - attack:
+                        name: Enlarged Weapon
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: 1d4
+                                overheal: false
+                        _v: 2
+                        activation_type: 2
+                      defaultDC: null
+                      defaultAttackBonus: null
+                      defaultCastingMod: null
+                    - attack:
+                        name: Rebuff Shockwave
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: 1d6[thunder]
+                                overheal: false
+                        _v: 2
+                        activation_type: 2
+                      defaultDC: null
+                      defaultAttackBonus: null
+                      defaultCastingMod: null
+                  buttons:
+                    - label: Overdrive thp (EoT)
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: temphp
+                              amount: "{caster.levels.get('Artificer')}"
+                      verb: gains temporary hit points from Overdrive
+                      style: "3"
+                  end: false
+                  conc: false
+                  desc: null
+                  stacking: false
+                  save_as: null
+                  parent: null
+                  target_self: false
+                  tick_on_caster: false
+          _v: 2
+          proper: true
+          verb: activates
+          activation_type: 1
+  Air Supremacy:
+    level: 15
+    actions:
+      - |
+        - name: Air Supremacy - Hellion
+          automation:
+            - type: text
+              text: |-
+                **Hellion.** When you hit a target with a ranged weapon
+                attack, you can deal an extra 1d4 cold, fire, lightning or
+                thunder damage (your choice) to that target.
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 1d4[{choice}]
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+        - name: "Battle Mech - Valkyrie: Blitz (damage)"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{min(amt or 1, 4)}d8[lightning]"
+            - type: text
+              text: |-
+                You can Dash or Disengage as a bonus action.
+                When you Dash, you gain the effects of the jump spell
+                until the end of your turn, and if you move at least 10 feet
+                in a straight line straight toward a target before hitting it
+                with a weapon attack, it takes an extra 1d8 lightning
+                damage. You can deal this extra damage only once on
+                each of your turns. This extra damage increases to 2d8 at
+                level 9.
+              title: Effect
+            - type: counter
+              counter: "Battle Mech - Valkyrie: Blitz Placeholder"
+              amount: "0"
+              errorBehaviour: ignore
+          _v: 2
+          proper: true
+          verb: deals
+          activation_type: 2
+        - name: "Battle Mech - Titan: Rebuff"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: str
+                  fail: []
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: |-
+                When you hit a creature that is no more than two
+                sizes larger than you with a melee weapon attack, you can
+                immediately use a bonus action to force it to make a
+                Strength saving throw against your spell save DC. On a
+                failed save, you can push the creature up to 15 feet away
+                from you or knock them prone.
+          _v: 2
+          proper: true
+          activation_type: 3

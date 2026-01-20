@@ -1,0 +1,873 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Order_of_the_Rite-Breakers = 'c3444c43-85d7-4f05-bace-a3fdceedf6d7'
+name: Order of the Rite-Breakers
+parent: Blood Hunter
+automations:
+  Occult Weapons:
+    level: 3
+    actions:
+      - |
+        - name: Occult Weapons
+          automation:
+            - type: text
+              text: |-
+                Beginning at 3rd level, you have streamlined and expanded
+                your rites to swiftly apply them to your entire arsenal. When
+                you activate your crimson rite, you can activate it for a
+                number of weapons you are carrying equal to your
+                proficiency bonus. You can choose which rite to apply to
+                which weapon. Your rites do not end if you are carrying your
+                weapon, even if you are no longer holding it.
+
+                You also learn an additional Primal Rite, and access an
+                additional Esoteric Rite at 15th level.
+
+                If your rites cause an effect that requires a saving throw,
+                the DC equals your hemocraft save DC.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Modified Hemocraft:
+    level: 3
+    actions: 
+      - |
+        - name: "Modified Hemocraft: Rite of the Flame"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Burning (1d6)
+                  duration: "10"
+                  buttons:
+                    - label: Extinguish flames (action)
+                      automation:
+                        - type: remove_ieffect
+                      verb: extinguishes the flames
+                      style: "3"
+                    - label: Burning damage
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: 1d6[fire]
+                      verb: burns
+                      style: "4"
+            - type: text
+              text: |-
+                Your rites on firearms have additional effects, as detailed below.
+
+                **Rite of the Flame.** A target hit by an attack with this
+                weapon begins burning for 1 minute as if hit by a
+                flamethrower. If you hit a target with this weapon that is
+                already burning from this attack, you can instead cause
+                another target within 10 feet of the original target to begin
+                burning as if hit by this attack.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+        - name: "Modified Hemocraft: Rite of the Frozen"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Rite of the Frozen
+                  tick_on_caster: true
+                  duration: "1"
+                  desc: Speed reduced by 10'
+            - type: text
+              text: >-
+                Your rites on firearms have additional effects, as detailed below.
+
+
+                **Rite of the Frozen.** Once per turn, when you hit a target with this weapon it has its speed reduced by 10 feet until the start of your next turn.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+        - name: "Modified Hemocraft: Rite of the Storm"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Rite of the Storm
+                  duration: "2"
+                  tick_on_caster: true
+                  end: true
+                  desc: Unable to make opportunity attacks.
+            - type: text
+              text: |-
+                Your rites on firearms have additional effects, as detailed below.
+
+                **Rite of the Storm.** Once per turn, when you hit a target
+                with this weapon, it can’t make opportunity attacks until
+                the end of your next turn.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+        - name: "Modified Hemocraft: Rite of the Toxin"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Rite of the Toxin
+                  duration: "2"
+                  end: true
+                  tick_on_caster: true
+                  effects:
+                    check_dis:
+                      - all
+                    immunities:
+                      - Healing
+                  desc: can’t regain hit points
+            - type: text
+              text: |-
+                Your rites on firearms have additional effects, as detailed below.
+
+                **Rite of the Toxin.** Once per turn, when you hit a target
+                with this weapon, it can’t regain hit points and it has
+                disadvantage on ability checks until the end of your next
+                turn. Poison damage from this rite ignores resistance to
+                poison damage.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+        - name: "Modified Hemocraft: Rite of the Dead"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Irradiated
+                      stacking: true
+                      desc: |-
+                        Level 1: -1d4 to ability checks
+                        Level 2: -1d4 to ability checks, saving throws, & attack rolls
+                        Level 3: Cannot use reactions
+                  success: []
+                  dc: 8 + proficiencyBonus + max(wisdomMod, intelligenceMod)
+            - type: text
+              text: |-
+                Your rites on firearms have additional effects, as detailed below.
+
+                **Rite of the Dead.** Once per turn, when you hit a
+                creature with this weapon, you can force it to make a
+                Constitution saving throw. On a failed save, a creature
+                suffers one level of irradiated, to a maximum of level 3.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+        - name: "Modified Hemocraft: Rite of the Oracle"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Rite of the Oracle
+                  end: true
+                  tick_on_caster: true
+                  duration: "2"
+                  desc: -1d4 on first Int, Wis, or Cha saving throw
+            - type: text
+              text: |-
+                Your rites on firearms have additional effects, as detailed below.
+
+                **Rite of the Oracle.** Once per turn, when you hit a
+                creature with this weapon, the first time the creature
+                makes an Intelligence, Wisdom, or Charisma saving throw
+                before the end of your next turn, you roll a d4 and
+                subtract the number rolled from the saving throw.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+        - name: "Modified Hemocraft: Rite of the Roar"
+          automation:
+            - type: text
+              text: |-
+                Your rites on firearms have additional effects, as detailed below.
+
+                **Rite of the Roar.** If the weapon is a firearm it gains the
+                blast property, but it only explodes in a 5-foot radius. If
+                the weapon already had the blast property, it instead
+                explodes in a 15-foot radius.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+        - name: "Modified Hemocraft: Rite of the Acrid"
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: "caster.levels.get('Blood Hunter') <= 4 "
+                  onTrue:
+                    - type: damage
+                      damage: 1d4[acid]
+                  onFalse:
+                    - type: condition
+                      condition: "caster.levels.get('Blood Hunter') <= 10 "
+                      onTrue:
+                        - type: damage
+                          damage: 1d6[acid]
+                      onFalse:
+                        - type: condition
+                          condition: caster.levels.get('Blood Hunter') <= 16
+                          onTrue:
+                            - type: damage
+                              damage: 1d8[acid]
+                          onFalse:
+                            - type: damage
+                              damage: 1d10[acid]
+            - type: text
+              text: |-
+                Your rites on firearms have additional effects, as detailed below.
+
+                **Rite of the Acrid.** Once per turn, when you hit a
+                creature with this weapon, you can create a square pool of
+                acid that is 5 feet on a side in the creature’s space for one
+                minute. When a creature enters the area for the first time
+                on a turn, or ends its turn there, it takes acid damage
+                equal to one roll of your hemocraft die. A creature can
+                take this damage no more than once per turn.
+          _v: 2
+          proper: true
+          verb: applies
+          activation_type: 2
+  Rite to Bear Arms:
+    level: 7
+    actions:
+      - |
+        - name: Rite to Bear Arms
+          automation:
+            - type: text
+              text: |-
+                At 7th level, you always have a weapon within reach, even
+                when you appear to be unarmed. You can use a bonus action
+                to magically create a firearm or two in your empty hands,
+                spending one Hit Dice for each weapon you create. The
+                firearms are loaded with normal ammunition, and you can
+                activate your crimson rite as part of the bonus action.
+                The firearms you create with this ability vanish when you
+                use this ability again.
+          _v: 2
+          proper: true
+          verb: invokes their
+          activation_type: 3
+  Arcane Resupply:
+    level: 7
+    actions:
+      - |
+        - name: Arcane Resupply
+          automation:
+            - type: text
+              text: |-
+                Also at 7th level, when you take the Attack action, you can
+                spend Hit Dice to magically reload special ammunition into
+                firearms you are carrying before making an attack, causing
+                any ammunition currently loaded in the firearms to fall to the
+                ground at your feet. You can spend a number Hit Dice up to
+                your proficiency bonus. You create an amount of cryo,
+                incendiary, or shock ammunition (your choice what type of
+                ammunition, including grenades or rockets) equal to the
+                number you rolled, plus your Intelligence modifier for each
+                Hit Dice spent. Ammunition created that exceeds the
+                weapon's reload shot count is instead placed in a container
+                you carry.
+
+                Ammunition you create with this feature counts as magical
+                for the purpose of overcoming resistance and immunity to
+                nonmagical attacks and damage. The ammunition disappears
+                after one hour.
+          _v: 2
+          proper: true
+          verb: triggers an
+          activation_type: 2
+  Break Rite:
+    level: 11
+    actions:
+      - |
+        - name: "Break Rite: Rite of the Flame"
+          automation:
+            - type: condition
+              condition: caster.levels.get('Blood Hunter') >= 17
+              onTrue:
+                - type: variable
+                  name: hemocraft_die
+                  value: d10
+              onFalse:
+                - type: condition
+                  condition: caster.levels.get('Blood Hunter') >= 11
+                  onTrue:
+                    - type: variable
+                      name: hemocraft_die
+                      value: d8
+                  onFalse:
+                    - type: condition
+                      condition: caster.levels.get('Blood Hunter') >= 5
+                      onTrue:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+                      onFalse:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+            - type: roll
+              dice: 4{hemocraft_die}[fire]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Flame.** You create a 5 foot wide line of fire
+                between you and the target you hit, ending anywhere in
+                the target’s space. Targets in this line must make a
+                Dexterity saving throw. A target takes fire damage equal
+                to four rolls of your hemocraft die on a failed save, or half
+                as much damage on a successful one.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: "Break Rite: Rite of the Frozen"
+          automation:
+            - type: condition
+              condition: caster.levels.get('Blood Hunter') >= 17
+              onTrue:
+                - type: variable
+                  name: hemocraft_die
+                  value: d10
+              onFalse:
+                - type: condition
+                  condition: caster.levels.get('Blood Hunter') >= 11
+                  onTrue:
+                    - type: variable
+                      name: hemocraft_die
+                      value: d8
+                  onFalse:
+                    - type: condition
+                      condition: caster.levels.get('Blood Hunter') >= 5
+                      onTrue:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+                      onFalse:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: "Break Rite: Rite of the Frozen"
+                  duration: "10"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Ice Cube
+                        automation:
+                          - type: roll
+                            dice: 4{hemocraft_die}[cold]
+                            name: damage
+                          - type: target
+                            target: all
+                            effects:
+                              - type: save
+                                stat: con
+                                fail:
+                                  - type: damage
+                                    damage: "{damage}"
+                                success:
+                                  - type: damage
+                                    damage: ({damage})/2
+                                dc: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Frozen.** You create a 15 foot cube of frigid,
+                swirling ice at a point of your choosing within the space of
+                the target you hit for 1 minute. The area is difficult terrain
+                and does not move with the target. A target that enters the
+                area for the first time on a turn or starts its turn there
+                must make a Constitution saving throw. A target takes
+                cold damage equal to four rolls of your hemocraft die on a
+                failed save, or half as much damage on a successful one.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: "Break Rite: Rite of the Storm"
+          automation:
+            - type: condition
+              condition: caster.levels.get('Blood Hunter') >= 17
+              onTrue:
+                - type: variable
+                  name: hemocraft_die
+                  value: d10
+              onFalse:
+                - type: condition
+                  condition: caster.levels.get('Blood Hunter') >= 11
+                  onTrue:
+                    - type: variable
+                      name: hemocraft_die
+                      value: d8
+                  onFalse:
+                    - type: condition
+                      condition: caster.levels.get('Blood Hunter') >= 5
+                      onTrue:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+                      onFalse:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+            - type: roll
+              dice: 4{hemocraft_die}[lightning]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Storm.** Lightning ricochets from the target
+                you hit to two other targets you can see, each of which
+                must be within 20 feet of the first target. Each target,
+                including the initial target, must make a Dexterity saving
+                throw. A target takes lightning damage equal to four rolls
+                of your hemocraft die, or half as much damage on a
+                successful one.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: "Break Rite: Rite of the Toxin"
+          automation:
+            - type: condition
+              condition: caster.levels.get('Blood Hunter') >= 17
+              onTrue:
+                - type: variable
+                  name: hemocraft_die
+                  value: d10
+              onFalse:
+                - type: condition
+                  condition: caster.levels.get('Blood Hunter') >= 11
+                  onTrue:
+                    - type: variable
+                      name: hemocraft_die
+                      value: d8
+                  onFalse:
+                    - type: condition
+                      condition: caster.levels.get('Blood Hunter') >= 5
+                      onTrue:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+                      onFalse:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+            - type: roll
+              dice: 4{hemocraft_die}[poison]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Poisoned
+                      duration: "10"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Dead.** The target must make a Wisdom
+                saving throw. On a failed save, the target takes necrotic
+                damage equal to four rolls of your hemocraft die and is
+                frightened of you for 1 minute. On a successful save, the
+                creature takes half as much damage and isn’t frightened.
+                The target can repeat the saving throw at the end of each
+                of its turns, ending the effect on itself on a success.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: "Break Rite: Rite of the Dead"
+          automation:
+            - type: condition
+              condition: caster.levels.get('Blood Hunter') >= 17
+              onTrue:
+                - type: variable
+                  name: hemocraft_die
+                  value: d10
+              onFalse:
+                - type: condition
+                  condition: caster.levels.get('Blood Hunter') >= 11
+                  onTrue:
+                    - type: variable
+                      name: hemocraft_die
+                      value: d8
+                  onFalse:
+                    - type: condition
+                      condition: caster.levels.get('Blood Hunter') >= 5
+                      onTrue:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+                      onFalse:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+            - type: roll
+              dice: 4{hemocraft_die}[necrotic]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Frightened
+                      duration: "10"
+                      buttons:
+                        - label: Resist Fear
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: wis
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          style: "1"
+                          defaultDC: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Dead.** The target must make a Wisdom
+                saving throw. On a failed save, the target takes necrotic
+                damage equal to four rolls of your hemocraft die and is
+                frightened of you for 1 minute. On a successful save, the
+                creature takes half as much damage and isn’t frightened.
+                The target can repeat the saving throw at the end of each
+                of its turns, ending the effect on itself on a success.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: "Break Rite: Rite of the Oracle"
+          automation:
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Oracle.** The target is branded with your
+                Brand of Castigation feature. You can use Brand of
+                Castigation in this manner without expending your use of
+                the feature.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: "Break Rite: Rite of the Roar"
+          automation:
+            - type: condition
+              condition: caster.levels.get('Blood Hunter') >= 17
+              onTrue:
+                - type: variable
+                  name: hemocraft_die
+                  value: d10
+              onFalse:
+                - type: condition
+                  condition: caster.levels.get('Blood Hunter') >= 11
+                  onTrue:
+                    - type: variable
+                      name: hemocraft_die
+                      value: d8
+                  onFalse:
+                    - type: condition
+                      condition: caster.levels.get('Blood Hunter') >= 5
+                      onTrue:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+                      onFalse:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+            - type: roll
+              dice: 4{hemocraft_die}[thunder]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Sphere of Silence
+                  end: true
+                  tick_on_caster: true
+                  duration: "2"
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Roar.** You create a 10-foot-radius sphere of
+                blasting force at a point of your choosing within the space
+                of the target you hit, followed by deafening silence. Each
+                target in the sphere when it appears must make a
+                Constitution saving throw. On a failed save, the target
+                takes thunder damage equal to four rolls of your
+                hemocraft die. Until the end of your next turn, the area is
+                under the effect of the silence spell.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: "Break Rite: Rite of the Acrid"
+          automation:
+            - type: condition
+              condition: caster.levels.get('Blood Hunter') >= 17
+              onTrue:
+                - type: variable
+                  name: hemocraft_die
+                  value: d10
+              onFalse:
+                - type: condition
+                  condition: caster.levels.get('Blood Hunter') >= 11
+                  onTrue:
+                    - type: variable
+                      name: hemocraft_die
+                      value: d8
+                  onFalse:
+                    - type: condition
+                      condition: caster.levels.get('Blood Hunter') >= 5
+                      onTrue:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+                      onFalse:
+                        - type: variable
+                          name: hemocraft_die
+                          value: d6
+            - type: roll
+              dice: 4{hemocraft_die}[acid]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Corroded
+                      duration: "2"
+                      end: true
+                      tick_on_caster: true
+                      desc: Advantage on attacks against this creature.
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + max(intelligenceMod, wisdomMod)
+            - type: text
+              text: |-
+                At 11th level, you have learned how to break your rites,
+                sundering the ritual for an instant of heightened power. On
+                your turn, when you hit a creature with a firearm and
+                damage it with your Crimson Rite feature, you can break the
+                rite on the firearm, causing an additional effect based on the
+                rite as detailed below.
+                When you break a rite, such as the Rite of Flame, that
+                specific rite disappears from any weapons affected by it at the
+                end of your turn. You cannot activate a broken rite on any
+                weapon until you finish a long rest.
+
+                **Rite of the Acrid.** The target must make a Dexterity
+                saving throw. On a failed save, the target takes acid
+                damage equal to four rolls of your hemocraft die and its
+                defenses corrode, granting advantage to all attacks against
+                it until the end of your next turn. On a successful save, the
+                creature takes half as much damage and suffers no
+                additional effects.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Brand of Reckoning:
+    level: 15
+    actions:
+      - |
+        - name: Brand of Reckoning
+          automation:
+            - type: text
+              text: |-
+                At 15th level, your bullets can track a foe branded by your
+                Brand of Castigation no matter where they hide. You can
+                make attacks against a branded creature within your
+                weapon’s normal range so long as there is a clear path to your
+                target, even if it must turn corners to do so. You do not have
+                advantage on attack rolls due to the target not being able to
+                see you.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Blood Curse of Spectral Enfilade:
+    level: 18
+    actions:
+      - |
+        - name: Blood Curse of Spectral Enfilade
+          automation:
+            - type: text
+              text: |-
+                At 18th level, you can call upon the remnants of munitions
+                and rites past, allowing them to phase through opponents
+                and obstacles. When you take the Attack action on your turn,
+                you can make each of your ranged weapon attacks in the
+                form of a 5-foot line until the end of your turn.
+                The line is as long as your weapon's normal range, and you
+                must make weapon attacks against each creature in the line
+                individually. These attacks do not have disadvantage due to
+                not being able to see the target, nor advantage due to the
+                target not being able to see the attacker. The line extends
+                through solid objects, ignoring cover.
+
+                **Amplify.** You invoke one of your currently broken rites,
+                allowing you to use the Break Rite feature on a single target
+                you hit with a ranged weapon attack made while under the
+                effects of this blood curse, as if the broken rite were activated
+                on the weapon. Once you’ve amplified this blood curse, you
+                must finish a long rest before you can amplify it again.
+          _v: 2
+          proper: false
+          activation_type: 2

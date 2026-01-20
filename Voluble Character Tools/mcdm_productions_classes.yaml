@@ -1,0 +1,20 @@
+# The Illrigger Revised
+2014:
+  classes:
+    Illrigger:
+      hit_die: 10
+      sub_level: 3
+      features:
+        Combat Mastery:
+          type: list
+          level: 2
+        Interdict Boons:
+          type: list
+          level: 2
+  subclasses:
+    # Illrigger
+    Architect of Ruin: { parent: Illrigger }
+    Hellspeaker: { parent: Illrigger }
+    Painkiller: { parent: Illrigger }
+    Sanguine Knight: { parent: Illrigger }
+    Shadowmaster: { parent: Illrigger }

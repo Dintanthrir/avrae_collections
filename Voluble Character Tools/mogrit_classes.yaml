@@ -1,0 +1,19 @@
+# 'mogrit_classes' = '9e04b080-ee8c-47c0-9ad4-315b0ed49155'
+# The Technomancer's Toolbox class and subclass definitions for Voluble Character Tools
+
+2014:
+  subclasses:
+    Mech Pilot: '5d8d17ba-d379-4383-9e22-808c50b285e7'
+    Street Savage: 'e86d22f0-3cb3-44e9-aa66-c1aef4bf0e6d'
+    College of Anarchy: '24b0147f-98a0-453a-90db-8cc57bca98f2'
+    Commerce Domain: '26139d2f-a424-483e-ae32-822b3e26ba65'
+    Circle of Transformation: '92249079-7f6e-4b5e-b939-2051ea2408f7'
+    Toxic Avenger: '86ccdf2c-898f-4155-a79f-08ec83adc5ba'
+    Way of the Primal Forces: '4d869473-c162-4ea5-8610-78329c327210'
+    Oath of Progress: '9aba6a4f-7715-4261-bc0d-dfc68969ea70'
+    Drone Master: '1ce33c70-d872-4fe8-9e68-c63936ddaa36'
+    Saboteur: '4d37e85e-41e6-4485-a57b-94b65f481e6a'
+    Nuclear: '11833c74-325e-470c-9dff-4b7ed437f53d'
+    Fandom: 'fb0c2e92-380a-4066-b461-52ffbfce8cca'
+    Technomancer: 'a2a43622-8fcd-4fc8-ab4a-fa457b9e1667'
+    Order of the Rite-Breakers: 'c3444c43-85d7-4f05-bace-a3fdceedf6d7'

@@ -1,0 +1,71 @@
+# 'lotr_classes' = 'e391a21a-f5ac-4246-9048-d1da740d6f0c'
+# class and subclass definitions for Voluble Character Tools
+
+2014:
+  classes:
+    Captain:
+      hit_die: 10
+      sub_level: 3
+      features:
+        Fighting Style: { type: list, level: 2 }
+        Crafts: { type: list, level: 2 }
+        Virtues: { type: list, level: 2 }
+    Champion:
+      hit_die: 10
+      sub_level: 3
+      features:
+        Fighting Style: { type: list, level: 1 }
+        Crafts: { type: list, level: 2 }
+        Virtues: { type: list, level: 2 }
+    Messenger:
+      hit_die: 8
+      sub_level: 3
+      features:
+        Crafts: { type: list, level: 2 }
+        Virtues: { type: list, level: 2 }
+    Scholar:
+      hit_die: 8
+      sub_level: 3
+      features:
+        Crafts: { type: list, level: 1 }
+        Virtues: { type: list, level: 2 }
+    Treasure Hunter:
+      hit_die: 8
+      sub_level: 3
+      features:
+        Virtues: { type: list, level: 4 }
+    Warden:
+      hit_die: 10
+      sub_level: 3
+      features:
+        Warded Lands: { type: list, level: 1 }
+        Fighting Style: { type: list, level: 2 }
+        Crafts: { type: list, level: 2 }
+        Virtues: { type: list, level: 2 }
+  subclasses:
+    # Captain
+    Chieftain: { parent: Captain }
+    Thane: { parent: Captain }
+    # Champion
+    Sharp-Shooter: { parent: Champion }
+    Slayer: { parent: Champion }
+    # Messenger
+    Counsellor: { parent: Messenger }
+    Herald: 
+      parent: Messenger
+      features:
+        Fighting Style: { type: list, level: 3 }
+    # Scholar
+    Healing: { parent: Scholar }
+    Lore: { parent: Scholar }
+    # Treasure Hunter
+    Burglar: { parent: Treasure Hunter }
+    Spy: { parent: Treasure Hunter }
+    # Warden
+    Forayer: { parent: Warden }
+    Hunter: 
+      parent: Warden
+      features:
+        Hunter's Prey: { type: list, level: 3 }
+        Defensive Tactics: { type: list, level: 7 }
+    

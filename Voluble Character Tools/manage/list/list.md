@@ -1,0 +1,1 @@
+Display all registered cvars and their current values, if any.

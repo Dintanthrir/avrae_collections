@@ -1,0 +1,168 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Technomancer = 'a2a43622-8fcd-4fc8-ab4a-fa457b9e1667'
+name: Technomancer
+parent: Wizard
+features:
+  programs: { type: list, level: 2 }
+counters:
+  2:
+    - name: Programs
+      minVal: 0
+      maxVal: max(1, intelligenceMod)
+      reset: long
+      dispType: bubble
+automations:
+  Programs:
+    level: 2
+    actions:
+      - |
+        - name: assist.exe
+          automation:
+            - type: text
+              text: |-
+                When you make a hacking tools check, you can use
+                your reaction to make it with advantage.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 4
+        - name: blackout.exe
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you choose a point you can
+                see within 150 feet of you. All electrical light sources within
+                80 feet of that point cease to function for 1 minute. If a
+                creature is carrying the light source, it can make an
+                Intelligence saving throw. On a successful save, the light
+                source is unaffected.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 3
+        - name: bypass.exe
+          automation:
+            - type: text
+              text: |-
+                When a trap that you are aware of based on
+                technology or magic is triggered within 60 feet of you, you
+                can use your reaction to disable the trap for 1 minute. A trap,
+                for the purpose of this ability, includes anything that would
+                inflict a sudden or unexpected effect you consider harmful or
+                undesirable. Thus, this ability would disable a security
+                camera, a laser tripwire, or a glyph of warding, but not a
+                camouflaged pitfall or a hunting trap.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 4
+        - name: crash.exe
+          automation:
+            - type: text
+              text: |-
+                As an action, you cause a creature you are aware of
+                in the same network as you to make an Intelligence saving
+                throw. On a failed save, they are ejected from the network
+                and cannot re-enter it for 24 hours.
+                Alternatively, as an action, you can target an AI-controlled
+                drone or vehicle you can see within 60 feet of you, forcing the
+                AI to make an Intelligence saving throw. On a failed save, the
+                AI loses control over the drone or vehicle for 24 hours.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 1
+        - name: hijack.exe
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can force a vehicle within
+                60 feet of you that you can see to make a Constitution saving
+                throw. On a failed save, at the start of the driver’s next turn
+                the vehicle must move up to its movement speed in a straight
+                line in a direction of your choice. If the vehicle has no driver,
+                it does so on initiative count 0.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 3
+        - name: jam.exe
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you cause a firearm within 60 feet
+                of you that you can see to malfunction. When a creature
+                makes an attack with that firearm within 1 minute, the
+                creature must roll a d8 and subtract the number rolled from
+                the attack roll. If a creature is holding the firearm, it makes
+                an Intelligence saving throw. On a successful save, the
+                firearm is unaffected.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 3
+        - name: overclock.exe
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you choose a vehicle within
+                30 feet of you. For 1 minute, whenever the vehicle makes an
+                attack roll, a saving throw, or an ability check, it can roll a d4
+                and add the number rolled to the result.
+                Alternatively, when a vehicle makes an attack roll, a saving
+                throw, or an ability check within 30 feet of you, you use your
+                reaction to grant advantage to that roll.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 3
+        - name: overload.exe
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you reduce a Small or
+                smaller machine within 60 feet of you that you can see to 0
+                hit points and cause targets within 5 feet of it to take
+                lightning damage equal to half your wizard level. The
+                machine cannot be a weapon. If a creature is carrying the
+                machine, it can make an Intelligence saving throw. On a
+                successful save, the machine is unaffected.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 3
+        - name: pulse.exe
+          automation:
+            - type: text
+              text: |-
+                As an action, you cause an EMP at a point you can
+                see within 60 feet of you. Machines, constructs, and vehicles
+                within 30 feet of that point are subjected to EMP.
+                Machines in the area cease to function for 1 minute.
+                Constructs in the area with the Electronics feature must
+                succeed on a Constitution saving throw or they are stunned
+                until the end of your next turn. Vehicles in the area must
+                succeed on a Constitution saving throw or their movement
+                speed is reduced to 0 and they can’t take actions or reactions
+                until the end of your next turn.
+                Additionally, wireless and radio connections within a 100-
+                foot-radius radius of the point are suppressed for 1 minute.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 1
+        - name: signal_boost.exe
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you target one machine
+                you can see within 60 feet of you which doesn’t have active
+                wireless capabilities. The device gains wireless capabilities
+                with a radius of 100 feet for 1 minute.
+                Alternatively, if EMP has affected a construct or vehicle, or
+                has suppressed wireless capabilities for a machine, you can
+                negate the effect for that target.
+          _v: 2
+          proper: true
+          verb: executes
+          activation_type: 3

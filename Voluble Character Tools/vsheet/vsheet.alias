@@ -1,0 +1,379 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
+  voluble = 'c3bfadbf-67b5-48c7-969b-e959ea1e3962',
+)
+
+COMMAND = f"{ctx.alias}"
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+SETTINGS_VAR = 'voluble_config'
+
+def format_raw_cvar(content:str) -> str:
+  if content == 'None':
+    return None
+  else:
+    parsed = load_yaml(content)
+    if 'list' in typeof(parsed).lower():
+      return ', '.join([item for item in parsed])
+    else:
+      return parsed
+
+_character = character()
+
+# Input validation
+args = &ARGS&
+parsed_args = argparse(args)
+
+_FIELD_HIDDEN = {'style': 'hide'}
+_FIELD_SHOWN = {'style': 'show'}
+
+# Obscuring styles for the default fields
+_LEVEL_TIERS = [(17, 'Master of the World'), (11, 'Master of the Realm'), (5, 'Hero of the Realm'), (1, 'Local Hero')]
+_PROFICIENCY_TIERS = [(6, 'Very High'), (5, 'High'), (4, 'Medium'), (3, 'Low'), (2, 'Very Low')]
+_SPELL_BONUS_TIERS = [(12, 'Deadly'), (10, 'Very High'), (8, 'High'), (6, 'Medium'), (4, 'Low'), (3, 'Very Low')]
+_SPELL_DC_TIERS = [(21, 'Deadly'), (19, 'Very High'), (17, 'High'), (15, 'Medium'), (13, 'Low'), (1, 'Very Low')]
+_ARMOR_TIERS = [(30, 'Plaid'), (21, 'Untouchable'), (16, 'Very High'), (14, 'High'), (8, 'Medium'), (5, 'Low'), (0, 'Very Low')]
+_HP_TIERS = [(699, 'Plaid'), (399, 'Ludicrous'), (199, 'Very High'), (99, 'High'), (49, 'Medium'), (9, 'Low'), (2, 'Very Low')]
+_INIT_TIERS = [(12, 'Very High'), (9, 'High'), (6, 'Medium'), (3, 'Low'), (0, 'Very Low')]
+_ABILITY_TIERS = [(30, 'Absurd'), (24, 'Terrifying'), (20, 'Very High'), (14, 'High'), (6, 'Medium'), (2, 'Low'), (0, 'Very Low')]
+_PASSIVE_SENSE_TIERS = [(17, 'Very High'), (14, 'High'), (9, 'Medium'), (6, 'Low'), (0, 'Very Low')]
+
+_DEFAULT_FIELD_OBSCURE_STYLES = {
+  'size_and_type':   _FIELD_SHOWN,
+  'classes':         {'style': 'count', 'separators': {'classes': '/'}},
+  'level':           {'style': 'replace', 'template': '**Character Level**: %(level)s', 'replacements': {'level': _LEVEL_TIERS}},
+  'prof_bonus':      {'style': 'replace', 'template': '**Proficiency Bonus**: %(proficiencyBonus)s', 'replacements': {'proficiencyBonus': _PROFICIENCY_TIERS}},
+  'spell_bonus':     {'style': 'replace', 'template': '**Spell Attack Bonus**: %(spellAttackBonus)s', 'replacements': {'spellAttackBonus': _SPELL_BONUS_TIERS}},
+  'spell_dc':        {'style': 'replace', 'template': '**Spell Save DC**: %(spellSaveDC)s', 'replacements': {'spellSaveDC': _SPELL_DC_TIERS}},
+  'ac':              {'style': 'replace', 'template': '**AC**: %(armor)s', 'replacements': {'armor': _ARMOR_TIERS}},
+  'hp':              {'style': 'replace', 'template': '**HP**: %(hp)s', 'replacements': {'maxHP': _HP_TIERS}},
+  'resists':         {'style': 'count', 'template': '**Resistances, Immunities, & Vulnerabilities**: %(resistancesImmunitiesAndVulnerabilitiesCount)i'},
+  'init':            {'style': 'replace', 'template': '**Initiative**: %(initiative)s', 'replacements': {'initiative': _INIT_TIERS}},
+  'stats':           {'style': 'replace', 'template': '**STR**: %(strength)s **DEX**: %(dexterity)s **CON**: %(constitution)s\n**INT**: %(intelligence)s **WIS**: %(wisdom)s **CHA**: %(charisma)s', 'replacements': {'strength': _ABILITY_TIERS, 'dexterity': _ABILITY_TIERS, 'constitution': _ABILITY_TIERS, 'intelligence': _ABILITY_TIERS, 'wisdom': _ABILITY_TIERS, 'charisma': _ABILITY_TIERS}},
+  'saves':           {'style': 'count', 'separators': {'saves': ', '}},
+  'skills':          {'style': 'count', 'separators': {'skills': ', '}},
+  'tool_pro':        {'style': 'count', 'separators': {'toolProficiencies': ', '}},
+  'tool_exp':        {'style': 'count', 'separators': {'toolExpertise': ', '}},
+  'speeds':          _FIELD_SHOWN,
+  'senses':          {'style': 'count', 'separators': {'senses': ', '}},
+  'passive_senses':  {'style': 'replace', 'template': '**Passive Senses**:%(passiveOverride)s Perception %(passivePerception)s, Insight %(passiveInsight)s, Investigation %(passiveInvestigation)s', 'replacements': {'passivePerception': _PASSIVE_SENSE_TIERS, 'passiveInsight': _PASSIVE_SENSE_TIERS, 'passiveInvestigation': _PASSIVE_SENSE_TIERS}},
+  'languages':       {'style': 'count', 'separators': {'languages': ', '}},
+  'feats':           {'style': 'count', 'separators': {'feats': ', '}},
+  'background':      _FIELD_HIDDEN,
+  'description':     _FIELD_HIDDEN,
+  'sheet_link':      None,
+  'attacks':         None,
+}
+
+# Does it make sense to show caster stats?
+show_spellbook_props = _character.spellbook.sab and _character.spellbook.dc
+
+# Calculate default visibility for each field, unless overridden by args or styles
+field_visibility = {
+  'size_and_type':   _FIELD_SHOWN,
+  'classes':         _FIELD_SHOWN,
+  'level':           _FIELD_SHOWN,
+  'prof_bonus':      _FIELD_SHOWN,
+  'spell_bonus':     _FIELD_SHOWN if show_spellbook_props else _FIELD_HIDDEN,
+  'spell_dc':        _FIELD_SHOWN if show_spellbook_props else _FIELD_HIDDEN,
+  'ac':              _FIELD_SHOWN,
+  'hp':              _FIELD_SHOWN,
+  'resists':         _FIELD_SHOWN,
+  'init':            _FIELD_SHOWN,
+  'stats':           _FIELD_SHOWN,
+  'saves':           _FIELD_SHOWN,
+  'skills':          _FIELD_SHOWN,
+  'tool_pro':        _FIELD_SHOWN,
+  'tool_exp':        _FIELD_SHOWN,
+  'speeds':          _FIELD_SHOWN,
+  'senses':          _FIELD_SHOWN,
+  'passive_senses':  _FIELD_SHOWN,
+  'languages':       _FIELD_SHOWN,
+  'feats':           _FIELD_SHOWN,
+  'background':      _FIELD_SHOWN,
+  'description':     _FIELD_HIDDEN,
+  'sheet_link':      _FIELD_SHOWN,
+  'attacks':         _FIELD_HIDDEN,
+}
+
+character_attributes = {attribute:get(attribute) for attribute in ['charisma','charismaMod','charismaSave','constitution','constitutionMod','constitutionSave','dexterity','dexterityMod','dexteritySave','intelligence','intelligenceMod','intelligenceSave','strength','strengthMod','strengthSave','wisdom','wisdomMod','wisdomSave','armor','color','description','hp','image','level','name','proficiencyBonus','spell']}
+
+# Merge in default values
+character_attributes['creatureType'] = get('creatureType', 'Humanoid')
+character_attributes['size'] = get('size', 'Medium')
+character_attributes['speed'] = get('speed', '30 ft.')
+character_attributes['senses'] = get('senses', '')
+character_attributes['languages'] = format_raw_cvar(get('languages', ''))
+character_attributes['feats'] = get('feats', '')
+character_attributes['background'] = _character.background or 'None Selected'
+character_attributes['description'] = _character.description or 'Not Set'
+
+# Cvar which override character settings
+character_attributes['race'] = get('race', None) or _character.race
+
+# Load subclass settings
+current_levels = voluble.current_levels()
+class_selections = []
+for class_name, class_data in current_levels.get('classes', {}).items():
+  subclasses = {subclass_name:subclass_data for (subclass_name, subclass_data) in current_levels.get('subclasses', {}).items() if subclass_data.get('parent') == class_name}
+  class_selections.append(f"{class_name} ({' '.join(subclasses.keys())})")
+character_attributes['classes'] = '/'.join(class_selections)
+
+# Check for an Experience counter, handle string or numeric xp values
+experience = _character.get_cc('Experience') if _character.cc_exists('Experience') else get('xp',0)
+character_attributes['experience'] = '{0}:,'.format(experience) if typeof(experience) != 'str' else experience
+
+# Calculate passive senses
+# `adv/dis` args apply to passive senses for compatibility with Verbose Character Tools
+for (key, skill) in [('passivePerception', _character.skills.perception), ('passiveInsight', _character.skills.insight), ('passiveInvestigation', _character.skills.investigation)]:
+  arg_override = (5 if parsed_args.adv(boolwise=True) and not skill.adv == True else 0) - (5 if parsed_args.adv(boolwise=True) == False and not skill.adv == False else 0)
+  character_attributes[key] = 10 + skill.value + arg_override
+  if arg_override > 0:
+    character_attributes['passiveOverride'] = ' (+5 from adv) '
+  elif arg_override < 0:
+    character_attributes['passiveOverride'] = ' (-5 from adv) '
+  else:
+    character_attributes['passiveOverride'] = ''
+character_attributes['passivePerception'] = 10 + _character.skills.perception.value + (5 if parsed_args.adv(boolwise=True) and not _character.skills.perception.adv == True else 0)
+character_attributes['passiveInsight'] = 10 + _character.skills.insight.value + (5 if parsed_args.adv(boolwise=True) and not _character.skills.insight.adv == True else 0)
+character_attributes['passiveInvestigation'] = 10 + _character.skills.investigation.value + (5 if parsed_args.adv(boolwise=True) and not _character.skills.investigation.adv == True else 0)
+
+# Values which do not exist as cvars
+character_attributes['spellAttackBonus'] = _character.spellbook.sab
+character_attributes['spellSaveDC'] = _character.spellbook.dc
+character_attributes['maxHP'] = _character.max_hp
+character_attributes['tempHP'] = _character.temp_hp
+character_attributes['initiative'] = _character.skills.initiative.value
+character_attributes['toolProficiencies'] = get(tools.PROF_DISPLAY_CVAR, '')
+character_attributes['toolExpertise'] = get(tools.EXPR_DISPLAY_CVAR, '')
+
+character_attributes['initiative'] = _character.skills.initiative.value
+
+# for compatibility with Verbose Character Tools: a numeric arg sets a number of attacks to show under an `attacks` key
+digit_args = [x for x in args if x.isdigit()]
+if len(digit_args) > 0: 
+  character_attributes['attacks'] = '\n'.join([str(attack) for attack in _character.attacks[0:int(digit_args[0])]])
+  field_visibility['attacks'] = _FIELD_SHOWN
+
+# Use avrae's string representations
+character_attributes['resistances'] = str(_character.resistances)
+character_attributes['saves'] = str(_character.saves)
+character_attributes['skills'] = str(_character.skills)
+
+character_attributes['resistancesImmunitiesAndVulnerabilitiesCount'] = len(_character.resistances.immune) + len(_character.resistances.resist) + len(_character.resistances.vuln)
+
+# Assemble a sheet link
+url_templates = {
+  "beyond":"https://ddb.ac/characters/%s",
+  "dicecloud":"https://v1.dicecloud.com/character/%s",
+  "google":"https://docs.google.com/spreadsheets/d/%s",
+  "dicecloudv2": "https://dicecloud.com/character/%s",
+}
+character_attributes['sheetLink'] = url_templates.get(_character.sheet_type, '%s')%(_character.upstream.replace(_character.sheet_type + "-", ""))
+
+# Pull values from registered cvars for [sub]class features
+registered_cvars = voluble.current_cvars()
+for cvar in registered_cvars.keys():
+  character_attributes[cvar] = format_raw_cvar(_character.get_cvar(cvar))
+
+# Calculate the value for each field on the sheet
+sheet_fields = [
+    {'key': 'size_and_type',   'template': '_%(size)s %(creatureType)s (%(race)s)_'},
+    {'key': 'classes',         'template': '**Class**: %(classes)s'},
+    {'key': 'level',           'template': '**Character Level**: %(level)i'},
+    {'key': 'prof_bonus',      'template': '**Proficiency Bonus**: %(proficiencyBonus)+i'},
+    {'key': 'spell_bonus',     'template': '**Spell Attack Bonus**: %(spellAttackBonus)+i'},
+    {'key': 'spell_dc',        'template': '**Spell Save DC**: %(spellSaveDC)i'},
+    {'key': 'ac',              'template': '**AC**: %(armor)i'},
+    {'key': 'hp',              'template': '**HP**: %(hp)i/%(maxHP)i (%(tempHP)i temp)'},
+    {'key': 'resists',         'template': '%(resistances)s'},
+    {'key': 'init',            'template': '**Initiative**: %(initiative)+i'},
+    {'key': 'stats',           'template': '**STR**: %(strength)i (%(strengthMod)+i) **DEX**: %(dexterity)i (%(dexterityMod)+i) **CON**: %(constitution)i\n(%(constitutionMod)+i) **INT**: %(intelligence)i (%(intelligenceMod)+i) **WIS**: %(wisdom)i (%(wisdomMod)+i) **CHA**: %(charisma)i (%(charismaMod)+i)'},
+    {'key': 'saves',           'template': '**Saving Throw Proficiencies**: %(saves)s'},
+    {'key': 'skills',          'template': '**Skill Proficiencies**: %(skills)s'},
+    {'key': 'tool_pro',        'template': '**Tool Proficiencies**: %(toolProficiencies)s'},
+    {'key': 'tool_exp',        'template': '**Tool Expertise**: %(toolExpertise)s'},
+    {'key': 'speeds',          'template': '**Speed**: %(speed)s'},
+    {'key': 'senses',          'template': '**Senses**: %(senses)s'},
+    {'key': 'passive_senses',  'template': '**Passive Senses**: Perception %(passivePerception)i, Insight %(passiveInsight)i, Investigation %(passiveInvestigation)i'},
+    {'key': 'languages',       'template': '**Languages**: %(languages)s'},
+    {'key': 'feats',           'template': '**Feats**: %(feats)s'},
+    {'key': 'background',      'template': '**Background**: %(background)s'},
+    {'key': 'description',     'template': '**Description**: %(description)s'},
+]
+
+# Add class and subclass features
+for cvar, config in registered_cvars.items():
+  sheet_fields.append({'key': cvar, 'template': f"**{config.get('title', cvar)}** %({cvar})s"})
+  field_visibility[cvar] = _FIELD_SHOWN
+
+# Load any additional cvars defined in vfeatures
+vFeatures = load_json(get('vfeatures', '[]'))
+vFeatures = [vFeatures] if not 'list' in typeof(vFeatures).lower() else vFeatures
+for feature in vFeatures:
+  field = {'key': sheet_fields[feature.get('n')], 'template': feature.get('t').removeprefix('\n') + '%s'}
+  sheet_fields.append(field)
+  # set them to be visible in field_visibility
+  field_visibility[field.key] = _FIELD_SHOWN
+
+# Add the sheet link at the end of the non-attack fields
+sheet_fields.append({'key': 'sheet_link', 'template': '%(sheetLink)s'})
+
+# Add attacks field last
+sheet_fields.append({'key': 'attacks', 'template': '\n__Attacks__:\n%(attacks)s'})
+
+# Load defined sheet styles, merging cvars into uvars into svars so more local settings extend shared styles
+sheet_styles = {
+  'mini': {
+    'size_and_type':   _FIELD_SHOWN,
+    'classes':         _FIELD_SHOWN,
+    'level':           _FIELD_HIDDEN,
+    'prof_bonus':      _FIELD_SHOWN,
+    'spell_bonus':     _FIELD_SHOWN if show_spellbook_props else _FIELD_HIDDEN,
+    'spell_dc':        _FIELD_SHOWN if show_spellbook_props else _FIELD_HIDDEN,
+    'ac':              _FIELD_SHOWN,
+    'hp':              _FIELD_SHOWN,
+    'resists':         _FIELD_SHOWN,
+    'init':            _FIELD_HIDDEN,
+    'stats':           _FIELD_HIDDEN,
+    'saves':           _FIELD_HIDDEN,
+    'skills':          _FIELD_HIDDEN,
+    'tool_pro':        _FIELD_HIDDEN,
+    'tool_exp':        _FIELD_HIDDEN,
+    'speeds':          _FIELD_SHOWN,
+    'senses':          _FIELD_SHOWN,
+    'passive_senses':  _FIELD_SHOWN,
+    'languages':       _FIELD_HIDDEN,
+    'feats':           _FIELD_HIDDEN,
+    'background':      _FIELD_HIDDEN,
+    'description':     _FIELD_HIDDEN,
+    'sheet_link':      _FIELD_SHOWN,
+    'attacks':         _FIELD_HIDDEN,
+  },
+  'npc': {
+    'size_and_type':   _FIELD_SHOWN,
+    'classes':         _DEFAULT_FIELD_OBSCURE_STYLES['classes'],
+    'level':           _DEFAULT_FIELD_OBSCURE_STYLES['level'],
+    'prof_bonus':      _DEFAULT_FIELD_OBSCURE_STYLES['prof_bonus'],
+    'spell_bonus':     _DEFAULT_FIELD_OBSCURE_STYLES['spell_bonus'] if show_spellbook_props else _FIELD_HIDDEN,
+    'spell_dc':        _DEFAULT_FIELD_OBSCURE_STYLES['spell_dc'] if show_spellbook_props else _FIELD_HIDDEN,
+    'ac':              _DEFAULT_FIELD_OBSCURE_STYLES['ac'],
+    'hp':              _DEFAULT_FIELD_OBSCURE_STYLES['hp'],
+    'resists':         _DEFAULT_FIELD_OBSCURE_STYLES['resists'],
+    'init':            _DEFAULT_FIELD_OBSCURE_STYLES['init'],
+    'stats':           _DEFAULT_FIELD_OBSCURE_STYLES['stats'],
+    'saves':           _DEFAULT_FIELD_OBSCURE_STYLES['saves'],
+    'skills':          _DEFAULT_FIELD_OBSCURE_STYLES['skills'],
+    'tool_pro':        _DEFAULT_FIELD_OBSCURE_STYLES['tool_pro'],
+    'tool_exp':        _DEFAULT_FIELD_OBSCURE_STYLES['tool_exp'],
+    'speeds':          _DEFAULT_FIELD_OBSCURE_STYLES['speeds'],
+    'senses':          _DEFAULT_FIELD_OBSCURE_STYLES['senses'],
+    'passive_senses':  _DEFAULT_FIELD_OBSCURE_STYLES['passive_senses'],
+    'languages':       _DEFAULT_FIELD_OBSCURE_STYLES['languages'],
+    'feats':           _DEFAULT_FIELD_OBSCURE_STYLES['feats'],
+    'background':      _DEFAULT_FIELD_OBSCURE_STYLES['background'],
+    'description':     _DEFAULT_FIELD_OBSCURE_STYLES['description'],
+    'sheet_link':      _FIELD_HIDDEN,
+    'attacks':         _FIELD_HIDDEN,
+  },
+}
+sheet_styles.update(load_yaml(get_svar(SETTINGS_VAR, '{}')).get('styles', {}))
+sheet_styles.update(load_yaml(get_uvar(SETTINGS_VAR, '{}')).get('styles', {}))
+sheet_styles.update(load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')).get('styles', {}))
+
+# Verbose Character Tools compatibility, show help message to anyone using the help command
+if args and args[0] in 'help?':
+  return embeds.get_output(embed = {
+    'title': "Voluble Character Tools",
+    'desc': "This is a replacement for [_Verbose Character Tools_](https://avrae.io/dashboard/workshop/5f7385fe647bb0a416316d1d) by `@Derixyleth#0636`.\nUse `!help vsheet` for details.",
+    'footer': f"{ctx.prefix}{ctx.alias} [-style {'|'.join(sheet_styles.keys())}] [-show|-hide|-obscure <key>]"
+  })
+
+# `default` styles are applied even without an arg
+field_visibility.update(sheet_styles.get('default', {}))
+
+# for compatibility with Verbose Character Tools: `-h` selects the npc style
+if '-h' in args:
+  field_visibility.update(sheet_styles.get('npc', {}))
+
+if style := parsed_args.last('style'):
+  if not style in sheet_styles:
+    err(f"`-style {style}` is not a known style, expected one of: {sheet_styles.keys()}")
+  # if a style argument was provided then field visibility settings from the style take precedence
+  field_visibility.update(sheet_styles.get(style, {}))
+
+# for compatibility with Verbose Character Tools: keys in `vsheetHidden` hide fields
+for field_name in load_json(get('vsheetHidden','[]')):
+  if field_name in field_visibility:
+    field_visibility[field_name] = _FIELD_HIDDEN
+
+# args override visibility setting for sheet fields
+valid_keys = [field.key for field in sheet_fields]
+for field in parsed_args.get('show'):
+  if not field.lower() in valid_keys:
+    err(f"`-show {field}` is not a known field key, expected one of: {valid_keys}")
+  field_visibility[field] = _FIELD_SHOWN
+for field in parsed_args.get('hide'):
+  if not field.lower() in valid_keys:
+    err(f"`-hide {field}` is not a known field key, expected one of: {valid_keys}")
+  field_visibility[field] = _FIELD_HIDDEN
+for field in parsed_args.get('obscure'):
+  if not field.lower() in valid_keys:
+    err(f"`-obscure {field}` is not a known field key, expected one of: {valid_keys}")
+  field_visibility[field] = _DEFAULT_FIELD_OBSCURE_STYLES.get(field, _FIELD_HIDDEN)
+
+# Build a line for each field of the character sheet
+# skipping any hidden fields
+# replacing values for any obscured fields
+desc_lines = []
+
+# return [desc for (threshold, desc) in tiers if threshold <= value][0] or 'unknown'
+def obscure(sheet_field, field_style):
+  if field_style == _FIELD_SHOWN:
+    return sheet_field.get('template', '')%(character_attributes)
+  elif field_style == _FIELD_HIDDEN:
+    return None
+  elif field_style.get('style', None) == 'count':
+    template = field_style.get('template', None) or sheet_field.get('template', '')
+    replaced_attributes = {}
+    for (attribute, separator) in field_style.get('separators', {}).items():
+      replaced_attributes[attribute] = len(str(character_attributes.get(attribute, '')).split(separator))
+    obscured_attributes = character_attributes | replaced_attributes 
+    return template%obscured_attributes
+  elif field_style.get('style', None) == 'replace':
+    template = field_style.get('template', None) or sheet_field.get('template', '')
+    replaced_attributes = {}
+    for (attribute, tiers) in field_style.get('replacements', {}).items():
+      replaced_attributes[attribute] = ([desc for (threshold, desc) in tiers if threshold <= character_attributes.get(attribute, 0)][0] or 'unknown')
+    obscured_attributes = character_attributes | replaced_attributes
+    return template%obscured_attributes
+  else:
+    return 'unknown'
+
+for field in sheet_fields:
+  visibility = field_visibility.get(field.key, _FIELD_HIDDEN)
+  if 'dict' in typeof(visibility).lower() and 'style' in visibility:
+    display_value = obscure(field, visibility)
+  else:
+    display_value = None
+
+  if display_value and len(str(display_value)) > 0:
+    desc_lines.append(display_value)
+
+# render the sheet as an embed
+embed = {
+    'title': get('name'),
+    'thumb': get('image'),
+    'color': get('color'),
+    'desc': '\n'.join(desc_lines),
+    # 'fields': [{'title': field_name, 'body': str(value)} for (field_name, value) in character_attributes.items()],
+    'footer': f"{ctx.prefix}{ctx.alias} [-style {'|'.join(sheet_styles.keys())}] [-show|-hide|-obscure <key>]"
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

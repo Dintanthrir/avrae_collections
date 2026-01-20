@@ -1,0 +1,137 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
+  voluble = 'c3bfadbf-67b5-48c7-969b-e959ea1e3962',
+)
+
+COMMON_CVARS = {
+  'languages': {'type': 'list', 'level': 1},
+  'senses': {'type': 'list', 'level': 1},
+  'speed': {'type': 'list', 'level': 1},
+  'size': {'type': 'string', 'level': 1},
+  'feats': {'type': 'list', 'level': 1},
+  'background_feature': {'type': 'string', 'level': 1},
+  'creature_type': {'type': 'string', 'level': 1},
+  'magic_items': {'type': 'list', 'level': 1},
+  'attuned_items': {'type': 'list', 'level': 1},
+}
+
+COMMAND = f"{ctx.alias}"
+USAGE = f"{ctx.prefix}{COMMAND} <cvar> [set|add|remove] \"<value...>\""
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+def errorEmbed(title="Error", body="", fields=[]) -> dict:
+  return {
+    'title': title,
+    'color': get('color'),
+    'desc': body,
+    'fields': fields, # + logger.log_fields(level=logger.LEVELS.DEBUG),
+    'footer': USAGE
+  }
+
+def format_raw_cvar(content:str) -> str:
+  if content == 'None':
+    return None
+  else:
+    parsed = load_yaml(content)
+    if 'list' in typeof(parsed).lower():
+      return ', '.join([f"`{item}`" for item in parsed])
+    else:
+      return f"`{parsed}`"
+
+_character = character()
+
+args = &ARGS&
+
+if len(args) == 0:
+  return embeds.get_output(embed = errorEmbed(body=f'An argument is required: {USAGE}'))
+
+current_levels = voluble.current_levels()
+
+registered_cvars = COMMON_CVARS
+for (class_name, class_config) in current_levels.classes.items():
+  if (source := class_config.get('source')) is not None and (version := class_config.get('rules_version')) is not None:
+    the_class = load_yaml(get_gvar(source)).get(version, {}).get('classes', {}).get(class_name, {})
+    if 'str' in typeof(the_class):
+      the_class = load_yaml(get_gvar(the_class))
+    class_features = the_class.get('features', {})
+    registered_cvars |= {feature_name:feature for (feature_name, feature) in class_features.items() if feature.level <= class_config.level}
+for (subclass_name, subclass_config) in current_levels.subclasses.items():
+  subclass = load_yaml(get_gvar(subclass_config.source)).get(version, {}).get('subclasses', {}).get(subclass_name, {})
+  if 'str' in typeof(subclass):
+    subclass = load_yaml(get_gvar(subclass))
+  subclass_features = subclass.get('features', {})
+  registered_cvars |= {feature_name:feature for (feature_name, feature) in subclass_features.items() if feature.level <= current_levels.classes[subclass_config.parent].level}
+
+if args == ['list']:
+  existing_cvars = list(_character.cvars.keys())
+  return embeds.get_output(embed = {
+    'title': f"`{ctx.prefix}{ctx.alias}` cvars for {get('name')}",
+    'thumb': get('image'),
+    'color': get('color'),
+    'desc': '',
+    'fields': [{'title': cvar_name + ' ' + ('☑︎' if cvar_name in existing_cvars else '☐'), 'body': f'{cvar_config.type}: {"`" + _character.get_cvar(cvar_name) + "`" if cvar_name in existing_cvars else ""}'} for (cvar_name, cvar_config) in registered_cvars.items()],
+    'footer': USAGE,
+  })
+
+cvar_matches = fuzzy.get_matches_with_function(search=args[0].lower().translate(fuzzy.NO_PUNCTUATION_TABLE), iterable=registered_cvars.keys(), function=lambda x: x.lower().translate(fuzzy.NO_PUNCTUATION_TABLE))
+if len(cvar_matches) == 0:
+  return embeds.get_output(embed = errorEmbed(body=f'No configured cvars match "{args[0]}"'))
+elif len(cvar_matches) > 1:
+  return embeds.get_output(embed = errorEmbed(body=f'Multiple cvars match "{args[0]}": {", ".join(cvar_matches)}'))
+
+matching_cvar = cvar_matches[0]
+cvar_type = registered_cvars.get(matching_cvar, {}).get('type', 'string')
+initial_cvar_raw_value = _character.get_cvar(matching_cvar, default="[]" if cvar_type == 'list' else "''")
+cvar_value = load_yaml(initial_cvar_raw_value)
+
+if len(args) > 1:
+  if cvar_type == 'list':
+    if not 'list' in typeof(cvar_value).lower():
+      return embeds.get_output(embed = errorEmbed(body=f"Expected a list but the `{matching_cvar}` cvar for {_character.name} contains a {typeof(cvar_value)}:\n```\n{cvar_value}\n```\n Is another alias using this cvar? Is this the character you intended?\n\nYou can overwrite this with `{ctx.prefix}cvar {matching_cvar} <value>` or delete it entirely with `{ctx.prefix}cvar remove {matching_cvar}` to proceed."))
+    if args[1] == 'add':
+      if len(args) >= 2:
+        cvar_value += args[2:]
+        cvar_value = list(set(cvar_value))
+      else:
+        return embeds.get_output(embed = errorEmbed(body="Missing arguments. Nothing to add."))
+    elif args[1] == 'remove':
+      if len(args) >= 2:
+        cvar_value = [item for item in cvar_value if item not in args[2:]]
+      else:
+        return embeds.get_output(embed = errorEmbed(body="Missing arguments. Nothing to remove."))
+    else:
+      return embeds.get_output(embed = errorEmbed(body=f'{matching_cvar} is a list, use `add`/`remove` to manage items.'))
+  else:
+    if args[1] == 'set':
+      if len(args) >= 2:
+        cvar_value = ' '.join(args[2:])
+      else:
+        return embeds.get_output(embed = errorEmbed(body="Missing arguments. Nothing to set the cvar to."))
+    else:
+      return embeds.get_output(embed = errorEmbed(body=f'{matching_cvar} is a string, use `set` to replace the value.'))
+  _character.set_cvar(matching_cvar, dump_yaml(cvar_value))
+
+final_cvar_raw_value = _character.get_cvar(matching_cvar, default="[]" if cvar_type == 'list' else "''")
+embed = {
+    'thumb': get('image'),
+    'color': get('color'),
+    'footer': USAGE,
+}
+if initial_cvar_raw_value == final_cvar_raw_value:
+  embed['title'] = f"`{matching_cvar}` for {get('name')}"
+  embed['desc'] = final_cvar_raw_value
+else:
+  embed['title'] = f"Updated `{matching_cvar}` for {get('name')}"
+  embed['fields'] = [
+    {'title': 'From', 'body': format_raw_cvar(initial_cvar_raw_value)},
+    {'title': 'To', 'body': format_raw_cvar(final_cvar_raw_value)}
+  ]
+
+return embeds.get_output(embed = embed)
+</drac2>

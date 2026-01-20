@@ -1,0 +1,7 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Drone_Master = '1ce33c70-d872-4fe8-9e68-c63936ddaa36'
+name: Drone Master
+parent: Ranger
+features:
+  loadout: { type: list, level: 3 }
+  cyberdemon: { type: string, level: 3 }

@@ -1,0 +1,27 @@
+2014:
+  subclasses:
+    # The Griffon's Saddlebag Book Two
+    Path of the Infernal: { parent: Barbarian }
+    College of Mercantile: { parent: Bard }
+    Festus Domain: { parent: Cleric }
+    Circle of Dragons: { parent: Druid }
+    Steel Hawk: { parent: Fighter }
+    Way of the Aether: { parent: Monk }
+    Oath of the Spelldrinker: { parent: Paladin }
+    Rocborne: { parent: Ranger }
+    Grim Surgeon: { parent: Rogue }
+    Desert Soul: { parent: Sorcerer }
+    The Many: { parent: Warlock }
+    Wand Lore: { parent: Wizard }
+    #Humblewood Campaign Setting
+    College of the Road:
+          parent: Bard
+          features:
+            Traveler’s Tricks: { type: list, level: 3 }
+    Community Domain: { parent: Cleric }
+    Night Domain: { parent: Cleric }
+    Scofflaw: { parent: Fighter }
+    # Humblewood Tales
+    Circle of the Warden: { parent: Druid }
+    The Predator: { parent: Warlock}
+    Leyline Magic: { parent: Wizard }

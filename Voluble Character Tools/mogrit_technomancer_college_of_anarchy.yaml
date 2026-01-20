@@ -1,0 +1,291 @@
+# Mogrit's _The Technomancer's Toolbox_
+# College_of_Anarchy = '24b0147f-98a0-453a-90db-8cc57bca98f2'
+name: College of Anarchy
+parent: Bard
+automations:
+  Rebellious Shout:
+    level: 3
+    actions:
+      - |
+        - name: Rebellious Shout - Rise Up
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can expend one use of your Bardic
+                Inspiration on a creature you can see or who can hear you
+                other than yourself within 60 feet of you to use one of the
+                following Rebellious Shout options of your choice. If the
+                creature is unwilling, it can make a Constitution saving throw
+                against your spell save DC. On a successful save, the creature
+                is not moved and suffers no effects.
+            - type: counter
+              counter: Bardic Inspiration
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: -1d{12 if caster.levels.get('Bard') >= 15 else 10 if
+                    caster.levels.get('Bard') >= 10 else 8 if caster.levels.get('Bard') >=
+                    5 else 6} - {charismaMod} [healing]
+            - type: text
+              text: |-
+                The creature regains hit points equal to the
+                number you roll on the Bardic Inspiration die plus your
+                Charisma modifier and is pulled up to 10 feet closer to you. If
+                the creature is prone, it can use its reaction to stand up. A
+                creature cannot be the target of this ability again until they
+                have finished a short or long rest.
+              title: Rise Up
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Rebellious Shout - Fuck Off
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can expend one use of your Bardic
+                Inspiration on a creature you can see or who can hear you
+                other than yourself within 60 feet of you to use one of the
+                following Rebellious Shout options of your choice. If the
+                creature is unwilling, it can make a Constitution saving throw
+                against your spell save DC. On a successful save, the creature
+                is not moved and suffers no effects.
+            - type: counter
+              counter: Bardic Inspiration
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: 1d{12 if caster.levels.get('Bard') >= 15 else 10 if
+                        caster.levels.get('Bard') >= 10 else 8 if
+                        caster.levels.get('Bard') >= 5 else 6} + {charismaMod} [thunder]
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: |-
+                The creature takes thunder damage equal to the
+                number you roll on the Bardic Inspiration die plus your
+                Charisma modifier. If the creature is Large or smaller, it is
+                pushed up to 10 feet away from you.
+              title: Fuck Off
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Rebellious Shout - Get Lost
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can expend one use of your Bardic
+                Inspiration on a creature you can see or who can hear you
+                other than yourself within 60 feet of you to use one of the
+                following Rebellious Shout options of your choice. If the
+                creature is unwilling, it can make a Constitution saving throw
+                against your spell save DC. On a successful save, the creature
+                is not moved and suffers no effects.
+            - type: counter
+              counter: Bardic Inspiration
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Frightened (Rebellious Shout)
+                      duration: "2"
+                      end: true
+                      tick_on_caster: true
+                    - type: ieffect2
+                      name: Deafened (Rebellious Shout)
+                      duration: "10"
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: The creature is frightened until the end of your next turn and is deafened
+                for 1 minute.
+              title: Get Lost
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Revolution:
+    level: 6
+    actions:
+      - |
+        - name: Revolution
+          automation:
+            - type: text
+              text: As a reaction, when a creature within 30 feet of you makes a saving throw
+                against being frightened or charmed, you can start a performance per the
+                Countercharm feature. The creature gains advantage on the saving throw as
+                part of the performance.
+          _v: 2
+          proper: false
+          verb: starts
+          activation_type: 4
+  Loudspeaker:
+    level: 14
+    actions:
+      - |
+        - name: Rebellious Shout - Rise Up
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can expend one use of your Bardic
+                Inspiration on a creature you can see or who can hear you
+                other than yourself within 60 feet of you to use one of the
+                following Rebellious Shout options of your choice. If the
+                creature is unwilling, it can make a Constitution saving throw
+                against your spell save DC. On a successful save, the creature
+                is not moved and suffers no effects.
+            - type: text
+              text: |-
+                When you use your
+                Rebellious Shout, you can also target creatures of your choice
+                within 10 feet of your original target, and they are affected by
+                your Rebellious Shout option.
+                
+                Additionally, when you roll a Bardic Inspiration die as part
+                of your Rebellious Shout, you can roll it twice and add both
+                numbers to the result.
+              title: Loudspeaker
+            - type: counter
+              counter: Bardic Inspiration
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: -2d{12 if caster.levels.get('Bard') >= 15 else 10 if
+                    caster.levels.get('Bard') >= 10 else 8 if caster.levels.get('Bard') >=
+                    5 else 6} + {charismaMod} [healing]
+            - type: text
+              text: |-
+                The creature regains hit points equal to the
+                number you roll on the Bardic Inspiration die plus your
+                Charisma modifier and is pulled up to 10 feet closer to you. If
+                the creature is prone, it can use its reaction to stand up. A
+                creature cannot be the target of this ability again until they
+                have finished a short or long rest.
+              title: Rise Up
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Rebellious Shout - Fuck Off
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can expend one use of your Bardic
+                Inspiration on a creature you can see or who can hear you
+                other than yourself within 60 feet of you to use one of the
+                following Rebellious Shout options of your choice. If the
+                creature is unwilling, it can make a Constitution saving throw
+                against your spell save DC. On a successful save, the creature
+                is not moved and suffers no effects.
+            - type: text
+              text: |-
+                When you use your
+                Rebellious Shout, you can also target creatures of your choice
+                within 10 feet of your original target, and they are affected by
+                your Rebellious Shout option.
+                
+                Additionally, when you roll a Bardic Inspiration die as part
+                of your Rebellious Shout, you can roll it twice and add both
+                numbers to the result.
+              title: Loudspeaker
+            - type: counter
+              counter: Bardic Inspiration
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: 2d{12 if caster.levels.get('Bard') >= 15 else 10 if
+                        caster.levels.get('Bard') >= 10 else 8 if
+                        caster.levels.get('Bard') >= 5 else 6} + {charismaMod} [thunder]
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: |-
+                The creature takes thunder damage equal to the
+                number you roll on the Bardic Inspiration die plus your
+                Charisma modifier. If the creature is Large or smaller, it is
+                pushed up to 10 feet away from you.
+              title: Fuck Off
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Rebellious Shout - Get Lost
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can expend one use of your Bardic
+                Inspiration on a creature you can see or who can hear you
+                other than yourself within 60 feet of you to use one of the
+                following Rebellious Shout options of your choice. If the
+                creature is unwilling, it can make a Constitution saving throw
+                against your spell save DC. On a successful save, the creature
+                is not moved and suffers no effects.
+            - type: text
+              text: |-
+                When you use your
+                Rebellious Shout, you can also target creatures of your choice
+                within 10 feet of your original target, and they are affected by
+                your Rebellious Shout option.
+                
+                Additionally, when you roll a Bardic Inspiration die as part
+                of your Rebellious Shout, you can roll it twice and add both
+                numbers to the result.
+              title: Loudspeaker
+            - type: counter
+              counter: Bardic Inspiration
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Frightened (Rebellious Shout)
+                      duration: "2"
+                      end: true
+                      tick_on_caster: true
+                    - type: ieffect2
+                      name: Deafened (Rebellious Shout)
+                      duration: "10"
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: The creature is frightened until the end of your next turn and is deafened
+                for 1 minute.
+              title: Get Lost
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3

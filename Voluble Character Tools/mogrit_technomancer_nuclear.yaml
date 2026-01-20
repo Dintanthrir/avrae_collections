@@ -1,0 +1,103 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Nuclear = '11833c74-325e-470c-9dff-4b7ed437f53d'
+name: Nuclear
+parent: Sorcerer
+counters:
+  14:
+    - name: Quantum Jump
+      minVal: 0
+      maxVal: max(1, charismaMod)
+      reset: long
+      dispType: bubble
+automations:
+  Fallout:
+    level: 6
+    actions:
+      - |
+        - name: Fallout
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: ieffect2
+                      name: Irradiated
+                      stacking: true
+                      desc: |-
+                        - Level 1: -1d4 to ability checks
+                        - Level 2: -1d4 to attack rolls and saving throws
+                        - Level 3: no reactions
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: |-
+                Once per turn, when you cast a spell of 1st-level or higher on
+                your turn, you can cause one creature targeted by the spell to
+                make a Constitution saving throw against your spell save DC.
+                On a failed save, the target suffers one level of irradiated, to a
+                maximum of level 3.
+                Additionally, when you cast a spell that deals damage, you
+                can spend 1 sorcery point to change that damage type to fire
+                or radiant.
+          _v: 2
+          proper: true
+          verb: spreads
+          activation_type: 2
+  Quantum Jump:
+    level: 14
+    actions:
+      - |
+        - name: Quantum Jump
+          automation:
+            - type: counter
+              counter: Quantum Jump
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Quantum Jump
+                  duration: "10"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Quantum Field
+                        automation:
+                          - type: roll
+                            dice: 2d10[radiant]
+                            name: damage
+                          - type: target
+                            target: all
+                            effects:
+                              - type: save
+                                stat: dex
+                                fail:
+                                  - type: damage
+                                    damage: "{damage}"
+                                success:
+                                  - type: damage
+                                    damage: ({damage})/2
+                                dc: caster.spellbook.dc
+                        activation_type: 2
+            - type: text
+              text: |-
+                As a bonus action, you can magically teleport up
+                to 60 feet to an unoccupied space you can see. Immediately
+                after you disappear, a wave of radiation spreads within a 10-
+                foot-radius sphere centered on the space you left for 1
+                minute. When a creature moves into the area for the first
+                time on a turn or starts its turn there, that creature must
+                make a Constitution saving throw against your spell save DC,
+                taking 2d10 radiant damage on a failed save, or half as much
+                damage on a successful one.
+                You can use this feature a number of times equal to your
+                Charisma modifier (minimum of once). You regain all
+                expended uses when you finish a long rest.
+          _v: 2
+          proper: false
+          verb: makes
+          activation_type: 3

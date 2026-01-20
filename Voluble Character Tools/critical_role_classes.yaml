@@ -1,0 +1,48 @@
+# 'critical_role_classes' = '6c2e4fa2-d986-43d3-af04-a5b9ae480f1d'
+# class and subclass definitions for Voluble Character Tools
+
+2014:
+  classes:
+    Blood Hunter:
+      hit_die: 10
+      sub_level: 3
+      features:
+        blood_curses: { name: 'Blood Curses', type: list, level: 1 }
+        fighting_styles: { name: 'Fighting Styles', type: list, level: 2 }
+        crimson_rites: { name: 'Crimson Rites', type: list, level: 2 }
+  subclasses:
+    # Explorer's Guide to Wildemount
+    Echo Knight: { parent: Fighter }
+    Chronurgy Magic: { parent: Wizard }
+    Graviturgy Magic: { parent: Wizard }
+    # Mathew Mercer's Gunslinger
+    Gunslinger:
+      parent: Fighter
+      features:
+        trick_shots: {name: 'Trick Shots', type: list, level: 3 }
+    # Tal'dorei Campaign Setting Reborn
+    # Barbarian
+    Path of the Juggernaut: { parent: Barbarian }
+    # Bard
+    College of Tragedy: { parent: Bard }
+    # Cleric
+    Blood Domain: { parent: Cleric }
+    Moon Domain: { parent: Cleric }
+    # Druid
+    Circle of the Blighted: { parent: Druid }
+    # Monk
+    Way of the Cobalt Soul: { parent: Monk }
+    # Paladin
+    Oath of the Open Sea: { parent: Paladin }
+    # Sorcerer
+    Runechild:
+      parent: Sorcerer
+      features:
+        essence_runes: { name: 'Essence Runes', type: list, level: 1 }
+    # Wizard
+    Blood Magic: { parent: Wizard }
+    # Blood Hunter
+    Ghostslayer: { parent: Blood Hunter }
+    Lycan: { parent: Blood Hunter }
+    Mutant: { parent: Blood Hunter }
+    Profane Soul: { parent: Blood Hunter }

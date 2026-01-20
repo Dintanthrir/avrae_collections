@@ -1,0 +1,164 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Oath_of_Progress = '9aba6a4f-7715-4261-bc0d-dfc68969ea70'
+name: Oath of Progress
+parent: Paladin
+counters:
+  7:
+    - name: Overthrow
+      minVal: 0
+      maxVal: max(1, charismaMod)
+      reset: long
+      dispType: bubble
+automations:
+  Channel Divinity - Bold Proclamation:
+    level: 3
+    actions:
+      - |
+        - name: Channel Divinity - Bold Proclamation
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Charmed (Bold Proclamation)
+                      buttons:
+                        - label: Save vs Bold Proclamation (EoT)
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: cha
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          verb: attempts to resist
+                          style: "1"
+                          defaultDC: caster.spellbook.dc
+                        - label: End Bold Proclamation
+                          automation:
+                            - type: remove_ieffect
+                          style: "1"
+                      duration: "100"
+                      effects:
+                        attack_advantage: "-1"
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: |-
+                You can use your Channel Divinity
+                to captivate your fellow people with your presence. As an
+                action, you force each creature of your choice that you can
+                see within 30 feet of you to make a Wisdom saving throw. On
+                a failed save, a creature becomes charmed for 10 minutes.
+                The charmed creature has disadvantage on attack rolls, and
+                can repeat this saving throw at the end of each of its turns if
+                it sees a hostile creature, ending the effect on itself on a
+                success. The effect ends for a creature if you damage it.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  Channel Divinity - Ambitious Strike:
+    level: 3
+    actions:
+      - |
+        - name: "Channel Divinity - Ambitious Strike:"
+          automation:
+            - type: text
+              text: |-
+                You can use your Channel Divinity to
+                gamble on a powerful blow. When you would hit with a
+                weapon attack, you can instead use your Channel Divinity to
+                make the attack again, ignoring advantage and disadvantage
+                on the roll. If the attack still hits, it is a critical hit.
+            - type: target
+              target: all
+              effects:
+                - type: attack
+                  hit: []
+                  miss: []
+          _v: 2
+          proper: true
+  Overthrow:
+    level: 15
+    actions:
+      - |
+        - name: Overthrow
+          automation:
+            - type: counter
+              counter: Overthrow
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: cha
+                  fail:
+                    - type: ieffect2
+                      name: Overthrown
+                      duration: "10"
+                      effects:
+                        save_bonus: -1d4
+                      desc: "- Add 1d4 to attacks against this creature."
+                  success: []
+                  dc: caster.spellbook.dc
+            - type: text
+              text: |-
+                When you hit another creature with a weapon
+                attack, you can cause it to make a Charisma saving throw. On
+                a failed save, the creature is cursed for 1 minute. Add 1d4 to
+                attack rolls against the cursed creature, and the cursed
+                creature subtracts 1d4 from its saving throws.
+                You can use this feature a number of times equal to your
+                Charisma modifier (minimum of once). You regain all
+                expended uses when you finish a long rest.
+                Additionally, your Divine Sense feature can detect
+                creatures that can speak at least one language, and you know
+                what languages they speak.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Paragon of Unity:
+    level: 20
+    actions:
+      - |
+        - name: Paragon of Unity
+          automation:
+            - type: counter
+              counter: Paragon of Unity
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Paragon of Unity
+                  duration: "10"
+            - type: text
+              text: |-
+                your force of personality is strong enough to
+                spark an unbreakable alliance. As an action, you can become
+                an unstoppable icon, gaining the following benefits for 1
+                minute:
+                - Each creature of your choice within 30 feet of you deals an
+                extra 1d6 force damage when it hits with an attack.
+                - When a creature other than yourself that you can see
+                within 30 feet of you drops to 0 hit points as a result of
+                taking damage, but is not killed outright, you can use your
+                reaction to drop it to 1 hit point instead.
+                - You and creatures of your choice within 60 feet of you can
+                ignore difficult terrain.
+                Once you use this feature, you can't use it again until you
+                finish a long rest.
+          _v: 2
+          proper: false
+          verb: becomes
+          activation_type: 1

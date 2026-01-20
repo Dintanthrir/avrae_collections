@@ -1,0 +1,182 @@
+# Mogrit's _The Technomancer's Toolbox_
+# Commerce_Domain = '26139d2f-a424-483e-ae32-822b3e26ba65'
+name: Commerce Domain
+parent: Cleric
+counters:
+  1:
+    - name: Aggressive Bargaining
+      minVal: 0
+      maxVal: max(1, wisdomMod)
+      reset: long
+automations:
+  Aggressive Bargaining:
+    level: 1
+    actions:
+      - |
+        - name: Aggressive Bargaining
+          automation:
+            - type: counter
+              counter: Aggressive Bargaining
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: text
+              text: |-
+                As a reaction, when you or a willing creature
+                within 30 feet of you makes an attack roll, an ability check, or
+                a saving throw, you and the willing creature can each choose
+                to spend Hit Dice, up to a combined maximum of 4 Hit Dice.
+
+                For each Hit Dice spent in this manner, the target adds 1d4
+                to the result. You can only use this ability after the roll, but
+                before any effects of the roll are applied.
+
+                You can use this feature a number of times equal to your
+                Wisdom modifier (minimum of once). You regain all
+                expended uses when you finish a long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 4
+  "Channel Divinity: Mediation":
+    level: 2
+    actions:
+      - |
+        - name: "Channel Divinity: Mediation"
+          automation:
+            - type: text
+              text: |-
+                As an action, you present your holy symbol, choose up to
+                six willing creatures (which can include yourself) within 30
+                feet of you. Each creature can spend one or more Hit Dice to
+                cause one other creature affected by this Channel Divinity to
+                regain an equal amount of spent Hit Dice.
+                Additionally, until the end of your next turn, each creature
+                can spend a hit die on its turn (no action required) if it is not
+                incapacitated. The creature rolls the Hit Dice and regains hit
+                points equal to the die roll + the creature’s Constitution
+                modifier + your cleric level.
+            - type: counter
+              counter: Channel Divinity
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Mediation
+                  duration: "2"
+                  end: true
+                  tick_on_caster: true
+                  desc: Spend a hit die on your turn to heal for rolled value +
+                    {target.constitutionMod + caster.levels.get('Cleric')}
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  "Channel Divinity: Sanctified Transaction":
+    level: 2
+    actions:
+      - |
+        - name: "Channel Divinity: Mediation"
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can magically create a nonliving
+                object you’ve seen before in your empty hand or in an empty
+                space within 5 feet of you. The object can be no larger than a
+                3-foot cube and its credit value can’t be worth more than
+                6,000 times your cleric level. The DM decides if a specific
+                item can be created in this manner, and its value.
+
+                The object vanishes after 1 hour unless you magically
+                spend an amount of credits you’re carrying equal to its value
+                when you use this Channel Divinity. The object cannot be
+                used as the material component for a spell unless you spend
+                credits for it in this manner first.
+            - type: counter
+              counter: Channel Divinity
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  Free Trade:
+    level: 17
+    actions:
+      - |
+        - name: Free Trade (damage)
+          automation:
+            - type: counter
+              counter: FreeTradePlaceholderCounter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: counter
+              counter:
+                slot: amt
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{min(amt, 4)}d8 [{choice}]"
+            - type: text
+              text: |-
+                You can liquidate your vast supply of divine
+                Energy when you need it most. Once per turn, when you cast
+                a spell on your turn that deals damage, you can expend one
+                spell slot to deal additional damage to one target of the spell.
+                The extra damage is 1d8 for a 1st-level spell slot, plus 1d8 for
+                each spell level higher than the 1st, to a maximum of 4d8.
+
+                Alternatively, once per turn, when you cast a spell on your
+                turn that restores hit points, you can expend one spell slot to
+                restore additional hit points to one target of the spell. The
+                creature regains an extra 1d8 hit points for a 1st-level spell
+                slot, plus 1d8 for each spell level higher than the 1st, to a
+                maximum of 4d8.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Free Trade (healing)
+          automation:
+            - type: counter
+              counter: FreeTradePlaceholderCounter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: counter
+              counter:
+                slot: amt
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "-{min(amt, 4)}d8 [healing]"
+            - type: text
+              text: |-
+                You can liquidate your vast supply of divine
+                Tnergy when you need it most. Once per turn, when you cast
+                a spell on your turn that deals damage, you can expend one
+                spell slot to deal additional damage to one target of the spell.
+                The extra damage is 1d8 for a 1st-level spell slot, plus 1d8 for
+                each spell level higher than the 1st, to a maximum of 4d8.
+
+                Alternatively, once per turn, when you cast a spell on your
+                turn that restores hit points, you can expend one spell slot to
+                restore additional hit points to one target of the spell. The
+                creature regains an extra 1d8 hit points for a 1st-level spell
+                slot, plus 1d8 for each spell level higher than the 1st, to a
+                maximum of 4d8.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2

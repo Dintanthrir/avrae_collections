@@ -1,0 +1,183 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
+  voluble = 'c3bfadbf-67b5-48c7-969b-e959ea1e3962',
+)
+
+COMMAND = ctx.alias
+USAGE = f"{ctx.prefix}{COMMAND} [-class <\"class name query\">] [-level <number>] [-source <\"gvar or name\">] [-version 2014|2024]] [-add|-remove <\"subclass name query\">]"
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+_character = character()
+
+def _is_gvar_id(string):
+    return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
+
+def add_or_remove_class_levels(class_query: str, version: int, source: str, options: dict, current_levels: dict) -> list:
+  result = None
+  desc = None
+  class_matches = fuzzy.get_matches_with_function(search=class_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), iterable=options.classes.keys(), function=lambda x: x.lower().translate(fuzzy.NO_PUNCTUATION_TABLE))
+
+  if source is not None:
+      class_matches = [match for match in class_matches if match[1] == source]
+      if len(class_matches) == 0:
+        class_matches = fuzzy.get_matches_ignoring_punctuation(class_query, load_yaml(get_gvar(source)).get('classes', {}).keys())
+
+  if len(class_matches) > 1:
+    return {'error': {'title':f"Multiple \"{class_query}\" matches", 'body':f"Multiple existing classes match {class_query}: {class_matches}"}}
+  elif len(class_matches) == 0:
+    return {'error': {'title':f"No configured class matches \"{class_query}\"", 'body':f"Could not find a matching class in any source {class_query}: {class_matches}"}}
+
+  class_to_update = class_matches[0]
+
+  if (level := parsed_args.last('level', type_=int, default=_character.levels.get(class_to_update))) is None:
+    return {'error': {'title':"`-level` required", 'body':"Adding a class not on the character sheet requires a level."}}
+
+  source = source or options.classes[class_to_update][1]
+
+  if class_to_update not in current_levels.classes:
+    if level == 0:
+      return {'error': {'title': "Not currently a " + class_to_update, 'body':"Cannot set level to 0."}}
+    # add a new class
+    result = voluble.add_class_levels(class_name=class_to_update, level=level, rules_version=version, source=source)
+    desc = f"Added {version} class {class_to_update} level {level} from {source}"
+  else:
+    # update a current class
+    existing_class_config = current_levels.classes.get(class_to_update, {})
+    version = existing_class_config.get('rules_version', version)
+    source = source or existing_class_config.get('source', options.classes.get(class_to_update)[1])
+    if level >= existing_class_config.get('level', 0):
+      result = voluble.add_class_levels(class_name=class_to_update, level=level, rules_version=version, source=source)
+      desc = f"Added {version} class {class_to_update} level {level} from {source}"
+    else:
+      result = voluble.remove_class_levels(class_name=class_to_update, level=level, rules_version=version, source=source)
+      desc = f"Removed {version} class {class_to_update} level {level} from {source}"
+  
+  return {'result': result, 'summary': desc}
+
+def add_or_remove_subclass(subclass_add_query: str, subclass_remove_query: str, version: int, source: str, options: dict, current_levels:dict) -> list:
+  result = None
+  desc = None
+
+  if subclass_add_query is not None:
+    subclass_matches = fuzzy.get_matches_with_function(search=subclass_add_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), iterable=options.subclasses.keys(), function=lambda x: x.lower().translate(fuzzy.NO_PUNCTUATION_TABLE))
+    source_matches = []
+    if source is not None:
+        source_subclasses = load_yaml(get_gvar(source)).get(version, {}).get('subclasses', {})
+        subclass_matches = fuzzy.get_matches_with_function(search=subclass_add_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), iterable=source_subclasses.keys(), function=lambda x: x.lower().translate(fuzzy.NO_PUNCTUATION_TABLE))
+        source_matches = [('custom', source)]
+    else:
+      source_matches = list(set([options.subclasses[match] for match in subclass_matches]))
+
+    if source is not None and len(source_matches) == 0:
+      return {'error': {'title':f"Cannot find \"{source}\"", 'body':f"No subclass in the configured {version} sources has a source matching \"{source}\"."}}
+    if source is not None and len(source_matches) > 1:
+      return {'error': {'title':f"Multiple \"{source}\" matches", 'body':f"Multiple subclass sources in the configured {version} sources match \"{source}\": {source_matches}"}}
+    if len(subclass_matches) == 0:
+      return {'error': {'title':f"Cannot find \"{subclass_add_query}\"", 'body':f"No subclass in the configured {version} sources{' with a source matching ' + source if source else ''} matches \"{subclass_add_query}\"."}}
+    if len(subclass_matches) > 1:
+      return {'error': {'title':f"Multiple \"{subclass_add_query}\" matches", 'body':f"Multiple subclasses in the configured {version} sources{' with a source matching ' + source if source else ''} match \"{subclass_add_query}\": {subclass_matches}"}}
+
+    existing_subclass_config = current_levels.subclasses.get(subclass_matches[0], None)
+    if existing_subclass_config is not None:
+      return {'error': {'title':f"Already a {subclass_matches[0]}", 'body':"Cannot add a subclass twice."}}
+    
+    result = voluble.add_subclass(subclass_name=subclass_matches[0], rules_version=version, source=source_matches[0][1])
+    desc = f"Added {version} subclass {subclass_matches[0]} from {source_matches[0][1]}"
+  elif subclass_remove_query is not None:
+    subclass_matches = fuzzy.get_matches_with_function(search=subclass_remove_query.lower().translate(fuzzy.NO_PUNCTUATION_TABLE), iterable=current_levels.subclasses.keys(), function=lambda x: x.lower().translate(fuzzy.NO_PUNCTUATION_TABLE))
+
+    if len(subclass_matches) == 0:
+      return {'error': {'title':f"Cannot find \"{subclass_remove_query}\"", 'body':f"No current subclass matches \"{subclass_remove_query}\"."}}
+    if len(subclass_matches) > 1:
+      return {'error': {title:f"Multiple \"{subclass_remove_query}\" matches", 'body':f"Multiple subclasses in the configured {version} sources{' with a source matching ' + source if source else ''} match {subclass_remove_query}: {subclass_matches}"}}
+
+    result = voluble.remove_subclass(subclass_name=subclass_matches[0])
+    desc = f"Removed subclass {subclass_matches[0]}"
+  
+  return {'result': result, 'summary': desc}
+
+def autoupdate(): 
+  result = voluble.apply_levels()
+  desc = "Updating all registered classes."
+  for class_name, level in result.get('added', {}).get('class_levels', {}).items():
+    desc += '\n' + class_name + ': ' + str(level) + ' 🆙'
+  for class_name, level in result.get('skipped', {}).get('class_levels', {}).items():
+    desc += '\n' + class_name + ': ' + str(level) + ' ⏸️'
+  for class_name, level in result.get('failed', {}).get('class_levels', {}).items():
+    desc += '\n' + class_name + ': ' + str(level) + ' ❌'
+  
+  return {'result': result, 'summary': desc}
+  
+args = &ARGS&
+parsed_args = argparse(args)
+
+# Match `level help` behavior from Verbose Character Tools
+if args and args[0] in 'help?':
+  return f"help {ctx.prefix}{ctx.alias}"
+
+current_levels = voluble.current_levels()
+
+version = parsed_args.last('version', type_=int) or int(_character.csettings.get('version', 2014))
+
+# Allow specifying the source by key instead of gvar id
+if (source := parsed_args.last('source', type_=str)) is not None and not _is_gvar_id(source):
+  source = voluble.resolve_source(source)
+  if source is None:
+    return embeds.get_output(embed = {'title':f"Cannot resolve source \"{source}\"", 'body':f"\"{source}\" does not uniquely identify a source gvar from the `{voluble.SETTINGS_VAR}` variables."})
+
+options = voluble.list_options(version)
+class_query = parsed_args.last('class', type_=str)
+subclass_add_query = parsed_args.last('add', type_=str)
+subclass_remove_query = parsed_args.last('remove', type_=str)
+
+results = []
+if class_query:
+  results.append(add_or_remove_class_levels(class_query=class_query, version=version, source=source, options=options, current_levels=current_levels))
+if subclass_add_query or subclass_remove_query:
+  results.append(add_or_remove_subclass(subclass_add_query=subclass_add_query, subclass_remove_query=subclass_remove_query, version=version, source=source, options=options, current_levels=current_levels))
+if class_query is None and subclass_add_query is None and subclass_remove_query is None:
+  results.append(autoupdate())
+
+if len(results) == 0:
+  return embeds.get_output(embed = {'title':f"Unexpected arguments", 'body':f"\"{args}\" does not match `{USAGE}`"})
+
+fields = []
+suffix_cmds = []
+for result_container in results:
+  if error := result_container.get('error'):
+    fields.append({'title': error.get('title', 'Error! ⚠️'), 'body': error.get('body', '')})
+  
+  if result := result_container.get('result'):
+    if not result.get('success', False):
+      fields.append({'title': 'Error! ⚠️', 'body': str(result.get('message'))})
+    if len(result.get('added', {}).get('counters', {})) > 0:
+      fields.append({'title': f'Created counters:', 'body': ', '.join([added.name for added in result.get('added', {}).get('counters', [])])})
+    if len(result.get('added', {}).get('features', {})) > 0:
+      fields.append({'title': f'Created cvars:', 'body': ', '.join([added for (added, cvar) in result.get('added', {}).get('features', {}).items()])})
+    if len(result.get('removed', {}).get('counters', {})) > 0:
+      fields.append({'title': f'Removed counters:', 'body': ', '.join([removed.name for removed in result.get('removed', {}).get('counters', [])])})
+
+    if len(result.get('add', {}).get('automations', [])) > 0:
+      fields.append({'title': 'Adding automations...'})
+    suffix_cmds += [f'a import {action}' for action in result.get('add', {}).get('automations', [])]
+    if len(result.get('remove', {}).get('automations', [])) > 0:
+      fields.append({'title': 'Removing automations...'})
+    suffix_cmds += [f'a remove "{name}"' for name in result.get('remove', {}).get('automations', [])]
+
+embed = {
+    'title': get('name'),
+    'thumb': get('image'),
+    'color': get('color'),
+    'desc': '\n'.join([result.get('summary', '') for result in results if result]),
+    'fields': fields + (logger.log_fields(level=logger.LEVELS.DEBUG) if parsed_args.last('verbose') else []),
+    'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed, suffix_cmds=suffix_cmds)
+</drac2>

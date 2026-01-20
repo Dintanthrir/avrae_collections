@@ -1,0 +1,37 @@
+<drac2>
+using(
+  context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  voluble = 'c3bfadbf-67b5-48c7-969b-e959ea1e3962',
+)
+
+COMMAND = f"{ctx.alias} list"
+USAGE = f"{ctx.prefix}{COMMAND}"
+
+if filter_embed := context_filters.filter_embed():
+  return embeds.get_output(embed=filter_embed)
+
+COMMON_CVARS = {
+  'languages': {'type': 'list', 'level': 1, 'title': 'Languages'},
+  'senses': {'type': 'list', 'level': 1, 'title': 'Senses'},
+  'speed': {'type': 'list', 'level': 1, 'title': 'Speed'},
+  'size': {'type': 'string', 'level': 1, 'title': 'Size'},
+  'feats': {'type': 'list', 'level': 1, 'title': 'Feats'},
+  'background_feature': {'type': 'string', 'level': 1, 'title': 'Background'},
+  'creature_type': {'type': 'string', 'level': 1, 'title': 'Creature Type'},
+  'magic_items': {'type': 'list', 'level': 1, 'title': 'Items'},
+  'attuned_items': {'type': 'list', 'level': 1, 'title': 'Attuned'},
+}
+
+cvars = voluble.current_cvars() | COMMON_CVARS
+
+embed = {
+    'title': f"{get('name')}'s vsheet cvars",
+    'thumb': get('image'),
+    'color': get('color'),
+    'fields': [{'title': cvar_name, 'body': '_' + cvar_config.get('type', 'string') + ',_ ' + cvar_config.get('desc', '') +  ' ```\n' + character().get_cvar(cvar_name, '') + '\n```'} for (cvar_name, cvar_config) in cvars.items()],
+    'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>
