@@ -27,7 +27,7 @@ def set_sheet_overrides(levels, rules_version):
   :type levels: AliasLevels
   :param rules_version: The default rules version from the character's csettings: https://avrae.readthedocs.io/en/stable/aliasing/api.html#aliasing.api.character.AliasCharacter.csettings
   :type rules_version: dict
-  """  
+  """
   _sheet_levels.update(levels) # mutate, don't reassign
   _sheet_rules_version['version'] = rules_version
 
@@ -69,9 +69,9 @@ def _load_config() -> dict:
   """
   if not _caches.config_cache:
     config = CONFIG_DEFAULTS
-    config |= load_yaml(get_svar(SETTINGS_VAR, '{}'))
-    config |= load_yaml(get_uvar(SETTINGS_VAR, '{}'))
-    config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}'))
+    config |= load_yaml(get_svar(SETTINGS_VAR, '{}')).get('sources', {})
+    config |= load_yaml(get_uvar(SETTINGS_VAR, '{}')).get('sources', {})
+    config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')).get('sources', {})
 
     for (config_name, config_value) in config.items():
       if typeof(config_value) == 'str':
@@ -96,7 +96,7 @@ def _save(levels):
     (class)Level: <subclassName>, # For compatibility with verbose character tools
     classes: {
       class_name: {
-        level:int, 
+        level:int,
         source?: str,
         rules_version: int,
         last_update?: {
@@ -186,7 +186,7 @@ def _update_hit_die_counters():
   unused_die_sizes = [4,6,8,10,12]
   for (die_size, die_count) in hit_dice.items():
     counter = {
-      'name': f'Hit Dice (d{die_size})', 
+      'name': f'Hit Dice (d{die_size})',
       'minVal': 0,
       'maxVal': die_count,
       'reset': 'long',
@@ -204,7 +204,7 @@ def _update_hit_die_counters():
     if _character.cc_exists(counter_name):
       removed_counter = _character.cc(counter_name)
       removed.append({
-        'name': removed_counter.name, 
+        'name': removed_counter.name,
         'minVal': removed_counter.min,
         'maxVal': removed_counter.max,
         'reset': removed_counter.reset_on,
@@ -231,11 +231,11 @@ def resolve_source(query:str) -> str:
   """
   if typeof(query) == 'str' and len(query) == 36 and [char for char in query if not char in '0123456789abcdef-'] == []:
     return query
-  
+
   config = CONFIG_DEFAULTS
-  config |= load_yaml(get_svar(SETTINGS_VAR, '{}'))
-  config |= load_yaml(get_uvar(SETTINGS_VAR, '{}'))
-  config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}'))
+  config |= load_yaml(get_svar(SETTINGS_VAR, '{}')).get('sources', {})
+  config |= load_yaml(get_uvar(SETTINGS_VAR, '{}')).get('sources', {})
+  config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')).get('sources', {})
   matches = fuzzy.get_matches_ignoring_punctuation(query, config.keys())
   if len(matches) != 1:
     return None
@@ -245,7 +245,7 @@ def resolve_source(query:str) -> str:
 def list_options(version) -> dict:
   """
   Classes and subclasses which can be managed by `!level class`
-  
+
   :return: Returns a dict of classes and subclasses and their source gvars or the location in which they are defined ('svar'|'uvar'|'cvar').
   :rtype: dict[str, dict[str, (str, str)]] | {
     'classes': dict[class_name: (label, gvar|'svar'|'uvar'|'cvar')],
@@ -254,9 +254,9 @@ def list_options(version) -> dict:
   """
   config_locations = [
     (CONFIG_DEFAULTS, None),
-    (load_yaml(get_svar(SETTINGS_VAR, '{}')), 'svar'),
-    (load_yaml(get_uvar(SETTINGS_VAR, '{}')), 'uvar'),
-    (load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')), 'cvar')
+    (load_yaml(get_svar(SETTINGS_VAR, '{}')), 'svar').get('sources', {}),
+    (load_yaml(get_uvar(SETTINGS_VAR, '{}')), 'uvar').get('sources', {}),
+    (load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')), 'cvar').get('sources', {})
   ]
 
   combined_config = {'classes': {}, 'subclasses': {}}
@@ -277,7 +277,7 @@ def list_options(version) -> dict:
           for option_type in ['classes', 'subclasses']:
             for (option, details) in options.get(option_type, {}).items():
               combined_config.get(option_type)[option] = (label, load_from)
-  
+
   return combined_config
 
 def current_levels() -> dict:
@@ -288,7 +288,7 @@ def current_levels() -> dict:
   :rtype: {
     classes: {
       class_name: {
-        level:int, 
+        level:int,
         source?: str, # None if obtained from AliasLevels
         rules_version?: int, # None if obtained from AliasLevels
         last_update?: {
@@ -315,7 +315,7 @@ def current_levels() -> dict:
           counters: list(str),
           features: list(str),
         }
-      }, 
+      },
     }
   }
   """
@@ -357,7 +357,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
   :type rules_version: int
   :param source: The gvar in which this class is defined.
   :type source: str
-  
+
   :return: Returns a dict of automations to add and any feature cvars and counters already added
   :rtype: {
     success: bool,        # True if the subclass was added, False otherwise.
@@ -373,15 +373,15 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
   """
   if level < _sheet_levels.get(class_name, 0):
     return {'success': False, 'message': f'Cannot override levels defined on a character sheet to set level to {level}. Avrae manages this level {_sheet_levels.get(class_name, 0)} {class_name}.'}
-  
+
   hit_dice = None
   added_counters = {}
   added_vars = {}
   added_automations = []
-  
+
   gvar_content = load_yaml(get_gvar(source))
   levels = current_levels()
-  
+
   if (class_config := gvar_content.get(int(rules_version), {}).get('classes', {}).get(class_name, None)) == None:
     return {'success': False, 'message': f'{rules_version} class `{class_name}` was not found in `{source}`'}
 
@@ -438,7 +438,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
   subclass_automations_to_add = []
   if existing_subclass is not None:
     applied_level = existing_subclass.last_update.get('level', 0)
-      
+
     # Add any cvars added by the subclass
     for (cvar_name, cvar) in existing_subclass.config.get('features', {}).items():
       if cvar.get('level', 0) > applied_level and cvar.get('level', 0) <= level:
@@ -489,7 +489,7 @@ def remove_class_levels(class_name:str, level:int, rules_version:int, source:str
   :type rules_version: int
   :param source: The gvar in which this class is defined.
   :type source: str
-  
+
   :return: Returns a dict of automations to remove and any feature cvars and counters already removed
   :rtype: {
     success: bool,        # True if the subclass was removed, False otherwise.
@@ -502,18 +502,18 @@ def remove_class_levels(class_name:str, level:int, rules_version:int, source:str
       automations: list(str),
     }
   }
-  """  
+  """
   if (sheet_level := _sheet_levels.get(class_name, None)) is not None and level < sheet_level:
     return {'success': False, 'message': f'Cannot override levels defined on a character sheet. Avrae manages this level {_sheet_levels.get(class_name, 0)} {class_name}.'}
-  
+
   hit_dice = None
   removed_counters = []
   removed_vars = []
   class_automations_to_remove = {}
-  
+
   gvar_content = load_yaml(get_gvar(source))
   levels = current_levels()
-  
+
   if (class_config := gvar_content.get(rules_version, {}).get('classes', {}).get(class_name, None)) == None:
     err(f'{rules_version} class `{class_name}` was not found in `{source}`')
 
@@ -546,7 +546,7 @@ def remove_class_levels(class_name:str, level:int, rules_version:int, source:str
     if feature_level > level and feature_level < previous_level:
       _character.delete_cvar(cvar_name)
       removed_vars.append(cvar_name)
-    
+
   hit_dice = {'count': level, 'size': class_config.hit_die}
 
   class_automations_to_remove = [load_yaml(action).name for (automation_name, automation) in class_config.get('automations', {}).items() for action in automation.get('actions', []) if automation.get('level', 1) > level and automation.get('level', 1) < previous_level]
@@ -560,13 +560,13 @@ def remove_class_levels(class_name:str, level:int, rules_version:int, source:str
     'features': removed_vars,
   }
   levels.classes[class_name] = {'source': source, 'rules_version': rules_version, 'level': level, 'last_update': last_update}
-  
+
   existing_subclass_vars = []
   existing_subclass_counters = []
   existing_subclass_automations_to_remove = []
   if existing_subclass is not None:
     applied_level = existing_subclass.last_update.get('level', 0)
-      
+
     # Remove any existing cvars added by the subclass
     for (cvar_name, cvar) in existing_subclass.config.get('features', {}).items():
       if cvar.get('level', 0) <= applied_level and cvar.get('level', 0) > level and _character.get_cvar(cvar) != None:
@@ -623,7 +623,7 @@ def remove_class_levels(class_name:str, level:int, rules_version:int, source:str
     },
     'hit_dice': hit_dice
   }
-  
+
 def add_subclass(subclass_name:str, rules_version:int, source:str) -> dict:
   """
   Add a subclass
@@ -634,7 +634,7 @@ def add_subclass(subclass_name:str, rules_version:int, source:str) -> dict:
   :type rules_version: int
   :param source: The gvar in which this subclass is defined.
   :type source: str
-  
+
   :return: Returns a dict of automations to add/remove and any feature cvars and counters already added/removed
   :rtype: {
     success: bool,        # True if the subclass was removed, False otherwise.
@@ -648,7 +648,7 @@ def add_subclass(subclass_name:str, rules_version:int, source:str) -> dict:
     }
   }
   """
-  
+
   gvar_content = load_yaml(get_gvar(source))
   subclass_config = gvar_content.get(rules_version, {}).get('subclasses', {}).get(subclass_name, None)
 
@@ -662,7 +662,7 @@ def add_subclass(subclass_name:str, rules_version:int, source:str) -> dict:
 
   if parent_class is None:
     return {'success': False, 'message': f'Not a member of {subclass_config.get("parent", None)}'}
-  
+
   if parent_class.get('source', None) is None:
     return {'success': False, 'message': f'Cannot add a subclass until {parent_class_name} has been configured with a source'}
 
@@ -681,7 +681,7 @@ def add_subclass(subclass_name:str, rules_version:int, source:str) -> dict:
       'success': False,
       'message': f"Cannot add a {parent_class_name} subclass until level {parent_class.get('sub_level', None)}, currently level {level}",
     }
-  
+
   existing_subclasses = [subclass_name for subclass_name, subclass_data in current_levels().get('subclasses', {}).items() if subclass_data.get('parent') == parent_class_name]
   if len(existing_subclasses) > 0:
     return {
@@ -713,11 +713,11 @@ def add_subclass(subclass_name:str, rules_version:int, source:str) -> dict:
     'counters': added_counters,
     'features': added_vars,
   }
-  
+
   levels = current_levels()
   levels.subclasses[subclass_name] = {'source': source, 'rules_version': rules_version, 'parent': subclass_config.get('parent'), 'last_update': last_update}
   _save(levels)
-  
+
   return {
     'success': True,
     'added': {
@@ -745,10 +745,10 @@ def remove_subclass(subclass_name:str) -> dict:
       automations: list(str),
     }
   }
-  """  
+  """
   levels = current_levels()
   removed = levels.get('subclasses', {}).pop(subclass_name, None)
-  
+
   # Check if this subclass exists
   if removed is None:
     return {'success': False, 'message': f'{subclass_name} is not a current subclass'}
@@ -764,7 +764,7 @@ def remove_subclass(subclass_name:str) -> dict:
     subclass = load_yaml(get_gvar(subclass))
 
   applied_level = removed.get('last_update', {}).get('level', 0)
-  
+
   # Remove any existing cvars added by the subclass
   removed_vars = {}
   for (cvar_name, cvar) in subclass.get('features', {}).items():
@@ -784,7 +784,7 @@ def remove_subclass(subclass_name:str) -> dict:
   logger.debug(applied_level=applied_level, automation_names=automation_names, automations_to_remove=automations_to_remove, automation_levels = [automation.get('level') for (automation_name, automation) in subclass.get('automations', {}).items()])
   # Update the `subclasses` cvar
   _save(levels)
-  
+
   return {
     'success': True,
     'removed': {
@@ -796,7 +796,7 @@ def remove_subclass(subclass_name:str) -> dict:
       'automations': automations_to_remove,
     },
   }
-  
+
 def apply_levels() -> dict:
   """
   Update the character's existing class and subclass selections by adding any additional class levels reported by Avrae.
@@ -818,7 +818,7 @@ def apply_levels() -> dict:
       automations: dict(str:list(str)),
     }
   }
-  """  
+  """
   levels = current_levels()
   results = {'success': True, 'added': {'counters': [], 'features': {}, 'class_levels': {}}, 'skipped': {'class_levels': {}}, 'failed': {'class_levels': {}}, 'add': {'automations': {}}, 'removed': {'counters': [], 'features': {}}, 'remove': {}}
   for (sheet_class_name, sheet_level) in _sheet_levels.items():
@@ -830,7 +830,7 @@ def apply_levels() -> dict:
       options = list_options(version=version)
       source = class_data.get('source') or options.classes.get(sheet_class_name, (None, None))[1]
       class_results = add_class_levels(class_name=sheet_class_name, level=sheet_level, rules_version=version, source=source)
-      if class_results.success: 
+      if class_results.success:
         results.added.counters.extend(class_results.get('added', {}).get('counters', []))
         results.added.features.update(class_results.get('added', {}).get('features', {}))
         results.added.class_levels[sheet_class_name] = sheet_level

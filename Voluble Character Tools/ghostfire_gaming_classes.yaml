@@ -1,3 +1,6 @@
+# ghostfire_gaming_classes = '60f8936b-0f6b-4e56-9797-c96e5b573bda'
+# Grim Hollow class and subclass definitions for Voluble Character Tools
+
 2014:
   subclasses:
     # Grim Hollow Player Pack
@@ -12,7 +15,7 @@
       features:
         Maneuvers: { type: list, level: 3 }
     Oath of the Zeal: { parent: Paladin }
-    Misfortune Bringer: 
+    Misfortune Bringer:
       parent: Rogue
       features:
         Misfortunes: { type: list, level: 3 }
@@ -37,7 +40,7 @@
     Circle of Mutation: { parent: Druid }
     # Fighter
     Bulwark Warrior: { parent: Fighter }
-    Living Crucible: 
+    Living Crucible:
       parent: Fighter
       features:
         Compounds: { type: list, level: 3 }
