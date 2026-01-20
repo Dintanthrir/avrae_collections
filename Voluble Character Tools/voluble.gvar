@@ -254,9 +254,9 @@ def list_options(version) -> dict:
   """
   config_locations = [
     (CONFIG_DEFAULTS, None),
-    (load_yaml(get_svar(SETTINGS_VAR, '{}')), 'svar').get('sources', {}),
-    (load_yaml(get_uvar(SETTINGS_VAR, '{}')), 'uvar').get('sources', {}),
-    (load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')), 'cvar').get('sources', {})
+    (load_yaml(get_svar(SETTINGS_VAR, '{}')).get('sources', {}), 'svar'),
+    (load_yaml(get_uvar(SETTINGS_VAR, '{}')).get('sources', {}), 'uvar'),
+    (load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')).get('sources', {}), 'cvar')
   ]
 
   combined_config = {'classes': {}, 'subclasses': {}}
