@@ -11,8 +11,11 @@ Have you ever been frustrated by items without automations? Have you been copyin
 `!stuff list`
 > **Items (Basic Rules)**
 > Acid
+>
 > Alchemist's Fire
+>
 > Ball Bearings
+>
 > ...
 
 `!stuff equip -group basic -item alchemist` adds automations for Alchemist's Fire to the current character.
