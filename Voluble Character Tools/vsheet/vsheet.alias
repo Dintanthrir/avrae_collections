@@ -39,9 +39,9 @@ _SPELL_BONUS_TIERS = [(12, 'Deadly'), (10, 'Very High'), (8, 'High'), (6, 'Mediu
 _SPELL_DC_TIERS = [(21, 'Deadly'), (19, 'Very High'), (17, 'High'), (15, 'Medium'), (13, 'Low'), (1, 'Very Low')]
 _ARMOR_TIERS = [(30, 'Plaid'), (21, 'Untouchable'), (16, 'Very High'), (14, 'High'), (8, 'Medium'), (5, 'Low'), (0, 'Very Low')]
 _HP_TIERS = [(699, 'Plaid'), (399, 'Ludicrous'), (199, 'Very High'), (99, 'High'), (49, 'Medium'), (9, 'Low'), (2, 'Very Low')]
-_INIT_TIERS = [(12, 'Very High'), (9, 'High'), (6, 'Medium'), (3, 'Low'), (0, 'Very Low')]
+_INIT_TIERS = [(12, 'Very High'), (9, 'High'), (6, 'Medium'), (3, 'Low'), (-5, 'Very Low')]
 _ABILITY_TIERS = [(30, 'Absurd'), (24, 'Terrifying'), (20, 'Very High'), (14, 'High'), (6, 'Medium'), (2, 'Low'), (0, 'Very Low')]
-_PASSIVE_SENSE_TIERS = [(17, 'Very High'), (14, 'High'), (9, 'Medium'), (6, 'Low'), (0, 'Very Low')]
+_PASSIVE_SENSE_TIERS = [(17, 'Very High'), (14, 'High'), (9, 'Medium'), (6, 'Low'), (-5, 'Very Low')]
 
 _DEFAULT_FIELD_OBSCURE_STYLES = {
   'size_and_type':   _FIELD_SHOWN,
