@@ -156,7 +156,7 @@ character_attributes['initiative'] = _character.skills.initiative.value
 
 # for compatibility with Verbose Character Tools: a numeric arg sets a number of attacks to show under an `attacks` key
 digit_args = [x for x in args if x.isdigit()]
-if len(digit_args) > 0: 
+if len(digit_args) > 0:
   character_attributes['attacks'] = '\n'.join([str(attack) for attack in _character.attacks[0:int(digit_args[0])]])
   field_visibility['attacks'] = _FIELD_SHOWN
 
@@ -343,13 +343,13 @@ def obscure(sheet_field, field_style):
     replaced_attributes = {}
     for (attribute, separator) in field_style.get('separators', {}).items():
       replaced_attributes[attribute] = len(str(character_attributes.get(attribute, '')).split(separator))
-    obscured_attributes = character_attributes | replaced_attributes 
+    obscured_attributes = character_attributes | replaced_attributes
     return template%obscured_attributes
   elif field_style.get('style', None) == 'replace':
     template = field_style.get('template', None) or sheet_field.get('template', '')
     replaced_attributes = {}
     for (attribute, tiers) in field_style.get('replacements', {}).items():
-      replaced_attributes[attribute] = ([desc for (threshold, desc) in tiers if threshold <= character_attributes.get(attribute, 0)][0] or 'unknown')
+      replaced_attributes[attribute] = ([desc for (threshold, desc) in tiers if threshold <= character_attributes.get(attribute, 0)][:1] or ['unknown'])[0]
     obscured_attributes = character_attributes | replaced_attributes
     return template%obscured_attributes
   else:
