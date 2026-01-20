@@ -2,6 +2,21 @@
 
 See https://github.com/Dintanthrir/avrae-autoupdate for details on how to have a github repo automatically publish to Avrae.
 
+# Gvars
+
+## context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd'
+A tool for setting server-wide permissions for where an alias command can be run.
+## currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a'
+Functions for displaying common currency operations.
+## docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e'
+An implementation of handling docstring trimming from PEP 257 for Draconic.
+## logger = '00186972-7692-4f56-9ab7-60f0089704a4'
+Debug logging for Avrae aliases.
+## roll_utils = '7207a79c-07b0-4317-8653-f671df7305ee'
+Functions for extracting data from a `SimpleRollResult`.
+## tests = '15397c01-adc2-4a9a-9011-b2e7a29245f7'
+Unit testing tools for Avrae gvars.
+
 # Behold, _My Stuff_
 
 Have you ever been frustrated by items without automations? Have you been copying and pasting automations for your homebrew items? Want a way to share your automations with an entire server?
