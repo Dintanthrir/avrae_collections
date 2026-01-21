@@ -7,7 +7,9 @@ using(
 
 SETTINGS_VAR = 'voluble_config'
 CONFIG_DEFAULTS = {
-  'Core Rules': '6763dffc-f626-4836-b82c-7e96f53c63d9',
+  'sources': {
+    'Core Rules': '6763dffc-f626-4836-b82c-7e96f53c63d9'
+  }
 }
 
 _character = character()
@@ -68,7 +70,7 @@ def _load_config() -> dict:
   }]
   """
   if not _caches.config_cache:
-    config = CONFIG_DEFAULTS
+    config = CONFIG_DEFAULTS.get('sources', {})
     config |= load_yaml(get_svar(SETTINGS_VAR, '{}')).get('sources', {})
     config |= load_yaml(get_uvar(SETTINGS_VAR, '{}')).get('sources', {})
     config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')).get('sources', {})
@@ -168,7 +170,7 @@ def _update_hit_die_counters():
     if class_data is None: # This can happen after removing a [sub]class since we don't have `del` in aliases to remove the key.
       continue
     level = class_data.get('level')
-    source_config = load_yaml(get_gvar(class_data.get('source', list(CONFIG_DEFAULTS.values())[0]))) # Try falling back to our default classes list if a source has not yet been set. We can still set hit dice for a core rules class.
+    source_config = load_yaml(get_gvar(class_data.get('source', list(CONFIG_DEFAULTS.get('sources', {}).values())[0]))) # Try falling back to our default classes list if a source has not yet been set. We can still set hit dice for a core rules class.
     class_config = None
     if class_data.get('rules_version') is not None:
       class_config = source_config.get(class_data.get('rules_version'), {}).get('classes', {}).get(class_name, None)
@@ -232,7 +234,7 @@ def resolve_source(query:str) -> str:
   if typeof(query) == 'str' and len(query) == 36 and [char for char in query if not char in '0123456789abcdef-'] == []:
     return query
 
-  config = CONFIG_DEFAULTS
+  config = CONFIG_DEFAULTS.get('sources', {})
   config |= load_yaml(get_svar(SETTINGS_VAR, '{}')).get('sources', {})
   config |= load_yaml(get_uvar(SETTINGS_VAR, '{}')).get('sources', {})
   config |= load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')).get('sources', {})
@@ -253,7 +255,7 @@ def list_options(version) -> dict:
   }
   """
   config_locations = [
-    (CONFIG_DEFAULTS, None),
+    (CONFIG_DEFAULTS.get('sources', {}), None),
     (load_yaml(get_svar(SETTINGS_VAR, '{}')).get('sources', {}), 'svar'),
     (load_yaml(get_uvar(SETTINGS_VAR, '{}')).get('sources', {}), 'uvar'),
     (load_yaml(_character.get_cvar(SETTINGS_VAR, '{}')).get('sources', {}), 'cvar')
@@ -464,12 +466,11 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
 
   _save(levels)
 
-  _update_hit_die_counters()
-
+  hd_results = _update_hit_die_counters()
   return {
     'success': True,
     'added': {
-      'counters': added_counters | subclass_counters_to_add,
+      'counters': (added_counters | subclass_counters_to_add | { counter.name: counter for counter in hd_results.added }).values(),
       'features': added_vars | subclass_vars_to_add,
     },
     'add': {
@@ -610,12 +611,12 @@ def remove_class_levels(class_name:str, level:int, rules_version:int, source:str
 
   _save(levels)
 
-  _update_hit_die_counters()
+  hd_results = _update_hit_die_counters()
 
   return {
     'success': True,
     'removed': {
-      'counters': removed_counters + existing_subclass_counters,
+      'counters': removed_counters + existing_subclass_counters + hd_results.removed,
       'features': removed_vars + existing_subclass_vars,
     },
     'remove': {
@@ -819,9 +820,9 @@ def apply_levels() -> dict:
     }
   }
   """
-  levels = current_levels()
   results = {'success': True, 'added': {'counters': [], 'features': {}, 'class_levels': {}}, 'skipped': {'class_levels': {}}, 'failed': {'class_levels': {}}, 'add': {'automations': {}}, 'removed': {'counters': [], 'features': {}}, 'remove': {}}
   for (sheet_class_name, sheet_level) in _sheet_levels.items():
+    levels = current_levels()
     class_data = levels.get('classes', {}).get(sheet_class_name, {})
     homebrew_level = class_data.get('level', 0)
     if sheet_level > homebrew_level:
@@ -845,5 +846,4 @@ def apply_levels() -> dict:
   results.added.counters.extend(hd_results.added)
   results.removed.counters.extend(hd_results.removed)
   _save(levels)
-
   return results
