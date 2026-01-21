@@ -20,7 +20,7 @@ COMMON_CVARS = {
 }
 
 COMMAND = f"{ctx.alias}"
-USAGE = f"{ctx.prefix}{COMMAND} <cvar> [set|add|remove] \"<value...>\""
+USAGE = f"{ctx.prefix}{COMMAND} <cvar> <set|add|remove> \"<value...>\""
 
 if filter_embed := context_filters.filter_embed():
   return embeds.get_output(embed=filter_embed)
