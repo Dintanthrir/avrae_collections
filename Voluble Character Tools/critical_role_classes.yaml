@@ -7,9 +7,9 @@
       hit_die: 10
       sub_level: 3
       features:
-        blood_curses: { name: 'Blood Curses', type: list, level: 1 }
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 2 }
-        crimson_rites: { name: 'Crimson Rites', type: list, level: 2 }
+        blood_curses: { title: 'Blood Curses', type: list, level: 1 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
+        crimson_rites: { title: 'Crimson Rites', type: list, level: 2 }
   subclasses:
     # Explorer's Guide to Wildemount
     Echo Knight: { parent: Fighter }
@@ -19,7 +19,7 @@
     Gunslinger:
       parent: Fighter
       features:
-        trick_shots: {name: 'Trick Shots', type: list, level: 3 }
+        trick_shots: {title: 'Trick Shots', type: list, level: 3 }
     # Tal'dorei Campaign Setting Reborn
     # Barbarian
     Path of the Juggernaut: { parent: Barbarian }
@@ -38,7 +38,7 @@
     Runechild:
       parent: Sorcerer
       features:
-        essence_runes: { name: 'Essence Runes', type: list, level: 1 }
+        essence_runes: { title: 'Essence Runes', type: list, level: 1 }
     # Wizard
     Blood Magic: { parent: Wizard }
     # Blood Hunter

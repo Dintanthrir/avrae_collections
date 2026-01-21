@@ -20,7 +20,7 @@
     College of the Road:
           parent: Bard
           features:
-            Traveler’s Tricks: { type: list, level: 3 }
+            travelers_tricks: { title: Traveler’s Tricks, type: list, level: 3 }
     Community Domain: { parent: Cleric }
     Night Domain: { parent: Cleric }
     Scofflaw: { parent: Fighter }

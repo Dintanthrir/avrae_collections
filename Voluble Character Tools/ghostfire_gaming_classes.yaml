@@ -7,30 +7,30 @@
     Path of the Carrion Raven:
       parent: Barbarian
       features:
-        Martial Maneuvers: { type: list, level: 3 }
+        martial_maneuvers: { title: Martial Maneuvers, type: list, level: 3 }
     College of Requiems: { parent: Bard }
     Inquisition Domain: { parent: Cleric }
     Blade Breaker:
       parent: Fighter
       features:
-        Maneuvers: { type: list, level: 3 }
+        maneuvers: { title: Maneuvers, type: list, level: 3 }
     Oath of the Zeal: { parent: Paladin }
     Misfortune Bringer:
       parent: Rogue
       features:
-        Misfortunes: { type: list, level: 3 }
+        misfortunes: { title: Misfortunes, type: list, level: 3 }
     # Grim Hollow Player's Guide
     # Barbarian
     Path of the Fractured: { parent: Barbarian}
     Path of the Primal Spirit:
       parent: Barbarian
       features:
-        Primal Companion: { type: string, level: 3 }
+        primal_companion: { title: Primal Companion, type: string, level: 3 }
     # Bard
     College of Adventurers:
       parent: Bard
       features:
-        Adventurer’s Talents: { type: list, level: 3 }
+        adventurers_talents: { title: Adventurer’s Talents, type: list, level: 3 }
     College of Dirge Singers: { parent: Bard }
     # Cleric
     Eldritch Domain: { parent: Cleric }
@@ -43,7 +43,7 @@
     Living Crucible:
       parent: Fighter
       features:
-        Compounds: { type: list, level: 3 }
+        compounds: { title: Compounds, type: list, level: 3 }
     # Monk
     Way of the Leaden Crown: { parent: Monk }
     Way of Pride: { parent: Monk }
@@ -61,13 +61,13 @@
     Wretched Bloodline:
       parent: Sorcerer
       features:
-        Wretched Curse: { type: string, level: 1 }
+        wretched_curse: { title: Wretched Curse, type: string, level: 1 }
     # Warlock
     The First Vampire: { parent: Warlock }
     The Parasite:
       parent: Warlock
       features:
-        Physical Specimen: { type: list, level: 1 }
+        physical_specimen: { title: Physical Specimen, type: list, level: 1 }
     # Wizard
     Plague Doctor: { parent: Wizard }
     Sangromancer: { parent: Wizard }

@@ -7,41 +7,41 @@
       hit_die: 10
       sub_level: 3
       features:
-        Fighting Style: { type: list, level: 2 }
-        Crafts: { type: list, level: 2 }
-        Virtues: { type: list, level: 2 }
+        fighting_style: { title: Fighting Style, type: list, level: 2 }
+        crafts: { title: Crafts, type: list, level: 2 }
+        virtues: { title: Virtues, type: list, level: 2 }
     Champion:
       hit_die: 10
       sub_level: 3
       features:
-        Fighting Style: { type: list, level: 1 }
-        Crafts: { type: list, level: 2 }
-        Virtues: { type: list, level: 2 }
+        fighting_style: { title: Fighting Style, type: list, level: 1 }
+        crafts: { title: Crafts, type: list, level: 2 }
+        virtues: { title: Virtues, type: list, level: 2 }
     Messenger:
       hit_die: 8
       sub_level: 3
       features:
-        Crafts: { type: list, level: 2 }
-        Virtues: { type: list, level: 2 }
+        crafts: { title: Crafts, type: list, level: 2 }
+        virtues: { title: Virtues, type: list, level: 2 }
     Scholar:
       hit_die: 8
       sub_level: 3
       features:
-        Crafts: { type: list, level: 1 }
-        Virtues: { type: list, level: 2 }
+        crafts: { title: Crafts, type: list, level: 1 }
+        virtues: { title: Virtues, type: list, level: 2 }
     Treasure Hunter:
       hit_die: 8
       sub_level: 3
       features:
-        Virtues: { type: list, level: 4 }
+        virtues: { title: Virtues, type: list, level: 4 }
     Warden:
       hit_die: 10
       sub_level: 3
       features:
-        Warded Lands: { type: list, level: 1 }
-        Fighting Style: { type: list, level: 2 }
-        Crafts: { type: list, level: 2 }
-        Virtues: { type: list, level: 2 }
+        warded_lands: { title: Warded Lands, type: list, level: 1 }
+        fighting_style: { title: Fighting Style, type: list, level: 2 }
+        crafts: { title: Crafts, type: list, level: 2 }
+        virtues: { title: Virtues, type: list, level: 2 }
   subclasses:
     # Captain
     Chieftain: { parent: Captain }
@@ -51,10 +51,10 @@
     Slayer: { parent: Champion }
     # Messenger
     Counsellor: { parent: Messenger }
-    Herald: 
+    Herald:
       parent: Messenger
       features:
-        Fighting Style: { type: list, level: 3 }
+        fighting_style: { title: Fighting Style, type: list, level: 3 }
     # Scholar
     Healing: { parent: Scholar }
     Lore: { parent: Scholar }
@@ -63,9 +63,8 @@
     Spy: { parent: Treasure Hunter }
     # Warden
     Forayer: { parent: Warden }
-    Hunter: 
+    Hunter:
       parent: Warden
       features:
-        Hunter's Prey: { type: list, level: 3 }
-        Defensive Tactics: { type: list, level: 7 }
-    
+        hunters_prey: { title: Hunter's Prey, type: list, level: 3 }
+        defensive_tactics: { title: Defensive Tactics, type: list, level: 7 }

@@ -14,6 +14,6 @@
     Light Weaver:
           parent: Sorcerer
           features:
-            Flickering Aura: { type: string, level: 1 }
+            flickering_aura: { title: Flickering Aura, type: string, level: 1 }
     Mother of Sorrows: { parent: Warlock }
     Shadow Arcane Tradition: { parent: Wizard }

@@ -7,10 +7,12 @@
       hit_die: 10
       sub_level: 3
       features:
-        Combat Mastery:
+        combat_mastery:
+          title: Combat Mastery
           type: list
           level: 2
-        Interdict Boons:
+        interdict_boons:
+          title: Interdict Boons
           type: list
           level: 2
   subclasses:

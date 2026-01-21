@@ -11,7 +11,7 @@
       hit_die: 8
       sub_level: 3
       features:
-        magical_secrets: { name: 'Magical Secrets', type: list, level: 10 }
+        magical_secrets: { title: 'Magical Secrets', type: list, level: 10 }
     Cleric:
       hit_die: 8
       sub_level: 1
@@ -19,29 +19,29 @@
       hit_die: 8
       sub_level: 2
       features:
-        wildshape_forms: { name: 'Wildshape Forms', type: list, level: 2 }
+        wildshape_forms: { title: 'Wildshape Forms', type: list, level: 2 }
     Fighter:
       hit_die: 10
       sub_level: 3
       features:
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 1 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 1 }
     Monk:
       hit_die: 8
       sub_level: 3
       features:
-        dedicated_weapons: { name: 'Dedicated Weapons', type: list, level: 2 }
+        dedicated_weapons: { title: 'Dedicated Weapons', type: list, level: 2 }
     Paladin:
       hit_die: 10
       sub_level: 3
       features:
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 2 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
     Ranger:
       hit_die: 10
       sub_level: 3
       features:
-        favored_enemy: { name: 'Favored Enemy', type: list, level: 1 }
-        favored_terrain: { name: 'Favored Terrain', type: list, level: 1 }
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 2 }
+        favored_enemy: { title: 'Favored Enemy', type: list, level: 1 }
+        favored_terrain: { title: 'Favored Terrain', type: list, level: 1 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
     Rogue:
       hit_die: 8
       sub_level: 3
@@ -49,30 +49,30 @@
       hit_die: 6
       sub_level: 1
       features:
-        metamagic: { name: 'Metamagic', type: list, level: 3 }
+        metamagic: { title: 'Metamagic', type: list, level: 3 }
     Warlock:
       hit_die: 8
       sub_level: 1
       features:
-        patron: { name: 'Patron', type: string, level: 1 }
-        eldritch_invocations: { name: 'Eldritch Invocations', type: list, level: 2 }
-        pact_boon: { name: 'Pact Boon', type: string, level: 3 }
-        mystic_arcanum: { name: 'Mystic Arcanum', type: list, level: 6 }
+        patron: { title: 'Patron', type: string, level: 1 }
+        eldritch_invocations: { title: 'Eldritch Invocations', type: list, level: 2 }
+        pact_boon: { title: 'Pact Boon', type: string, level: 3 }
+        mystic_arcanum: { title: 'Mystic Arcanum', type: list, level: 6 }
     Wizard:
       hit_die: 6
       sub_level: 2
       features:
-        spell_mastery: { name: 'Spell Mastery', type: list, level: 18 }
-        signature_spells: { name: 'Signature Spells', type: list, level: 20 }
+        spell_mastery: { title: 'Spell Mastery', type: list, level: 18 }
+        signature_spells: { title: 'Signature Spells', type: list, level: 20 }
     # Tasha’s Cauldron of Everything
     Artificer:
       hit_die: 8
       sub_level: 3
       features:
-        magical_tinkering: { name: 'Magical Tinkering', type: list, level: 1 }
-        infusions_known: { name: 'Infusions Known', type: list, level: 2 }
-        infused_items: { name: 'Infused Items', type: list, level: 2 }
-        spell_storing_item: { name: 'Spell-Storing Item', type: string, level: 11 }
+        magical_tinkering: { title: 'Magical Tinkering', type: list, level: 1 }
+        infusions_known: { title: 'Infusions Known', type: list, level: 2 }
+        infused_items: { title: 'Infused Items', type: list, level: 2 }
+        spell_storing_item: { title: 'Spell-Storing Item', type: string, level: 11 }
   subclasses:
     # Barbarian
     Path of the Ancestral Guardian: { parent: Barbarian }
@@ -83,13 +83,13 @@
     Path of the Storm Herald:
       parent: Barbarian
       features:
-        storm_aura: { name: 'Storm Aura', type: string, level: 3 }
+        storm_aura: { title: 'Storm Aura', type: string, level: 3 }
     Path of the Totem Warrior:
       parent: Barbarian
       features:
-        totem_spirit: { name: 'Totem Spirit', type: string, level: 3 }
-        aspect_of_the_beast: { name: 'Aspect of the Beast', type: string, level: 6 }
-        totemic_attunement: { name: 'Totemic Attunement', type: string, level: 14 }
+        totem_spirit: { title: 'Totem Spirit', type: string, level: 3 }
+        aspect_of_the_beast: { title: 'Aspect of the Beast', type: string, level: 6 }
+        totemic_attunement: { title: 'Totemic Attunement', type: string, level: 14 }
     Path of the Zealot: { parent: Barbarian }
     Path of the Wild Magic: { parent: Barbarian }
     # Bard
@@ -101,14 +101,14 @@
     College of Swords:
       parent: Bard
       features:
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 3 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 3 }
     College of Valor: { parent: Bard }
     College of Whispers: { parent: Bard }
     # Cleric
-    Arcana Domain: 
+    Arcana Domain:
       parent: Cleric
       features:
-        arcane_mastery: { name: 'Arcane Mastery', type: list, level: 17 }
+        arcane_mastery: { title: 'Arcane Mastery', type: list, level: 17 }
     Death Domain: { parent: Cleric }
     Forge Domain: { parent: Cleric }
     Grave Domain: { parent: Cleric }
@@ -129,7 +129,7 @@
     Circle of the Land:
       parent: Druid
       features:
-        land_type: { name: 'Land Type', type: string, level: 3 }
+        land_type: { title: 'Land Type', type: string, level: 3 }
     Circle of the Moon: { parent: Druid }
     Circle of the Shepherd: { parent: Druid }
     Circle of Wildfire: { parent: Druid }
@@ -137,23 +137,23 @@
     Arcane Archer:
       parent: Fighter
       features:
-        arcane_shots: { name: 'Arcane Shots', type: list, level: 3 }
+        arcane_shots: { title: 'Arcane Shots', type: list, level: 3 }
     Battle Master:
       parent: Fighter
       features:
-        maneuvers: { name: 'Maneuvers', type: list, level: 3 }
+        maneuvers: { title: 'Maneuvers', type: list, level: 3 }
     Cavalier: { parent: Fighter }
     Champion: { parent: Fighter }
     Eldritch Knight:
       parent: Fighter
       features:
-        weapon_bonds: { name: 'Weapon Bonds', type: list, level: 3 }
+        weapon_bonds: { title: 'Weapon Bonds', type: list, level: 3 }
     Psi Warrior: { parent: Fighter }
     Purple Dragon Knight (Banneret): { parent: Fighter }
     Rune Knight:
       parent: Fighter
       features:
-        runes: { name: 'Runes', type: list, level: 3 }
+        runes: { title: 'Runes', type: list, level: 3 }
     Samurai: { parent: Fighter }
     # Monk
     Way of Mercy: { parent: Monk }
@@ -164,11 +164,11 @@
     Way of the Four Elements:
       parent: Monk
       features:
-        elemental_disciplines: { name: 'Elemental Disciplines', type: list, level: 3 }
+        elemental_disciplines: { title: 'Elemental Disciplines', type: list, level: 3 }
     Way of the Kensei:
       parent: Monk
       features:
-        kensei_weapons: { name: 'Kensei Weapons', type: list, level: 3 }
+        kensei_weapons: { title: 'Kensei Weapons', type: list, level: 3 }
     Way of the Long Death: { parent: Monk }
     Way of the Open Hand: { parent: Monk }
     Way of the Sun Soul: { parent: Monk }
@@ -183,24 +183,24 @@
     Oath of Vengeance: { parent: Paladin }
     Oathbreaker: { parent: Paladin }
     # Ranger
-    Beast Master: 
+    Beast Master:
       parent: Ranger
       features:
-        companion: { name: 'Companion', type: string, level: 3 }
+        companion: { title: 'Companion', type: string, level: 3 }
     Drakewarden:
       parent: Ranger
       features:
-        companion: { name: 'Companion', type: string, level: 3 }
+        companion: { title: 'Companion', type: string, level: 3 }
     Fey Wanderer: { parent: Ranger }
     Gloom Stalker: { parent: Ranger }
     Horizon Walker: { parent: Ranger }
     Hunter:
       parent: Ranger
       features:
-        hunters_prey: { name: 'Hunter’s Prey', type: string, level: 3 }
-        defensive_tactics: { name: 'Defensive Tactics', type: string, level: 3 }
-        multiattack: { name: 'Multiattack', type: string, level: 3 }
-        superior_hunters_defense: { name: 'Superior Hunter’s Defense', type: string, level: 3 }
+        hunters_prey: { title: 'Hunter’s Prey', type: string, level: 3 }
+        defensive_tactics: { title: 'Defensive Tactics', type: string, level: 3 }
+        multiattack: { title: 'Multiattack', type: string, level: 3 }
+        superior_hunters_defense: { title: 'Superior Hunter’s Defense', type: string, level: 3 }
     Monster Slayer: { parent: Ranger }
     Swarmkeeper: { parent: Ranger }
     # Rogue
@@ -220,11 +220,11 @@
     Draconic Bloodline:
       parent: Sorcerer
       features:
-        dragon_ancestor: { name: 'Dragon Ancestor', type: string, level: 1 }
+        dragon_ancestor: { title: 'Dragon Ancestor', type: string, level: 1 }
     Lunar Sourcery:
       parent: Sorcerer
       features:
-        lunar_phase: { name: 'Lunar Phase', type: string, level: 1 }
+        lunar_phase: { title: 'Lunar Phase', type: string, level: 1 }
     Shadow Magic: { parent: Sorcerer }
     Storm Sorcery: { parent: Sorcerer }
     Wild Magic: { parent: Sorcerer }
@@ -236,27 +236,27 @@
     The Genie:
       parent: Warlock
       features:
-        genie_kind: { name: 'Genie Kind', type: string, level: 1 }
-        genies_vessel: { name: 'Genie’s Vessel', type: string, level: 1 }
+        genie_kind: { title: 'Genie Kind', type: string, level: 1 }
+        genies_vessel: { title: 'Genie’s Vessel', type: string, level: 1 }
     The Great Old One: { parent: Warlock }
     The Hexblade:
       parent: Warlock
       features:
-        hex_warrior: { name: 'Hex Warrior', type: string, level: 1 }
+        hex_warrior: { title: 'Hex Warrior', type: string, level: 1 }
     The Undead: { parent: Warlock }
     The Undying: { parent: Warlock }
     # Wizard
-    Bladesinging: 
+    Bladesinging:
       parent: Wizard
       features:
-        training_in_war_and_song: { name: 'Training in War and Song', type: string, level: 2 }
+        training_in_war_and_song: { title: 'Training in War and Song', type: string, level: 2 }
     Order of Scribes: { parent: Wizard }
     School of Abjuration: { parent: Wizard }
     School of Conjuration: { parent: Wizard }
     School of Divination:
       parent: Wizard
       features:
-        third_eye: { name: 'The Third Eye', type:string, level: 10 }
+        third_eye: { title: 'The Third Eye', type:string, level: 10 }
     School of Enchantment: { parent: Wizard }
     School of Evocation: { parent: Wizard }
     School of Illusion: { parent: Wizard }
@@ -264,14 +264,14 @@
     School of Transmutation:
       parent: Wizard
       features:
-        master_transmuter: { name: 'Master Transmuter', type:string, level: 14}
+        master_transmuter: { title: 'Master Transmuter', type:string, level: 14}
     War Magic: { parent: Wizard }
     # Artificer
     Alchemist: { parent: Artificer }
     Armorer:
       parent: Artificer
       features:
-        armor_model: { name: 'Armor Model', type: string, level: 3 }
+        armor_model: { title: 'Armor Model', type: string, level: 3 }
     Artillerist: { parent: Artificer }
     Battle Smith: { parent: Artificer }
 2024:
@@ -281,31 +281,31 @@
       hit_die: 12
       sub_level: 1
       features:
-        weapon_mastery: { name: 'Weapon Mastery', type: list, level: 1 }
+        weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
     Bard:
       hit_die: 8
       sub_level: 1
       features:
-        magical_secrets: { name: 'Magical Secrets', type: list, level: 10 }
+        magical_secrets: { title: 'Magical Secrets', type: list, level: 10 }
     Cleric:
       hit_die: 8
       sub_level: 1
       features:
-        divine_order: { name: 'Divine Order', type: string, level: 1 }
-        blessed_strikes: { name: 'Blessed Strikes', type: string, level: 7 }
+        divine_order: { title: 'Divine Order', type: string, level: 1 }
+        blessed_strikes: { title: 'Blessed Strikes', type: string, level: 7 }
     Druid:
       hit_die: 8
       sub_level: 1
       features:
-        primal_order: { name: 'Primal Order', type: string, level: 1 }
-        wildshape_forms: { name: 'Wildshape Forms', type: list, level: 2 }
-        elemental_fury: { name: 'Elemental Fury', type: string, level: 7 }
+        primal_order: { title: 'Primal Order', type: string, level: 1 }
+        wildshape_forms: { title: 'Wildshape Forms', type: list, level: 2 }
+        elemental_fury: { title: 'Elemental Fury', type: string, level: 7 }
     Fighter:
       hit_die: 10
       sub_level: 1
       features:
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 1 }
-        weapon_mastery: { name: 'Weapon Mastery', type: list, level: 1 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 1 }
+        weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
     Monk:
       hit_die: 8
       sub_level: 1
@@ -313,14 +313,14 @@
       hit_die: 10
       sub_level: 1
       features:
-        weapon_mastery: { name: 'Weapon Mastery', type: list, level: 1 }
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 2 }
+        weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
     Ranger:
       hit_die: 10
       sub_level: 1
       features:
-        weapon_mastery: { name: 'Weapon Mastery', type: list, level: 1 }
-        fighting_styles: { name: 'Fighting Styles', type: list, level: 2 }
+        weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
+        fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
     Rogue:
       hit_die: 8
       sub_level: 1
@@ -328,27 +328,27 @@
       hit_die: 6
       sub_level: 1
       features:
-        metamagic: { name: 'Metamagic', type: list, level: 2 }
+        metamagic: { title: 'Metamagic', type: list, level: 2 }
     Warlock:
       hit_die: 8
       sub_level: 1
       features:
-        patron: { name: 'patron', type: string, level: 1 }
-        eldritch_invocations: { name: 'Eldritch Invocations', type: list, level: 2 }
-        mystic_arcanum: { name: 'Mystic Arcanum', type: list, level: 11 }
+        patron: { title: 'patron', type: string, level: 1 }
+        eldritch_invocations: { title: 'Eldritch Invocations', type: list, level: 2 }
+        mystic_arcanum: { title: 'Mystic Arcanum', type: list, level: 11 }
     Wizard:
       hit_die: 6
       sub_level: 1
       features:
-        spell_mastery: { name: 'Spell Mastery', type: list, level: 18 }
-        signature_spells: { name: 'Signature Spells', type: list, level: 20 }
+        spell_mastery: { title: 'Spell Mastery', type: list, level: 18 }
+        signature_spells: { title: 'Signature Spells', type: list, level: 20 }
   subclasses:
     # Barbarian
     Path of the Berserker: { parent: Barbarian }
     Path of the Wild Heart:
       parent: Barbarian
       features:
-        aspect_of_the_wilds: { name: 'Aspect of the Wilds', type: list, level: 6 }
+        aspect_of_the_wilds: { title: 'Aspect of the Wilds', type: list, level: 6 }
     Path of the World Tree: { parent: Barbarian }
     Path of the Zealot: { parent: Barbarian }
     # Bard
@@ -357,7 +357,7 @@
     College of Lore:
       parent: Bard
       features:
-        magical_discoveries: { name: 'Magical Discoveries', type: list, level: 6 }
+        magical_discoveries: { title: 'Magical Discoveries', type: list, level: 6 }
     College of Valor: { parent: Bard }
     # Cleric
     Life Domain: { parent: Cleric }
@@ -368,7 +368,7 @@
     Circle of the Land:
       parent: Druid
       features:
-        land_type: { name: 'Land Type', type: string, level: 3 }
+        land_type: { title: 'Land Type', type: string, level: 3 }
     Circle of the Moon: { parent: Druid }
     Circle of the Sea: { parent: Druid }
     Circle of the Stars: { parent: Druid }
@@ -376,7 +376,7 @@
     Battle Master:
       parent: Fighter
       features:
-        maneuvers: { name: 'Maneuvers', type: list, level: 3 }
+        maneuvers: { title: 'Maneuvers', type: list, level: 3 }
     Champion: { parent: Fighter }
     Eldritch Knight: { parent: Fighter }
     Psi Warrior: { parent: Fighter }
@@ -397,8 +397,8 @@
     Hunter:
       parent: Ranger
       features:
-        hunters_prey: { name: 'Hunter’s Prey', type: string, level: 3 }
-        defensive_tactics: { name: 'Defensive Tactics', type: string, level: 7 }
+        hunters_prey: { title: 'Hunter’s Prey', type: string, level: 3 }
+        defensive_tactics: { title: 'Defensive Tactics', type: string, level: 7 }
     # Rogue
     Arcane Trickster: { parent: Rogue }
     Assassin: { parent: Rogue }
@@ -410,7 +410,7 @@
     Draconic Sorcery:
       parent: Sorcerer
       features:
-        elemental_affinity: { name: 'Elemental Affinity', type: string, level: 6 }
+        elemental_affinity: { title: 'Elemental Affinity', type: string, level: 6 }
     Wild Magic Sorcery: { parent: Sorcerer }
     # Warlock
     Archfey Patron: { parent: Warlock }
@@ -421,7 +421,7 @@
     Abjurer:
       parent: Wizard
       features:
-        abjuration_savant: { name: 'Abjuration Savant', type: list, level: 3 }
+        abjuration_savant: { title: 'Abjuration Savant', type: list, level: 3 }
     Diviner: { parent: Wizard }
     Evoker: { parent: Wizard }
     Illusionist: { parent: Wizard }

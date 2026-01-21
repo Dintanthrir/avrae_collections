@@ -45,13 +45,13 @@ def _load_config() -> dict:
         sub_level: int
         automations: dict[str, { actions: [str], level: int }]
         counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
-        features: dict[str, { name: str, type: str, level: int }]
+        features: dict[str, { title: str, type: str, level: int }]
       }]
       subclasses: dict[str, {
         parent: str,
         automations: dict[str, { actions: [str], level: int }]
         counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
-        features: dict[str, { name: str, type: str, level: int }]
+        features: dict[str, { title: str, type: str, level: int }]
       }]
     2024:
       classes: dict[str, {
@@ -59,13 +59,13 @@ def _load_config() -> dict:
         sub_level: int
         automations: dict[str, { actions: [str], level: int }]
         counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
-        features: dict[str, { name: str, type: str, level: int }]
+        features: dict[str, { title: str, type: str, level: int }]
       }]
       subclasses: dict[str, {
         parent: str,
         automations: dict[str, { actions: [str], level: int }]
         counters: dict[str, { minVal: str, maxVal: str, reset: str, dispType: str, reset_to: str, reset_by: str, title: str, desc: str, initial_value: str, level: int }]
-        features: dict[str, { name: str, type: str, level: int }]
+        features: dict[str, { title: str, type: str, level: int }]
       }]
   }]
   """
