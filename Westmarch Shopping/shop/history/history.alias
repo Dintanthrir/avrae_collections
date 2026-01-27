@@ -21,7 +21,7 @@ if len(history) > 0:
     desc = "Shopping history:"
     for (timestamp, log_entry) in history:
         fields.append({
-            'title': f"<t:{timestamp}:F>",
+            'title': f"<t:{floor(timestamp)}:F>",
             'body': log_entry,
         })
 else:
