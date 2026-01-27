@@ -95,7 +95,7 @@ def history() -> list[tuple[float, str]]:
   :return: The list of log entries and their timestamps.
   :rtype: list[tuple[float, str]]
   """
-  return _load_cvar().get('history', [])
+  return _load_cvar().get('history') or []
 
 def record_history(record:str, current_time=time()):
   """Write a log of a transaction to the current character's cvar.
@@ -106,7 +106,7 @@ def record_history(record:str, current_time=time()):
   :type at: float, optional
   """
   data = _load_cvar()
-  data['history'] = data.get('history', []).append((current_time, record))
+  data['history'] = (data.get('history') or []) + [(current_time, record)]
   _update_cvar(data)
 
 def gear_buy(category_query:str=None, item_query:str=None, count:int=1, current_time:float=time()):
