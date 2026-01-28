@@ -33,12 +33,12 @@ else:
     embed['title'] = f"**{get('name')}** cannot craft."
     embed['desc'] = craft_results.get('message')
   else:
-    if craft_results.get('completed'): # Item finished, this might also be the first check for a consumable common item
-      embed['title'] = f"**{get('name')}** completed their _{craft_results.completed.name}_!"
+    if craft_results.get('completed'): # Item finished, this might also be the first check
+      embed['title'] = f"**{get('name')}** completed {craft_results.completed.quantity} x _{craft_results.completed.name}_!"
     elif craft_results.get('started'): # Started but did not complete the item
-      embed['title'] = f"**{get('name')}** began work on their _{craft_results.in_progress.name}_!"
+      embed['title'] = f"**{get('name')}** began work on {craft_results.in_progress.quantity} x _{craft_results.in_progress.name}_!"
     else: # Continued work on the item but did not finish
-      embed['title'] = f"**{get('name')}** continued work on their _{craft_results.in_progress.name}_!"
+      embed['title'] = f"**{get('name')}** continued work on {craft_results.in_progress.quantity} x _{craft_results.in_progress.name}_!"
       embed['fields'] += craft.status_fields()
 
       if craft_results.get('started'):

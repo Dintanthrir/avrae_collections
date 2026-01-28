@@ -230,7 +230,7 @@ def craft():
       bag_result = baglib.save_bags(bagsLoaded = bags)
       stored_data['history'] = (stored_data.get('history') or []).append((now, f'completed {in_progress.quantity}x{in_progress.name}'))
       stored_data['crafting'] = None
-      result['completed'] = True
+      result['completed'] = in_progress
     else:
       stored_data['crafting'] = in_progress
     _update_cvar(stored_data)
