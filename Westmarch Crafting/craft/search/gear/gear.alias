@@ -41,6 +41,9 @@ else:
         f"materials price: {currency.format_currency(item.craft_price)}",
         f"min level to craft: {item.min_level}",
         f"requires {item.workweeks_required} workweeks to craft",
+        "```",
+        f"{ctx.prefix}{ctx.alias} setup gear -type \"{categories[0]}\" -item \"{item.name}\"",
+        "```"
       ])
     } for item in items],
     'footer': USAGE
