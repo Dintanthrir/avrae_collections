@@ -117,7 +117,7 @@ character_attributes['description'] = _character.description or 'Not Set'
 character_attributes['race'] = get('race', None) or _character.race
 
 # Load subclass settings
-if current_levels := voluble.current_levels():
+if (current_levels := voluble.current_levels()) and len(current_levels.get('classes', {})) > 0:
   class_selections = []
   for class_name, class_data in current_levels.get('classes', {}).items():
     subclasses = {subclass_name:subclass_data for (subclass_name, subclass_data) in current_levels.get('subclasses', {}).items() if subclass_data.get('parent') == class_name}
