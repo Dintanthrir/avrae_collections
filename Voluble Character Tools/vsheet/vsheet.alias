@@ -126,7 +126,7 @@ character_attributes['classes'] = '/'.join(class_selections)
 
 # Check for an Experience counter, handle string or numeric xp values
 experience = (_character.get_cc('Experience') if _character.cc_exists('Experience') else get('xp', 0)) or 0
-character_attributes['experience'] = '{0}:,'.format(experience) if typeof(experience) != 'str' else experience
+character_attributes['experience'] = f'{experience:0,}' if typeof(experience) != 'str' else experience
 
 # Calculate passive senses
 # `adv/dis` args apply to passive senses for compatibility with Verbose Character Tools
