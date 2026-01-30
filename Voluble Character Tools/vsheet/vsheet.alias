@@ -117,12 +117,14 @@ character_attributes['description'] = _character.description or 'Not Set'
 character_attributes['race'] = get('race', None) or _character.race
 
 # Load subclass settings
-current_levels = voluble.current_levels()
-class_selections = []
-for class_name, class_data in current_levels.get('classes', {}).items():
-  subclasses = {subclass_name:subclass_data for (subclass_name, subclass_data) in current_levels.get('subclasses', {}).items() if subclass_data.get('parent') == class_name}
-  class_selections.append(f"{class_name} ({' '.join(subclasses.keys())})")
-character_attributes['classes'] = '/'.join(class_selections)
+if current_levels := voluble.current_levels():
+  class_selections = []
+  for class_name, class_data in current_levels.get('classes', {}).items():
+    subclasses = {subclass_name:subclass_data for (subclass_name, subclass_data) in current_levels.get('subclasses', {}).items() if subclass_data.get('parent') == class_name}
+    class_selections.append(f"{class_name} ({' '.join(subclasses.keys())})")
+  character_attributes['classes'] = '/'.join(class_selections)
+else:
+  character_attributes['classes'] = '/'.join([f'{class_name}({class_level})' for (class_name, class_level) in _character.levels])
 
 # Check for an Experience counter, handle string or numeric xp values
 experience = (_character.get_cc('Experience') if _character.cc_exists('Experience') else get('xp', 0)) or 0
