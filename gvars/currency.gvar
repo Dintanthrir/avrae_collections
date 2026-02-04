@@ -5,7 +5,7 @@ def format_coins(coins):
     """
     Returns a display string for a given coin purse
     :arg coins dict: { pp: int, gp: int, ep: int, sp: int, cp: int }
-    :rtype str
+    :rtype: str
     """
     result = ' '.join([f'{coins.get(unit)} {unit}' for unit in ['pp', 'gp', 'ep', 'sp', 'cp'] if coins.get(unit)])
     if result == '':
@@ -16,7 +16,7 @@ def format_currency(gp):
     """
     Returns a display string for a given gp total
     :arg gp float: A valuge in gp
-    :rtype str
+    :rtype: str
     """
     coins = parse_coins(str(abs(gp)))
     if gp < 0:
@@ -30,7 +30,7 @@ def format_transaction(gp, coinpurse=None):
     Assumes the transaction has already occurred and the characters coinpurse reflects the final value.
     :arg gp float: A positive or negative value in gp
     :arg coinpurse: The active character's coinpurse
-    :rtype string
+    :rtype: str
     """
     coinpurse = coinpurse or character().coinpurse
     total = f"{coinpurse.total:,.2f}".rstrip('0').rstrip('.')
