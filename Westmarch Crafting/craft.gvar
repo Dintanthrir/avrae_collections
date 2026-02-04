@@ -197,7 +197,7 @@ def _magic_item(item_data, quantity=1): # Name,Rarity,Attunement,Value,Source,Te
 def _mundane_item(item_data, quantity=1): # name | price | weight? | attributes? | description?
   config = load_config()
   rarity = 'mundane'
-  base_price = item_data[2]
+  base_price = item_data[1]
   craft_price = float(base_price) * config.cost_multipliers[rarity] * quantity
   workweeks_required = ceil(craft_price / config.gp_per_workweek[rarity])
   return {
