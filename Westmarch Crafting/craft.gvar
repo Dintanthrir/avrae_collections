@@ -198,7 +198,7 @@ def _mundane_item(item_data, quantity=1): # name | price | weight? | attributes?
   config = load_config()
   rarity = 'mundane'
   base_price = item_data[2]
-  craft_price = base_price * config.cost_multipliers[rarity] * quantity
+  craft_price = float(base_price) * config.cost_multipliers[rarity] * quantity
   workweeks_required = ceil(craft_price / config.gp_per_workweek[rarity])
   return {
     'name': item_data[0],
@@ -267,6 +267,8 @@ def craft():
     else:
       stored_data['crafting'] = in_progress
     _update_cvar(stored_data)
+  else:
+    return {'success': False, 'message': "Nothing in progress."}
   return {'success': True, 'crafting': in_progress} | result
 
 def discard():
