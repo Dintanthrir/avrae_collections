@@ -48,7 +48,7 @@ def validate_args(parsed_args):
   if tool_search_term:
     matching_tools = craft.matching_tools(tool_search_term)
     if len(matching_tools) == 0:
-      err(f"\nNo tools match `{tool_search_term}`\nexpected one of `{[tool.name for tool in tools.ALL_TOOLS_DICT]}`")
+      err(f"\nNo tools match `{tool_search_term}`\nexpected one of `{[tool.name for tool in tools.ALL_TOOLS_DICT.values]}`")
     elif len(matching_tools) > 1:
       err(f"\nMultiple matches for tool `{tool_search_term}`:\n`{[tool.name for tool in matching_tools]}`")
     tool = matching_tools[0]
