@@ -73,7 +73,16 @@ def load_config():
   """Returns the current config settings for crafting.
 
   :return: The config loaded from an svar.
-  :rtype: dict
+  :rtype: {
+    'cvar_name': str
+    'cost_multipliers': dict[str: float]
+    'level_requirements': dict[str: int]
+    'cost_multipliers': dict[str: float]
+    'gear_inventory': dict[str: gvar | [gvar]]
+    'magic_inventory': dict[str: gvar | [gvar]]
+    'complications': [str]
+    'complication_chance': float
+  }
   """
   if not _config_cache:
     svar_config = load_yaml(get_svar(_CRAFT_SVAR, default=_CRAFT_SVAR_DEFAULT))
@@ -82,9 +91,7 @@ def load_config():
 
 def _load_cvar():
   """
-  Docstring for _load_cvar
-
-  :return: Description
+  :return: parsed cvar contents
   :rtype: {
     'history': list[tuple[float, str]] | None
     'crafting': {
@@ -96,6 +103,7 @@ def _load_cvar():
       'tool_key': int | None
       'workweeks_required': int
       'workweeks_completed': int
+      'complication': str | None
     } | None
   }
   """
@@ -201,13 +209,34 @@ def _mundane_item(item_data, quantity=1): # name | price | weight? | attributes?
     'min_level': config.level_requirements['mundane'],
   }
 
+def _complications() -> list[str]:
+  config = load_config()
+  config_complications = config.get('complications', [])
+  if typeof(config_complications) == 'str':
+    config_complications = [config_complications]
+  complications = []
+  for c in config_complications:
+    if _is_gvar_id(c):
+      complications.extend(load_yaml(get_gvar(c)))
+    else:
+      complications.append(c)
+  return complications
+
 def craft():
   """Advances the current item being crafted.
+
+  :rtype: {
+    'success': bool True if the character was able to make progress on crafting an item.
+    'message': str | None Set if `success` is false. An explanation of why the character cannot craft.
+    'crafting': dict | None The currently in progress item, if any.
+    'completed': dict | None The completed item, if any.
+    'started': dict | None The newly started item, if any.
+  }
   """
   now = time()
 
   result = {}
-
+  config = load_config()
   # get the craft in progress
   stored_data = _load_cvar()
   if in_progress := stored_data.get('crafting', None):
@@ -224,6 +253,10 @@ def craft():
     downtime.use_downtime(current_time=now)
     in_progress['workweeks_completed'] = in_progress.workweeks_completed + 1
     stored_data['history'] = (stored_data.get('history') or []).append((now, f'spent one workweek crafting {in_progress.quantity}x{in_progress.name}'))
+    if not in_progresss.get('complication') and randint(100) < config.get('complication_chance', 0):
+      complication = rand_choice(_complications())
+      stored_data['history'] = (stored_data.get('history') or []).append((now, f'encountered a complication: {complication}'))
+      in_progress['complication'] = complication
     if in_progress.workweeks_completed >= in_progress.workweeks_required: # if complete award item and clear craft
       bags = baglib.load_bags(ch=_character)
       (bag_used, _, bag_error) = baglib.modify_item(bagsLoaded=bags, item=in_progress.name, quantity=in_progress.quantity)
@@ -238,6 +271,11 @@ def craft():
 
 def discard():
   """Abandons the current item being crafted.
+
+  :rtype: {
+    'success': bool True if progress was discarded.
+    'message': str | None An explanation of why `success` is false.
+  }
   """
   now = time()
   stored_data = _load_cvar()
@@ -259,14 +297,22 @@ def history() -> list[tuple[float, str]]:
 
 def categories(adventuring_gear=False):
   """Lists the available categories.
+
+  :arg adventuring_gear bool: Return either adventuring gear or magic item categories.
+
+  :return: A list of category names.
+  :rtype: list
   """
   config = load_config()
   return config.get('magic_inventory' if not adventuring_gear else 'gear_inventory', {}).keys()
 
 def matching_categories(search_string, adventuring_gear=False):
   """
-  Returns item categories which match the search string
-  :rtype list[string]
+  :arg search_string str: A category name to match.
+  :arg adventuring_gear bool: Search adventuring gear or magic item categories.
+
+  :return: Returns item categories which match the search string
+  :rtype: list[string]
   """
   return fuzzy.get_matches_ignoring_punctuation(
     search=search_string,
@@ -276,8 +322,11 @@ def matching_categories(search_string, adventuring_gear=False):
 def matching_tools(search_string):
   """
   Returns tools whose names match the search string
-  :returns: A `!tool` tool, see `exact_tool()` in `!gvar 6251e20c-7545-4c63-92af-31e0745f2b0c`
-  :rtype {
+
+  :arg search_string str: A tool name to match.
+
+  :return: A `!tool` tool, see `exact_tool()` in `!gvar 6251e20c-7545-4c63-92af-31e0745f2b0c`
+  :rtype: {
     key: str
     name: str
     type: str
@@ -288,9 +337,23 @@ def matching_tools(search_string):
 
 def search(adventuring_gear: bool, category: str, item_query: str):
   """Returns matching craftable items.
+
+  :arg adventuring_gear bool: If the search should cover adventuring gear or magic items.
+  :arg category str: The exact category name to search.
+  :arg item_query str: A partial item name to match.
+
+  :return: A list of mundane or magic items.
+  :rtype: {
+    'name': str
+    'rarity': str
+    'base_price': float
+    'craft_price': float
+    'workweeks_required': int
+    'min_level': int
+  }
   """
-  item_data = _load_item_data(category)
-  return [_magic_item(item) for item in _get_matches_ignoring_punctuation_with_function(
+  item_data = _load_item_data(category, adventuring_gear=adventuring_gear)
+  return [(_mundane_item(item) if adventuring_gear else _magic_item(item)) for item in _get_matches_ignoring_punctuation_with_function(
     search=item_query,
     iterable=item_data,
     function=lambda item: item[0]
@@ -298,6 +361,29 @@ def search(adventuring_gear: bool, category: str, item_query: str):
 
 def setup(adventuring_gear: bool, category: str, item:dict, tool_key:str | None, quantity:int = 1):
   """Prepare to craft a new item.
+
+  :arg adventuring_gear bool: If the item to craft is adventuring gear or a magic item.
+  :arg category str: The exact category name to search.
+  :arg item dict: The item to craft.
+  :arg tool_key str: The !tool key string of the tool to use.
+  :arg quantity int: The quantity of items to craft.
+
+  :return: Crafting data or an error message.
+  :rtype: {
+    success: bool True if a new item was setup for crafting to begin.
+    message: str | None An explanation of why success is false.
+    name: str
+    rarity: str
+    base_price: float
+    craft_price: float
+    workweeks_required: int
+    min_level: int
+    adventuring_gear: bool
+    category: str
+    quantity: int
+    tool_key: str
+    workweeks_completed: int
+  }
   """
   stored_data = _load_cvar()
 
@@ -328,11 +414,35 @@ def setup(adventuring_gear: bool, category: str, item:dict, tool_key:str | None,
 
 def status():
   """Return any current craft in progress.
+
+  :return: Crafting data or an error message.
+  :rtype: {
+    success: bool True if a new item was setup for crafting to begin.
+    message: str | None An explanation of why success is false.
+    name: str
+    rarity: str
+    base_price: float
+    craft_price: float
+    workweeks_required: int
+    min_level: int
+    adventuring_gear: bool
+    category: str
+    quantity: int
+    tool_key: str
+    workweeks_completed: int
+    complication: str | None
+  }
   """
   stored_data = _load_cvar()
   return stored_data.get('crafting', None)
 
 def status_fields():
+  """
+  Build embed fields to describe the current crafting state.
+
+  :return: A list of fields.
+  :rtype: [{title: str, body: str}]
+  """
   fields = []
   current_status = status()
   if not current_status:
@@ -341,4 +451,6 @@ def status_fields():
     fields.append({'title': 'Crafting', 'body': f'{current_status.quantity} x {current_status.name}'})
     fields.append({'title': 'Cost', 'body': f"{current_status.craft_price}{' (paid)' if current_status.workweeks_completed > 0 else ''}"})
     fields.append({'title': 'Progress', 'body': f"{current_status.workweeks_completed}/{current_status.workweeks_required} workweeks."})
+    if complication := current_status.get('complication'):
+      fields.append({'title': 'Complication!', 'body': complication})
   return fields
