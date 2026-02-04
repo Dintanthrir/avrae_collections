@@ -11,11 +11,11 @@ def validate_args(parsed_args):
   # Validate type arg
   category_search_term = parsed_args.last('type', type_=str)
   if not category_search_term:
-    err(f"\nMissing `-type`\nA category in `{craft.categories()}` is required:\n\n`{USAGE}`")
+    err(f"\nMissing `-type`\nA category in `{craft.categories(adventuring_gear=True)}` is required:\n\n`{USAGE}`")
 
   matching_categories = craft.matching_categories(category_search_term, adventuring_gear=True)
   if len(matching_categories) == 0:
-    err(f"\nNo categories match `{category_search_term}`,\nexpected one of `{craft.CATEGORIES}`")
+    err(f"\nNo categories match `{category_search_term}`,\nexpected one of `{craft.categories(adventuring_gear=True)}`")
   elif len(matching_categories) > 1:
     err(f"\nMultiple matches for category `{category_search_term}`:\n`{matching_categories}`")
   category = matching_categories[0]
