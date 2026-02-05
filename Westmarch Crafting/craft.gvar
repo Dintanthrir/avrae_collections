@@ -409,7 +409,7 @@ def setup(adventuring_gear: bool, category: str, item:dict, tool_key:str | None,
     'category': category,
     'quantity': quantity,
     'tool_key': tool_key,
-    'workweeks_required': ceil((item.craft_price * item.quantity) / float(config.gp_per_workweek[item.rarity])),
+    'workweeks_required': ceil((item.craft_price * quantity) / float(config.gp_per_workweek[item.rarity])),
     'workweeks_completed': 0,
   }
   _update_cvar(stored_data)
