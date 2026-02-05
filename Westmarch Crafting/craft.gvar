@@ -6,6 +6,7 @@ using(
   docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
   downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
   fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
   skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8',
   tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
 )
@@ -408,6 +409,7 @@ def setup(adventuring_gear: bool, category: str, item:dict, tool_key:str | None,
     'category': category,
     'quantity': quantity,
     'tool_key': tool_key,
+    'workweeks_required': ceil((item.craft_price * item.quantity) / float(config.gp_per_workweek[item.rarity])),
     'workweeks_completed': 0,
   }
   _update_cvar(stored_data)
