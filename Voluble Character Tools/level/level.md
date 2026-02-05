@@ -6,7 +6,7 @@ A tool for applying character class and subclass levels.
 
 In it's simplest form simply running `!level` will set class levels to match your current character sheet. Each level may add counters or automations to the characters and register cvars with `!manage` to expand your character's description in `!vsheet`.
 
-Avrae cannot currently import subclasses so they can be added using `!level -class <class> -subclass <subclass>` (e.g. `!level -class Bard -subclass "Spirits"`).
+Avrae cannot currently import subclasses so they can be added using `!level -class <class> -add <subclass>` (e.g. `!level -class Bard -add "Spirits"`).
 
 If there have been no subclass changed then after changing levels on a character sheet and running `!update` run `!level` again to apply any new effects granted at that level.
 
