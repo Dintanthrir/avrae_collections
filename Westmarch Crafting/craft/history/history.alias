@@ -18,7 +18,7 @@ if len(history) > 0:
   desc = "Crafting history:"
   for (timestamp, action) in history:
     fields.append({
-      'title': f'<t:{round(history_item.completed_at)}:R>',
+      'title': f'<t:{round(timestamp)}:R>',
       'body': action,
     })
 else:
