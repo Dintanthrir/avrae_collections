@@ -51,7 +51,7 @@ _CRAFT_SVAR_DEFAULT_VALUES = {
     "A dwarf clan accuses you of stealing its secret lore to fuel your work.",
     "A competitor spreads rumors that your work is shoddy and prone to failure.",
   ],
-  'complication_chance': 2, # % chance per workweek
+  'complication_chance': 2,
 }
 _CRAFT_SVAR_DEFAULT = dump_yaml(_CRAFT_SVAR_DEFAULT_VALUES)
 _CRAFT_CVAR_DEFAULT_VALUES = {}
@@ -253,7 +253,7 @@ def craft():
     downtime.use_downtime(current_time=now)
     in_progress['workweeks_completed'] = in_progress.workweeks_completed + 1
     stored_data['history'] = (stored_data.get('history') or []).append((now, f'spent one workweek crafting {in_progress.quantity}x{in_progress.name}'))
-    if not in_progress.get('complication') and randint(100) < int(config.get('complication_chance', '0')):
+    if not in_progress.get('complication') and randint(100) < config.get('complication_chance', '0'):
       complication = rand_choice(_complications())
       stored_data['history'] = (stored_data.get('history') or []).append((now, f'encountered a complication: {complication}'))
       in_progress['complication'] = complication
