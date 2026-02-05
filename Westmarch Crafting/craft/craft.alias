@@ -43,7 +43,7 @@ else:
         'body': currency.format_transaction((-1 * craft_results.started.craft_price), coinpurse=_character.coinpurse)
       })
     else: # Continued work on the item but did not finish
-      embed['title'] = f"**{get('name')}** continued work on {craft_results.in_progress.quantity} x _{craft_results.in_progress.name}_!"
+      embed['title'] = f"**{get('name')}** continued work on {craft_results.crafting.quantity} x _{craft_results.crafting.name}_!"
       embed['fields'] += craft.status_fields()
 
 embed['fields'] += (logger.log_fields(level=logger.LEVELS.DEBUG) if parsed_args.last('verbose') else [])
