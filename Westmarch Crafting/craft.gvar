@@ -247,7 +247,7 @@ def craft():
       if _character.coinpurse.total > in_progress.craft_price * in_progress.quantity: # The character can afford the cost
         fee = parse_coins(str(-1 * in_progress.craft_price * in_progress.quantity))
         _character.coinpurse.modify_coins(pp=fee.pp, gp=fee.gp, ep=fee.ep, sp=fee.sp, cp=fee.cp)
-        stored_data['history'] = (stored_data.get('history') or []) + [(now, f'started crafting {in_progress.quantity} x {in_progress.name}, paid {craft_price * in_progress.quantity}gp')]
+        stored_data['history'] = (stored_data.get('history') or []) + [(now, f'started crafting {in_progress.quantity} x {in_progress.name}, paid {in_progress.craft_price * in_progress.quantity}gp')]
         result['started'] = True
       else:
         return {'success': False, 'message': f"Crafting requires {currency.format_currency(in_progress.craft_price * in_progress.quantity)} but character only has {currency.format_currency(_character.coinpurse.total)}."}
