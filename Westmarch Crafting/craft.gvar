@@ -176,14 +176,14 @@ def _magic_item(item_data, quantity=1): # Name,Rarity,Attunement,Value,Source,Te
   # > If you craft a magic item with a rarity of common or uncommon, it takes you a quarter of the normal time, and it costs you half as much of the usual gold.
   if _character.csettings.get('version') == '2014' and _character.levels.get('artificer') >= 10 and (rarity == 'common' or rarity == 'uncommon'):
     craft_price = craft_price / 2
-    workweeks_required = ceil(workweeks_required / 4)
+    workweeks_required = ceil(workweeks_required / 4.0)
 
   subclass = _character.get_cvar('subclass')
   # 2014 Scribes Wizards have Master Scrivener at level 10
   # > The gold and time you must spend to make such a scroll are halved if you use your Wizardly Quill.
   if subclass and _character.csettings.get('version') == '2014' and _character.levels.get('wizard') >= 10 and (subclass.get('WizardLevel', '').lower() == "scribes" or subclass.get('subclasses', {}).get('Order of Scribes')) and 'spell scroll' in item_data[0].lower():
     craft_price = craft_price / 2
-    workweeks_required = ceil(workweeks_required / 2)
+    workweeks_required = ceil(workweeks_required / 2.0)
 
   return {
     'name': item_data[0],
