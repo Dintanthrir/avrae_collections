@@ -37,15 +37,13 @@ else:
       embed['title'] = f"**{get('name')}** completed {craft_results.completed.quantity} x _{craft_results.completed.name}_!"
     elif craft_results.get('started'): # Started but did not complete the item
       embed['title'] = f"**{get('name')}** began work on {craft_results.in_progress.quantity} x _{craft_results.in_progress.name}_!"
+      embed.fields.append({
+        'title': 'Materials purchased',
+        'body': currency.format_transaction((-1 * craft_results.in_progress.craft_price), coinpurse=_character.coinpurse)
+      })
     else: # Continued work on the item but did not finish
       embed['title'] = f"**{get('name')}** continued work on {craft_results.in_progress.quantity} x _{craft_results.in_progress.name}_!"
       embed['fields'] += craft.status_fields()
-
-      if craft_results.get('started'):
-        embed.fields.append({
-          'title': 'Materials purchased',
-          'body': currency.format_transaction((-1 * craft_results.in_progress.craft_price), coinpurse=_character.coinpurse)
-        })
 
 return embeds.get_output(embed = embed)
 </drac2>
