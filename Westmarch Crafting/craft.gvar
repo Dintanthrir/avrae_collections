@@ -51,7 +51,7 @@ _CRAFT_SVAR_DEFAULT_VALUES = {
     "A dwarf clan accuses you of stealing its secret lore to fuel your work.",
     "A competitor spreads rumors that your work is shoddy and prone to failure.",
   ],
-  'complication_chance': 2
+  'complication_chance': 2,
 }
 _CRAFT_SVAR_DEFAULT = dump_yaml(_CRAFT_SVAR_DEFAULT_VALUES)
 _CRAFT_CVAR_DEFAULT_VALUES = {}
@@ -246,22 +246,21 @@ def craft():
       if _character.coinpurse.total > in_progress.craft_price: # The character can afford the cost
         fee = parse_coins(str(-1 * in_progress.craft_price))
         _character.coinpurse.modify_coins(pp=fee.pp, gp=fee.gp, ep=fee.ep, sp=fee.sp, cp=fee.cp)
-        stored_data['history'] = (stored_data.get('history') or []).append((now, f'started crafting {in_progress.quantity}x{in_progress.name}'))
+        stored_data['history'] = (stored_data.get('history') or []) + [(now, f'started crafting {in_progress.quantity}x{in_progress.name}')]
         result['started'] = True
       else:
         return {'success': False, 'message': f"Crafting requires {currency.format_currency(in_progress.craft_price)} but character only has {currency.format_currency(_character.coinpurse.total)}."}
     downtime.use_downtime(current_time=now)
     in_progress['workweeks_completed'] = in_progress.workweeks_completed + 1
-    stored_data['history'] = (stored_data.get('history') or []).append((now, f'spent one workweek crafting {in_progress.quantity}x{in_progress.name}'))
-    if not in_progress.get('complication') and randint(100) < config.get('complication_chance', 0):
-      complication = rand_choice(_complications())
-      stored_data['history'] = (stored_data.get('history') or []).append((now, f'encountered a complication: {complication}'))
+    stored_data['history'] = (stored_data.get('history') or []) + [(now, f'spent one workweek crafting {in_progress.quantity}x{in_progress.name}')]
+    if not in_progress.get('complication') and (randint(100) < config.get('complication_chance', 0)) and (complication := rand_choice(_complications())):
+      stored_data['history'] = (stored_data.get('history') or []) + [(now, f'encountered a complication: {complication}')]
       in_progress['complication'] = complication
     if in_progress.workweeks_completed >= in_progress.workweeks_required: # if complete award item and clear craft
       bags = baglib.load_bags(ch=_character)
       (bag_used, _, bag_error) = baglib.modify_item(bagsLoaded=bags, item=in_progress.name, quantity=in_progress.quantity)
       bag_result = baglib.save_bags(bagsLoaded = bags)
-      stored_data['history'] = (stored_data.get('history') or []).append((now, f'completed {in_progress.quantity}x{in_progress.name}'))
+      stored_data['history'] = (stored_data.get('history') or []) + [(now, f'completed {in_progress.quantity}x{in_progress.name}')]
       stored_data['crafting'] = None
       result['completed'] = in_progress
     else:
@@ -283,7 +282,7 @@ def discard():
   stored_data = _load_cvar()
   if stored_data.get('crafting'):
     stored_data['crafting'] = None
-    stored_data['history'] = (stored_data.get('history') or []).append((now, 'discarded progress'))
+    stored_data['history'] = (stored_data.get('history') or []) + [(now, 'discarded progress')]
     _update_cvar(stored_data)
     return {'success': True}
   else:
