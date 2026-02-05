@@ -170,7 +170,7 @@ def _magic_item(item_data, quantity=1): # Name,Rarity,Attunement,Value,Source,Te
   rarity = item_data[1]
   base_price = item_data[3]
   craft_price = base_price * config.cost_multipliers[rarity] * quantity
-  workweeks_required = ceil(craft_price / config.gp_per_workweek[rarity])
+  workweeks_required = ceil(craft_price * quantity / config.gp_per_workweek[rarity])
 
   # 2014 Artificers have Magic Item Adept at level 10
   # > If you craft a magic item with a rarity of common or uncommon, it takes you a quarter of the normal time, and it costs you half as much of the usual gold.
@@ -199,7 +199,7 @@ def _mundane_item(item_data, quantity=1): # name | price | weight? | attributes?
   rarity = 'mundane'
   base_price = item_data[1]
   craft_price = float(base_price) * config.cost_multipliers[rarity] * quantity
-  workweeks_required = ceil(craft_price / config.gp_per_workweek[rarity])
+  workweeks_required = ceil(craft_price * quantity / config.gp_per_workweek[rarity])
   return {
     'name': item_data[0],
     'rarity': 'mundane',
