@@ -3,6 +3,7 @@ using(
   craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
   docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
   embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
   tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
 )
 USAGE = f"{ctx.prefix}{ctx.alias} setup gear -type <category> -item \"<item>\" [-rarity <rarity] [-tool \"<tool>\"]"
@@ -92,10 +93,10 @@ else:
   embed['title'] += f" is ready to craft _**{setup_results.crafting.name}**_!"
   embed['desc'] += docstring.trim(f"""
     You have not yet been charged for materials and have not begun crafting.
-    Use `{ctx.prefix}{ctx.alias}` to pay the {setup_results.crafting.craft_price}gp materials cost and use your first workweek of downtime.
+    Use `{ctx.prefix}{ctx.alias}` to pay the {setup_results.crafting.craft_price * setup_results.crafting.quantity}gp materials cost and use your first workweek of downtime.
     You can use `{ctx.prefix}{ctx.alias} discard` to abandon this project and choose a different item.
     """)
-  embed['fields'] += craft.status_fields()
+  embed['fields'] += craft.status_fields() + (logger.log_fields(level=logger.LEVELS.DEBUG) if parsed_args.last('verbose') else [])
 
 return embeds.get_output(embed=embed)
 </drac2>

@@ -2,6 +2,7 @@
 using(
   craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
   embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
   tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
 )
 
@@ -27,7 +28,7 @@ else:
 embed = {
   'title': f"**{get('name')}** checks their crafting logs",
   'desc': desc,
-  'fields': fields,
+  'fields': fields + (logger.log_fields(level=logger.LEVELS.DEBUG) if parsed_args.last('verbose') else []),
   'thumb': get('image'),
   'footer': USAGE
 }

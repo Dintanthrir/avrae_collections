@@ -3,6 +3,7 @@ using(
   craft = '0863d26e-1858-4bc6-99d3-f8d82dab6d2a',
   currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
   embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  logger = '00186972-7692-4f56-9ab7-60f0089704a4',
 )
 
 USAGE = f"{ctx.prefix}{ctx.alias} search magic -type <category> -item <search term> [-rarity <rarity]"
@@ -51,7 +52,7 @@ else:
         f"{ctx.prefix}{ctx.alias} setup magic -type \"{categories[0]}\" -item \"{item.name}\"",
         "```"
       ])
-    } for item in items],
+    } for item in items] + (logger.log_fields(level=logger.LEVELS.DEBUG) if parsed_args.last('verbose') else []),
     'footer': USAGE
   }
 
