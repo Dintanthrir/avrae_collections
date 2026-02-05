@@ -37,10 +37,10 @@ else:
     if craft_results.get('completed'): # Item finished, this might also be the first check
       embed['title'] = f"**{get('name')}** completed {craft_results.completed.quantity} x _{craft_results.completed.name}_!"
     elif craft_results.get('started'): # Started but did not complete the item
-      embed['title'] = f"**{get('name')}** began work on {craft_results.started.quantity} x _{craft_results.started.name}_!"
+      embed['title'] = f"**{get('name')}** began work on {craft_results.crafting.quantity} x _{craft_results.crafting.name}_!"
       embed.fields.append({
         'title': 'Materials purchased',
-        'body': currency.format_transaction((-1 * craft_results.started.craft_price), coinpurse=_character.coinpurse)
+        'body': currency.format_transaction((-1 * craft_results.crafting.craft_price), coinpurse=_character.coinpurse)
       })
     else: # Continued work on the item but did not finish
       embed['title'] = f"**{get('name')}** continued work on {craft_results.crafting.quantity} x _{craft_results.crafting.name}_!"
