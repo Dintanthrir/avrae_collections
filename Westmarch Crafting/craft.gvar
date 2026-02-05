@@ -244,7 +244,7 @@ def craft():
        return {'success': False, 'message': "Downtime not available."}
     if in_progress.workweeks_completed == 0:
       if _character.coinpurse.total > in_progress.craft_price: # The character can afford the cost
-        fee = parse_coins(str(-1 * in_progress.craft_price))
+        fee = parse_coins(str(-1 * in_progress.craft_price * in_progress.quantity))
         _character.coinpurse.modify_coins(pp=fee.pp, gp=fee.gp, ep=fee.ep, sp=fee.sp, cp=fee.cp)
         stored_data['history'] = (stored_data.get('history') or []) + [(now, f'started crafting {in_progress.quantity} x {in_progress.name}, paid {craft_price}gp')]
         result['started'] = True
@@ -450,7 +450,7 @@ def status_fields():
     fields.append({'title': 'Nothing in progress', 'body': f"Use `{ctx.prefix}craft setup` to start a new crafting project."})
   else:
     fields.append({'title': 'Crafting', 'body': f'{current_status.quantity} x {current_status.name}'})
-    fields.append({'title': 'Cost', 'body': f"{current_status.craft_price}{' (paid)' if current_status.workweeks_completed > 0 else ''}"})
+    fields.append({'title': 'Cost', 'body': f"{current_status.craft_price * current_status.quantity}{' (paid)' if current_status.workweeks_completed > 0 else ''}"})
     fields.append({'title': 'Progress', 'body': f"{current_status.workweeks_completed}/{current_status.workweeks_required} workweeks."})
     if complication := current_status.get('complication'):
       fields.append({'title': 'Complication!', 'body': complication})
