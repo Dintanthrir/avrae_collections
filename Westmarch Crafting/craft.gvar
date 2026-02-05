@@ -51,7 +51,7 @@ _CRAFT_SVAR_DEFAULT_VALUES = {
     "A dwarf clan accuses you of stealing its secret lore to fuel your work.",
     "A competitor spreads rumors that your work is shoddy and prone to failure.",
   ],
-  'complication_chance': 2,
+  'complication_chance': 2
 }
 _CRAFT_SVAR_DEFAULT = dump_yaml(_CRAFT_SVAR_DEFAULT_VALUES)
 _CRAFT_CVAR_DEFAULT_VALUES = {}
