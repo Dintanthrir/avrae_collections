@@ -169,8 +169,8 @@ def _magic_item(item_data, quantity=1): # Name,Rarity,Attunement,Value,Source,Te
   config = load_config()
   rarity = item_data[1]
   base_price = item_data[3]
-  craft_price = base_price * config.cost_multipliers[rarity] * quantity
-  workweeks_required = ceil(craft_price * quantity / config.gp_per_workweek[rarity])
+  craft_price = base_price * config.cost_multipliers[rarity]
+  workweeks_required = ceil((craft_price * quantity) / float(config.gp_per_workweek[rarity]))
 
   # 2014 Artificers have Magic Item Adept at level 10
   # > If you craft a magic item with a rarity of common or uncommon, it takes you a quarter of the normal time, and it costs you half as much of the usual gold.
@@ -198,8 +198,8 @@ def _mundane_item(item_data, quantity=1): # name | price | weight? | attributes?
   config = load_config()
   rarity = 'mundane'
   base_price = item_data[1]
-  craft_price = float(base_price) * config.cost_multipliers[rarity] * quantity
-  workweeks_required = ceil(craft_price * quantity / config.gp_per_workweek[rarity])
+  craft_price = float(base_price) * config.cost_multipliers[rarity]
+  workweeks_required = ceil((craft_price * quantity) / float(config.gp_per_workweek[rarity]))
   return {
     'name': item_data[0],
     'rarity': 'mundane',
@@ -243,13 +243,13 @@ def craft():
     if not downtime.status(current_time=now).available:
        return {'success': False, 'message': "Downtime not available."}
     if in_progress.workweeks_completed == 0:
-      if _character.coinpurse.total > in_progress.craft_price: # The character can afford the cost
+      if _character.coinpurse.total > in_progress.craft_price * in_progress.quantity: # The character can afford the cost
         fee = parse_coins(str(-1 * in_progress.craft_price * in_progress.quantity))
         _character.coinpurse.modify_coins(pp=fee.pp, gp=fee.gp, ep=fee.ep, sp=fee.sp, cp=fee.cp)
-        stored_data['history'] = (stored_data.get('history') or []) + [(now, f'started crafting {in_progress.quantity} x {in_progress.name}, paid {craft_price}gp')]
+        stored_data['history'] = (stored_data.get('history') or []) + [(now, f'started crafting {in_progress.quantity} x {in_progress.name}, paid {craft_price * in_progress.quantity}gp')]
         result['started'] = True
       else:
-        return {'success': False, 'message': f"Crafting requires {currency.format_currency(in_progress.craft_price)} but character only has {currency.format_currency(_character.coinpurse.total)}."}
+        return {'success': False, 'message': f"Crafting requires {currency.format_currency(in_progress.craft_price * in_progress.quantity)} but character only has {currency.format_currency(_character.coinpurse.total)}."}
     downtime.use_downtime(current_time=now)
     in_progress['workweeks_completed'] = in_progress.workweeks_completed + 1
     stored_data['history'] = (stored_data.get('history') or []) + [(now, f'spent one workweek crafting {in_progress.quantity} x {in_progress.name}')]
@@ -450,7 +450,7 @@ def status_fields():
     fields.append({'title': 'Nothing in progress', 'body': f"Use `{ctx.prefix}craft setup` to start a new crafting project."})
   else:
     fields.append({'title': 'Crafting', 'body': f'{current_status.quantity} x {current_status.name}'})
-    fields.append({'title': 'Cost', 'body': f"{current_status.craft_price * current_status.quantity}{' (paid)' if current_status.workweeks_completed > 0 else ''}"})
+    fields.append({'title': 'Cost', 'body': f"{current_status.craft_price * current_status.quantity}gp{' (paid)' if current_status.workweeks_completed > 0 else ''}"})
     fields.append({'title': 'Progress', 'body': f"{current_status.workweeks_completed}/{current_status.workweeks_required} workweeks."})
     if complication := current_status.get('complication'):
       fields.append({'title': 'Complication!', 'body': complication})
