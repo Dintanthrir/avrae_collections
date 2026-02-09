@@ -55,6 +55,21 @@
 # </drac2>
 # ```
 #
+# Alternately
+#
+# ```
+# <drac2>
+# using(
+#   context_filters = 'afe10cd1-ae3c-4fad-94cb-f6f89f9060fd',
+#   embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578',
+# )
+#
+# if filter_embed := context_filters.filter_embed():
+#   return embeds.get_output(embed=filter_embed)
+#
+# return f'embed -title "normal things" -desc "doing stuff"'
+# ```
+#
 # EXAMPLES
 # --------
 # ```
