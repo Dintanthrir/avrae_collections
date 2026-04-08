@@ -88,7 +88,10 @@ elif len(cvar_matches) > 1:
 matching_cvar = cvar_matches[0]
 cvar_type = registered_cvars.get(matching_cvar, {}).get('type', 'string')
 initial_cvar_raw_value = _character.get_cvar(matching_cvar, default="[]" if cvar_type == 'list' else "''")
-cvar_value = load_yaml(initial_cvar_raw_value)
+try:
+  cvar_value = load_yaml(initial_cvar_raw_value)
+except ("YAMLError", "ScannerError"): # Handle comma separated lists instead of valid yaml/json
+  cvar_value = initial_cvar_raw_value.split(',')
 
 if len(args) > 1:
   if cvar_type == 'list':

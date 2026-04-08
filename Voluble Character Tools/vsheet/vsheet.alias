@@ -17,9 +17,15 @@ def format_raw_cvar(content:str) -> str:
   if content == 'None':
     return None
   else:
-    parsed = load_yaml(content)
+    try:
+      parsed = load_yaml(content)
+    except ("YAMLError", "ScannerError"): # Handle comma separated lists instead of valid yaml/json
+      parsed = content.split(',')
+
     if 'list' in typeof(parsed).lower():
-      return ', '.join([item for item in parsed])
+      return ', '.join([str(item) for item in parsed])
+    elif 'dict' in typeof(parsed).lower():
+      return ', '.join(parsed.keys())
     else:
       return parsed
 
@@ -106,10 +112,10 @@ character_attributes = {attribute:get(attribute) for attribute in ['charisma','c
 # Merge in default values
 character_attributes['creatureType'] = get('creatureType', 'Humanoid')
 character_attributes['size'] = get('size', 'Medium')
-character_attributes['speed'] = get('speed', '30 ft.')
-character_attributes['senses'] = get('senses', '')
+character_attributes['speed'] = format_raw_cvar(get('speed', '30 ft.'))
+character_attributes['senses'] = format_raw_cvar(get('senses', ''))
 character_attributes['languages'] = format_raw_cvar(get('languages', ''))
-character_attributes['feats'] = get('feats', '')
+character_attributes['feats'] = format_raw_cvar(get('feats', ''))
 character_attributes['background'] = _character.background or 'None Selected'
 character_attributes['description'] = _character.description or 'Not Set'
 
