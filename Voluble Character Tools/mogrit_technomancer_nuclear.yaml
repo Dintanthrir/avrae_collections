@@ -20,7 +20,7 @@ automations:
               target: all
               effects:
                 - type: save
-                  stat: dex
+                  stat: con
                   fail:
                     - type: ieffect2
                       name: Irradiated
