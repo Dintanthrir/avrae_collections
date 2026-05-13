@@ -17,4 +17,4 @@ If there have been no subclass changed then after changing levels on a character
 
 `!level` uses the rule version set in `csettings` by default but can be overridden using `-version` allowing any mix of 2014 and 2024 classes and subclasses.
 
-`!level` uses sources configured in a `voluble_config` variable but you can also specigy a gvar to load an search for a class/subclass using `-source` to add homebrew which is not configured in a c/u/svar.
+`!level` uses sources configured in a `voluble_config` variable but you can also specify a gvar to load an search for a class/subclass using `-source` to add homebrew which is not configured in a c/u/svar.
