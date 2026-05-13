@@ -830,16 +830,19 @@ def apply_levels() -> dict:
       version = class_data.get('rules_version') or default_version
       options = list_options(version=version)
       source = class_data.get('source') or options.classes.get(sheet_class_name, (None, None))[1]
-      class_results = add_class_levels(class_name=sheet_class_name, level=sheet_level, rules_version=version, source=source)
-      if class_results.success:
-        results.added.counters.extend(class_results.get('added', {}).get('counters', []))
-        results.added.features.update(class_results.get('added', {}).get('features', {}))
-        results.added.class_levels[sheet_class_name] = sheet_level
-        results.add.automations.update(class_results.get('added', {}).get('automations', {}))
+      if source:
+        class_results = add_class_levels(class_name=sheet_class_name, level=sheet_level, rules_version=version, source=source)
+        if class_results.success:
+          results.added.counters.extend(class_results.get('added', {}).get('counters', []))
+          results.added.features.update(class_results.get('added', {}).get('features', {}))
+          results.added.class_levels[sheet_class_name] = sheet_level
+          results.add.automations.update(class_results.get('added', {}).get('automations', {}))
+        else:
+          results.failed.class_levels[sheet_class_name] = sheet_level
+          if message := class_results.get('message'):
+            logger.debug(sheet_class_name=sheet_class_name, sheet_level=sheet_level, message=message)
       else:
         results.failed.class_levels[sheet_class_name] = sheet_level
-        if message := class_results.get('message'):
-          logger.debug(sheet_class_name=sheet_class_name, sheet_level=sheet_level, message=message)
     else:
       results.skipped.class_levels[sheet_class_name] = sheet_level
   hd_results = _update_hit_die_counters()
