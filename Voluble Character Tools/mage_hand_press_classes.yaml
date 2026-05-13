@@ -15,3 +15,29 @@
     White Hat: { parent: Gunslinger }
     High Roller: { parent: Gunslinger }
     Trick Shot: { parent: Gunslinger }
+2024:
+  classes:
+    # The Gunslinger Class: Valda’s Spire of Secrets
+    Gunslinger:
+      hit_die: 8
+      sub_level: 3
+  subclasses:
+    # Barbarian
+    Path of the Muscle Wizard: { parent: Barbarian }
+    # Fighter
+    Dungeoneer: { parent: Fighter }
+    # Monk
+    Warrior of the Street: { parent: Monk }
+    # Paladin
+    Oath of Revelry: { parent: Paladin }
+    # Rogue
+    Arachnoid Stalker: { parent: Rogue }
+    # Warlock
+    Future You: { parent: Warlock }
+    # Gunslinger
+    Spellslinger: { parent: Gunslinger }
+    Deadeye: { parent: Gunslinger }
+    Secret Agent: { parent: Gunslinger }
+    White Hat: { parent: Gunslinger }
+    High Roller: { parent: Gunslinger }
+    Trick Shot: { parent: Gunslinger }
