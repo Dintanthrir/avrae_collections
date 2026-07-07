@@ -1,0 +1,19 @@
+# 'sterling_vermin' = 'cb8d48e6-046e-450d-854e-f5845ac24d3c'
+# class and subclass definitions for Voluble Character Tools
+
+2024:
+  classes:
+    # The Pugilist Class
+    Pugilist:
+      hit_die: 10
+      sub_level: 3
+      features: []
+  subclasses:
+    # The Pugilist Class
+    # Pugilist
+    Dog and Hound: { parent: Pugilist }
+    Hand of Dread: { parent: Pugilist }
+    Piss and Vinegar: { parent: Pugilist }
+    Squared Circle: { parent: Pugilist }
+    Street Saint: { parent: Pugilist }
+    Sweet Science: { parent: Pugilist }
