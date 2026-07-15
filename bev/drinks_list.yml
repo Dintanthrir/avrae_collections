@@ -1,0 +1,73 @@
+# Drinks List: Gvar 2d0a6901-ba12-4468-be26-0a963974c127
+
+- name: Common Drinks
+  # restrictions:
+  #   channel: <channel id>
+  #   parent: <parent channel id>
+  #   category: <category id>
+  drinks:
+    - name: Water
+      dc: 1
+      desc: Remember to stay hydrated.
+      effect:
+        desc: Being drunk on water is a sad existence.
+    - name: Tea
+      dc: 1
+      effect:
+        desc: Being drunk on Tea is a sad existence.
+    - name: Ale, non-alcoholic
+      dc: 3
+      desc: It has (some) flavor, but that's about it.
+    - name: Small beer
+      dc: 5
+      desc: Just enough alcohol to prevent spoiling.
+    - name: Ale, inferior
+      dc: 12
+      effect:
+        desc: Flavor will not leave mouth until after next short rest.
+    - name: Wine
+      dc: 12
+      desc: One of many other varieties of simple, cheap wine.
+    - name: Wine, fine
+      dc: 12
+      desc: One of many other varieties of fine wine.
+    - name: House Fruit Ale
+      dc: 13
+    - name: Ale
+      dc: 14
+      desc: Fermented grains; sweet, full-bodied and fruity.
+    - name: Mead
+      dc: 14
+      desc: A popular spiced honey wine.
+    - name: Mulled Wine
+      dc: 14
+      desc: Wine with scipes and fruit, served hot.
+    - name: Eggnog
+      dc: 14
+      desc: Extremely rich dairy beverage with distilled spirits.
+    - name: Dwarven Ale
+      dc: 15
+    - name: House Hard Cider
+      dc: 15
+      desc: Fermented apple or other fruit cider.
+    - name: House Pilsner
+      dc: 15
+      desc: A pale cold-brewed lager.
+    - name: House Gin
+      dc: 16
+      desc: A 'medicinal' liquor distilled from berries.
+    - name: House Brandy
+      dc: 17
+      desc: A liquor made from distilling wine.
+    - name: Vodka
+      dc: 17
+      desc: A clear distilled liquor.
+    - name: Whiskey
+      dc: 18
+      desc: A distilled liquor aged in wood barrels for flavor.
+    - name: Rum
+      dc: 18
+      desc: A liquor distilled from fermented sugars.
+    - name: Tequila
+      dc: 18
+      desc: A liquor distilled from plant juices.

@@ -1,0 +1,39 @@
+<drac2>
+using(
+    docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+    drinking = '82c5cb20-f86e-4168-83c1-9b8fed41332d',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias}"
+
+status = drinking.status()
+
+fields = []
+if status.free_drinks:
+    fields.append({
+        'title': "Free Drinks",
+        'body': status.free_drinks_str,
+    })
+fields.append({
+    'title': "Intoxication",
+    'body': status.intoxication_str,
+})
+fields.append({
+    'title': f"Effects",
+    'body': '\n'.join([f"**{effect.get('name')}**\n{effect.get('desc')}" for effect in status.effects]),
+})
+
+embed = {
+    'title': f"{get('name')} is feeling {status.desc}!",
+    'desc': docstring.trim(f"""
+        `{ctx.prefix}{ctx.alias} drink <drink name>` _to take a drink._
+        `{ctx.prefix}{ctx.alias} list` _or_ `{ctx.prefix}{ctx.alias} search` _for drink options._
+    """),
+    'fields': fields,
+    'thumb': get('image'),
+    'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

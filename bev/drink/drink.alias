@@ -1,0 +1,79 @@
+<drac2>
+using(
+    drinking = '82c5cb20-f86e-4168-83c1-9b8fed41332d',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} {{<drink name> | -dc <check DC> [-name <drink name>]}} [-rr <number of drinks>] [-b <check bonus>] [-antic] [-all] [-phrase <clever quip>] [adv|dis]"
+
+args = &ARGS&
+parsed_args = argparse(args)
+_character = character()
+
+custom_drink_dc = parsed_args.last('dc', type_=int)
+custom_drink_name = parsed_args.last('name')
+repeat_rolls = parsed_args.last('rr', default=1, type_=int)
+check_bonus = parsed_args.last('b', type_=int)
+force_antics = parsed_args.last('antic', default=False, type_=bool)
+phrase = parsed_args.last('phrase', default='')
+adv = parsed_args.adv(boolwise=True)
+search_all = parsed_args.last('all')
+
+if custom_drink_dc:
+    drink = {
+        'name': custom_drink_name or 'a drink',
+        'dc': custom_drink_dc,
+        'effect': None,
+    }
+else:
+    search_args = []
+    for arg in args:
+        if arg.startswith('-'):
+            break
+        search_args.append(arg)
+    search_string = ' '.join(search_args)
+    if len(search_string) == 0:
+        drink = None
+    else:
+        matching_drinks = drinking.matching_drinks(search=search_string, ignore_restrictions=search_all)
+        if len(matching_drinks) == 0:
+            err(f"No drinks match `{search_string}`\nUse `{ctx.prefix}{ctx.alias} list` to see options.\n\n`{USAGE}`")
+        if len(matching_drinks) > 1:
+            err(f"Multiple drinks match `{search_string}`:\n`{[drink.name for drink in matching_drinks]}`")
+        drink = matching_drinks[0]
+
+results = [drinking.consume(drink=drink, bonus=check_bonus, adv=adv, force_antics=force_antics, ignore_restrictions=search_all) for i in range(0, repeat_rolls)]
+status = drinking.status()
+
+fields = []
+fields.append({ 'title': "Meta", 'body': f"DC: {results[0].dc} CON Save" })
+for index, result in enumerate(results):
+    fields.append({
+        'title': f"Save{f' {index + 1}' if repeat_rolls > 1 else ''}",
+        'body': f"{result.roll.full}: {result.save_result.capitalize()}!",
+    })
+intoxication_change = sum([result.intoxication_change for result in results])
+if status.free_drinks:
+    fields.append({
+        'title': "Free Drinks",
+        'body': status.free_drinks_str,
+    })
+fields.append({
+    'title': f"Intoxication ({intoxication_change:+})",
+    'body': status.intoxication_str,
+})
+fields.append({
+    'title': f"Effects",
+    'body': '\n'.join([f"**{effect.get('name')}**\n{effect.get('desc')}" for effect in status.effects]),
+})
+
+embed = {
+    'title': f"{get('name')} drinks a _{drink.get('name') or 'drink' if drink else 'drink'}!_",
+    'desc': f"_{phrase}_" if phrase else '',
+    'fields': fields,
+    'thumb': get('image'),
+    'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

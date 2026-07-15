@@ -1,0 +1,46 @@
+<drac2>
+using(
+    docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
+    drinking = '82c5cb20-f86e-4168-83c1-9b8fed41332d',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias} search <search string> [-all]"
+
+args = &ARGS&
+parsed_args = argparse(args)
+
+search_all = parsed_args.last('all', default=False, type_=bool)
+search_args = []
+for arg in args:
+    if arg.startswith('-'):
+        break
+    search_args.append(arg)
+search_string = ' '.join(search_args)
+
+def format_drink(drink):
+    lines = [f"**{drink.name}** - _DC:_ {drink.dc if drink.get('dc') else 0}"]
+    if drink.get('desc'):
+        lines.append(f"{drink.desc}")
+    if drink.get('effect'):
+        if drink.effect.get('name'):
+            lines.append(f"_**{drink.effect.name}**_")
+        lines.append(f"_{drink.effect.get('desc')}_")
+    return '\n'.join(lines)
+
+embed = {
+    'title': f"{get('name')} asks for a \"{search_string}\"",
+    'desc': docstring.trim(f"""
+        `{ctx.prefix}{ctx.alias} drink <drink name>` _to take a drink._
+        `{ctx.prefix}{ctx.alias} list` _or_ `{ctx.prefix}{ctx.alias} search` _for drink options._
+    """),
+    'fields': [{
+        'title': "Drinks",
+        'body': '\n'.join([format_drink(drink) for drink in drinking.matching_drinks(search_string, ignore_restrictions=search_all)])
+    }],
+    'thumb': get('image'),
+    'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

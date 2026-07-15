@@ -1,0 +1,170 @@
+# drinking = 'ee0df121-d5e3-44db-b58f-de76c9101e20'
+
+using(
+    fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+)
+
+_SETTINGS_SVAR = "bev"
+_DEFAULT_SETTINGS = {
+    "intoxication_cc": "Intoxication",
+    "free_drinks_cc": "Free Drinks",
+    "drinks": "",
+    "effects": "",
+    "free_drinks_enabled": False,
+    "default_drink": { "dc": 13, "name": "a drink" },
+    "drinking_cvar": "drinking",
+    "antics_threshold": 6,
+}
+_SETTINGS = _DEFAULT_SETTINGS | load_yaml(get_svar(_SETTINGS_SVAR, dump_yaml({})))
+_DRINKS = load_yaml(get_gvar(_SETTINGS.drinks)) if _is_gvar_id(_SETTINGS.drinks) else _SETTINGS.drinks
+_INTOXICATION_EFFECTS = load_yaml(get_gvar(_SETTINGS.effects)) if _is_gvar_id(_SETTINGS.effects) else _SETTINGS.effects
+
+_character = character()
+
+def _is_gvar_id(string):
+    return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
+
+def _setup():
+    _character.create_cc_nx(
+        name=_SETTINGS.intoxication_cc,
+        minVal=0,
+        maxVal=7,
+        reset="long",
+        dispType="bubble",
+        reset_to=0
+    )
+    if not _SETTINGS.free_drinks_enabled:
+        if _character.cc_exists(_SETTINGS.free_drinks_cc):
+            _character.delete_cc(_SETTINGS.free_drinks_cc)
+    else:
+        if _character.cc_exists(_SETTINGS.free_drinks_cc) and _character.get_cc_max(_SETTINGS.free_drinks_cc) != constitutionMod:
+            _character.delete_cc(_SETTINGS.free_drinks_cc)
+        _character.create_cc_nx(
+            name=_SETTINGS.free_drinks_cc,
+            minVal=0,
+            maxVal=constitutionMod,
+            reset="long",
+            dispType="bubble",
+            reset_to=0
+        )
+
+def consume(drink = None, bonus = None, adv = None, force_antics = False, ignore_restrictions = False):
+    drink = drink or _SETTINGS.default_drink
+    _setup()
+    # make a con save against the drink
+    skill = _character.saves.get('constitution')
+    dice_str = skill.d20(base_adv = adv, mod_override=bonus + skill.value if bonus else None) # This does not respect csettings like min rolls for Halfling lucky
+    roll_result = vroll(dice_str)
+    critical_failure = roll_result.total - (bonus + skill.value if bonus else skill.value) == 1
+
+    # apply intoxication changes
+    intoxication_change = 0
+    save_result = 'success'
+    if roll_result.total < drink.dc:
+        if _SETTINGS.free_drinks_enabled and _character.get_cc(_SETTINGS.free_drinks_cc) < _character.get_cc_max(_SETTINGS.free_drinks_cc):
+            _character.mod_cc(_SETTINGS.free_drinks_cc, 1)
+        else:
+            intoxication_change = 2 if critical_failure else 1
+            save_result = 'critical' if critical_failure else 'failure'
+            _character.mod_cc(_SETTINGS.intoxication_cc, intoxication_change)
+
+    effects = [{'name': drink.get('name')} | drink.effect] if drink.get('effect') else []
+
+    # apply antics
+    if force_antics or _character.get_cc(_SETTINGS.intoxication_cc) >= _SETTINGS.antics_threshold:
+        antic_groups = antics_list(ignore_restrictions=ignore_restrictions)
+        antics = [antic for group in antic_groups for antic in group.antics]
+        effects.append({
+            'name': "Drunken antics",
+            'desc': randchoice(antics)
+        })
+
+    # save the drink history so we can preserve drink specific effects
+    _character.set_cvar(_SETTINGS.drinking_cvar, dump_yaml({
+        'intoxication': _character.get_cc(_SETTINGS.intoxication_cc),
+        'effects': effects,
+    }))
+
+    # return the results
+    return {
+        'dc': drink.dc,
+        'roll': roll_result,
+        'save_result': save_result,
+        'intoxication_change': intoxication_change,
+    }
+
+def antics_list(ignore_restrictions=False):
+    return [
+        group for group in _INTOXICATION_EFFECTS.antic_groups if ignore_restrictions or group.get('restrictions') == None or (
+            group.get('restrictions') and (
+                (group.restrictions.get('channel') and group.restrictions.channel == ctx.channel.id) or
+                (group.restrictions.get('parent') and ctx.channel.parent and group.restrictions.parent == ctx.channel.parent.id) or
+                (group.restrictions.get('category') and ctx.channel.category and group.restrictions.category == ctx.channel.category.id)
+            )
+        )
+    ]
+
+def drinks_list(ignore_restrictions=False):
+    return [
+        group for group in _DRINKS if ignore_restrictions or group.get('restrictions') == None or (
+            group.get('restrictions') and (
+                (group.restrictions.get('channel') and group.restrictions.channel == ctx.channel.id) or
+                (group.restrictions.get('parent') and ctx.channel.parent and group.restrictions.parent == ctx.channel.parent.id) or
+                (group.restrictions.get('category') and ctx.channel.category and group.restrictions.category == ctx.channel.category.id)
+            )
+        )
+    ]
+
+def _get_matches_ignoring_punctuation_with_function(search, iterable, function):
+    """
+    Returns a list of matching values from iterable,
+    applying a given function to each item in the iterable to get the string to match with,
+    and ignoring punctuation for purposes of partial matching.
+    See gvar '6431690e-ce47-4baa-bb3b-ba751e1a1817'
+
+    :arg str search: the string to match against.
+    :arg list|generator|tuple iterable: the iterable to search for matching values.
+    :arg value->str function: the function to apply to each value in the iterable.
+    :return: a list of matching values.
+    :rtype: list
+    """
+    search_lower = search.lower()
+    search_no_punctuation = search_lower.translate(fuzzy.NO_PUNCTUATION_TABLE)
+    if partial_matches := [
+        x
+        for x in iterable
+        if search_no_punctuation in function(x).lower().translate(fuzzy.NO_PUNCTUATION_TABLE)
+    ]:
+        if exact_matches := [x for x in partial_matches if search_lower == function(x).lower()]:
+            return exact_matches
+        else:
+            return partial_matches
+    else:
+        return []
+
+def matching_drinks(search, ignore_restrictions=False):
+    drink_groups = drinks_list(ignore_restrictions=ignore_restrictions)
+    drinks = [drink for group in drink_groups for drink in group.drinks]
+    return _get_matches_ignoring_punctuation_with_function(
+        search=search,
+        iterable=drinks,
+        function=lambda x: x.name
+    )
+
+def status():
+    effects = []
+    intoxication_level = _character.get_cc(_SETTINGS.intoxication_cc) if _character.cc_exists(_SETTINGS.intoxication_cc) else 0
+    intoxication_effect = _INTOXICATION_EFFECTS.intoxication_effects[str(intoxication_level)]
+    if intoxication_level > 0:
+        effects.append(intoxication_effect)
+    previous_drink = load_yaml(_character.get_cvar(_SETTINGS.drinking_cvar, ""))
+    if previous_drink and previous_drink.get('intoxication') == intoxication_level and previous_drink.get('effects'):
+        effects += previous_drink.effects
+    return {
+        'desc': intoxication_effect.name,
+        'intoxication': intoxication_level,
+        'intoxication_str': _character.cc_str(_SETTINGS.intoxication_cc) if _character.cc_exists(_SETTINGS.intoxication_cc) else '',
+        'free_drinks': (_character.get_cc(_SETTINGS.free_drinks_cc) if _character.cc_exists(_SETTINGS.free_drinks_cc) else 0) if _SETTINGS.free_drinks_enabled else None,
+        'free_drinks_str': (_character.cc_str(_SETTINGS.free_drinks_cc) if _character.cc_exists(_SETTINGS.free_drinks_cc) else '') if _SETTINGS.free_drinks_enabled else None,
+        'effects': effects,
+    }

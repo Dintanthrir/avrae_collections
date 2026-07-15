@@ -1,0 +1,147 @@
+# Drinking Effects: Gvar 1458dd0f-8d7c-4348-b874-17fd82ee5efb
+intoxication_effects:
+  '0':
+    name: Sober
+    desc:
+  '1':
+    name: Tipsy
+    desc: -2 to Dexterity checks/Saves.
+  '2':
+    name: Intoxicated
+    desc: |
+          -2 to Dexterity checks/Saves.
+          Disadvantage on Steath, Persuasion and Deception checks.
+          Advantage on saves to avoid or end the frightened condition.
+          Disadvantage on attack rolls.
+  '3':
+    name: Impaired
+    desc: |
+          -2 to Dexterity checks/Saves.
+          Disadvantage on all ability checks.
+          Disadvantage on attack rolls.
+  '4':
+    name: Confused
+    desc: |
+          -2 to Dexterity checks/Saves.
+          Disadvantage on all ability checks.
+          Disadvantage on saving throws.
+          Disadvantage on attack rolls.
+          Cannot move more than 10' without changing direction.
+  '5':
+    name: Stupefied
+    desc: |
+          -2 to Dexterity checks/Saves.
+          Disadvantage on all ability checks.
+          Disadvantage on saving throws.
+          -5 and Disadvantage on attack rolls.
+          50% chance to fall prone when moving.
+  '6':
+    name: Blacked Out
+    desc: |
+          Roll on the Drunken Shenanigans Table!
+          For up to 10 minutes, you must act out the results.
+          Afterwards, fall Unconscious for the next 8 hours wherever you end up.
+          When you wake up you will not remember what happened.
+  '7':
+    name: Alcohol Poisoning
+    desc: |
+          You immediately fall unconscious for the next 12 hours.
+          You drop to 0 hit points, and for the next 24 hours you are poisoned.
+          Somebody must treat you with a DC 13 medicine check or cure you of poison, or you risk dying.
+antic_groups:
+  - name: Drunken Antics
+#   restrictions:
+#     channel: <channel id>
+#     parent: <parent channel id>
+#     category: <category id>
+    antics:
+      - You trip over your own feet and hit your head.
+      - You aren't done drinking yet! You chug another drink.
+      - You find yourself slurring your words to the extent that they're incomprehensible.
+      - You puke.
+      - You space out for a while, staring at nothing in particular.
+      - You suddenly remember something upsetting and get really sad about it.
+      - You suddenly remember something annoying and get really angry about it.
+      - You suddenly remember something funny and start laughing uncontrollably.
+      - You suddenly remember something from your youth and get nostalgic.
+      - You feel compelled to buy a lot more alcohol.
+      - You feel nauseous and want to step outside and get some fresh air.
+      - You suddenly feel paranoid and superstitious.
+      - You break a piece of furniture somehow.
+      - You begin posturing and try to start a fight with someone.
+      - You feel compelled to buy something very expensive.
+      - You begin singing a rousing sea shanty, poorly.
+      - You are exceedingly hungry and feel compelled to buy far more food than you can eat.
+      - You achieve a zen drunken advice giving state.
+      - You attempt to juggle some nearby objects.
+      - Remember that one rude thing that friend/relationship partner did? You suddenly feel the need to get really angry and talk about that.
+      - You reflect on something someone said to you during your drinking session and decide that you found it extremely insulting.
+      - You try to fight an inanimate object and lose.
+      - You try to make a snow angel on the floor talking about how beautiful the ceiling is.
+      - You really want to curl up in a nice ball under a table.
+      - You feel compelled to stack all the furniture in the room into a large pile.
+      - You attempt to make everyone join you in singing a song loudly and poorly.
+      - You need to lie down. Regardless of the time or place.
+      - You can't focus properly and are seeing double.
+      - You're feeling generous today! You feel compelled to buy a round of drinks for everyone in your immediate vicinity.
+      - You have an uncontrollable urge to get on a table and show the other patrons your greatest Performance!
+      - You suddenly feel really apologetic, especially about things you've done in the last few minutes.
+      - As a game or just for fun, you suddenly feel like spinning...
+      - You sure wanna impress the other patrons of the bar! Show them your greatest magical or acrobatic trick!
+      - You feel really dizzy, the world is suddenly spinning... try to hold yourself on point or slowly move towards the nice and comfy ground!
+      - You suddenly remember an embarrassing or shameful story about yourself and feel compelled to loudly tell the nearest people - perhaps for advice or because you find it funny?
+      - You get a sudden burst of Wanderlust and venture forth on an adventure to the first place that comes to your mind! You don't even make it out of town, though.
+      - You have to do something quickly! You know what you have to do and you have to do it right now- but you forget about it again a few seconds later.
+      - You're having a great time and feel really happy to be surrounded by such great people and you just have to drunkenly tell everyone about it.
+      - You feel the need to regale anybody who will listen with a tale of your recent adventuring exploits.
+      - You get really overly excited about something that isn't really important.
+      - You suddenly feel really philosophical and begin questioning the meaning of your existence.
+      - You want to find your best buddy and tell them how great they are.
+      - You're convinced that the nearest person is your best buddy.
+      - You're convinced that someone nearby is someone from your past that you haven't seen in a long time.
+      - Despite it still being on your person, you're convinced that you've misplaced something and start looking around for it.
+      - You're suddenly really impressed by some nearby craftsmanship or architecture.
+      - You suddenly want to talk the nearest person about your issues.
+      - You feel compelled to ride a table like a surfboard.
+      - You gain clarity for a few moments, having your entire life flash before your eyes in the span of mere seconds.
+      - You feel the need to round everyone up for a nice tavern conga line!
+      - You're in a poetic mood today, and even though you're hiccuping, you want the world to hear your words.
+      - You lay on the floor or table in a daze while screaming for a minute or two.
+      - You've realized something really profound... well, you think it's profound anyway. You must tell someone!.
+      - A mundane object reminds you of a painful memory and you feel the need to hold and protect it while reminiscing.
+      - You think a piece of furniture is some adorable animal and start fawning over it.
+      - You start counting your fingers and panicking because you only see 1 less the amount your of normal fingers, even though in reality everything's fine.
+      - You feel as though you've lost all your balance on your feet, and want to regain your balance by doing a handstand on the nearest table.
+      - You feel compelled to speak as though you are from the highest noble family in the land.
+      - You feel compelled to take repetitive small sips of your drink with your pinky extended, you also are having a hard time finding your mouth and spill most of the sips on yourself.
+      - You feel the need to cry and express your love for small cute animals.
+      - You feel compelled to get the person next to you to sing a song, music is wonderful.
+      - You feel compelled to dance like no one's watching because your favorite song is on...in your head.
+      - You want everyone to see how to sit in a chair the fun way, with a running start and a jump, the chair however cannot support the impact.
+      - You realize how fun the beach sounds and decide to go there and make a new friend.
+      - You sing a song composed of only a single word over and over in an upbeat fashion.
+      - You daze off and go on a mental quest of epic proportions, remembering every detail vividly, but none of these actually happened.
+      - You've closed your eyes and cannot seem to open them.
+      - You feel an intense love for the closest inanimate object, like a long lost sibling or relative.
+      - You become convinced that a nearby object is actually a mimic in disguise, and that it must be slain.
+      - You feel the need to do lots of push ups.
+      - You become convinced that everything around you is an illusion.
+      - You become paranoid that you are being followed/hunted by a goose.
+      - You believe that you are the owner of the tavern and must kick out the rowdy adventurers.
+      - You believe you are the lead character in a play, and you must entertain the other patrons of the bar as your audience.
+      - You think yourself a drunken sage, and give out some terrible life advice.
+      - You believe someone in the bar is an assassin sent to kill the bartender, and that you must stop them.
+      - You have become enraptured by an insect buzzing nearby, and will do anything and everything in your power to kill it.
+      - You believe that you are the best in the world at some small unimportant task and must brag about it.
+      - You have the sudden urge to let people know how you feel about them with complete honesty.
+      - You've convinced yourself the person closes to you is extremely attractive and attempt to make out with them.
+      - You are convinced that there is an invisible person somewhere in the bar at that you must find them.
+      - You are convinced that you are under the effects of a curse and need to be cured.
+      - You are convinced the tastiest sandwich of the world is being served by the bar even if they don't serve sandwiches, and every sandwich they bring out is not the real sandwich.
+      - You try to find the comfiest chair in the tavern by testing them all out, even if someone is already sitting there.
+      - You feel like there's a coin hidden somewhere in your pockets or bags which you are determined to use for payment this evening.
+      - You feel as though there is giant blood in your veins and you want to impress people by trying to lift the heaviest thing in the room.
+      - Your right leg feels very weak such that you're convinced it's safer to just hop around on your left than use it.
+      - Time to hit the hay... go and find a questionable place to pass out.
+      - Time to hit the hay... go and find an appropriate place to pass out.
+      - You realize you're really drunk and request a nice glass of water, taking a time out and reducing your intoxication level by 1 without passing out.
