@@ -8,8 +8,8 @@ _SETTINGS_SVAR = "bev"
 _DEFAULT_SETTINGS = {
     "intoxication_cc": "Intoxication",
     "free_drinks_cc": "Free Drinks",
-    "drinks": "",
-    "effects": "",
+    "drinks": "2d0a6901-ba12-4468-be26-0a963974c127",
+    "effects": "1458dd0f-8d7c-4348-b874-17fd82ee5efb",
     "free_drinks_enabled": False,
     "default_drink": { "dc": 13, "name": "a drink" },
     "drinking_cvar": "drinking",
