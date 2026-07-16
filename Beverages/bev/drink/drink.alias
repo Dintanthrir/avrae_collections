@@ -69,7 +69,7 @@ fields.append({
     'title': f"Effects",
     'body': '\n'.join([f"**{effect.get('name')}**\n{effect.get('desc')}" for effect in status.effects]),
 })
-if cost := drink.get('cost', 0) > 0:
+if (cost := drink.get('cost', 0)) > 0:
     _character.coinpurse.modify_coins(cp=floor(-100.0*cost))
     fields.append({
         'title': "Cost",
