@@ -15,14 +15,15 @@ _DEFAULT_SETTINGS = {
     "drinking_cvar": "drinking",
     "antics_threshold": 6,
 }
+
+def _is_gvar_id(string):
+    return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
+
 _SETTINGS = _DEFAULT_SETTINGS | load_yaml(get_svar(_SETTINGS_SVAR, dump_yaml({})))
 _DRINKS = load_yaml(get_gvar(_SETTINGS.drinks)) if _is_gvar_id(_SETTINGS.drinks) else _SETTINGS.drinks
 _INTOXICATION_EFFECTS = load_yaml(get_gvar(_SETTINGS.effects)) if _is_gvar_id(_SETTINGS.effects) else _SETTINGS.effects
 
 _character = character()
-
-def _is_gvar_id(string):
-    return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
 
 def _setup():
     _character.create_cc_nx(
