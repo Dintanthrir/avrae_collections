@@ -70,10 +70,10 @@ fields.append({
     'body': '\n'.join([f"**{effect.get('name')}**\n{effect.get('desc')}" for effect in status.effects]),
 })
 if cost := drink.get('cost', 0) > 0:
-    _character.coinpurse.modify_coins(cp=floor(cost*-100))
+    _character.coinpurse.modify_coins(cp=-100.0*cost)
     fields.append({
         'title': "Cost",
-        'body': currency.format_transaction(-1 * cost),
+        'body': currency.format_transaction(-1.0 * cost),
     })
 
 embed = {
