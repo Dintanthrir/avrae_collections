@@ -10,9 +10,9 @@
   "eec1865c-91b3-49a7-8c5f-5d7696ccbb7b": "Affection/nom.gvar",
   "9b082474-17c3-4b48-b71f-9fb1942e97c0": "Affection/hug.gvar",
 
-  "1458dd0f-8d7c-4348-b874-17fd82ee5efb": "bev/drinking_effects.yml",
-  "2d0a6901-ba12-4468-be26-0a963974c127": "bev/drinks_list.yml",
-  "ee0df121-d5e3-44db-b58f-de76c9101e20": "bev/drinking_module.gvar",
+  "1458dd0f-8d7c-4348-b874-17fd82ee5efb": "Beverages/drinking_effects.yml",
+  "2d0a6901-ba12-4468-be26-0a963974c127": "Beverages/drinks_list.yml",
+  "ee0df121-d5e3-44db-b58f-de76c9101e20": "Beverages/drinking_module.gvar",
 
   "1b39df4c-023e-44a2-ba92-37b6cf1bd760": "My Stuff/ashirma_homebrew.yaml",
   "1be4f145-cc1d-4658-82f7-6e2f2f345a5c": "My Stuff/strixhaven_items.yaml",
