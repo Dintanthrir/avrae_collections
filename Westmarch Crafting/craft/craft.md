@@ -1,7 +1,7 @@
 Create a magical or mundane items using your downtime. Use the `setup` subcommand to get started.
 
 __*Example*__
-> `craft setup magic -type potion -item "Potion of Healing" -tool "Alchemist's Supplies"`
+> `!craft setup magic -type potion -item "Potion of Healing" -tool "Alchemist's Supplies"`
 Prepare to craft a _Potion of Healing_ (requires that your active character is proficient with _Alchemist's Supplies_).
 
 __**Searching**__
