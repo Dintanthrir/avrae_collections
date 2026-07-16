@@ -1,5 +1,6 @@
 <drac2>
 using(
+    currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
     drinking = '82c5cb20-f86e-4168-83c1-9b8fed41332d',
     embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
 )
@@ -12,6 +13,7 @@ _character = character()
 
 custom_drink_dc = parsed_args.last('dc', type_=int)
 custom_drink_name = parsed_args.last('name')
+custom_drink_cost = parsed_args.last('cost', type_=float)
 repeat_rolls = parsed_args.last('rr', default=1, type_=int)
 check_bonus = parsed_args.last('b', type_=int)
 force_antics = parsed_args.last('antic', default=False, type_=bool)
@@ -22,6 +24,7 @@ search_all = parsed_args.last('all')
 if custom_drink_dc:
     drink = {
         'name': custom_drink_name or 'a drink',
+        'cost': custom_drink_cost,
         'dc': custom_drink_dc,
         'effect': None,
     }
@@ -66,6 +69,11 @@ fields.append({
     'title': f"Effects",
     'body': '\n'.join([f"**{effect.get('name')}**\n{effect.get('desc')}" for effect in status.effects]),
 })
+if cost := drink.get('cost', 0) > 0:
+    fields.append({
+        'title': "Cost",
+        'body': currency.format_transaction(-1 * cost),
+    })
 
 embed = {
     'title': f"{get('name')} drinks a _{drink.get('name') or 'drink' if drink else 'drink'}!_",

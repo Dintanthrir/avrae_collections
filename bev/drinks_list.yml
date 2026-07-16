@@ -12,62 +12,82 @@
       effect:
         desc: Being drunk on water is a sad existence.
     - name: Tea
+      cost: 0.02
       dc: 1
       effect:
         desc: Being drunk on Tea is a sad existence.
     - name: Ale, non-alcoholic
+      cost: 0.04
       dc: 3
       desc: It has (some) flavor, but that's about it.
     - name: Small beer
+      cost: 0.03
       dc: 5
       desc: Just enough alcohol to prevent spoiling.
     - name: Ale, inferior
+      cost: 0.02
       dc: 12
       effect:
+        name: Yuck!
         desc: Flavor will not leave mouth until after next short rest.
     - name: Wine
+      cost: 0.05
       dc: 12
       desc: One of many other varieties of simple, cheap wine.
     - name: Wine, fine
+      cost: 2.5
       dc: 12
       desc: One of many other varieties of fine wine.
     - name: House Fruit Ale
       dc: 13
     - name: Ale
+      cost: 0.04
       dc: 14
       desc: Fermented grains; sweet, full-bodied and fruity.
     - name: Mead
+      cost: 0.04
       dc: 14
       desc: A popular spiced honey wine.
     - name: Mulled Wine
+      cost: 0.04
       dc: 14
       desc: Wine with scipes and fruit, served hot.
     - name: Eggnog
+      cost: 0.04
       dc: 14
       desc: Extremely rich dairy beverage with distilled spirits.
     - name: Dwarven Ale
+      cost: 0.05
       dc: 15
     - name: House Hard Cider
+      cost: 0.05
       dc: 15
       desc: Fermented apple or other fruit cider.
     - name: House Pilsner
+      cost: 0.05
       dc: 15
       desc: A pale cold-brewed lager.
     - name: House Gin
+      cost: 0.06
       dc: 16
       desc: A 'medicinal' liquor distilled from berries.
     - name: House Brandy
+      cost: 0.07
       dc: 17
       desc: A liquor made from distilling wine.
     - name: Vodka
+      cost: 0.07
       dc: 17
       desc: A clear distilled liquor.
     - name: Whiskey
+      cost: 0.08
       dc: 18
       desc: A distilled liquor aged in wood barrels for flavor.
     - name: Rum
+      cost: 0.08
       dc: 18
       desc: A liquor distilled from fermented sugars.
     - name: Tequila
+      cost: 0.08
       dc: 18
       desc: A liquor distilled from plant juices.

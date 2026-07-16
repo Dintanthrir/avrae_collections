@@ -1,5 +1,6 @@
 <drac2>
 using(
+    currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
     docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e',
     drinking = '82c5cb20-f86e-4168-83c1-9b8fed41332d',
     embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
@@ -12,10 +13,14 @@ parsed_args = argparse(args)
 
 def format_drink(drink):
     lines = [f"**{drink.name}** - _DC: {drink.get('dc')}_"]
-    # if drink.get('desc'):
-        # lines.append(f"_{drink.desc}_")
-    if drink.get('effect'):
-        lines.append(f"_{drink.effect.get('desc')}_")
+    if cost := drink.get('cost'):
+        lines.append(currency.format_currency(cost))
+    # if drink_desc := drink.get('desc'):
+        # lines.append(f"_{drink_desc}_")
+    if effect := drink.get('effect'):
+        if effect.get('name'):
+            lines.append(f"_**{effect.name}**_")
+        lines.append(f"_{effect.get('desc')}_")
     return '\n'.join(lines)
 
 fields = [
