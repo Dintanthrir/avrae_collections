@@ -20,13 +20,13 @@ for arg in args:
 search_string = ' '.join(search_args)
 
 def format_drink(drink):
-    lines = [f"**{drink.name}** - _DC:_ {drink.dc if drink.get('dc') else 0}" + f" {currency.format_currency(drink.cost)}" if drink.get('cost') else ""]
+    lines = [f"**{drink.name}** - _DC:_ {drink.dc if drink.get('dc') else 0}" + f", {currency.format_currency(drink.cost)}" if drink.get('cost') else ""]
     if drink_desc := drink.get('desc'):
-        lines.append(f"    {drink_desc}")
+        lines.append(f" - {drink_desc}")
     if drink.get('effect'):
         if drink.effect.get('name'):
-            lines.append(f"    _**{drink.effect.name}**_")
-        lines.append(f"    _{drink.effect.get('desc')}_")
+            lines.append(f" -- _**{drink.effect.name}**_")
+        lines.append(f" -- _{drink.effect.get('desc')}_")
     return '\n'.join(lines)
 
 embed = {

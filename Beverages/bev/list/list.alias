@@ -12,13 +12,13 @@ args = &ARGS&
 parsed_args = argparse(args)
 
 def format_drink(drink):
-    lines = [f"**{drink.name}** - _DC: {drink.get('dc')}_" + f" {currency.format_currency(drink.cost)}" if drink.get('cost') else ""]
+    lines = [f"**{drink.name}** - _DC: {drink.get('dc')}_" + f", {currency.format_currency(drink.cost)}" if drink.get('cost') else ""]
     # if drink_desc := drink.get('desc'):
-        # lines.append(f"    _{drink_desc}_")
+        # lines.append(f" - _{drink_desc}_")
     if effect := drink.get('effect'):
         if effect.get('name'):
-            lines.append(f"    _**{effect.name}**_")
-        lines.append(f"    _{effect.get('desc')}_")
+            lines.append(f" -- _**{effect.name}**_")
+        lines.append(f" -- _{effect.get('desc')}_")
     return '\n'.join(lines)
 
 fields = [
