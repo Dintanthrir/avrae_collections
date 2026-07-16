@@ -34,4 +34,4 @@ def format_transaction(gp, coinpurse=None):
     """
     coinpurse = coinpurse or character().coinpurse
     total = f"{coinpurse.total:,.2f}".rstrip('0').rstrip('.')
-    return f"<:DDBGold:953399505062080594> {total} gp {'+' if gp >= 0 else '-'}({abs(gp):,})"
+    return f"<:DDBGold:953399505062080594> {total} gp {'+' if gp >= 0 else '-'}({gp:,})"
