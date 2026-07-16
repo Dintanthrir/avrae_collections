@@ -32,17 +32,19 @@ _CRAFT_SVAR_DEFAULT_VALUES = {
   },
   'gp_per_workweek': {
     'mundane': 500,
-    'common': 200,
-    'uncommon': 1000,
-    'rare': 3300,
-    'very rare': 10000,
-    'legendary': 20000,
+    'common': 50,
+    'uncommon': 100,
+    'rare': 500,
+    'very rare': 5000,
+    'legendary': 12500,
   },
   'gear_inventory': {
     # '<category>': '<gvar>' | ['<gvar>'],
+    'Basic Rules': 'e1749307-3286-49be-9659-50a25700759c'
   },
   'magic_inventory': {
     # '<category>': '<gvar>' | ['<gvar>'],
+    'Basic Rules': 'f04ac355-4817-48c6-a19a-12574980de0f'
   },
   'complications': [
     "Rumors swirl that what you’re working on is unstable and a threat to the community.",
