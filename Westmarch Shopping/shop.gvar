@@ -30,6 +30,7 @@ _SHOP_SVAR_DEFAULT_VALUES = {
   },
   'gear': {
     # '<category>': '<gvar>',
+    'Basic Rules': 'e1749307-3286-49be-9659-50a25700759c'
   },
   'merchant': {
     'seek_cost': 100,
@@ -41,10 +42,21 @@ _SHOP_SVAR_DEFAULT_VALUES = {
     },
     'inventory': {
       # '<category>': '<gvar>',
+      'Basic Rules': 'f04ac355-4817-48c6-a19a-12574980de0f'
     },
-    'locations': [],
-    'prompts': [],
-    'item_tables': []
+    'locations': ['the shop'],
+    'prompts': ['Found in %s'],
+    'item_tables': [{
+      'weight': 10,
+      'item_count': '1d4',
+      'items': [
+        # category, name, quantity, weight
+        ['Basic Rules', '+1 Arrow', 20, 1],
+        ['Basic Rules', 'Breastplate of Acid Resistance', 1, 1],
+        ['Basic Rules', 'Potion of Animal Friendship', 3, 1],
+        ['Basic Rules', 'Ring of Water Walking', 1, 1],
+      ]
+    }]
   },
 }
 _SHOP_SVAR_DEFAULT = dump_yaml(_SHOP_SVAR_DEFAULT_VALUES)
@@ -264,19 +276,49 @@ def merchant_list(category_query:str=None, item_query:str=None):
   return categories
 
 def _merchant_resolve(merchant:dict, customer=_character):
-  continue_bonus = merchant.get('bonus', 0)
   config = load_config()
+  continue_bonus = min(merchant.get('bonus', 0), 10)
 
-  loot_table_roll = vroll(f'(1d20 + {min(10, continue_bonus)}) * {customer.stats.prof_bonus} / 2 + 1d10')
+  if typeof(config.merchant.item_tables) == 'str' and _is_gvar_id(config.merchant.item_tables):
+    item_tables = load_yaml(get_gvar(config.merchant.item_tables))
+  else:
+    item_tables = config.merchant.item_tables
+
+  weight_total = 0
+  for i in item_tables:
+    weight_total += i.get('weight', 0)
+
+# Generate an offset, weighted roll
+# e.g given a weight_total of 120 at continue_bonuses between 0 and 10
+# !r 3d40mi20 - 60 : █▇▆▅▄▃
+# !r 3d40mi16 - 48 : ▇█▇▆▅▄▃
+# !r 3d40mi12 - 36 : ▆▇█▇▆▅▄▃
+# !r 3d40mi8 - 24  : ▅▆▇█▇▆▅▄▃
+# !r 3d40mi4 - 12  : ▄▅▆▇█▇▆▅▄▃
+# !r 3d40          : ▃▄▅▆▇█▇▆▅▄▃
+# !r 3d40ma36 + 12 :  ▃▄▅▆▇█▇▆▅▄
+# !r 3d40ma32 + 24 :   ▃▄▅▆▇█▇▆▅
+# !r 3d40ma28 + 36 :    ▃▄▅▆▇█▇▆
+# !r 3d40ma24 + 48 :     ▃▄▅▆▇█▇
+# !r 3d40ma20 + 60 :      ▃▄▅▆▇█
+  weight_offset = floor(weight_total/10) * (continue_bonus - 5)
+  die_size = floor(weight_total/3)
+  die_offset = ''
+  if continue_bonus < 5:
+    die_offset = f'mi{floor(die_size/10) * (5 - continue_bonus)}'
+  elif continue_bonus > 5:
+    die_offset = f'ma{die_size - floor(die_size/10) * (continue_bonus - 5)}'
+  loot_table_roll = vroll(f'''3d{die_size}{die_offset} + {weight_offset}''')
+
   item_table = None
   total = 0
-  for i in config.merchant.item_tables:
+  for i in item_tables:
     total += i.get('weight', 0)
     if total >= loot_table_roll.total:
       item_table = i
       break
   if not item_table:
-    err(f'Failed to roll on item table: {loot_table_roll.full}')
+    err(f'Failed to roll on item table: {loot_table_roll.full} with total weights of {weight_total}.')
 
   items_roll = vroll(item_table.get('item_count', '1d4'))
   found_items = randchoices(item_table.get('items'), weights=[item[3] for item in item_table.get('items')], k=items_roll.total)

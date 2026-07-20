@@ -66,7 +66,7 @@ We can't buy this item immediately but we can send the merchant off in search of
 ```
 !shop merchant seek -type weapon -item "+1 shortsword"
 ```
-This marks us as using our downtime to perform this magic item search and charges us a 100gp fee for the merchant's services. Now if we can see when the merchant will return with a selection of magic items by running:
+This marks us as using our downtime to perform this magic item search and charges us a fee for the merchant's services. Now if we can see when the merchant will return with a selection of magic items by running:
 ```
 !shop
 ```
