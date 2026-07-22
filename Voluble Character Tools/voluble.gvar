@@ -447,10 +447,11 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
         _character.set_cvar_nx(cvar_name, cvar.get('default', [] if cvar.type == 'list' else '')) # TODO: support `-cc` to force (re)creation
         subclass_vars_to_add[cvar_name] = cvar
     # Add any counters added by the subclass
-    for (counter_level, counter) in existing_subclass.config.get('counters', {}).items():
-      if counter_level > applied_level and counter_level <= level:
-        _character.create_cc(**counter)
-        subclass_counters_to_add[counter.name] = counter
+    for (counter_level, counters) in existing_subclass.config.get('counters', {}).items():
+      for counter in counters:
+        if counter_level > applied_level and counter_level <= level:
+          _character.create_cc(**counter)
+          subclass_counters_to_add[counter.name] = counter
     # Collect names of any existing automations probably added by the subclass
     subclass_automations_to_add = [action for (automation_name, automation) in existing_subclass.config.get('automations', {}).items() for action in automation.get('actions', '') if automation.get('level', 0) > applied_level and automation.get('level', 0) <= level]
 
@@ -774,10 +775,11 @@ def remove_subclass(subclass_name:str) -> dict:
       removed_vars[cvar_name] = cvar
   # Remove any existing counters added by the subclass
   removed_counters = []
-  for (counter_level, counter) in subclass.get('counters', {}).items():
-    if counter_level <= applied_level and _character.cc_exists(counter.name):
-      removed_counters.append(_character.cc(counter.name))
-      _character.delete_cc(counter.name)
+  for (counter_level, counters) in subclass.get('counters', {}).items():
+    for counter in counters:
+      if counter_level <= applied_level and _character.cc_exists(counter.name):
+        removed_counters.append(_character.cc(counter.name))
+        _character.delete_cc(counter.name)
   # Collect names of any existing automations probably added by the subclass
   automation_names = [action.name for action in _character.actions] + [attack.name for attack in _character.attacks]
   automations_to_remove = [action.name for (automation_name, automation) in subclass.get('automations', {}).items() for actions in automation.get('actions', []) for action in load_yaml(actions) if automation.get('level', 0) <= applied_level]
