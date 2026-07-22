@@ -15,6 +15,9 @@ if filter_embed := context_filters.filter_embed():
 
 _character = character()
 
+args = &ARGS&
+parsed_args = argparse(args)
+
 def _is_gvar_id(string):
     return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
 
@@ -57,7 +60,7 @@ def add_or_remove_class_levels(class_query: str, version: int, source: str, opti
     else:
       result = voluble.remove_class_levels(class_name=class_to_update, level=level, rules_version=version, source=source)
       desc = f"Removed {version} class {class_to_update} level {level} from {source}"
-  
+
   return {'result': result, 'summary': desc}
 
 def add_or_remove_subclass(subclass_add_query: str, subclass_remove_query: str, version: int, source: str, options: dict, current_levels:dict) -> list:
@@ -86,7 +89,7 @@ def add_or_remove_subclass(subclass_add_query: str, subclass_remove_query: str, 
     existing_subclass_config = current_levels.subclasses.get(subclass_matches[0], None)
     if existing_subclass_config is not None:
       return {'error': {'title':f"Already a {subclass_matches[0]}", 'body':"Cannot add a subclass twice."}}
-    
+
     result = voluble.add_subclass(subclass_name=subclass_matches[0], rules_version=version, source=source_matches[0][1])
     desc = f"Added {version} subclass {subclass_matches[0]} from {source_matches[0][1]}"
   elif subclass_remove_query is not None:
@@ -95,14 +98,14 @@ def add_or_remove_subclass(subclass_add_query: str, subclass_remove_query: str, 
     if len(subclass_matches) == 0:
       return {'error': {'title':f"Cannot find \"{subclass_remove_query}\"", 'body':f"No current subclass matches \"{subclass_remove_query}\"."}}
     if len(subclass_matches) > 1:
-      return {'error': {title:f"Multiple \"{subclass_remove_query}\" matches", 'body':f"Multiple subclasses in the configured {version} sources{' with a source matching ' + source if source else ''} match {subclass_remove_query}: {subclass_matches}"}}
+      return {'error': {'title':f"Multiple \"{subclass_remove_query}\" matches", 'body':f"Multiple subclasses in the configured {version} sources{' with a source matching ' + source if source else ''} match {subclass_remove_query}: {subclass_matches}"}}
 
     result = voluble.remove_subclass(subclass_name=subclass_matches[0])
     desc = f"Removed subclass {subclass_matches[0]}"
-  
+
   return {'result': result, 'summary': desc}
 
-def autoupdate(): 
+def autoupdate():
   result = voluble.apply_levels()
   desc = "Updating all registered classes."
   for class_name, level in result.get('added', {}).get('class_levels', {}).items():
@@ -111,11 +114,8 @@ def autoupdate():
     desc += '\n' + class_name + ': ' + str(level) + ' ⏸️'
   for class_name, level in result.get('failed', {}).get('class_levels', {}).items():
     desc += '\n' + class_name + ': ' + str(level) + ' ❌'
-  
+
   return {'result': result, 'summary': desc}
-  
-args = &ARGS&
-parsed_args = argparse(args)
 
 # Match `level help` behavior from Verbose Character Tools
 if args and args[0] in 'help?':
@@ -152,7 +152,7 @@ suffix_cmds = []
 for result_container in results:
   if error := result_container.get('error'):
     fields.append({'title': error.get('title', 'Error! ⚠️'), 'body': error.get('body', '')})
-  
+
   if result := result_container.get('result'):
     if not result.get('success', False):
       fields.append({'title': 'Error! ⚠️', 'body': str(result.get('message'))})

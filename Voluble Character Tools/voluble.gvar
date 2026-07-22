@@ -409,7 +409,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
 
   for (counter_name, counter) in class_config.get('counters', {}).items():
     counter_level = counter.get('level', 1)
-    if counter_level <= level and counter_level > previous_level and not _character.cc_exists(cc): # TODO: support `-cc` to force (re)creation
+    if counter_level <= level and counter_level > previous_level and not _character.cc_exists(counter_name): # TODO: support `-cc` to force (re)creation
       _character.create_cc(**counter)
       added_counters[counter_name] = counter
 
@@ -538,7 +538,7 @@ def remove_class_levels(class_name:str, level:int, rules_version:int, source:str
 
   for (counter_name, counter) in class_config.get('counters', {}).items():
     counter_level = counter.get('level', 1)
-    if counter_level > level and counter_level < previous_level and not _character.cc_exists(cc):
+    if counter_level > level and counter_level < previous_level and not _character.cc_exists(counter_name):
       _character.delete_cc(counter_name)
       removed_counters.append(counter)
 
@@ -775,9 +775,9 @@ def remove_subclass(subclass_name:str) -> dict:
   # Remove any existing counters added by the subclass
   removed_counters = []
   for (counter_level, counter) in subclass.get('counters', {}).items():
-    if counter_level <= applied_level and _character.cc_exists(counter_name):
-      removed_counters.append(_character.cc(counter_name))
-      _character.delete_cc(counter_name)
+    if counter_level <= applied_level and _character.cc_exists(counter.name):
+      removed_counters.append(_character.cc(counter.name))
+      _character.delete_cc(counter.name)
   # Collect names of any existing automations probably added by the subclass
   automation_names = [action.name for action in _character.actions] + [attack.name for attack in _character.attacks]
   automations_to_remove = [action.name for (automation_name, automation) in subclass.get('automations', {}).items() for actions in automation.get('actions', []) for action in load_yaml(actions) if automation.get('level', 0) <= applied_level]
