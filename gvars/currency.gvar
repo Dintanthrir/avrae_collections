@@ -15,7 +15,7 @@ def format_coins(coins):
 def format_currency(gp):
     """
     Returns a display string for a given gp total
-    :arg gp float: A valuge in gp
+    :arg gp float: A value in gp
     :rtype: str
     """
     coins = parse_coins(str(abs(gp)))
