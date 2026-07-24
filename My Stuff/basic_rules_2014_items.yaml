@@ -1,4 +1,4 @@
-# basic_rules_items = '9ead6d6d-d838-4ac0-985d-1fec79c72bc4'
+# basic_rules_2014_items = '9ead6d6d-d838-4ac0-985d-1fec79c72bc4'
 # Adventuring Gear
 Acid:
   - |
@@ -1203,36 +1203,3 @@ Wyvern Poison (Injury):
         until delivered through a wound or washed off. A creature that takes
         piercing or slashing damage from an object coated with the poison is exposed
         to its effects.
-Helm of teleportation:
-  counters:
-    - name: Helm of Teleportation
-      desc: Use an action cast teleport.
-      min: 0
-      max: 3
-      reset: long
-      resetby: 1d3
-      type: circle
-  automations:
-    - |
-      - name: Helm of Teleportation
-      automation:
-        - type: spell
-          id: 2275
-          level: null
-          dc: null
-          attackBonus: null
-          castingMod: null
-          parent: null
-        - type: counter
-          counter: Helm of Teleportation
-          amount: "1"
-          allowOverflow: false
-          errorBehaviour: warn
-        - type: text
-          text: This helm has 3 charges. While wearing it, you can use an action and
-            expend 1 charge to cast the teleport spell from it. The helm regains 1d3
-            expended charges daily at dawn.
-          title: Helm of Teleportation
-      _v: 2
-      proper: true
-      verb: uses the
