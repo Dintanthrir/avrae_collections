@@ -1,4 +1,274 @@
 # xge_items = 'f3cb61c6-7a5e-41a7-9986-58270b45fd77'
+Cloak of Billowing:
+  automations:
+    - |
+      name: Cloak of Billowing
+      automation:
+        - type: text
+          text: While wearing this cloak, you can take a Bonus Action to make it billow
+            dramatically for 1 minute.
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Dramatic
+              duration: "10"
+      _v: 2
+      proper: false
+      verb: wears
+      activation_type: 3
+Dark Shard Amulet:
+  counters:
+    - name: Dark Shard Amulet
+      desc: Attempt to cast a cantrip.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Dark Shard Amulet
+      automation:
+        - type: counter
+          counter: Dark Shard Amulet
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can try to cast a cantrip that you don’t know. The cantrip must be on the warlock spell list, and you must make a DC 10 Intelligence (Arcana) check. If the check succeeds, you cast the spell. If the check fails, so does the spell, and the action used to cast the spell is wasted. In either case, you can’t use this property again until you finish a long rest.
+        - type: target
+          target: self
+          effects:
+            - type: check
+              ability: arcana
+              dc: "10"
+              success: []
+              fail: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Hat of Vermin:
+  counters:
+    - name: Hat of Vermin
+      desc: Summon vermin.
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Hat of Vermin
+      automation:
+        - type: counter
+          counter: Hat of Vermin
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This hat has 3 charges. While holding the hat, you can take a Magic action to expend 1 charge and summon your choice of a Bat, a Frog, or a Rat. The summoned creature magically appears in the hat and tries to get away from you as quickly as possible. The creature is Indifferent toward you and other creatures, and it isn’t under your control. It behaves as an ordinary creature of its kind and disappears after 1 hour or when it drops to 0 Hit Points. The hat regains all expended charges daily at dawn.
+      _v: 2
+      proper: false
+      verb: dons
+      activation_type: 1
+Hat of Wizardry:
+  counters:
+    - name: Hat of Wizardry
+      desc: Attempt to cast a cantrip.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Hat of Wizardry
+      automation:
+        - type: counter
+          counter: Hat of Wizardry
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can try to cast a cantrip that you don’t know. The cantrip must be on
+            the wizard spell list, and you must make a DC 10 Intelligence (Arcana)
+            check. If the check succeeds, you cast the spell. If the check fails, so
+            does the spell, and the action used to cast the spell is wasted. In either
+            case, you can’t use this property again until you finish a long rest.
+        - type: target
+          target: self
+          effects:
+            - type: check
+              ability: arcana
+              dc: "10"
+              success: []
+              fail: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Heward's Handy Spice Pouch:
+  counters:
+    - name: Heward's Handy Spice Pouch
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+  automations:
+    - |
+      name: Heward's Handy Spice Pouch
+      automation:
+        - type: counter
+          counter: Heward's Handy Spice Pouch
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This belt pouch appears empty and has 10 charges. While holding the pouch, you can use an action to expend 1 of its charges, speak the name of any nonmagical food seasoning (such as salt, pepper, saffron, or cilantro), and remove a pinch of the desired seasoning from the pouch. A pinch is enough to season a single meal. The pouch regains 1d6 + 4 expended charges daily at dawn.
+      _v: 2
+      proper: false
+      verb: opens
+      activation_type: 1
+Horn of Silent Alarm:
+  counters:
+    - name: Horn of Silent Alarm
+      min: 0
+      max: 4
+      reset: long
+      reset_by: 1d4
+      type: bubble
+  automations:
+    - |
+      name: Horn of Silent Alarm
+      automation:
+        - type: counter
+          counter: Horn of Silent Alarm
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This horn has 4 charges. When you use an action to blow it, one creature of your choice can hear the horn’s blare, provided the creature is within 600 feet of the horn and not deafened. No other creature hears sound coming from the horn. The horn regains 1d4 expended charges daily at dawn.
+      _v: 2
+      proper: false
+      verb: plays
+      activation_type: 1
+Instrument of Scribing:
+  counters:
+    - name: Instrument of Scribing
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Instrument of Scribing
+      automation:
+        - type: counter
+          counter: Instrument of Scribing
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This musical instrument has 3 charges. While you are playing it, you can
+            use an action to expend 1 charge from the instrument and write a magical
+            message on a nonmagical object or surface that you can see within 30 feet
+            of you. The message can be up to six words long and is written in a
+            language you know. If you are a bard, you can scribe an additional seven
+            words and choose to make the message glow faintly, allowing it to be seen
+            in nonmagical darkness. Casting dispel magic on the message erases it.
+            Otherwise, the message fades away after 24 hours.
+
+
+            The instrument regains all expended charges daily at dawn.
+      _v: 2
+      proper: false
+      verb: plays
+      activation_type: 1
+Staff of Birdcalls:
+  counters:
+    - name: Staff of Birdcalls
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+      type: bubble
+  automations:
+    - |
+      name: Staff of Birdcalls
+      automation:
+        - type: counter
+          counter: Staff of Birdcalls
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This wooden staff is decorated with bird carvings. It has 10 charges. While holding it, you can use an action to expend 1 charge from the staff and cause it to create one of the following sounds out to a range of 60 feet: a finch’s chirp, a raven’s caw, a duck’s quack, a chicken’s cluck, a goose’s honk, a loon’s call, a turkey’s gobble, a seagull’s cry, an owl’s hoot, or an eagle’s shriek.
+
+            The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff explodes in a harmless cloud of bird feathers and is lost forever.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff explodes in a harmless cloud of bird feathers and is lost forever.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of Flowers:
+  counters:
+    - name: Staff of Flowers
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+      type: bubble
+  automations:
+    - |
+      name: Staff of Flowers
+      automation:
+        - type: counter
+          counter: Staff of Flowers
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This wooden staff has 10 charges. While holding it, you can use an action to expend 1 charge from the staff and cause a flower to sprout from a patch of earth or soil within 5 feet of you, or from the staff itself. Unless you choose a specific kind of flower, the staff creates a mild-scented daisy. The flower is harmless and nonmagical, and it grows or withers as a normal flower would.
+
+            The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff turns into flower petals and is lost forever.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff turns into flower petals and is lost forever.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
 Walloping Ammunition:
   counters:
     - name: Walloping Ammo
@@ -53,4 +323,198 @@ Walloping Ammunition:
             errorBehaviour: warn
         _v: 2
         verb: uses ammo that packs
+Wand of Conducting:
+  counters:
+    - name: Wand of Conducting
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
     - |
+      name: Wand of Conducting
+      automation:
+        - type: counter
+          counter: Wand of Conducting
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This wand has 3 charges. While holding it, you can use an action to expend 1 of its charges and create orchestral music by waving it around. The music can be heard out to a range of 60 feet and ends when you stop waving the wand.
+
+            The wand regains all expended charges daily at dawn. If you expend the wand’s last charge, roll a d20. On a 1, a sad tuba sound plays as the wand crumbles to dust and is destroyed.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: A sad tuba sound plays as the wand crumbles to dust and is destroyed.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Wand of Pyrotechnics:
+  counters:
+    - name: Wand of Pyrotechnics
+      min: 0
+      max: 7
+      reset_by: 1d6+1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Wand of Pyrotechnics
+      automation:
+        - type: counter
+          counter: Wand of Pyrotechnics
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can use an action to expend
+            1 of its charges and create a harmless burst of multicolored light at a
+            point you can see up to 60 feet away. The burst of light is accompanied by
+            a crackling noise that can be heard up to 300 feet away. The light is as
+            bright as a torch flame but lasts only a second.
+
+
+            The wand regains 1d6 + 1 expended charges daily at dawn. If you expend the wand’s last charge, roll a d20. On a 1, the wand erupts in a harmless pyrotechnic display and is destroyed.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroyed
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand erupts in a harmless pyrotechnic display and is destroyed.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Wand of Scowls:
+  counters:
+    - name: Wand of Scowls
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Wand of Scowls
+      automation:
+        - type: counter
+          counter: Wand of Scowls
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: cha
+              fail:
+                - type: ieffect2
+                  name: Scowling
+                  duration: "10"
+              success: []
+              dc: "10"
+        - type: text
+          text: >-
+            This wand has 3 charges. While holding it, you can use an action to expend
+            1 of its charges and target a Humanoid you can see within 30 feet of you.
+            The target must succeed on a DC 10 Charisma saving throw or be forced to
+            smile for 1 minute.
+
+
+            The wand regains all expended charges daily at dawn. If you expend the wand’s last charge, roll a d20. On a 1, the wand transforms into a wand of smiles.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: transform
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand transforms into a wand of smiles.
+                  title: Transformed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Wand of Smiles:
+  counters:
+    - name: Wand of Smiles
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Wand of Smiles
+      automation:
+        - type: counter
+          counter: Wand of Smiles
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: cha
+              fail:
+                - type: ieffect2
+                  name: Smiling
+                  duration: "10"
+              success: []
+              dc: "10"
+        - type: text
+          text: >-
+            This wand has 3 charges. While holding it, you can use an action to expend
+            1 of its charges and target a Humanoid you can see within 30 feet of you.
+            The target must succeed on a DC 10 Charisma saving throw or be forced to
+            smile for 1 minute.
+
+
+            The wand regains all expended charges daily at dawn. If you expend the wand’s last charge, roll a d20. On a 1, the wand transforms into a wand of scowls.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: transform
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand transforms into a wand of scowls.
+                  title: Transformed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
