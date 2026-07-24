@@ -1,4 +1,259 @@
 # tce_items = '81c0809f-21d3-4ee8-b008-1e9af9db76c3'
+All-Purpose Tool:
+  counters:
+    - name: All-Purpose Tool
+      desc: Temporarily learn a cantrip.
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      name: All-Purpose Tool
+      automation:
+        - type: counter
+          counter: All-Purpose Tool
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can focus on the tool to channel your creative forces.
+            Choose a cantrip that you don't know from any class list. For 8 hours, you
+            can cast that cantrip, and it counts as an artificer cantrip for you. Once
+            this property is used, it can't be used again until the next dawn.
+      _v: 2
+      proper: true
+      verb: focuses on their
+      activation_type: 1
+Astromancy Archive:
+  counters:
+    - name: Astromancy Archive
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Astromancy Archive (Study)
+      automation:
+        - type: counter
+          counter: Astromancy Archive
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The archive has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the archive, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the archive. The new spell must be of the divination school.
+      _v: 2
+      proper: true
+      verb: studies their
+      activation_type: 6
+    - |
+      name: Astromancy Archive (Use)
+      automation:
+        - type: counter
+          counter: Astromancy Archive
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The archive has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+                When a creature you can see within 30 feet of you makes an attack roll, an ability check, or a saving throw, you can use your reaction to expend 1 charge and force the creature to roll a d4 and apply the number rolled as a bonus or penalty (your choice) to the original roll. You can do this after you see the roll but before its effects are applied.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 4
+Atlas of Endless Horizons:
+  counters:
+    - name: Atlas of Endless Horizons
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Atlas of Endless Horizons (Study)
+      automation:
+        - type: counter
+          counter: Atlas of Endless Horizons
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The archive has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the conjuration school.
+      _v: 2
+      proper: true
+      verb: studies their
+      activation_type: 6
+    - |
+      name: Atlas of Endless Horizons (Use)
+      automation:
+        - type: counter
+          counter: Atlas of Endless Horizons
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+                When you are hit by an attack, you can use your reaction to expend 1 charge to teleport up to 10 feet to an unoccupied space you can see. If your new position is out of range of the attack, it misses you.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 4
+Bell Branch:
+  counters:
+    - name: Bell Branch
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Bell Branch (Detection)
+      automation:
+        - type: counter
+          counter: Bell Branch
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The branch has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+                As a bonus action, you can expend 1 charge to detect the presence of aberrations, celestials, constructs, elementals, fey, fiends, or undead within 60 feet of you. If such creatures are present and don’t have total cover from you, the bells ring softly, their tone indicating the creature types present.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 3
+    - |
+      name: Bell Branch (Protection)
+      automation:
+        - type: counter
+          counter: Bell Branch
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The branch has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+                As an action, you can expend 1 charge to cast protection from evil and good.
+        - type: spell
+          id: 2221
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+Coiling Grasp Tattoo:
+  automations:
+    - |
+      name: Grasping Tendrils
+      automation:
+        - type: text
+          text: While the tattoo is on your skin, you can, as an action, cause the tattoo
+            to extrude into inky tendrils, which reach for a creature you can see
+            within 15 feet of you. The creature must succeed on a DC 14 Strength
+            saving throw or take 3d6 force damage and be grappled by you. As an
+            action, the creature can escape the grapple by succeeding on a DC 14
+            Strength (Athletics) or Dexterity (Acrobatics) check. The grapple also
+            ends if you halt it (no action required), if the creature is ever more
+            than 15 feet away from you, or if you use this tattoo on a different
+            creature.
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: str
+              fail:
+                - type: damage
+                  damage: 3d6[force]
+                - type: ieffect2
+                  name: Grappled
+                  buttons:
+                    - label: Escape Grapple
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: check
+                              ability:
+                                - athletics
+                                - acrobatics
+                              dc: "14"
+                              success:
+                                - type: remove_ieffect
+                              fail: []
+                      verb: attempts to escape grasping tendrils
+                      style: "1"
+                      defaultDC: lastSaveDC
+              success: []
+              dc: "14"
+      _v: 2
+      proper: true
+      activation_type: 1
+Crystalline Chronicle:
+  counters:
+    - name: Crystalline Chronicle
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Crystalline Chronicle (Study)
+      automation:
+        - type: counter
+          counter: Crystalline Chronicle
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The crystal has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the information within the crystal, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the crystal.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 6
+    - |
+      name: Crystalline Chronicle (Cast)
+      automation:
+        - type: counter
+          counter: Crystalline Chronicle
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The crystal has 3 charges, and it regains 1d3 expended charges daily at
+            dawn. You can use the charges in the following ways while holding it:
+
+              When you cast a wizard spell, you can expend 1 charge to cast the spell without verbal, somatic, or material components of up to 100 gp value.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 8
 Devotee's Censer:
   counters:
     - name: Devotee's Censer
@@ -65,4 +320,559 @@ Devotee's Censer:
       proper: true
       verb: releases the
       activation_type: 3
+Duplicitous Manuscript:
+  counters:
+    - name: Duplicitous Manuscript
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Duplicitous Manuscript (Study)
+      automation:
+        - type: counter
+          counter: Duplicitous Manuscript
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
 
+                If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the illusion school.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 6
+    - |
+      name: Duplicitous Manuscript (Use)
+      automation:
+        - type: counter
+          counter: Duplicitous Manuscript
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
+
+              When a creature you can see makes an Intelligence (Investigation) check to discern the true nature of an illusion spell you cast, or makes a saving throw against an illusion spell you cast, you can use your reaction and expend 1 charge to impose disadvantage on the roll.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 4
+Fulminating Treatise:
+  counters:
+    - name: Fulminating Treatise
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Fulminating Treatise (Study)
+      automation:
+        - type: counter
+          counter: Fulminating Treatise
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the evocation school.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 6
+    - |
+      name: Fulminating Treatise (Use)
+      automation:
+        - type: counter
+          counter: Fulminating Treatise
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
+
+              When one creature you can see takes damage from an evocation spell you cast, you can use your reaction and expend 1 charge to deal an extra 2d6 force damage to the creature and knock the creature prone if it is Large or smaller.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 4
+Ghost Step Tattoo:
+  counters:
+    - name: Ghost Step Tattoo
+      reset: long
+      min: 0
+      max: 3
+      type: bubble
+  automations:
+    - |
+      name: Ghostly Form
+      automation:
+        - type: counter
+          counter: Ghost Step Tattoo
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >
+            The tattoo has 3 charges, and it regains all expended charges daily at
+            dawn. As a bonus action while the tattoo is on your skin, you can expend 1
+            of the tattoo’s charges to become incorporeal until the end of your next
+            turn. For the duration, you gain the following benefits:
+
+                You have resistance to bludgeoning, piercing, and slashing damage from nonmagical attacks.
+                You can’t be grappled or restrained.
+                You can move through creatures and solid objects as if they were difficult terrain. If you end your turn in a solid object, you take 1d10 force damage. If the effect ends while you are inside a solid object, you instead are shunted to the nearest unoccupied space, and you take 1d10 force damage for every 5 feet traveled.
+          title: Ghostly Form
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 3
+Guardian Emblem:
+  counters:
+    - name: Guardian Emblem
+      reset: long
+      min: 0
+      max: 3
+      type: bubble
+  automations:
+    - |
+      name: Guardian Emblem
+      automation:
+        - type: counter
+          counter: Guardian Emblem
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This emblem is the symbol of a deity or a spiritual tradition. As an
+            action, you can attach the emblem to a suit of armor or a shield or remove
+            it.
+
+
+            The emblem has 3 charges. When you or a creature you can see within 30 feet of you suffers a critical hit while you’re wearing the armor or wielding the shield that bears the emblem, you can use your reaction to expend 1 charge to turn the critical hit into a normal hit instead.
+
+
+            The emblem regains all expended charges daily at dawn.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 4
+Heart Weaver's Primer:
+  counters:
+    - name: Heart Weaver's Primer
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Heart Weaver's Primer (Study)
+      automation:
+        - type: counter
+          counter: Heart Weaver's Primer
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the enchantment school.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 6
+    - |
+      name: Heart Weaver's Primer (Cast)
+      automation:
+        - type: counter
+          counter: Heart Weaver's Primer
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
+
+              When you cast an enchantment spell, you can expend 1 charge to impose disadvantage on the first saving throw one target makes against the spell.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 2
+Illuminator's Tattoo:
+  counters:
+    - name: Illuminator's Tattoo
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      name: Magical Scribing
+      automation:
+        - type: counter
+          counter: Illuminator's Tattoo
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            While this tattoo is on your skin, you can write with your fingertip as if
+            it were an ink pen that never runs out of ink.
+
+
+            As an action, you can touch a piece of writing up to one page in length and speak a creature’s name. The writing becomes invisible to everyone other than you and the named creature for the next 24 hours. Either of you can dismiss the invisibility by touching the script (no action required). Once used, this action can’t be used again until the next dawn.
+          title: Magical Scribing
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+Libram of Souls and Flesh:
+  counters:
+    - name: Libram of Souls and Flesh
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Libram of Souls and Flesh (Study)
+      automation:
+        - type: counter
+          counter: Libram of Souls and Flesh
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the necromancy school.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 6
+    - |
+      name: Libram of Souls and Flesh (Cast)
+      automation:
+        - type: counter
+          counter: Libram of Souls and Flesh
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn.
+            You can use the charges in the following ways while holding it:
+
+              When you cast an enchantment spell, you can expend 1 charge to impose disadvantage on the first saving throw one target makes against the spell.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 2
+Lyre of Building:
+  counters:
+    - name: Lyre of Building (Fabricate)
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+    - name: Lyre of Building (Move Earth)
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+    - name: Lyre of Building (Passwall)
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+    - name: Lyre of Building (Summon Construct)
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      name: Lyre of Building (Mending)
+      automation:
+        - type: text
+          text: While holding this lyre, you can cast mending as an action.
+          title: ""
+        - type: spell
+          id: 2187
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+    - |
+      name: Lyre of Building (Protect Property)
+      automation:
+        - type: text
+          text: You can play the lyre as a reaction when an object or a structure you can
+            see within 300 feet of you takes damage, causing it to be immune to that
+            damage and any further damage of the same type until the start of your
+            next turn.
+          title: ""
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 4
+    - |
+      name: Lyre of Building (Fabricate)
+      automation:
+        - type: counter
+          counter: Lyre of Building (Fabricate)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can play the lyre as an action to cast fabricate, move earth,
+            passwall, or summon construct, and that spell can’t be cast from it again
+            until the next dawn.
+          title: ""
+        - type: spell
+          id: 2090
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+    - |
+      name: Lyre of Building (Move Earth)
+      automation:
+        - type: counter
+          counter: Lyre of Building (Move Earth)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can play the lyre as an action to cast fabricate, move earth,
+            passwall, or summon construct, and that spell can’t be cast from it again
+            until the next dawn.
+          title: ""
+        - type: spell
+          id: 2198
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+    - |
+      name: Lyre of Building (Passwall)
+      automation:
+        - type: counter
+          counter: Lyre of Building (Passwall)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can play the lyre as an action to cast fabricate, move earth,
+            passwall, or summon construct, and that spell can’t be cast from it again
+            until the next dawn.
+          title: ""
+        - type: spell
+          id: 2200
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+    - |
+      name: Lyre of Building (Summon Construct)
+      automation:
+        - type: counter
+          counter: Lyre of Building (Summon Construct)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can play the lyre as an action to cast fabricate, move earth,
+            passwall, or summon construct, and that spell can’t be cast from it again
+            until the next dawn.
+          title: ""
+        - type: spell
+          id: 721195
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+Masquerade Tattoo:
+  counters:
+    - name: Masquerade Tattoo
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      name: Masquerade Tattoo
+      automation:
+        - type: counter
+          counter: Disguise Self
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can use the tattoo to cast the disguise self spell (DC
+            13 to discern the disguise). Once the spell is cast from the tattoo, it
+            can’t be cast from the tattoo again until the next dawn.
+          title: ""
+        - type: spell
+          id: 2069
+          dc: "13"
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+Planecaller's Codex:
+  counters:
+    - name: Planecaller's Codex
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Planecaller's Codex (Study)
+      automation:
+        - type: counter
+          counter: Planecaller's Codex
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            While you are holding the book, you can use it as a spellcasting focus for your wizard spells. The book has 3 charges, and it regains 1d3 expended charges daily at dawn. You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the conjuration school.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 6
+    - |
+      name: Planecaller's Codex (Cast)
+      automation:
+        - type: counter
+          counter: Planecaller's Codex
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            While you are holding the book, you can use it as a spellcasting focus for your wizard spells. The book has 3 charges, and it regains 1d3 expended charges daily at dawn. You can use the charges in the following ways while holding it:
+
+              When you cast a conjuration spell that summons or creates one creature, you can expend 1 charge to grant that creature advantage on attack rolls for 1 minute.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 2
+Protective Verses:
+  counters:
+    - name: Protective Verses
+      reset: long
+      min: 0
+      max: 3
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Protective Verses (Study)
+      automation:
+        - type: counter
+          counter: Protective Verses
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn. You can use the charges in the following ways while holding it:
+
+                If you spend 1 minute studying the book, you can expend 1 charge to replace one of your prepared wizard spells with a different spell in the book. The new spell must be of the abjuration school.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 6
+    - |
+      name: Protective Verses (Cast)
+      automation:
+        - type: counter
+          counter: Protective Verses
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The book has 3 charges, and it regains 1d3 expended charges daily at dawn. You can use the charges in the following ways while holding it:
+
+              When you cast an abjuration spell, you can expend 1 charge to grant a creature you can see within 30 feet of you 2d10 temporary hit points.
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 2
+Reveler's Concertina:
+  counters:
+    - name: Reveler's Concertina
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      name: Reveler's Concertina
+      automation:
+        - type: counter
+          counter: Reveler's Concertina
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can use the concertina to cast Otto’s irresistible dance from the item. This property of the concertina can’t be used again until the next dawn.
+          title: ""
+        - type: spell
+          id: 2160
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
+Rhythm-Maker's Drum:
+  counters:
+    - name: Rhythm-Maker's Drum
+      reset: long
+      min: 0
+      max: 1
+      type: bubble
+  automations:
+    - |
+      name: Rhythm-Maker's Drum
+      automation:
+        - type: counter
+          counter: Rhythm-Maker's Drum
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can play the drum to regain one use of your Bardic Inspiration feature. This property of the drum can’t be used again until the next dawn.
+          title: ""
+      _v: 2
+      proper: true
+      verb: uses their
+      activation_type: 1
