@@ -3,7 +3,12 @@
 _character = character()
 
 _STUFF_SUBSCRIPTIONS_SVAR = 'my_stuff'
-_DEFAULT_SUBSCRIPTIONS = {'Items (Basic Rules)': '9ead6d6d-d838-4ac0-985d-1fec79c72bc4'}
+_DEFAULT_SUBSCRIPTIONS = {
+    'Items (2014 Basic Rules)': '9ead6d6d-d838-4ac0-985d-1fec79c72bc4',
+    'Staves (2014 Basic Rules)': '5a3b3deb-0345-45ec-bb0a-6f2caa05fac7',
+    'Wands (2014 Basic Rules)': '4845f393-c93e-42e6-a01e-307d1fd302f2',
+    'Magic Items (2014 Basic Rules)': '9e8e80a9-d910-4213-a85e-3e17a92cb7d3',
+}
 _STUFF_SERVER_SUBSCRIPTIONS = load_yaml(get_svar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml(_DEFAULT_SUBSCRIPTIONS)))
 _STUFF_PERSONAL_SUBSCRIPTIONS = load_yaml(get_uvar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml({})))
 _STUFF_CHARACTER_SUBSCRIPTIONS = load_yaml(_character.get_cvar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml({}))) if _character else {}
