@@ -36,7 +36,7 @@ Arrow-Catching Shield:
 Berserker Axe:
   automations:
     - |
-      - name: Berserker Axe
+      - name: Berserker Axe (Curse)
         automation:
           - type: target
             target: self
@@ -218,7 +218,7 @@ Crystal Ball:
 Dancing Sword:
   automations:
     - |
-      - name: Dancing Sword
+      - name: Dancing Sword (Animate)
         automation:
           - type: text
             text: >-
@@ -323,7 +323,7 @@ Helm of Teleportation:
 Mace of Disruption:
   automations:
     - |
-      - name: Mace of Disruption
+      - name: Mace of Disruption (Disrupting Strike)
         automation:
           - type: target
             target: all
@@ -377,7 +377,7 @@ Mace of Disruption:
 Mace of Smiting:
   automations:
     - |
-      - name: Mace of Smiting
+      - name: Mace of Smiting (Smiting Strike)
         automation:
           - type: target
             target: each

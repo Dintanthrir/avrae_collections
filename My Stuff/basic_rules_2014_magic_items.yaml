@@ -745,7 +745,7 @@ Dagger of Venom:
       type: circle
   automations:
     - |
-      - name: Dagger of Venom
+      - name: Dagger of Venom (Envenom)
         automation:
           - type: counter
             counter: Dagger of Venom
@@ -1277,7 +1277,7 @@ Javelin of Lightning:
       type: circle
   automations:
     - |
-      - name: Javelin of Lightning
+      - name: Javelin of Lightning (Bolt)
         automation:
           - type: counter
             counter: Javelin of Lightning
@@ -1334,7 +1334,7 @@ Mace of Terror:
       type: circle
   automations:
     - |
-      - name: Mace of Terror
+      - name: Mace of Terror (Fear)
         automation:
           - type: counter
             counter: Mace of Terror
