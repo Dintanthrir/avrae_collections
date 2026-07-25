@@ -1,72 +1,193 @@
 # gotg_items = '885bde1b-da55-4c59-b5a6-183a5211c191'
-Nimbus Coronet:
+Armor of Safeguarding:
   counters:
-    - name: Nimbus Coronet
-      desc: Use an action to gain resistances and a flying speed for a minute.
+    - name: Armor of Safeguarding
+      desc: Casts Beacon of Hope.
       min: 0
       max: 1
       reset: long
       type: bubble
   automations:
     - |
-      - name: Invoke the Rune (Nimbus Coronet)
-        automation:
-          - type: target
-            target: self
-            effects:
-              - type: text
-                text: >-
-                  As an action, you can invoke the circlet’s rune to assume a cloudlike
-                  form. The form lasts for 1 minute, until you are incapacitated, or
-                  until you dismiss it (no action required).
-
-
-                  While in cloud form, you have a flying speed of 60 feet and resistance to bludgeoning, piercing, and slashing damage.
-
-
-                  Once the rune has been invoked, it can’t be invoked again until the next dawn.
-                title: Invoking the Rune
-              - type: ieffect2
-                name: Cloudlike Form (Nimbus Coronet)
-                duration: "10"
-                effects:
-                  resistances:
-                    - bludgeoning
-                    - piercing
-                    - slashing
-                attacks: []
-                buttons: []
-                end: true
-                conc: false
-                desc: Has 60 foot flying speed
-                stacking: false
-                save_as: null
-                parent: null
-                target_self: false
-                tick_on_caster: true
-          - type: counter
-            counter: Nimbus Coronet
-            amount: "1"
-            allowOverflow: false
-            errorBehaviour: warn
-        _v: 2
-        verb: decides to
-        activation_type: 1
+      name: Armor of Safeguarding (Shield Rune)
+      automation:
+        - type: counter
+          counter: Armor of Safeguarding
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can invoke the armor’s rune to cast the beacon of hope
+            spell with it; the spell has a duration of 1 minute and doesn’t require
+            concentration. Once the rune has been invoked, it can’t be invoked again
+            until the next dawn.
+          title: Invoking the Rune
+        - type: spell
+          id: 2012
+      _v: 2
+      activation_type: 1
+      proper: true
+      verb: invokes the rune on their
+Bloodshed Blade:
+  counters:
+    - name: Bloodshed Blade
+      desc: Spend hit dice to empower an attack.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
     - |
-      - name: Teleport (Nimbus Coronet)
-        automation:
-          - type: text
-            text: >-
-              The design of this bronze circlet resembles swirling clouds. At its center
-              is set a deep-blue stone, upon which is inscribed the cloud rune.
+      name: Bloodshed Blade (Blood Rune)
+      automation:
+        - type: counter
+          counter: Bloodshed Blade
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            When you target a creature with an attack using this weapon, you can
+            invoke the sword’s rune, causing it to flare with crimson light and
+            infusing your attack with bloodthirsty precision. You then spend and roll
+            one of your unspent Hit Dice and add the number rolled to the attack roll.
+            You can choose to invoke the rune after rolling the d20.
 
 
-              While wearing this circlet, you take no damage from falling. Additionally, as a bonus action, you and everything you are wearing or carrying can teleport to an unoccupied space you can see within 15 feet of yourself, reappearing in a puff of shimmering clouds.
-            title: Nimbus Coronet
-        _v: 2
-        proper: true
-        verb: decides to
-        activation_type: 3
+            If this attack hits, you can also spend and roll any number of your unspent Hit Dice and add the total rolled to the weapon’s damage.
+
+
+            Once the rune has been invoked, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 2
+Crown of the Wrath Bringer:
+  counters:
+    - name: Crown of the Wrath Bringer
+      desc: Casts Fear.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Crown of the Wrath Bringer (Enemy Rune)
+      automation:
+        - type: counter
+          counter: Crown of the Wrath Bringer
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can invoke the crown’s rune to cast the fear spell (save DC 15) with it; the spell has a duration of 1 minute and doesn’t require concentration. Once the rune has been invoked, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+        - type: spell
+          id: 2094
+      _v: 2
+      activation_type: 1
+      proper: true
+      verb: invokes the rune on their
+Delver's Claws:
+  counters:
+    - name: Delver's Claws
+      desc: Spend hit dice to heal.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Delver's Claws (Mountain Rune)
+      automation:
+        - type: counter
+          counter: Delver's Claws
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            As an action, you can invoke the glove’s rune to bolster yourself with the
+            sturdiness of the earth. Spend and roll a number of your unspent Hit Dice
+            up to a maximum equal to your proficiency bonus. You then regain a number
+            of hit points equal to the total roll plus your Constitution modifier.
+
+
+            Once the rune has been invoked, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 1
+Lash of Immolation:
+  counters:
+    - name: Lash of Immolation
+      desc: Deal extra fire damage.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Lash of Immolation (Fire Rune)
+      automation:
+        - type: counter
+          counter: Lash of Immolation
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            When you make an attack with the whip and hit, you can use your reaction
+            to invoke the whip’s rune. Doing so increases the extra fire damage dealt
+            by the whip to 2d6.
+
+
+            Once the rune has been invoked, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 4
+Lucent Destroyer:
+  counters:
+    - name: Lucent Destroyer
+      desc: Cast Sunbeam.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Lucent Destroyer (Dancing Lights)
+      automation:
+        - type: spell
+          id: 2057
+      _v: 2
+      proper: false
+      verb: casts
+      activation_type: 1
+    - |
+      name: Lucent Destroyer (Light Rune)
+      automation:
+        - type: counter
+          counter: Lucent Destroyer
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can invoke the weapon’s rune to cast the sunbeam spell
+            (save DC 17) with it. Once the rune has been invoked, it can’t be invoked
+            again until the next dawn.
+          title: Invoking the Rune
+        - type: spell
+          id: 2270
+          dc: "17"
+      _v: 2
+      proper: false
+      verb: casts
+      activation_type: 1
 Mistral Mantle:
   counters:
     - name: Mistral Mantle
@@ -190,3 +311,452 @@ Mistral Mantle:
         proper: true
         verb: casts
         activation_type: 1
+Nimbus Coronet:
+  counters:
+    - name: Nimbus Coronet
+      desc: Use an action to gain resistances and a flying speed for a minute.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      - name: Invoke the Rune (Nimbus Coronet)
+        automation:
+          - type: target
+            target: self
+            effects:
+              - type: text
+                text: >-
+                  As an action, you can invoke the circlet’s rune to assume a cloudlike
+                  form. The form lasts for 1 minute, until you are incapacitated, or
+                  until you dismiss it (no action required).
+
+
+                  While in cloud form, you have a flying speed of 60 feet and resistance to bludgeoning, piercing, and slashing damage.
+
+
+                  Once the rune has been invoked, it can’t be invoked again until the next dawn.
+                title: Invoking the Rune
+              - type: ieffect2
+                name: Cloudlike Form (Nimbus Coronet)
+                duration: "10"
+                effects:
+                  resistances:
+                    - bludgeoning
+                    - piercing
+                    - slashing
+                attacks: []
+                buttons: []
+                end: true
+                conc: false
+                desc: Has 60 foot flying speed
+                stacking: false
+                save_as: null
+                parent: null
+                target_self: false
+                tick_on_caster: true
+          - type: counter
+            counter: Nimbus Coronet
+            amount: "1"
+            allowOverflow: false
+            errorBehaviour: warn
+        _v: 2
+        verb: decides to
+        activation_type: 1
+    - |
+      - name: Teleport (Nimbus Coronet)
+        automation:
+          - type: text
+            text: >-
+              The design of this bronze circlet resembles swirling clouds. At its center
+              is set a deep-blue stone, upon which is inscribed the cloud rune.
+
+
+              While wearing this circlet, you take no damage from falling. Additionally, as a bonus action, you and everything you are wearing or carrying can teleport to an unoccupied space you can see within 15 feet of yourself, reappearing in a puff of shimmering clouds.
+            title: Nimbus Coronet
+        _v: 2
+        proper: true
+        verb: decides to
+        activation_type: 3
+Ring of Amity:
+  counters:
+    - name: Ring of Amity
+      desc: Trigger critical hits.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Ring of Amity (Friend Rune)
+      automation:
+        - type: text
+          text: When the bonded creature hits a target with an attack roll, you can use
+            your reaction to invoke the ring’s rune if you are within 60 feet of the
+            bonded creature. The bonded creature’s attack is then turned into a
+            critical hit.
+          title: Invoking the Rune
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 4
+Sanctum Amulet:
+  counters:
+    - name: Sanctum Amulet
+      desc: Save the dying.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Sanctum Amulet (Sacred Rune)
+      automation:
+        - type: counter
+          counter: Sanctum Amulet
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            When a creature you can see within 60 feet of you is reduced to 0 hit
+            points as a result of taking damage, you can use your reaction to invoke
+            the item’s rune, causing the pendant to flash with pale light. The
+            creature then instead drops to 1 hit point.
+
+
+            Once the rune has been invoked, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: "{-1*(1-target.hp)}"
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 4
+Staff of the Rooted Hills:
+  counters:
+    - name: Staff of the Rooted Hills
+      desc: Casts Hold Person / Speak with Plants.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Staff of the Rooted Hills (first strike)
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: str
+              fail:
+                - type: ieffect2
+                  name: Restrained
+                  duration: "1"
+                  tick_on_caster: true
+              success: []
+              dc: "12"
+        - type: text
+          text: The first time you hit any creature with the staff on your turn, the
+            creature must succeed on a DC 12 Strength saving throw or be restrained by
+            spectral vines until the start of your next turn.
+      _v: 2
+      proper: false
+      activation_type: 2
+    - |
+      name: Staff of the Rooted Hills (Hold Person)
+      automation:
+        - type: counter
+          counter: Staff of the Rooted Hills
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            As an action, you can invoke the staff’s rune to cast either hold person
+            (save DC 12) or speak with plants with the staff. When you cast hold
+            person using the staff, the target is wreathed in spectral vines.
+
+
+            Once the rune has been invoked to cast either spell, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+        - type: spell
+          id: 2147
+          dc: "12"
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 1
+    - |
+      name: Staff of the Rooted Hills (Speak with Plants)
+      automation:
+        - type: counter
+          counter: Staff of the Rooted Hills
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            As an action, you can invoke the staff’s rune to cast either hold person
+            (save DC 12) or speak with plants with the staff. When you cast hold
+            person using the staff, the target is wreathed in spectral vines.
+
+
+            Once the rune has been invoked to cast either spell, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+        - type: spell
+          id: 2260
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 1
+Thunderbuss:
+  counters:
+    - name: Thunderbuss
+      desc: Invoke the storm rune.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Thunderbuss (Storm Rune)
+      automation:
+        - type: counter
+          counter: Thunderbuss
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            As a bonus action, you can invoke the weapon’s rune to launch a ball of
+            energy to a point you can see within 30 feet of yourself. The energy then
+            detonates into a 10-foot-radius sphere of turbulent wind and thunder
+            centered on that point, and each creature in that sphere must make a DC 14
+            Constitution saving throw. On a failed save, a creature takes 3d6 thunder
+            damage, and it can’t take reactions until the end of your next turn. On a
+            successful save, a creature takes half as much damage only.
+
+
+            Once the rune has been invoked, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+        - type: roll
+          dice: 3d6[thunder]
+          name: damage
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: con
+              fail:
+                - type: damage
+                  damage: "{damage}"
+                - type: ieffect2
+                  name: Cannot take reactions
+                  duration: "2"
+                  tick_on_caster: true
+                  end: true
+              success:
+                - type: damage
+                  damage: ({damage})/2
+              dc: "14"
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 3
+War Horn of Valor:
+  counters:
+    - name: War Horn of Valor
+      desc: Protect your allies.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: War Horn of Valor
+      automation:
+        - type: text
+          text: You can blow the horn as a bonus action. When you do, if you have the
+            frightened condition, you immediately end that condition on yourself. You
+            also have advantage on saving throws against being frightened until the
+            start of your next turn.
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Courage
+              duration: "1"
+              tick_on_caster: true
+              desc: Advantage on saving throws against being frightened.
+      _v: 2
+      proper: false
+      verb: sounds
+      activation_type: 3
+    - |
+      name: War Horn of Valor (War Rune)
+      automation:
+        - type: counter
+          counter: War Horn of Valor
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: You can blow the horn as a bonus action. When you do, if you have the
+            frightened condition, you immediately end that condition on yourself. You
+            also have advantage on saving throws against being frightened until the
+            start of your next turn.
+        - type: text
+          text: >-
+            When you blow the horn, you can also invoke the rune, imbuing the horn’s
+            deep call with protective magic that affects creatures of your choice
+            within 30 feet of yourself. You and all affected creatures gain a +1 bonus
+            to AC until the start of your next turn.
+
+
+            Once the rune has been invoked, it can’t be invoked again until the next dawn.
+          title: Invoking the Rune
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Courage
+              duration: "1"
+              tick_on_caster: true
+              desc: Advantage on saving throws against being frightened.
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Shielded
+              duration: "1"
+              tick_on_caster: true
+              effects:
+                ac_bonus: "1"
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 3
+Wayfarer's Boots:
+  counters:
+    - name: Wayfarer's Boots
+      desc: Run quickly.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Wayfarer's Boots (Journey Rune)
+      automation:
+        - type: counter
+          counter: Wayfarer's Boots
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: As a bonus action, you can invoke the boots’ runes to cast the expeditious
+            retreat spell with them. Once the runes have been invoked, they can’t be
+            invoked again until the next dawn.
+          title: Invoking the Runes
+        - type: spell
+          id: 2088
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 3
+Wyrmreaver Gauntlets:
+  counters:
+    - name: Wyrmreaver Gauntlets
+      desc: Summon spectral fists.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Wyrmreaver Gauntlets (Dragon Rune)
+      automation:
+        - type: counter
+          counter: Wyrmreaver Gauntlets
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            As a bonus action, you can invoke the gauntlets’ runes and summon two
+            enormous spectral fists that envelop the gauntlets and mimic your hand
+            motions. The fists can also launch themselves to strike distant opponents,
+            returning immediately to your space after they hit or miss.
+
+
+            The fists last for 1 minute or until you are incapacitated. While the spectral fists are active, unarmed strikes you make on your turn have a reach of 30 feet, and when you hit a creature with an opportunity attack made with your unarmed strike, the creature must succeed on a Strength saving throw (DC equals 8 + your proficiency bonus + your Strength modifier) or have the prone condition.
+
+
+            Once the runes have been invoked, they can’t be invoked again until the next dawn.
+          title: Invoking the Runes
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Spectral Fists
+              duration: "10"
+              desc: Unarmed strikes on your turn have a 30' reach. Unarmed opportunity attacks
+                can knock prone.
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Spectral Fists
+                    automation:
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: str
+                            fail:
+                              - type: ieffect2
+                                name: Prone
+                                effects:
+                                  attack_advantage: "-1"
+                                desc: A prone creature's only movement option is to crawl, unless it stands up
+                                  and thereby ends the condition
+                                buttons:
+                                  - label: Stand Up
+                                    verb: stands up
+                                    automation:
+                                      - type: remove_ieffect
+                            success: []
+                            dc: 8 + caster.stats.prof_bonus + caster.stats.get_mod("strength")
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 3
+Zephyr Armor:
+  counters:
+    - name: Zephyr Armor
+      desc: Summon protective winds.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Zephyr Armor (Wind Rune)
+      automation:
+        - type: counter
+          counter: Zephyr Armor
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As an action, you can invoke the armor’s rune to cast the wind wall spell
+            (save DC 15) with it. Once the rune has been invoked, it can’t be invoked
+            again until the next dawn.
+          title: Invoking the Runes
+        - type: spell
+          id: 2302
+          dc: "15"
+      _v: 2
+      proper: true
+      verb: invokes the rune on their
+      activation_type: 1
