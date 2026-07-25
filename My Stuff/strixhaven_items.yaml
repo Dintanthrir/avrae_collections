@@ -1,1 +1,288 @@
 # strixhaven_items = '1be4f145-cc1d-4658-82f7-6e2f2f345a5c'
+Bottle of Boundless Coffee:
+  automations:
+    - |
+      name: Bottle of Boundless Coffee
+      automation:
+        - type: text
+          text: >-
+            This metal bottle carries delicious, warm coffee. The bottle comes with a
+            stopper, which is attached to the bottle by a little chain. Even when
+            open, the bottle won't accept any liquid other than the coffee it
+            produces. The coffee inside is always comfortably warm, and none of the
+            heat can be felt through the bottle.
+
+
+            Each time you drink the coffee, roll a d20. On a 1, the bottle refuses to dispense coffee for the next hour. If you pour coffee from the bottle, rather than drinking from it, the coffee vanishes the moment it leaves the bottle.
+        - type: roll
+          dice: 1d20
+          name: luck
+        - type: condition
+          condition: lastRoll == 1
+          onTrue:
+            - type: text
+              text: The bottle refuses to dispense coffee for the next hour.
+              title: Out of coffee!
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: pours from
+      activation_type: 2
+Cuddly Strixhaven Mascot:
+  counters:
+    - name: Cuddly Strixhaven Mascot
+      desc: Provides courage.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Cuddly Strixhaven Mascot
+      automation:
+        - type: counter
+          counter: Cuddly Strixhaven Mascot
+          amount: "1"
+          errorBehaviour: raise
+          fixedValue: true
+        - type: text
+          text: >-
+            Representing one of the mascots of Strixhaven, this soft, Tiny, magic toy
+            is perfect for cuddling. If you press it to your arm, shoulder, or leg as
+            an action, the toy stays attached there for 1 hour or until you use an
+            action to remove it.
+
+
+            The toy can also be used to fight off fear. When you make a saving throw to avoid or end the frightened condition on yourself, you can give yourself advantage on the roll if the toy is on your person. You must decide to do so before rolling the d20. If the save succeeds, you can't use the toy in this way until you finish a long rest.
+      _v: 2
+      proper: false
+      verb: cuddles
+      activation_type: 2
+Lorehold Primer:
+  counters:
+    - name: Lorehold Primer (Charges)
+      desc: Provides guidance on ability checks.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: bubble
+    - name: Lorehold Primer (Stored Spell)
+      desc: Stores one spell.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Lorehold Primer (Guidance)
+      automation:
+        - type: counter
+          counter: Lorehold Primer (Charges)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: The Lorehold Primer is a magic textbook created at Strixhaven’s Lorehold
+            College. The primer has 3 charges, and it regains 1d3 expended charges
+            daily at dawn. If you make an Intelligence (History) or Intelligence
+            (Religion) check while holding the primer, you can expend 1 charge to give
+            yourself 1d4 bonus to the check, immediately after you roll the d20.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+    - |
+      name: Lorehold Primer (Stored Spell)
+      automation:
+        - type: counter
+          counter: Lorehold Primer (Stored Spell)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: If you study the primer at the end of a long rest, you can choose one
+            1st-level spell from the cleric or wizard spell list. Before you finish
+            your next long rest, you can cast the chosen spell once without a spell
+            slot if you are holding the primer. Your spellcasting ability for this
+            spell is your choice of Intelligence, Wisdom, or Charisma.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+Prismari Primer:
+  counters:
+    - name: Prismari Primer (Charges)
+      desc: Provides guidance on ability checks.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: bubble
+    - name: Prismari Primer (Stored Spell)
+      desc: Stores one spell.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Prismari Primer (Guidance)
+      automation:
+        - type: counter
+          counter: Prismari Primer (Charges)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: The Prismari Primer is a magic textbook created at Strixhaven’s Prismari College. The primer has 3 charges, and it regains 1d3 expended charges daily at dawn. If you make a Dexterity (Acrobatics) or a Charisma (Performance) check while holding the primer, you can expend 1 charge to give yourself a 1d4 bonus to the check, immediately after you roll the d20.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+    - |
+      name: Prismari Primer (Stored Spell)
+      automation:
+        - type: counter
+          counter: Prismari Primer (Stored Spell)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: If you study the primer at the end of a long rest, you can choose one 1st-level spell from the bard or sorcerer spell list. Before you finish your next long rest, you can cast the chosen spell once without a spell slot if you are holding the primer. Your spellcasting ability for this spell is your choice of Intelligence, Wisdom, or Charisma.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+Quandrix Primer:
+  counters:
+    - name: Quandrix Primer (Charges)
+      desc: Provides guidance on ability checks.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: bubble
+    - name: Quandrix Primer (Stored Spell)
+      desc: Stores one spell.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Quandrix Primer (Guidance)
+      automation:
+        - type: counter
+          counter: Quandrix Primer (Charges)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: The Quandrix Primer is a magic textbook created at Strixhaven’s Quandrix College. The primer has 3 charges, and it regains 1d3 expended charges daily at dawn. If you make an Intelligence (Arcana) or an Intelligence (Nature) check while holding the primer, you can expend 1 charge to give yourself a 1d4 bonus to the check, immediately after you roll the d20.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+    - |
+      name: Quandrix Primer (Stored Spell)
+      automation:
+        - type: counter
+          counter: Quandrix Primer (Stored Spell)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: If you study the primer at the end of a long rest, you can choose one 1st-level spell from the druid or wizard spell list. Before you finish your next long rest, you can cast the chosen spell once without a spell slot if you are holding the primer. Your spellcasting ability for this spell is your choice of Intelligence, Wisdom, or Charisma.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+Silverquill Primer:
+  counters:
+    - name: Silverquill Primer (Charges)
+      desc: Provides guidance on ability checks.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: bubble
+    - name: Silverquill Primer (Stored Spell)
+      desc: Stores one spell.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Silverquill Primer (Guidance)
+      automation:
+        - type: counter
+          counter: Silverquill Primer (Charges)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: The Silverquill Primer is a magic textbook created at Strixhaven’s Silverquill College. The primer has 3 charges, and it regains 1d3 expended charges daily at dawn. If you make a Charisma (Intimidation) or a Charisma (Persuasion) check while holding the primer, you can expend 1 charge to give yourself a 1d4 bonus to the check, immediately after you roll the d20.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+    - |
+      name: Silverquill Primer (Stored Spell)
+      automation:
+        - type: counter
+          counter: Silverquill Primer (Stored Spell)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: If you study the primer at the end of a long rest, you can choose one 1st-level spell from the bard or cleric spell list. Before you finish your next long rest, you can cast the chosen spell once without a spell slot if you are holding the primer. Your spellcasting ability for this spell is your choice of Intelligence, Wisdom, or Charisma.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+Witherbloom Primer:
+  counters:
+    - name: Witherbloom Primer (Charges)
+      desc: Provides guidance on ability checks.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: bubble
+    - name: Witherbloom Primer (Stored Spell)
+      desc: Stores one spell.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Witherbloom Primer (Guidance)
+      automation:
+        - type: counter
+          counter: Witherbloom Primer (Charges)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: The Witherbloom Primer is a magic textbook created at Strixhaven’s Witherbloom College. The primer has 3 charges, and it regains 1d3 expended charges daily at dawn. If you make an Intelligence (Nature) or Wisdom (Survival) check while holding the primer, you can expend 1 charge to give yourself a 1d4 bonus to the check, immediately after you roll the d20.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
+    - |
+      name: Witherbloom Primer (Stored Spell)
+      automation:
+        - type: counter
+          counter: Witherbloom Primer (Stored Spell)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: If you study the primer at the end of a long rest, you can choose one 1st-level spell from the druid or wizard spell list. Before you finish your next long rest, you can cast the chosen spell once without a spell slot if you are holding the primer. Your spellcasting ability for this spell is your choice of Intelligence, Wisdom, or Charisma.
+      _v: 2
+      proper: false
+      verb: reads
+      activation_type: 2
