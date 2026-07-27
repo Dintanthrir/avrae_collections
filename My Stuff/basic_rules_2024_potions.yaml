@@ -1,0 +1,428 @@
+# basic_rules_2024_potions = ''
+Potion of Animal Friendship:
+  automations:
+    - |
+      name: Potion of Animal Friendship
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you can cast the level 3 version of the Animal
+            Friendship spell (save DC 13).
+
+
+            Agitating this potion’s muddy liquid brings little bits into view: a fish scale, a hummingbird feather, a cat claw, or a squirrel hair.
+        - type: spell
+          id: 2618847
+          level: 3
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Clairvoyance:
+  automations:
+    - |
+      name: Potion of Clairvoyance
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain the effect of the Clairvoyance spell (no Concentration required).
+
+
+            An eyeball bobs in this potion’s yellowish liquid but vanishes when the potion is opened.
+        - type: spell
+          id: 2618972
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Climbing:
+  automations:
+    - |
+      name: Potion of Climbing
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain a Climb Speed equal to your Speed for
+            1 hour. During this time, you have Advantage on Strength (Athletics)
+            checks to climb.
+
+
+            This potion is separated into brown, silver, and gray layers resembling bands of stone. Shaking the bottle fails to mix the colors.
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Potion of Climbing
+              duration: "600"
+              desc: Climb Speed equal to your Speed
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Diminution:
+  automations:
+    - |
+      name: Potion of Diminution
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain the “reduce” effect of the Enlarge/Reduce spell for 1d4 hours (no Concentration required).
+
+
+            The red in the potion’s liquid continuously contracts to a tiny bead and then expands to color the clear liquid around it. Shaking the bottle fails to interrupt this process.
+        - type: spell
+          id: 2619170
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Flying:
+  automations:
+    - |
+      name: Potion of Flying
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain a Fly Speed equal to your Speed for 1 hour and can hover. If you’re in the air when the potion wears off, you fall unless you have some other means of staying aloft.
+
+
+            This potion’s clear liquid floats at the top of its container and has cloudy white impurities drifting in it.
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Potion of Flying
+              duration: "600"
+              desc: Fly Speed equal to your Speed
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Gaseous Form:
+  automations:
+    - |
+      name: Potion of Clairvoyance
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain the effect of the Gaseous Form spell for 1 hour (no Concentration required) or until you end the effect as a Bonus Action.
+
+
+            This potion’s container seems to hold fog that moves and pours like water.
+        - type: spell
+          id: 2618927
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Growth:
+  automations:
+    - |
+      name: Potion of Diminution
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain the “enlarge” effect of the Enlarge/Reduce spell for 10 minutes (no Concentration required).
+
+
+            The red in the potion’s liquid continuously expands from a tiny bead to color the clear liquid around it and then contracts. Shaking the bottle fails to interrupt this process.
+        - type: spell
+          id: 2619170
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Healing:
+  automations:
+    - |
+      name: Potion of Healing
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: -(2d4+2)[healing]
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 3
+Potion of Healing (greater):
+  automations:
+    - |
+      name: Potion of Healing (greater)
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: -(4d4+4)[healing]
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Healing (superior):
+  automations:
+    - |
+      name: Potion of Healing (superior)
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: -(8d4+8)[healing]
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Healing (supreme):
+  automations:
+    - |
+      name: Potion of Healing (supreme)
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: -(10d4+20)[healing]
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Heroism:
+  automations:
+    - |
+      name: Potion of Heroism
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain 10 Temporary Hit Points that last for
+            1 hour. For the same duration, you are under the effect of the Bless spell
+            (no Concentration required).
+
+
+            This potion’s blue liquid bubbles and steams as if boiling.
+        - type: target
+          target: all
+          effects:
+            - type: temphp
+              amount: "10"
+        - type: spell
+          id: 2618933
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Invisibility:
+  automations:
+    - |
+      name: Potion of Invisibility
+      automation:
+        - type: text
+          text: This potion’s container looks empty but feels as though it holds liquid.
+            When you drink the potion, you have the Invisible condition for 1 hour.
+            The effect ends early if you make an attack roll, deal damage, or cast a
+            spell.
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Potion of Invisibility
+              duration: "600"
+              desc: Invisibile until attack, deal damage, or cast a spell.
+              buttons:
+                - label: End Invisibility
+                  automation:
+                    - type: remove_ieffect
+                  style: "1"
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Invulnerability:
+  automations:
+    - |
+      name: Potion of Invulnerability
+      automation:
+        - type: text
+          text: This potion’s container looks empty but feels as though it holds liquid.
+            When you drink the potion, you have the Invisible condition for 1 hour.
+            The effect ends early if you make an attack roll, deal damage, or cast a
+            spell.
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Potion of Invulnerability
+              duration: "60"
+              desc: Resistance to all damage.
+              effects:
+                resistances:
+                  - bludgeoning
+                  - piercing
+                  - slashing
+                  - acid
+                  - cold
+                  - fire
+                  - force
+                  - lightning
+                  - necrotic
+                  - poison
+                  - psychic
+                  - radiant
+                  - thunder
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Longevity:
+  automations:
+    - |
+      name: Potion of Longevity
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, your physical age is reduced by 1d6 + 6 years,
+            to a minimum of 13 years. Each time you subsequently drink a Potion of
+            Longevity, there is 10 percent cumulative chance that you instead age by
+            1d6 + 6 years.
+
+
+            Suspended in this amber liquid is a tiny heart that, against all reason, is still beating. These ingredients vanish when the potion is opened.
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Mind Reading:
+  automations:
+    - |
+      name: Potion of Mind Reading
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain the effect of the Detect Thoughts spell (save DC 13) for 10 minutes (no Concentration required).
+
+
+            This potion’s dense, purple liquid has an ovoid cloud of pink floating in it.
+        - type: spell
+          id: 2619099
+          level: 3
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Poison:
+  automations:
+    - |
+      name: Potion of Poison
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: 4d6[poison]
+            - type: save
+              stat: con
+              fail:
+                - type: ieffect2
+                  name: Poisoned
+                  duration: "600"
+                  effects:
+                    attack_advantage: "-1"
+                    check_dis:
+                      - all
+              success: []
+              dc: "13"
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Resistance:
+  automations:
+    - |
+      name: Potion of Resistance
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you have Resistance to one type of damage for
+            1 hour. The DM chooses the type or determines it randomly.
+
+
+            Use `-choice` to set the resistance
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Potion of Resistance
+              effects:
+                resistances:
+                  - "{choice}"
+              desc: Resistance to {choice}.
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Speed:
+  automations:
+    - |
+      name: Potion of Speed
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, you gain the effect of the Haste spell for 1
+            minute (no Concentration required) without suffering the wave of lethargy
+            that typically occurs when the effect ends.
+
+
+            This potion’s yellow fluid is streaked with black and swirls on its own.
+        - type: spell
+          id: 2619141
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Vitality:
+  automations:
+    - |
+      name: Potion of Vitality
+      automation:
+        - type: text
+          text: >-
+            When you drink this potion, it removes any Exhaustion levels you have and
+            ends the Poisoned condition on you. For the next 24 hours, you regain the
+            maximum number of Hit Points for any Hit Point Die you spend.
+
+
+            This potion’s crimson liquid regularly pulses with dull light, calling to mind a heartbeat.
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Potion of Vitality
+              duration: "14400"
+              desc: Regain the maximum number of Hit Points for any Hit Point Die you spend.
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
+Potion of Water Breathing:
+  automations:
+    - |
+      name: Potion of Water Breathing
+      automation:
+        - type: text
+          text: >-
+            You can breathe underwater for 24 hours after drinking this potion.
+
+
+            This potion’s cloudy green fluid smells of the sea and has a jellyfish-like bubble floating in it.
+        - type: target
+          target: all
+          effects:
+            - type: ieffect2
+              name: Potion of Water Breathing
+              duration: "14400"
+              desc: You can breathe underwater.
+      _v: 2
+      proper: false
+      verb: administers
+      activation_type: 1
