@@ -1,0 +1,1040 @@
+# dmg_2024_items = ''
+Amulet of the Planes:
+  automations:
+    - |
+      name: Amulet of the Planes
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: check
+              ability: arcana
+              dc: "15"
+              success:
+                - type: text
+                  text: You cast the plane shift spell.
+                  title: Success!
+              fail:
+                - type: roll
+                  dice: 1d100
+                  name: ""
+                  displayName: Destination Roll
+                  fixedValue: true
+                - type: condition
+                  condition: lastRoll <= 60
+                  onTrue:
+                    - type: text
+                      text: You and each creature and object withing 15 feet of you travel to a random
+                        location on the plane you named.
+                      title: Failure!
+                  onFalse:
+                    - type: text
+                      text: You and each creature and object withing 15 feet of you travel to a
+                        randomly determined plane of existence.
+                      title: Failure!
+                - type: condition
+                  condition: lastRoll > 60 and lastRoll <= 70
+                  onTrue:
+                    - type: roll
+                      dice: 1d6
+                      name: inner_plane
+                      fixedValue: true
+                      displayName: Inner Plane
+                    - type: condition
+                      condition: lastRoll == 1
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Plane of Air.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 2
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Plane of Earth.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 3
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Plane of Fire.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 4
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Plane of Water.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 5
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Feywild.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 6
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Shadowfell.
+                      onFalse: []
+                  onFalse: []
+                - type: condition
+                  condition: lastRoll > 70 and lastRoll <= 80
+                  onTrue:
+                    - type: roll
+                      dice: 1d8
+                      name: outer_plane
+                      fixedValue: true
+                      displayName: Outer Plane
+                    - type: condition
+                      condition: lastRoll == 1
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Arborea.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 2
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Arcadia.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 3
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Beastlands.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 4
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Bytopia.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 5
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Elysium.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 6
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Mechanus.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 7
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Mount Celestia.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 8
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Ysgard.
+                      onFalse: []
+                  onFalse: []
+                - type: condition
+                  condition: lastRoll > 80 and lastRoll <= 90
+                  onTrue:
+                    - type: roll
+                      dice: 1d8
+                      name: outer_plane
+                      fixedValue: true
+                      displayName: Outer Plane
+                    - type: condition
+                      condition: lastRoll == 1
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Aybss.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 2
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Acheron.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 3
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Carceri.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 4
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Gehenna.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 5
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Hades.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 6
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Limbo.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 7
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in the Nine Hells.
+                      onFalse: []
+                    - type: condition
+                      condition: lastRoll == 8
+                      onTrue:
+                        - type: text
+                          text: You arrive at a random location in Pandemonium.
+                      onFalse: []
+                  onFalse: []
+                - type: condition
+                  condition: lastRoll > 90
+                  onTrue:
+                    - type: text
+                      text: You arrive at a random location in the Astral Plane.
+                  onFalse: []
+        - type: spell
+          id: 2618867
+      _v: 2
+      proper: true
+      verb: uses an
+      activation_type: 1
+      list_display_override: Attempt to plane shift.
+Cloak of Billowing:
+  automations:
+    - |
+      name: Cloak of Billowing
+      automation:
+        - type: text
+          text: While wearing this cloak, you can take a Bonus Action to make it billow
+            dramatically for 1 minute.
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Dramatic
+              duration: "10"
+      _v: 2
+      proper: false
+      verb: wears
+      activation_type: 3
+Cube of Summoning:
+  counters:
+    - name: Cube of Summoning
+      desc: Summon a creature.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Cube of Summoning
+      automation:
+        - type: counter
+          counter: Cube of Summoning
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This Tiny cube looks like a jack-in-the-box. When you wind its crank as a
+            Magic action, a merry tune emits from the box, the lid pops open, a
+            creature appears in the nearest unoccupied space, and the lid closes. The
+            lid can’t otherwise be opened.
+
+
+            Roll on the Cube of Summoning table to determine which spell the cube casts to summon the creature. The spell is cast at level 5 (save DC 17, +9 attack bonus) and doesn’t require Concentration, but you otherwise function as the spell’s caster.
+
+
+            Once the cube summons a creature, the cube can’t do so again until the next dawn.
+        - type: roll
+          dice: 1d6
+          name: summon
+          displayName: Summoned Creature
+        - type: text
+          text: |-
+            1d6 	Spell
+            1 	Summon Aberration
+            2 	Summon Beast
+            3 	Summon Construct
+            4 	Summon Dragon
+            5 	Summon Elemental
+            6 	Summon Fey
+          title: Cube of Summoning
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Summoning (Aberration)
+      automation:
+        - type: spell
+          id: 2619105
+          dc: "17"
+          attackBonus: "9"
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Summoning (Beast)
+      automation:
+        - type: spell
+          id: 2619106
+          dc: "17"
+          attackBonus: "9"
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Summoning (Construct)
+      automation:
+        - type: spell
+          id: 2619111
+          dc: "17"
+          attackBonus: "9"
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Summoning (Dragon)
+      automation:
+        - type: spell
+          id: 2618843
+          dc: "17"
+          attackBonus: "9"
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Summoning (Elemental)
+      automation:
+        - type: spell
+          id: 2619113
+          dc: "17"
+          attackBonus: "9"
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Summoning (Fey)
+      automation:
+        - type: spell
+          id: 2619115
+          dc: "17"
+          attackBonus: "9"
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+Dagger of Venom:
+  counters:
+    - name: Dagger of Venom
+      desc: Poison the blade.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Dagger of Venom (Envenom)
+        automation:
+          - type: counter
+            counter: Dagger of Venom
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: You can take a Bonus Action to magically coat the blade with poison. The poison remains for 1 minute or until an attack using this weapon hits a creature. That creature must succeed on a DC 15 Constitution saving throw or take 2d10 Poison damage and have the Poisoned condition for 1 minute. The weapon can’t be used this way again until the next dawn.
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Poisoned Dagger
+                duration: "10"
+                tick_on_caster: true
+                attacks:
+                  - attack:
+                      _v: 2
+                      name: Venom Damage
+                      automation:
+                        - type: target
+                          target: all
+                          effects:
+                            - type: save
+                              stat: con
+                              fail:
+                                - type: damage
+                                  damage: 2d10[poison]
+                                - type: ieffect2
+                                  name: Poisoned
+                                  duration: "10"
+                              success: []
+                              dc: "15"
+                        - type: remove_ieffect
+                      verb: deals
+                      proper: true
+                      activation_type: 2
+        _v: 2
+        proper: false
+        verb: poisons
+        activation_type: 3
+Dark Shard Amulet:
+  counters:
+    - name: Dark Shard Amulet
+      desc: Attempt to cast a cantrip.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Dark Shard Amulet
+      automation:
+        - type: counter
+          counter: Dark Shard Amulet
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As a Magic action, you can try to cast a cantrip that you don’t know. The cantrip must be on the Warlock spell list and have a casting time of an action, and you make a DC 10 Intelligence (Arcana) check. On a successful check, you cast the spell. On a failed check, the spell fails, and the action used to cast it is wasted. In either case, you can’t use this property again until you finish a Long Rest.
+        - type: target
+          target: self
+          effects:
+            - type: check
+              ability: arcana
+              dc: "10"
+              success: []
+              fail: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Driftglobe:
+  counters:
+    - name: Driftglobe
+      desc: Summon daylight.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Driftglobe
+        automation:
+          - type: counter
+            counter: Driftglobe
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              This small sphere of thick glass weighs 1 pound. If you are within 60 feet of it, you can command it to emanate light equivalent to that of the Light or Daylight spell (your choice). Once used, the Daylight effect can’t be used again until the next dawn.
+
+              You can issue another command as a Magic action to make the illuminated globe rise into the air and float no more than 5 feet off the ground. The globe hovers in this way until you or another creature grasps it. If you move more than 60 feet from the hovering globe, it follows you until it is within 60 feet of you. It takes the shortest route to do so. If prevented from moving, the globe sinks gently to the ground and becomes inactive, and its light winks out.
+          - type: spell
+            id: 2619083
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 2
+Dust of Disappearance:
+  automations:
+    - |
+      - name: Dust of Disappearance
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: roll
+                dice: 2d4
+                name: duration
+              - type: ieffect2
+                name: Invisible
+                duration: duration * 10
+                buttons:
+                  - label: End Invisibility
+                    automation:
+                      - type: remove_ieffect
+                    style: "1"
+              - type: text
+                text: This powder resembles fine sand. There is enough of it for one use. When you take a Utilize action to throw the dust into the air, you and each creature and object within a 10-foot Emanation originating from you have the Invisible condition for 2d4 minutes. The duration is the same for all subjects, and the dust is consumed when its magic takes effect. Immediately after an affected creature makes an attack roll, deals damage, or casts a spell, the Invisible condition ends for that creature.
+        _v: 2
+        proper: true
+        verb: scatters
+        activation_type: 1
+Dust of Sneezing and Choking:
+  automations:
+    - |
+      - name: Dust of Sneezing and Choking
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: con
+                fail:
+                  - type: ieffect2
+                    name: Sneezing
+                    buttons:
+                      - label: Resist Sneezing
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: save
+                                stat: con
+                                fail: []
+                                success:
+                                  - type: remove_ieffect
+                                dc: "15"
+                        style: "1"
+                success: []
+                dc: "15"
+          - type: text
+            text: >-
+              Found in a small container, this powder resembles Dust of Disappearance, and Identify reveals it to be such. There is enough of it for one use.
+
+              As a Utilize action, you can throw the dust into the air, forcing yourself and every creature in a 30-foot Emanation originating from you to make a DC 15 Constitution saving throw. Constructs, Elementals, Oozes, Plants, and Undead succeed on the save automatically.
+
+              On a failed save, a creature begins sneezing uncontrollably; it has the Incapacitated condition and is suffocating. The creature repeats the save at the end of each of its turns, ending the effect on itself on a success. The effect also ends on any creature targeted by a Lesser Restoration spell.
+        _v: 2
+        proper: true
+        verb: scatters
+        activation_type: 1
+Hat of Vermin:
+  counters:
+    - name: Hat of Vermin
+      desc: Summon vermin.
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Hat of Vermin
+      automation:
+        - type: counter
+          counter: Hat of Vermin
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This hat has 3 charges. While holding the hat, you can take a Magic action to expend 1 charge and summon your choice of a Bat, a Frog, or a Rat. The summoned creature magically appears in the hat and tries to get away from you as quickly as possible. The creature is Indifferent toward you and other creatures, and it isn’t under your control. It behaves as an ordinary creature of its kind and disappears after 1 hour or when it drops to 0 Hit Points. The hat regains all expended charges daily at dawn.
+      _v: 2
+      proper: false
+      verb: dons
+      activation_type: 1
+Hat of Wizardry:
+  counters:
+    - name: Hat of Wizardry
+      desc: Attempt to cast a cantrip.
+      min: 0
+      max: 1
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Hat of Wizardry
+      automation:
+        - type: counter
+          counter: Hat of Wizardry
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As a Magic action, you can try to cast a cantrip that you don’t know. The cantrip must be on the Wizard spell list and have a casting time of an action, and you make a DC 10 Intelligence (Arcana) check. On a successful check, you cast the spell. On a failed check, the spell fails, and the action used to cast the spell is wasted. In either case, you can’t use this property again until you finish a Long Rest.
+        - type: target
+          target: self
+          effects:
+            - type: check
+              ability: arcana
+              dc: "10"
+              success: []
+              fail: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Heward's Handy Spice Pouch:
+  counters:
+    - name: Heward's Handy Spice Pouch
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+  automations:
+    - |
+      name: Heward's Handy Spice Pouch
+      automation:
+        - type: counter
+          counter: Heward's Handy Spice Pouch
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This belt pouch appears empty and has 10 charges. While holding the pouch, you can take a Magic action to expend 1 charge, name any nonmagical food seasoning (such as salt, pepper, saffron, or cilantro), and remove a pinch of the desired seasoning from the pouch. A pinch is enough to season a single meal. The pouch regains 1d6 + 4 expended charges daily at dawn.
+      _v: 2
+      proper: false
+      verb: opens
+      activation_type: 1
+Horn of Silent Alarm:
+  counters:
+    - name: Horn of Silent Alarm
+      min: 0
+      max: 4
+      reset: long
+      reset_by: 1d4
+      type: bubble
+  automations:
+    - |
+      name: Horn of Silent Alarm
+      automation:
+        - type: counter
+          counter: Horn of Silent Alarm
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This horn has 4 charges and regains 1d4 expended charges daily at dawn. As a Magic action, you can blow the horn while expending 1 charge. One creature of your choice hears the horn’s blare, provided that creature is within 600 feet of the horn. No other creature hears the horn.
+      _v: 2
+      proper: false
+      verb: plays
+      activation_type: 1
+Instrument of Scribing:
+  counters:
+    - name: Instrument of Scribing
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Instrument of Scribing
+      automation:
+        - type: counter
+          counter: Instrument of Scribing
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This musical instrument has 3 charges and regains all expended charges daily at dawn. While you are playing it, you can take a Magic action to expend 1 charge and write a magical message on a nonmagical object or surface that you can see within 30 feet of yourself. The message can be up to six words long and is written in a language you know. If you are a Bard, you can scribe an additional seven words and make the message glow faintly, allowing it to be seen in nonmagical Darkness. Casting the Dispel Magic spell on the message erases it. Otherwise, the message fades away after 24 hours.
+      _v: 2
+      proper: false
+      verb: plays
+      activation_type: 1
+Mace of Terror:
+  counters:
+    - name: Mace of Terror
+      desc: Cause fear.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Mace of Terror (Fear)
+        automation:
+          - type: counter
+            counter: Mace of Terror
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: wis
+                fail:
+                  - type: ieffect2
+                    name: Frightened
+                    duration: "10"
+                    buttons:
+                      - label: Resist Terror
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: save
+                                stat: wis
+                                fail: []
+                                success:
+                                  - type: remove_ieffect
+                                dc: "15"
+                        style: "3"
+                success: []
+                dc: "15"
+          - type: text
+            text: >-
+              This magic weapon has 3 charges and regains 1d3 expended charges daily at dawn. While holding the weapon, you can take a Magic action and expend 1 charge to release a wave of terror from it. Each creature of your choice within 30 feet of you must succeed on a DC 15 Wisdom saving throw or have the Frightened condition for 1 minute. While Frightened in this way, a creature must spend its turns trying to move as far away from you as it can, and it can’t make Opportunity Attacks. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If it has nowhere it can move, the creature can take the Dodge action. At the end of each of its turns, a creature repeats the save, ending the effect on itself on a success.
+
+
+              The mace regains 1d3 expended charges daily at dawn.
+        _v: 2
+        proper: false
+Sending Stones:
+  counters:
+    - name: Sending Stones
+      desc: Cast sending.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Sending Stones
+        automation:
+          - type: counter
+            counter: Sending Stones
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              Sending Stones come in pairs, with each stone carved to match the other so the pairing is easily recognized. While you touch one stone, you can cast Sending from it. The target is the bearer of the other stone. If no creature bears the other stone, you know that fact as soon as you use the stone, and you don’t cast the spell.
+
+
+              Once Sending is cast using either stone, the stones can’t be used again until the next dawn. If one of the stones in a pair is destroyed, the other one becomes nonmagical.
+          - type: spell
+            id: 2619015
+        _v: 2
+        proper: true
+        verb: uses
+        activation_type: 1
+Staff of Birdcalls:
+  counters:
+    - name: Staff of Birdcalls
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+      type: bubble
+  automations:
+    - |
+      name: Staff of Birdcalls
+      automation:
+        - type: counter
+          counter: Staff of Birdcalls
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This wooden staff is decorated with bird carvings. It has 10 charges. While holding it, you can take a Magic action to expend 1 charge from the staff and cause it to create one of the following sounds, which can be heard out to 120 feet: a finch’s chirp, a raven’s caw, a duck’s quack, a chicken’s cluck, a goose’s honk, a loon’s call, a turkey’s gobble, a seagull’s cry, an owl’s hoot, or an eagle’s shriek.
+
+
+            Regaining Charges. The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 1, the staff explodes in a harmless cloud of bird feathers and is lost forever.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff explodes in a harmless cloud of bird feathers and is lost forever.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of Flowers:
+  counters:
+    - name: Staff of Flowers
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+      type: bubble
+  automations:
+    - |
+      name: Staff of Flowers
+      automation:
+        - type: counter
+          counter: Staff of Flowers
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This wooden staff has 10 charges. While holding it, you can take a Magic action to expend 1 charge from the staff and cause a flower to sprout from a patch of earth or soil within 5 feet of yourself, or from the staff itself. Unless you choose a specific kind of flower, the staff creates a mild-scented daisy. The flower is harmless and nonmagical, and it grows or withers as a normal flower would.
+
+            The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll a d20. On a 1, the staff turns into flower petals and is lost forever.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff turns into flower petals and is lost forever.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of the Adder:
+  automations:
+    - |
+      name: Staff of the Adder (Animate)
+      automation:
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Staff of the Adder
+              duration: "10"
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Adder Strike
+                    automation:
+                      - type: target
+                        target: each
+                        effects:
+                          - type: attack
+                            hit:
+                              - type: damage
+                                damage: 1d6[piercing]
+                              - type: save
+                                stat: con
+                                fail:
+                                  - type: damage
+                                    damage: 3d6[poison]
+                                success: []
+                                dc: "15"
+                            miss: []
+                            attackBonus: caster.stats.get_mod("strength") + caster.stats.prof_bonus
+        - type: text
+          text: >-
+            As a Bonus Action, you can turn the head of this staff into that of an animate, venomous snake for 1 minute or revert the staff to its inanimate form.
+
+
+            When you take the Attack action, you can make one of the attack rolls using the animated snake head, which has a reach of 5 feet. Apply your Proficiency Bonus and Wisdom modifier to the attack roll. On a hit, the target takes 1d6 Piercing damage and 3d6 Poison damage.
+
+
+            The snake head can be attacked while it is animate. It has AC 15, HP 20, and Immunity to Poison and Psychic damage. If the head drops to 0 Hit Points, the staff is destroyed. As long as it’s not destroyed, the staff regains all lost Hit Points when it reverts to its inanimate form.
+
+
+            Add the snake head to combat: `!i add 0 "Adder Head" -p 0 -hp 20 -ac 15`
+      _v: 2
+      proper: false
+      verb: animates
+      activation_type: 3
+Walloping Ammunition:
+  counters:
+    - name: Walloping Ammo
+      desc: A creature hit by the ammunition must succeed on a DC 10 Strength saving throw or be knocked prone.
+      min: 0
+      max: 1
+      type: circle
+  automations:
+    - |
+      - name: Wallop
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: str
+                fail:
+                  - type: ieffect2
+                    name: Prone
+                    duration: null
+                    effects:
+                      attack_advantage: "-1"
+                    attacks: []
+                    buttons:
+                      - label: Stand Up
+                        automation:
+                          - type: remove_ieffect
+                        verb: stands up
+                        style: null
+                        defaultDC: null
+                        defaultAttackBonus: null
+                        defaultCastingMod: null
+                    end: false
+                    conc: false
+                    desc: A prone creature's only movement option is to crawl, unless it stands up
+                      and thereby ends the condition
+                    stacking: false
+                    save_as: null
+                    parent: null
+                    target_self: false
+                    tick_on_caster: false
+                success: []
+                dc: "10"
+          - type: text
+            text: This ammunition packs a wallop. A creature hit by this attack must succeed
+              on a DC 10 Strength saving throw or be knocked prone.
+            title: Walloping Ammo
+          - type: counter
+            counter: Walloping Ammo
+            amount: "1"
+            allowOverflow: false
+            errorBehaviour: warn
+        _v: 2
+        verb: uses ammo that packs
+Wand of Conducting:
+  counters:
+    - name: Wand of Conducting
+      min: 0
+      max: 3
+      reset: long
+      type: bubble
+  automations:
+    - |
+      name: Wand of Conducting
+      automation:
+        - type: counter
+          counter: Wand of Conducting
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This wand has 3 charges. While holding it, you can use an action to expend 1 of its charges and create orchestral music by waving it around. The music can be heard out to a range of 60 feet and ends when you stop waving the wand.
+
+
+            The wand regains all expended charges daily at dawn. If you expend the wand’s last charge, roll a d20. On a 1, a sad tuba sound plays as the wand crumbles to dust and is destroyed.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: A sad tuba sound plays as the wand crumbles to dust and is destroyed.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Wand of Pyrotechnics:
+  counters:
+    - name: Wand of Pyrotechnics
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Pyrotechnics
+      automation:
+        - type: counter
+          counter: Wand of Pyrotechnics
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: This wand has 7 charges. While holding it, you can take a Magic action to expend 1 charge and create a harmless burst of multicolored light at a point you can see up to 120 feet away. The burst of light is accompanied by a crackling noise that can be heard up to 300 feet away. The light is as bright as a torch flame but lasts only a second.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Secrets:
+  counters:
+    - name: Wand of Secrets
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+  automations:
+    - |
+      name: Wand of Secrets
+      automation:
+        - type: counter
+          counter: Wand of Secrets
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: This wand has 3 charges and regains 1d3 expended charges daily at dawn. While holding it, you can take a Magic action to expend 1 charge, and if a secret door or trap is within 60 feet of you, the wand pulses and points at the one nearest to you.
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Web:
+  counters:
+    - name: Wand of Web
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Web
+      automation:
+        - type: counter
+          counter: Wand of Web
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618876
+          dc: "13"
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can expend 1 charge to cast Web (save DC 13) from it.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1

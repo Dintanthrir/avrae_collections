@@ -1,0 +1,207 @@
+# basic_rules_2024_staves = ''
+Staff of Striking:
+  counters:
+    - name: Staff of Striking
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+  automations:
+    - |
+      name: Staff of Striking (Force Strike)
+      automation:
+        - type: counter
+          counter: Staff of Striking
+          amount: "0"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            The staff has 10 charges. When you hit with a melee attack using it, you
+            can expend up to 3 charges. For each charge you expend, the target takes
+            an extra 1d6 Force damage.
+
+
+            Regaining Charges. The staff regains 1d6 + 4 expended charges daily at dawn. If you expend the last charge, roll 1d20. On a 1, the staff becomes a nonmagical Quarterstaff.
+
+
+            Use `-amt` to choose how many charges to spend.
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: "{lastCounterUsedAmount}d6[force]"
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff becomes a nonmagical Quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 2
+Staff of Swarming Insects:
+  counters:
+    - name: Staff of Swarming Insects
+      desc: Summon insect swarms.
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+  automations:
+    - |
+      name: Staff of Swarming Insects (Insect Cloud)
+      automation:
+        - type: counter
+          counter: Staff of Swarming Insects
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: While holding the staff , you can take a Magic action and expend 1 charge
+            to cause a swarm of harmless flying insects to fill a 30-foot Emanation
+            originating from you. The insects remain for 10 minutes, making the area
+            Heavily Obscured for creatures other than you. A strong wind (like that
+            created by Gust of Wind) disperses the swarm and ends the effect.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: A swarm of insects consumes and destroys the staff, then disperses.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Staff of Swarming Insects (Giant Insect)
+      automation:
+        - type: counter
+          counter: Staff of Swarming Insects
+          amount: "4"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            While holding the staff, you can cast one of the spells on the following
+            table from it, using your spell save DC and spell attack modifier. The
+            table indicates how many charges you must expend to cast the spell.
+
+
+            Spell 	Charge Cost
+
+            Giant Insect 	4
+
+            Insect Plague 	5
+        - type: spell
+          id: 2618944
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: A swarm of insects consumes and destroys the staff, then disperses.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Staff of Swarming Insects (Insect Plague)
+      automation:
+        - type: counter
+          counter: Staff of Swarming Insects
+          amount: "4"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            While holding the staff, you can cast one of the spells on the following
+            table from it, using your spell save DC and spell attack modifier. The
+            table indicates how many charges you must expend to cast the spell.
+
+
+            Spell 	Charge Cost
+
+            Giant Insect 	4
+
+            Insect Plague 	5
+        - type: spell
+          id: 2619183
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: A swarm of insects consumes and destroys the staff, then disperses.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+Staff of Withering:
+  counters:
+    - name: Staff of Withering
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      name: Staff of Withering (Necrotic Strike)
+      automation:
+        - type: counter
+          counter: Staff of Withering
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: 2d10[necrotic]
+            - type: save
+              stat: con
+              fail:
+                - type: ieffect2
+                  name: Withered
+                  effects:
+                    check_dis:
+                      - strength
+                      - constitution
+                  duration: "600"
+              success: []
+              dc: "15"
+      _v: 2
+      proper: false
+      activation_type: 2

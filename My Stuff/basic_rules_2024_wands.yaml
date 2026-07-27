@@ -1,0 +1,483 @@
+# basic_rules_2024_wands = ''
+Wand of Binding:
+  counters:
+    - name: Wand of Binding
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Binding (Hold Monster)
+      automation:
+        - type: counter
+          counter: Wand of Binding
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619152
+          dc: "17"
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+    - |
+      name: Wand of Binding (Hold Person)
+      automation:
+        - type: counter
+          counter: Wand of Binding
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619153
+          dc: "17"
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Enemy Detection:
+  counters:
+    - name: Wand of Enemy Detection
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Enemy Detection
+      automation:
+        - type: counter
+          counter: Wand of Enemy Detection
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: This wand has 7 charges. While holding it, you can take a Magic action to expend 1 charge. For 1 minute, you know the direction of the nearest creature Hostile to you within 60 feet, but not its distance from you. The wand can sense the presence of Hostile creatures that are Invisible, ethereal, disguised, or hidden, as well as those in plain sight. The effect ends if you stop holding the wand.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Fear:
+  counters:
+    - name: Wand of Fear
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Fear (Command; flee or grovel only)
+      automation:
+        - type: counter
+          counter: Wand of Fear
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618985
+          dc: "15"
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+    - |
+      name: Wand of Fear (Fear; 60-foot cone)
+      automation:
+        - type: counter
+          counter: Wand of Fear
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618872
+          dc: "15"
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Fireballs:
+  counters:
+    - name: Wand of Fireballs
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Fireballs
+      automation:
+        - type: counter
+          counter: Wand of Fireballs
+          amount: "1"
+          errorBehaviour: raise
+        - type: spell
+          id: 2618887
+          dc: "15"
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can expend no more than 3 charges to cast Fireball (save DC 15) from it. For 1 charge, you cast the level 3 version of the spell. You can increase the spell’s level by 1 for each additional charge you expend.
+
+
+            Use `-amt` and `-l` together to increase the spell level and number of charges spent.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Lightning Bolts:
+  counters:
+    - name: Wand of Lightning Bolts
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Lightning Bolts
+      automation:
+        - type: counter
+          counter: Wand of Lightning Bolts
+          amount: "1"
+          errorBehaviour: raise
+        - type: spell
+          id: 2618999
+          dc: "15"
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can expend no more than 3 charges to cast Lightning Bolt (save DC 15) from it. For 1 charge, you cast the level 3 version of the spell. You can increase the spell’s level by 1 for each additional charge you expend.
+
+
+            Use `-amt` and `-l` together to increase the spell level and number of charges spent.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Magic Detection:
+  counters:
+    - name: Wand of Magic Detection
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+  automations:
+    - |
+      name: Wand of Magic Detection
+      automation:
+        - type: counter
+          counter: Wand of Magic Detection
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619097
+        - type: text
+          text: >-
+            This wand has 3 charges. While holding it, you can expend 1 charge to cast Detect Magic from it. The wand regains 1d3 expended charges daily at dawn.
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Magic Missile:
+  counters:
+    - name: Wand of Magic Missile
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Magic Missile
+      automation:
+        - type: counter
+          counter: Wand of Magic Missile
+          amount: "1"
+          errorBehaviour: raise
+        - type: spell
+          id: 2618999
+          dc: "15"
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can expend no more than 3 charges to cast Magic Missile from it. For 1 charge, you cast the level 1 version of the spell. You can increase the spell’s level by 1 for each additional charge you expend.
+
+
+            Use `-amt` and `-l` together to increase the spell level and number of charges spent.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Paralysis:
+  counters:
+    - name: Wand of Paralysis
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Paralysis
+      automation:
+        - type: counter
+          counter: Wand of Paralysis
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: target
+            target: all
+            effects:
+              - type: save
+                stat: con
+                fail:
+                  - type: ieffect2
+                    name: Paralyzed
+                    buttons:
+                      - label: Resist Paralysis
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: save
+                                stat: dex
+                                success:
+                                  - type: remove_ieffect
+                                    removeParent: if_no_children
+                                fail: []
+                        verb: attempts to resist Paralysis
+                        style: "1"
+                        defaultDC: lastSaveDC
+                    duration: "10"
+                success: []
+                dc: "15"
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can take a Magic action to expend 1 charge to cause a thin blue ray to streak from the tip toward a creature you can see within 60 feet of yourself. The target must succeed on a DC 15 Constitution saving throw or have the Paralyzed condition for 1 minute. At the end of each of the target’s turns, it repeats the save, ending the effect on itself on a success.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Polymorph:
+  counters:
+    - name: Wand of Polymorph
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Polymorph
+      automation:
+        - type: counter
+          counter: Wand of Polymorph
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618876
+          dc: "15"
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can expend 1 charge to cast Polymorph (save DC 15) from it.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Secrets:
+  counters:
+    - name: Wand of Secrets
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+  automations:
+    - |
+      name: Wand of Secrets
+      automation:
+        - type: counter
+          counter: Wand of Secrets
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: This wand has 3 charges and regains 1d3 expended charges daily at dawn. While holding it, you can take a Magic action to expend 1 charge, and if a secret door or trap is within 60 feet of you, the wand pulses and points at the one nearest to you.
+      _v: 2
+      proper: false
+      activation_type: 1
+Wand of Web:
+  counters:
+    - name: Wand of Web
+      min: 0
+      max: 7
+      reset: long
+      reset_by: 1d6+1
+  automations:
+    - |
+      name: Wand of Web
+      automation:
+        - type: counter
+          counter: Wand of Web
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618876
+          dc: "13"
+        - type: text
+          text: >-
+            This wand has 7 charges. While holding it, you can expend 1 charge to cast Web (save DC 13) from it.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The wand crumbles into ashes and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 1

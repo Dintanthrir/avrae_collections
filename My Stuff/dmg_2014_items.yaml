@@ -271,7 +271,7 @@ Driftglobe:
 Giant Slayer:
   automations:
     - |
-      - name: Giant Slayer
+      - name: Giant Slayer (Giant Strike)
         automation:
           - type: target
             target: all

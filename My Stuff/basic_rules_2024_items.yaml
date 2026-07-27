@@ -1,0 +1,2258 @@
+# basic_rules_2024_items = ''
+Ammunition of Slaying:
+  automations:
+    - |
+      - name: Ammunition of Slaying
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: roll
+                dice: 6d10[magical piercing]
+                name: damage
+                displayName: Damage Roll
+              - type: save
+                stat: con
+                fail:
+                  - type: damage
+                    damage: "{damage}"
+                success:
+                  - type: damage
+                    damage: "{damage}/2"
+                dc: "17"
+        _v: 2
+        proper: false
+        verb: strikes with
+        activation_type: 2
+Animated Shield:
+  automations:
+    - |
+      - name: Animated Shield
+        automation:
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Animate Shield
+                duration: "10"
+                buttons:
+                  - label: Inanimate Shield
+                    automation:
+                      - type: remove_ieffect
+                    style: "3"
+                desc: Protected by a hovering shield.
+        _v: 2
+        proper: true
+        verb: activates their
+        activation_type: 3
+Arrow-Catching Shield:
+  automations:
+    - |
+      - name: Arrow-Catching Shield
+        automation:
+          - type: text
+            text: Whenever an attacker makes a ranged attack roll against a target within 5
+              feet of you, you can take a Reaction to become the target of the attack
+              instead.
+        _v: 2
+        proper: true
+        verb: activates an
+        activation_type: 4
+Bag of Beans:
+  automations:
+    - |
+      - name: Bag of Beans
+        automation:
+          - type: roll
+            dice: 5d4[force]
+            name: damage
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: dex
+                fail:
+                  - type: damage
+                    damage: "{damage}"
+                success:
+                  - type: damage
+                    damage: ({damage})/2
+                dc: "15"
+          - type: text
+            text: If you dump one or more beans out of the bag, they explode in a 10-foot-radius Sphere centered on them. All the dumped beans are destroyed in the explosion, and each creature in the Sphere, including you, makes a DC 15 Dexterity saving throw, taking 5d4 Force damage on a failed save or half as much damage on a successful one.
+        _v: 2
+        proper: false
+        verb: empties
+        activation_type: 2
+Gray Bag of Tricks:
+  counters:
+    - name: Gray Bag of Tricks
+      desc: Pull a creature from the bag.
+      min: 0
+      max: 3
+      reset: long
+      reset_to: 3
+      type: circle
+  automations:
+    - |
+      - name: Gray Bag of Tricks
+        automation:
+          - type: counter
+            counter: Gray Bag of Tricks
+            amount: "1"
+            errorBehaviour: raise
+          - type: roll
+            dice: 1d8
+            name: creature
+            displayName: Creature
+          - type: condition
+            condition: creature == 1
+            onTrue:
+              - type: text
+                text: ""
+                title: Weasel
+            onFalse: []
+          - type: condition
+            condition: creature == 2
+            onTrue:
+              - type: text
+                text: ""
+                title: Giant Rat
+            onFalse: []
+          - type: condition
+            condition: creature == 3
+            onTrue:
+              - type: text
+                text: ""
+                title: Badger
+            onFalse: []
+          - type: condition
+            condition: creature == 4
+            onTrue:
+              - type: text
+                text: ""
+                title: Boar
+            onFalse: []
+          - type: condition
+            condition: creature == 5
+            onTrue:
+              - type: text
+                text: ""
+                title: Panther
+            onFalse: []
+          - type: condition
+            condition: creature == 6
+            onTrue:
+              - type: text
+                text: ""
+                title: Giant Badger
+            onFalse: []
+          - type: condition
+            condition: creature == 7
+            onTrue:
+              - type: text
+                text: ""
+                title: Dire Wolf
+            onFalse: []
+          - type: condition
+            condition: creature == 8
+            onTrue:
+              - type: text
+                text: ""
+                title: Giant Elk
+            onFalse: []
+          - type: text
+            text: >-
+              This bag made from gray, rust, or tan cloth appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object.
+
+              You can take a Magic action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling on the table that corresponds to the bag’s color. See the Monster Manual for the creature’s stat block. The creature vanishes at the next dawn or when it is reduced to 0 Hit Points.
+
+              The creature is Friendly to you and your allies, and it acts immediately after you on your Initiative count. You can take a Bonus Action to command how the creature moves and what action it takes on its next turn, such as attacking an enemy. In the absence of such orders, the creature acts in a fashion appropriate to its nature.
+
+              Once three fuzzy objects have been pulled from the bag, the bag can’t be used again until the next dawn.
+        _v: 2
+        proper: false
+        verb: pulls from
+        activation_type: 1
+Rust Bag of Tricks:
+  counters:
+    - name: Rust Bag of Tricks
+      desc: Pull a creature from the bag.
+      min: 0
+      max: 3
+      reset: long
+      reset_to: 3
+      type: circle
+  automations:
+    - |
+      - name: Rust Bag of Tricks
+        automation:
+          - type: counter
+            counter: Rust Bag of Tricks
+            amount: "1"
+            errorBehaviour: raise
+          - type: roll
+            dice: 1d8
+            name: creature
+            displayName: Creature
+          - type: condition
+            condition: creature == 1
+            onTrue:
+              - type: text
+                text: ""
+                title: Rat
+            onFalse: []
+          - type: condition
+            condition: creature == 2
+            onTrue:
+              - type: text
+                text: ""
+                title: Owl
+            onFalse: []
+          - type: condition
+            condition: creature == 3
+            onTrue:
+              - type: text
+                text: ""
+                title: Mastiff
+            onFalse: []
+          - type: condition
+            condition: creature == 4
+            onTrue:
+              - type: text
+                text: ""
+                title: Goat
+            onFalse: []
+          - type: condition
+            condition: creature == 5
+            onTrue:
+              - type: text
+                text: ""
+                title: Giant Goat
+            onFalse: []
+          - type: condition
+            condition: creature == 6
+            onTrue:
+              - type: text
+                text: ""
+                title: Giant Boar
+            onFalse: []
+          - type: condition
+            condition: creature == 7
+            onTrue:
+              - type: text
+                text: ""
+                title: Lion
+            onFalse: []
+          - type: condition
+            condition: creature == 8
+            onTrue:
+              - type: text
+                text: ""
+                title: Brown Bear
+            onFalse: []
+          - type: text
+            text: >-
+              This bag made from gray, rust, or tan cloth appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object.
+
+              You can take a Magic action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling on the table that corresponds to the bag’s color. See the Monster Manual for the creature’s stat block. The creature vanishes at the next dawn or when it is reduced to 0 Hit Points.
+
+              The creature is Friendly to you and your allies, and it acts immediately after you on your Initiative count. You can take a Bonus Action to command how the creature moves and what action it takes on its next turn, such as attacking an enemy. In the absence of such orders, the creature acts in a fashion appropriate to its nature.
+
+              Once three fuzzy objects have been pulled from the bag, the bag can’t be used again until the next dawn.
+        _v: 2
+        proper: false
+        verb: pulls from
+        activation_type: 1
+Tan Bag of Tricks:
+  counters:
+    - name: Tan Bag of Tricks
+      desc: Pull a creature from the bag.
+      min: 0
+      max: 3
+      reset: long
+      reset_to: 3
+      type: circle
+  automations:
+    - |
+      - name: Tan Bag of Tricks
+        automation:
+          - type: counter
+            counter: Tan Bag of Tricks
+            amount: "1"
+            errorBehaviour: raise
+          - type: roll
+            dice: 1d8
+            name: creature
+            displayName: Creature
+          - type: condition
+            condition: creature == 1
+            onTrue:
+              - type: text
+                text: ""
+                title: Jackal
+            onFalse: []
+          - type: condition
+            condition: creature == 2
+            onTrue:
+              - type: text
+                text: ""
+                title: Ape
+            onFalse: []
+          - type: condition
+            condition: creature == 3
+            onTrue:
+              - type: text
+                text: ""
+                title: Baboon
+            onFalse: []
+          - type: condition
+            condition: creature == 4
+            onTrue:
+              - type: text
+                text: ""
+                title: Axe Beak
+            onFalse: []
+          - type: condition
+            condition: creature == 5
+            onTrue:
+              - type: text
+                text: ""
+                title: Black Bear
+            onFalse: []
+          - type: condition
+            condition: creature == 6
+            onTrue:
+              - type: text
+                text: ""
+                title: Giant Weasel
+            onFalse: []
+          - type: condition
+            condition: creature == 7
+            onTrue:
+              - type: text
+                text: ""
+                title: Giant Hyena
+            onFalse: []
+          - type: condition
+            condition: creature == 8
+            onTrue:
+              - type: text
+                text: ""
+                title: Tiger
+            onFalse: []
+          - type: text
+            text: >-
+              This bag made from gray, rust, or tan cloth appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object.
+
+              You can take a Magic action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling on the table that corresponds to the bag’s color. See the Monster Manual for the creature’s stat block. The creature vanishes at the next dawn or when it is reduced to 0 Hit Points.
+
+              The creature is Friendly to you and your allies, and it acts immediately after you on your Initiative count. You can take a Bonus Action to command how the creature moves and what action it takes on its next turn, such as attacking an enemy. In the absence of such orders, the creature acts in a fashion appropriate to its nature.
+
+              Once three fuzzy objects have been pulled from the bag, the bag can’t be used again until the next dawn.
+        _v: 2
+        proper: false
+        verb: pulls from
+        activation_type: 1
+Bead of Force:
+  automations:
+    - |
+      - name: Bead of Force
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: dex
+                fail:
+                  - type: damage
+                    damage: 5d4[force]
+                success: []
+                dc: "15"
+          - type: text
+            text: >-
+              This small black sphere measures 3/4 of an inch in diameter and weighs an ounce. Typically, 1d4 + 4 Beads of Force are found together.
+
+              You can take a Magic action to throw the bead up to 60 feet. The bead explodes in a 10-foot-radius Sphere on impact and is destroyed. Each creature in the Sphere must succeed on a DC 15 Dexterity saving throw or take 5d4 Force damage. A sphere of transparent force then encloses the area for 1 minute. Any creature that failed the save and is completely within the area is trapped inside this sphere. Creatures that succeeded on the save or are partially within the area are pushed away from the center of the sphere until they are no longer inside it. Only breathable air can pass through the sphere’s wall. No attack or other effect can pass through.
+
+              An enclosed creature can take a Utilize action to push against the sphere’s wall, moving the sphere up to half the creature’s Speed. The sphere can be picked up, and its magic causes it to weigh only 1 pound, regardless of the weight of creatures inside.
+        _v: 2
+        proper: false
+        verb: throws
+        activation_type: 1
+Berserker Axe:
+  automations:
+    - |
+      - name: Berserker Axe (Curse)
+        automation:
+          - type: target
+            target: self
+            effects:
+              - type: save
+                stat: wis
+                fail:
+                  - type: ieffect2
+                    name: Berserk
+                    buttons:
+                      - label: End berserk
+                        automation:
+                          - type: remove_ieffect
+                        style: "3"
+                    desc: Attacking closest creature.
+                success: []
+                dc: "15"
+          - type: text
+            text: >-
+              **Curse.** This weapon is cursed, and becoming attuned to it extends the
+              curse to you. As long as you remain cursed, you are unwilling to part
+              with the weapon, keeping it within reach at all times. You also have
+              Disadvantage on attack rolls with weapons other than this one.
+
+
+              Whenever another creature damages you while the weapon is in your possession, you must succeed on a DC 15 Wisdom saving throw or go berserk. This berserk state ends when you start your turn and there are no creatures within 60 feet of you that you can see or hear.
+
+
+              While berserk, you regard the creature nearest to you that you can see or hear as your enemy. If there are multiple possible creatures, choose one at random. On each of your turns, you must move as close to the creature as possible and take the Attack action, targeting the creature. If you’re unable to get close enough to the creature to attack it with the weapon, your turn ends after you’ve used up all your available movement. If the creature dies or can no longer be seen or heard by you, the next nearest creature that you can see or hear becomes your new target.
+        _v: 2
+        proper: false
+        verb: is cursed by
+        activation_type: 2
+Boots of Levitation:
+  automations:
+    - |
+      - name: Boots of Levitation
+        automation:
+          - type: spell
+            id: 2618994
+        _v: 2
+        proper: true
+        verb: activates
+        activation_type: 1
+Boots of Speed:
+  counters:
+    - name: Boots of Speed
+      desc: Click your heels together.
+      min: 0
+      max: 100
+      reset: long
+      reset_to: 100
+  automations:
+    - |
+      - name: Boots of Speed
+        automation:
+          - type: counter
+            counter: Boots of Speed
+            amount: "1"
+          - type: text
+            text: >-
+              While you wear these boots, you can take a Bonus Action to click the
+              boots’ heels together. If you do, the boots double your Speed, and any
+              creature that makes an Opportunity Attack against you has Disadvantage
+              on the attack roll. If you click your heels together again, you end the
+              effect.
+
+
+              When you’ve used the boots’ property for a total of 10 minutes, the magic ceases to function for you until you finish a Long Rest.
+
+
+              Use `-amt` to specify a number of rounds of use.
+        _v: 2
+        proper: true
+        verb: clicks the heels of their
+        activation_type: 3
+Bowl of Commanding Water Elementals:
+  counters:
+    - name: Bowl of Commanding Water Elementals
+      desc: Conjure an elemental.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Bowl of Commanding Water Elementals
+        automation:
+          - type: counter
+            counter: Bowl of Commanding Water Elementals
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              While this bowl is filled with water and you are within 5 feet of it, you can take a Magic action to summon a Water Elemental. The elemental appears in an unoccupied space as close to the bowl as possible, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The bowl can’t be used this way again until the next dawn.
+
+              The bowl is about 1 foot in diameter and half as deep. It holds about 3 gallons.
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 1
+Brazier of Commanding Fire Elementals:
+  counters:
+    - name: Brazier of Commanding Fire Elementals
+      desc: Conjure an elemental.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Brazier of Commanding Fire Elementals
+        automation:
+          - type: counter
+            counter: Brazier of Commanding Fire Elementals
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: While you are within 5 feet of this brazier, you can take a Magic action to summon a Fire Elemental. The elemental appears in an unoccupied space as close to the brazier as possible, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The brazier can’t be used this way again until the next dawn.
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 1
+Cape of the Mountebank:
+  counters:
+    - name: Cape of the Mountebank
+      desc: Cast dimension door.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Cape of the Mountebank
+        automation:
+          - type: counter
+            counter: Cape of the Mountebank
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              This cape smells faintly of brimstone. While wearing it, you can use it to cast Dimension Door as a Magic action. This property can’t be used again until the next dawn.
+
+              When you teleport with that spell, you leave behind a cloud of smoke. The space you left is Lightly Obscured by that smoke until the end of your next turn.
+          - type: spell
+            id: 2619100
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 1
+Censer of Controlling Air Elementals:
+  counters:
+    - name: Censer of Controlling Air Elementals
+      desc: Conjure an elemental.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Censer of Controlling Air Elementals
+        automation:
+          - type: counter
+            counter: Censer of Controlling Air Elementals
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: While gently swinging this censer, you can take a Magic action to summon an Air Elemental. The elemental appears in an unoccupied space as close to the censer as possible, understands your languages, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The censer can’t be used this way again until the next dawn.
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 1
+Chime of Opening:
+  counters:
+    - name: Chime of Opening
+      desc: Open a lock.
+      min: 0
+      max: 10
+      reset: none
+  automations:
+    - |
+      - name: Chime of Opening
+        automation:
+          - type: counter
+            counter: Chime of Opening
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              This hollow metal tube measures about 1 foot long and weighs 1 pound. As a Magic action, you can strike the chime to cast Knock. The spell’s customary knocking sound is replaced by the clear, ringing tone of the chime, which is audible out to 300 feet. The chime can be used 10 times. After the tenth time, it cracks and becomes useless.
+        _v: 2
+        proper: false
+        verb: sounds
+        activation_type: 1
+Circlet of Blasting:
+  counters:
+    - name: Circlet of Blasting
+      desc: Cast scortching ray.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Circlet of Blasting
+        automation:
+          - type: counter
+            counter: Circlet of Blasting
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: While wearing this circlet, you can cast Scorching Ray with it (+5 to
+              hit). The circlet can’t cast this spell again until the next dawn.
+          - type: spell
+            id: 2619005
+            attackBonus: "5"
+        _v: 2
+        proper: false
+        activation_type: 1
+Cloak of Arachnida:
+  counters:
+    - name: Cloak of Arachnida
+      desc: Cast web.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Cloak of Arachnida
+        automation:
+          - type: counter
+            counter: Cloak of Arachnida
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: "**Web.** You can cast Web (save DC 13). The web created by the spell
+              fills twice its normal area. Once used, this property can’t be used
+              again until the next dawn."
+          - type: spell
+            id: 2619208
+            dc: "13"
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 1
+Cloak of Displacement:
+  automations:
+    - |
+      - name: Cloak of Displacement
+        automation:
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Displaced
+                desc: Attack rolls against you have disadvantage.
+                save_as: displaced
+                attacks:
+                  - attack:
+                      _v: 2
+                      name: Suspend displacement
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: ieffect2
+                              name: Revealed
+                              tick_on_caster: true
+                              duration: "1"
+                              desc: Displacement is not functioning.
+                      verb: no longer benefits from their
+                      proper: true
+          - type: text
+            text: While you wear this cloak, it magically projects an illusion that makes you appear to be standing in a place near your actual location, causing any creature to have Disadvantage on attack rolls against you. If you take damage, the property ceases to function until the start of your next turn. This property is suppressed while your Speed is 0.
+        _v: 2
+        proper: false
+        verb: wears
+        activation_type: 2
+Cloak of the Bat:
+  counters:
+    - name: Cloak of the Bat
+      desc: Cast polymorph-bat.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Cloak of the Bat
+        automation:
+          - type: counter
+            counter: Cloak of the Bat
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              While wearing this cloak, you have Advantage on Dexterity (Stealth)
+              checks. In an area of Dim Light or Darkness, you can grip the edges of
+              the cloak and use it to gain a Fly Speed of 40 feet. If you ever fail to
+              grip the cloak’s edges while flying in this way, or if you are no longer
+              in Dim Light or Darkness, you lose this Fly Speed.
+
+
+              While wearing the cloak in an area of Dim Light or Darkness, you can cast Polymorph on yourself, shape-shifting into a Bat. While in that form, you retain your Intelligence, Wisdom, and Charisma scores. The cloak can’t be used this way again until the next dawn.
+          - type: spell
+            id: 2618876
+        _v: 2
+        proper: false
+        verb: wraps themself in
+        activation_type: 1
+Crystal Ball:
+  automations:
+    - |
+      - name: Crystal Ball
+        automation:
+          - type: text
+            text: The typical crystal ball is about 6 inches in diameter. While touching it,
+              you can cast the Scrying spell (save DC 17) with it.
+          - type: spell
+            id: 2619007
+            dc: "17"
+        _v: 2
+        proper: false
+        verb: scrys with
+        activation_type: 8
+Cube of Force:
+  counters:
+    - name: Cube of Force
+      desc: Summon barriers.
+      min: 0
+      max: 36
+      reset: long
+      reset_by: 1d20
+  automations:
+    - |
+      name: Cube of Force (Mage Armor)
+      automation:
+        - type: counter
+          counter: Cube of Force
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This cube is about an inch across. Each face has a distinct marking on it.
+            You can press one of those faces, expend the number of charges required
+            for it, and thereby cast the spell associated with it (save DC 17), as
+            shown in the Cube of Force Faces table.
+
+
+            The cube starts with 10 charges, and it regains 1d6 expended charges daily at dawn.
+        - type: spell
+          id: 2619006
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Force (Shield)
+      automation:
+        - type: counter
+          counter: Cube of Force
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This cube is about an inch across. Each face has a distinct marking on it.
+            You can press one of those faces, expend the number of charges required
+            for it, and thereby cast the spell associated with it (save DC 17), as
+            shown in the Cube of Force Faces table.
+
+
+            The cube starts with 10 charges, and it regains 1d6 expended charges daily at dawn.
+        - type: spell
+          id: 2619019
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 4
+    - |
+      name: Cube of Force (Leomund's Tiny Hut)
+      automation:
+        - type: counter
+          counter: Cube of Force
+          amount: "3"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This cube is about an inch across. Each face has a distinct marking on it.
+            You can press one of those faces, expend the number of charges required
+            for it, and thereby cast the spell associated with it (save DC 17), as
+            shown in the Cube of Force Faces table.
+
+
+            The cube starts with 10 charges, and it regains 1d6 expended charges daily at dawn.
+        - type: spell
+          id: 2619013
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 6
+    - |
+      name: Cube of Force (Mordenkainen’s Private Sanctum)
+      automation:
+        - type: counter
+          counter: Cube of Force
+          amount: "4"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This cube is about an inch across. Each face has a distinct marking on it.
+            You can press one of those faces, expend the number of charges required
+            for it, and thereby cast the spell associated with it (save DC 17), as
+            shown in the Cube of Force Faces table.
+
+
+            The cube starts with 10 charges, and it regains 1d6 expended charges daily at dawn.
+        - type: spell
+          id: 2619114
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 8
+    - |
+      name: Cube of Force (Otiluke’s Resilient Sphere)
+      automation:
+        - type: counter
+          counter: Cube of Force
+          amount: "4"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This cube is about an inch across. Each face has a distinct marking on it.
+            You can press one of those faces, expend the number of charges required
+            for it, and thereby cast the spell associated with it (save DC 17), as
+            shown in the Cube of Force Faces table.
+
+
+            The cube starts with 10 charges, and it regains 1d6 expended charges daily at dawn.
+        - type: spell
+          id: 2619128
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+    - |
+      name: Cube of Force (Wall of Force)
+      automation:
+        - type: counter
+          counter: Cube of Force
+          amount: "4"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            This cube is about an inch across. Each face has a distinct marking on it.
+            You can press one of those faces, expend the number of charges required
+            for it, and thereby cast the spell associated with it (save DC 17), as
+            shown in the Cube of Force Faces table.
+
+
+            The cube starts with 10 charges, and it regains 1d6 expended charges daily at dawn.
+        - type: spell
+          id: 2619194
+      _v: 2
+      proper: false
+      verb: activates
+      activation_type: 1
+Dagger of Venom:
+  counters:
+    - name: Dagger of Venom
+      desc: Poison the blade.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Dagger of Venom (Envenom)
+        automation:
+          - type: counter
+            counter: Dagger of Venom
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: You can use an action to cause thick, black poison to coat the blade. The
+              poison remains for 1 minute or until an attack using this weapon hits a
+              creature. That creature must succeed on a DC 15 Constitution saving
+              throw or take 2d10 poison damage and become poisoned for 1 minute. The
+              dagger can't be used this way again until the next dawn.
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Poisoned Dagger
+                duration: "10"
+                tick_on_caster: true
+                attacks:
+                  - attack:
+                      _v: 2
+                      name: Venom Damage
+                      automation:
+                        - type: target
+                          target: all
+                          effects:
+                            - type: save
+                              stat: con
+                              fail:
+                                - type: damage
+                                  damage: 2d10[poison]
+                                - type: ieffect2
+                                  name: Poisoned
+                                  duration: "10"
+                              success: []
+                              dc: "15"
+                        - type: remove_ieffect
+                      verb: deals
+                      proper: true
+                      activation_type: 2
+        _v: 2
+        proper: false
+        verb: poisons
+        activation_type: 1
+Dancing Sword:
+  automations:
+    - |
+      - name: Dancing Sword (Animate)
+        automation:
+          - type: text
+            text: >-
+              You can take a Bonus Action to toss this magic weapon into the air. When
+              you do so, the weapon begins to hover, flies up to 30 feet, and attacks
+              one creature of your choice within 5 feet of itself. The weapon uses
+              your attack roll and adds your ability modifier to damage rolls.
+
+
+              While the weapon hovers, you can take a Bonus Action to cause it to fly up to 30 feet to another spot within 30 feet of you. As part of the same Bonus Action, you can cause the weapon to attack one creature within 5 feet of the weapon.
+
+
+              After the hovering weapon attacks for the fourth time, it flies back to you and tries to return to your hand. If you have no hand free, the weapon falls to the ground in your space. If the weapon has no unobstructed path to you, it moves as close to you as it can and then falls to the ground. It also ceases to hover if you grasp it or are more than 30 feet away from it.
+        _v: 2
+        proper: false
+        verb: tosses
+        activation_type: 3
+Decanter of Endless Water:
+  automations:
+    - |
+      - name: Decanter of Endless Water (Geyser)
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: str
+                fail:
+                  - type: damage
+                    damage: 1d4[bludgeoning]
+                  - type: ieffect2
+                    name: Prone
+                    effects:
+                      attack_advantage: "-1"
+                    desc: A prone creature's only movement option is to crawl, unless it stands up
+                      and thereby ends the condition
+                    buttons:
+                      - label: Stand Up
+                        verb: stands up
+                        automation:
+                          - type: remove_ieffect
+                success: []
+                dc: "13"
+          - type: text
+            text: The decanter produces 30 gallons of water that gushes forth in a Line 30 feet long and 1 foot wide. If you’re holding the decanter, you can aim the geyser in one direction (no action required). One creature of your choice in the Line must succeed on a DC 13 Strength saving throw or take 1d4 Bludgeoning damage and have the Prone condition. Instead of a creature, you can target one object in the Line that isn’t being worn or carried and that weighs no more than 200 pounds. The object is knocked over by the geyser.
+        _v: 2
+        proper: false
+        activation_type: 1
+Dwarven Thrower:
+  automations:
+    - |
+      name: Dwarven Thrower (Thrown)
+      automation:
+        - type: target
+          target: each
+          effects:
+            - type: attack
+              hit:
+                - type: damage
+                  damage: 1d8[bludgeoning] + {caster.stats.get_mod("strength")} + 3
+                - type: condition
+                  condition: target.creature_type and "giant" in target.creature_type
+                  onTrue:
+                    - type: damage
+                      damage: 2d8[force]
+                  onFalse:
+                    - type: damage
+                      damage: 1d8[force]
+              miss: []
+              attackBonus: 3 + caster.stats.get_mod("strength") + caster.stats.prof_bonus
+        - type: text
+          text: You gain a +3 bonus to attack rolls and damage rolls made with this magic
+            weapon. It has the Thrown property with a normal range of 20 feet and a
+            long range of 60 feet. When you hit with a ranged attack using this
+            weapon, it deals an extra 1d8 Force damage, or an extra 2d8 Force damage
+            if the target is a Giant. Immediately after hitting or missing, the weapon
+            flies back to your hand.
+      _v: 2
+      proper: false
+Energy Bow:
+  automations:
+    - |
+      - name: Arrow of Restraint
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: attack
+                hit:
+                  - type: save
+                    stat: str
+                    fail:
+                      - type: ieffect2
+                        name: Restrained
+                        buttons:
+                          - label: Escape Restraints
+                            automation:
+                              - type: target
+                                target: self
+                                effects:
+                                  - type: check
+                                    ability: athletics
+                                    dc: "20"
+                                    success:
+                                      - type: remove_ieffect
+                                    fail: []
+                            verb: attempts to break free
+                            style: "1"
+                    success: []
+                    dc: "15"
+                miss: []
+                attackBonus: 1 + caster.stats.get_mod("dexterity") + caster.stats.prof_bonus
+          - type: text
+            text: Whenever you use this weapon to make a ranged attack against a creature,
+              you can try to restrain the target instead of dealing damage to it. If
+              the arrow hits, the target must succeed on a DC 15 Strength saving throw
+              or have the Restrained condition for 1 minute. As an action, a creature
+              Restrained by an arrow can make a DC 20 Strength (Athletics) check to
+              try to break the restraint, ending the effect on itself on a successful
+              check.
+            title: Arrow of Restraint.
+        _v: 2
+        proper: false
+    - |
+      - name: Arrow of Transport
+        automation:
+          - type: text
+            text: As a Magic action, you can fire one energy arrow from this weapon at a
+              target you can see within 60 feet of yourself. The target can be either
+              a willing Medium or smaller creature or an object that isn’t being worn
+              or carried, provided the object is small enough to fit inside a 5-foot
+              Cube. The arrow teleports the target to an unoccupied space you can see
+              within 10 feet of you.
+            title: Arrow of Transport.
+        _v: 2
+        proper: false
+        verb: fires
+        activation_type: 1
+    - |
+      - name: Energy Ladder
+        automation:
+          - type: text
+            text: As a Magic action, you can loose a flurry of energy arrows from this
+              weapon at a wall up to 60 feet away from yourself. The arrows become
+              glowing rungs that stick out of the wall, forming a magical ladder up to
+              60 feet long on the wall. This ladder lasts for 1 minute before
+              disappearing.
+            title: Energy Ladder.
+        _v: 2
+        proper: false
+        verb: fires
+        activation_type: 1
+Eyes of Charming:
+  counters:
+    - name: Eyes of Charming
+      desc: Cast charm person.
+      min: 0
+      max: 3
+      reset: long
+      type: circle
+  automations:
+    - |
+      - name: Eyes of Charming
+        automation:
+          - type: counter
+            counter: Eyes of Charming
+            amount: "1"
+            errorBehaviour: raise
+          - type: spell
+            id: 2618964
+            dc: "13"
+          - type: text
+            text: >-
+              These crystal lenses fit over the eyes. They have 3 charges. While wearing them, you can expend 1 or more charges to cast Charm Person (save DC 13). For 1 charge, you cast the level 1 version of the spell. You increase the spell’s level by one for each additional charge you expend. The lenses regain all expended charges daily at dawn.
+
+
+              Use both `-amt` and `-l` to spend additional charges and increase the level of the spell.
+        _v: 2
+        proper: true
+        verb: uses
+        activation_type: 1
+Gem of Brightness:
+  counters:
+    - name: Gem of Brightness
+      desc: Blind enemies.
+      min: 0
+      max: 50
+  automations:
+    - |
+      - name: Gem of Brightness
+        automation:
+          - type: counter
+            counter: Gem of Brightness
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: con
+                fail:
+                  - type: ieffect2
+                    name: Blinded
+                    duration: "10"
+                    buttons:
+                      - label: Resist Blindness
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: save
+                                stat: con
+                                fail: []
+                                success:
+                                  - type: remove_ieffect
+                                dc: "15"
+                        style: "1"
+                success: []
+                dc: "15"
+          - type: text
+            text: >-
+              This prism has 50 charges. While you are holding it, you can take a Magic action and use one of three command words to cause one of the following effects:
+
+              **First Command Word.** The gem sheds Bright Light in a 30-foot radius and Dim Light for an additional 30 feet. This effect doesn’t expend a charge. It lasts until you take a Bonus Action to repeat the command word or until you use another function of the gem.
+
+              **Second Command Word.** You expend 1 charge and cause the gem to fire a brilliant beam of light at one creature you can see within 60 feet of yourself. The creature must succeed on a DC 15 Constitution saving throw or have the Blinded condition for 1 minute. The creature repeats the save at the end of each of its turns, ending the effect on itself on a success.
+
+              **Third Command Word.** You expend 5 charges and cause the gem to flare with intense light in a 30-foot Cone. Each creature in the Cone makes a saving throw as if struck by the beam created with the second command word.
+
+              When all of the gem’s charges are expended, the gem becomes a nonmagical jewel worth 50 GP.
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+    - |
+      - name: Gem of Brightness (Cone)
+        automation:
+          - type: counter
+            counter: Gem of Brightness
+            amount: "5"
+            errorBehaviour: raise
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: con
+                fail:
+                  - type: ieffect2
+                    name: Blinded
+                    duration: "10"
+                    buttons:
+                      - label: Resist Blindness
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: save
+                                stat: con
+                                fail: []
+                                success:
+                                  - type: remove_ieffect
+                                dc: "15"
+                        style: "1"
+                success: []
+                dc: "15"
+          - type: text
+            text: >-
+              This prism has 50 charges. While you are holding it, you can take a Magic action and use one of three command words to cause one of the following effects:
+
+              **First Command Word.** The gem sheds Bright Light in a 30-foot radius and Dim Light for an additional 30 feet. This effect doesn’t expend a charge. It lasts until you take a Bonus Action to repeat the command word or until you use another function of the gem.
+
+              **Second Command Word.** You expend 1 charge and cause the gem to fire a brilliant beam of light at one creature you can see within 60 feet of yourself. The creature must succeed on a DC 15 Constitution saving throw or have the Blinded condition for 1 minute. The creature repeats the save at the end of each of its turns, ending the effect on itself on a success.
+
+              **Third Command Word.** You expend 5 charges and cause the gem to flare with intense light in a 30-foot Cone. Each creature in the Cone makes a saving throw as if struck by the beam created with the second command word.
+
+              When all of the gem’s charges are expended, the gem becomes a nonmagical jewel worth 50 GP.
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Gem of Seeing:
+  counters:
+    - name: Gem of Seeing
+      desc: Gain truesight.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Gem of Seeing
+        automation:
+          - type: counter
+            counter: Gem of Seeing
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Truesight
+                duration: "100"
+          - type: text
+            text: >-
+              This gem has 3 charges. As a Magic action, you can expend 1 charge. For the next 10 minutes, you have Truesight out to 120 feet when you peer through the gem.
+
+              The gem regains 1d3 expended charges daily at dawn.
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Giant Slayer:
+  automations:
+    - |
+      - name: Giant Slayer (Giant Strike)
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: damage
+                damage: 2d6[magical slashing]
+              - type: save
+                stat: str
+                fail:
+                  - type: ieffect2
+                    name: Prone
+                    effects:
+                      attack_advantage: "-1"
+                    desc: A prone creature's only movement option is to crawl, unless it stands up
+                      and thereby ends the condition
+                    buttons:
+                      - label: Stand Up
+                        verb: stands up
+                        automation:
+                          - type: remove_ieffect
+                success: []
+                dc: "15"
+        _v: 2
+        proper: false
+        activation_type: 2
+Gloves of Missile Snaring:
+  automations:
+    - |
+      - name: Gloves of Missile Snaring
+        automation:
+          - type: counter
+            counter: gloves_of_missile_snaring_placeholder_counter
+            amount: "0"
+            errorBehaviour: ignore
+          - type: target
+            target: self
+            effects:
+              - type: damage
+                damage: -(1d10 + {target.stats.get_mod("dexterity")},
+                  {lastCounterRequestedAmount})kl1[reduced damage]
+          - type: text
+            text: If you’re hit by an attack roll made with a Ranged or Thrown weapon while wearing these gloves, you can take a Reaction to reduce the damage by 1d10 plus your Dexterity modifier if you have a free hand. If you reduce the damage to 0, you can catch the ammunition or weapon if it is small enough for you to hold in that hand.
+        _v: 2
+        proper: true
+        verb: blocks with
+        activation_type: 4
+Hat of Disguise:
+  automations:
+    - |
+      name: Hat of Disguise
+      automation:
+        - type: text
+          text: While wearing this hat, you can cast the Disguise Self spell. The spell
+            ends if the hat is removed.
+        - type: spell
+          id: 2619102
+      _v: 2
+      proper: false
+      verb: wears
+      activation_type: 1
+Helm of Comprehending Languages:
+  automations:
+    - |
+      name: Helm of Comprehending Languages
+      automation:
+        - type: text
+          text: While wearing this helm, you can cast Comprehend Languages from it.
+        - type: spell
+          id: 2618993
+      _v: 2
+      proper: false
+      verb: wears
+      activation_type: 1
+Helm of Telepathy:
+  counters:
+    - name: Helm of Telepathy (Detect Thoughts)
+      desc: Cast Detect Thoughts.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+    - name: Helm of Telepathy (Suggestion)
+      desc: Cast Suggestion.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      name: Helm of Telepathy (Detect Thoughts)
+      automation:
+        - type: counter
+          counter: Helm of Telepathy (Detect Thoughts)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619099
+          dc: "13"
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Helm of Telepathy (Suggestion)
+      automation:
+        - type: counter
+          counter: Helm of Telepathy (Suggestion)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619101
+          dc: "13"
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Helm of Teleportation:
+  counters:
+    - name: Helm of Teleportation
+      desc: Cast teleport.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Helm of Teleportation
+        automation:
+          - type: counter
+            counter: Helm of Teleportation
+            amount: "1"
+            errorBehaviour: raise
+          - type: spell
+            id: 2619163
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Horn of Blasting:
+  automations:
+    - |
+      name: Horn of Blasting
+      automation:
+        - type: roll
+          dice: 5d8[thunder]
+          name: damage
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: con
+              dc: 15
+              fail:
+                - type: damage
+                  damage: "{damage}"
+                - type: ieffect2
+                  name: Deafened
+                  duration: "10"
+              success:
+                - type: damage
+                  damage: ({damage})/2
+        - type: text
+          text: >-
+            You can take a Magic action to blow the horn, which emits a thunderous
+            blast in a 30-foot Cone that is audible out to 600 feet. Each creature in
+            the Cone makes a DC 15 Constitution saving throw. On a failed save, a
+            creature takes 5d8 Thunder damage and has the Deafened condition for 1
+            minute. On a successful save, a creature takes half as much damage only.
+            Glass or crystal objects in the Cone that aren’t being worn or carried
+            take 10d8 Thunder damage.
+
+            Each use of the horn’s magic has a 20 percent chance of causing the horn to explode. The explosion deals 10d6 Force damage to the user and destroys the horn.
+        - type: roll
+          dice: 1d100
+          name: destruction
+        - type: condition
+          condition: lastRoll <= 20
+          onTrue:
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: 10d6[force]
+                - type: text
+                  text: The horn is destroyed.
+                  title: Destruction!
+          onFalse: []
+          errorBehaviour: "false"
+      _v: 2
+      proper: false
+      activation_type: 1
+Iron Bands of Bilarro:
+  counters:
+    - name: Iron Bands of Binding
+      desc: Magical restraints.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Iron Bands of Binding
+        automation:
+          - type: counter
+            counter: Iron Bands of Binding
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: each
+            effects:
+              - type: attack
+                hit:
+                  - type: ieffect2
+                    name: Restrained
+                    buttons:
+                      - label: Break Bands
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: check
+                                ability: strength
+                                dc: "20"
+                                success:
+                                  - type: text
+                                    text: The bands are destroyed and the creature is free.
+                                fail: []
+                        style: "1"
+                miss: []
+                attackBonus: caster.stats.get_mod("dexterity") + caster.stats.prof_bonus
+          - type: text
+            text: >-
+              This rusty iron sphere measures 3 inches in diameter and weighs 1 pound. You can take a Magic action to throw the sphere at a Huge or smaller creature you can see within 60 feet of yourself. As the sphere moves through the air, it opens into a tangle of metal bands.
+
+              Make a ranged attack roll with an attack bonus equal to your Dexterity modifier plus your Proficiency Bonus. On a hit, the target has the Restrained condition until you take a Bonus Action to issue a command that releases it. Doing so or missing with the attack causes the bands to contract and become a sphere once more.
+
+              A creature that can touch the bands, including the one Restrained, can take an action to make a DC 20 Strength (Athletics) check to break the iron bands. On a successful check, the item is destroyed, and the Restrained creature is freed. On a failed check, any further attempts made by that creature automatically fail until 24 hours have elapsed.
+
+              Once the bands are used, they can’t be used again until the next dawn.
+        _v: 2
+        proper: true
+        activation_type: 1
+Javelin of Lightning:
+  counters:
+    - name: Javelin of Lightning
+      desc: Lightning strike.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Javelin of Lightning (Lightning Bolt)
+        automation:
+          - type: counter
+            counter: Javelin of Lightning
+            amount: "1"
+            errorBehaviour: raise
+          - type: roll
+            dice: 4d6[lightning]
+            name: damage
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: dex
+                fail:
+                  - type: damage
+                    damage: "{damage}"
+                success:
+                  - type: damage
+                    damage: ({damage})/2
+                dc: "13"
+          - type: text
+            text: >-
+              Each time you make an attack roll with this magic weapon and hit, you can have it deal Lightning damage instead of Piercing damage.
+
+              **Lightning Bolt.** When you throw this weapon at a target no farther than 120 feet from you, you can forgo making a ranged attack roll and instead turn the weapon into a bolt of lightning. This bolt forms a 5-foot-wide Line between you and the target. The target and each other creature in the Line (excluding you) makes a DC 13 Dexterity saving throw, taking 4d6 Lightning damage on a failed save or half as much damage on a successful one. Immediately after dealing this damage, the weapon reappears in your hand. This property can’t be used again until the next dawn.
+        _v: 2
+        proper: false
+Mace of Disruption:
+  automations:
+    - |
+      - name: Mace of Disruption (Disrupting Strike)
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: attack
+                hit:
+                  - type: damage
+                    damage: 1d6[magical bludgeoning]
+                  - type: condition
+                    condition: target.creature_type and ("fiend" in target.creature_type or "undead"
+                      in target.creature_type)
+                    onTrue:
+                      - type: damage
+                        damage: 2d6[radiant]
+                      - type: condition
+                        condition: target.hp <= 25
+                        onTrue:
+                          - type: save
+                            stat: wis
+                            fail:
+                              - type: text
+                                text: ""
+                                title: Destroyed!
+                              - type: damage
+                                damage: target.hp + target.temp_hp
+                                fixedValue: true
+                            success:
+                              - type: ieffect2
+                                name: Frightened
+                                duration: "1"
+                                tick_on_caster: true
+                                end: true
+                            dc: "15"
+                        onFalse: []
+                    onFalse: []
+                miss: []
+                attackBonus: caster.stats.get_mod("strength") + caster.stats.prof_bonus
+          - type: text
+            text: >-
+              When you hit a Fiend or an Undead with this magic weapon, that creature
+              takes an extra 2d6 Radiant damage. If the target has 25 Hit Points or
+              fewer after taking this damage, it must succeed on a DC 15 Wisdom saving
+              throw or be destroyed. On a successful save, the creature has the
+              Frightened condition until the end of your next turn.
+
+
+              **Light.** While you hold this weapon, it sheds Bright Light in a 20-foot radius and Dim Light for an additional 20 feet.
+        _v: 2
+        proper: false
+        activation_type: 2
+Mace of Smiting:
+  automations:
+    - |
+      - name: Mace of Smiting (Smiting Strike)
+        automation:
+          - type: target
+            target: each
+            effects:
+              - type: condition
+                condition: target.creature_type and "construct" in target.creature_type
+                onTrue:
+                  - type: attack
+                    hit:
+                      - type: damage
+                        damage: 1d6 + {caster.stats.get_mod("strength")} + 3[magical bludgeoning]
+                      - type: condition
+                        condition: lastAttackNaturalRoll == 20
+                        onTrue:
+                          - type: damage
+                            damage: 14[magical bludgeoning]
+                          - type: condition
+                            condition: target.hp <= 25
+                            onTrue:
+                              - type: damage
+                                damage: "{target.hp + target.temp_hp}"
+                            onFalse: []
+                        onFalse: []
+                    miss: []
+                    attackBonus: caster.stats.get_mod("strength") + caster.stats.prof_bonus + 3
+                onFalse:
+                  - type: attack
+                    hit:
+                      - type: damage
+                        damage: 1d6 + {caster.stats.get_mod("strength")} + 1[magical bludgeoning]
+                      - type: condition
+                        condition: lastAttackNaturalRoll == 20
+                        onTrue:
+                          - type: damage
+                            damage: 7[magical bludgeoning]
+                        onFalse: []
+                    miss: []
+                    attackBonus: caster.stats.get_mod("strength") + caster.stats.prof_bonus + 1
+                errorBehaviour: "false"
+          - type: text
+            text: >-
+              You gain a +1 bonus to attack rolls and damage rolls made with this magic
+              weapon. The bonus increases to +3 when you use the weapon to attack a
+              Construct.
+
+
+              When you roll a 20 on an attack roll made with this weapon, the target takes an extra 7 Bludgeoning damage, or 14 Bludgeoning damage if it’s a Construct. If a Construct has 25 Hit Points or fewer after taking this damage, it is destroyed.
+        _v: 2
+        proper: false
+Medallion of Thoughts:
+  counters:
+    - name: Medallion of Thoughts
+      desc: Cast detect thoughts.
+      min: 0
+      max: 5
+      reset: long
+      reset_by: 1d4
+      type: circle
+  automations:
+    - |
+      - name: Medallion of Thoughts
+        automation:
+          - type: counter
+            counter: Medallion of Thoughts
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: text
+            text: The medallion has 5 charges. While wearing it, you can expend 1 charge to cast Detect Thoughts (save DC 13) from it. The medallion regains 1d4 expended charges daily at dawn.
+          - type: spell
+            id: 2619099
+            dc: "13"
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Necklace of Fireballs:
+  counters:
+    - name: Necklace of Fireballs
+      desc: Cast fireball.
+      min: 0
+      max: 9
+  automations:
+    - |
+      - name: Necklace of Fireballs
+        automation:
+          - type: counter
+            counter: Necklace of Fireballs
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: false
+          - type: text
+            text: >-
+              This necklace has 1d6 + 3 beads hanging from it. You can take a Magic action to detach a bead and throw it up to 60 feet away. When it reaches the end of its trajectory, the bead detonates as a level 3 Fireball (save DC 15).
+
+
+              You can hurl multiple beads, or even the whole necklace, at one time. When you do so, increase the damage of the Fireball by 1d6 for each bead after the first (maximum 12d6).
+
+
+              Use `-amt` and `-l` together to throw multiple beads and increase the level of the fireball spell.
+          - type: spell
+            id: 2618887
+            dc: "15"
+        _v: 2
+        proper: false
+        activation_type: 1
+Oil of Etherealness:
+  automations:
+    - |
+      - name: Oil of Etherealness
+        automation:
+          - type: text
+            text: >-
+              One vial of this oil can cover one Medium or smaller creature, along with
+              the equipment it’s wearing and carrying (one additional vial is required
+              for each size category above Medium). Applying the oil takes 10 minutes.
+              The affected creature then gains the effect of the Etherealness spell
+              for 1 hour.
+
+
+              Beads of this cloudy, gray oil form on the outside of its container and quickly evaporate.
+          - type: spell
+            id: 2619193
+        _v: 2
+        proper: true
+        verb: applies
+        activation_type: 8
+Oil of Slipperiness:
+  automations:
+    - |
+      - name: Oil of Slipperiness (Freedom of Movement)
+        automation:
+          - type: text
+            text: >-
+              One vial of this oil can cover one Medium or smaller creature, along with the equipment it’s wearing and carrying (one additional vial is required for each size category above Medium). Applying the oil takes 10 minutes. The affected creature then gains the effect of the Freedom of Movement spell for 8 hours.
+
+              Alternatively, the oil can be poured on the ground as a Magic action, where it covers a 10-foot square, duplicating the effect of the Grease spell in that area for 8 hours.
+
+              This sticky, black unguent is thick and heavy, but it flows quickly when poured.
+          - type: spell
+            id: 2618921
+        _v: 2
+        proper: true
+        verb: applies
+        activation_type: 8
+    - |
+      - name: Oil of Slipperiness (Grease)
+        automation:
+          - type: text
+            text: >-
+              One vial of this oil can cover one Medium or smaller creature, along with the equipment it’s wearing and carrying (one additional vial is required for each size category above Medium). Applying the oil takes 10 minutes. The affected creature then gains the effect of the Freedom of Movement spell for 8 hours.
+
+              Alternatively, the oil can be poured on the ground as a Magic action, where it covers a 10-foot square, duplicating the effect of the Grease spell in that area for 8 hours.
+
+              This sticky, black unguent is thick and heavy, but it flows quickly when poured.
+          - type: spell
+            id: 2618957
+        _v: 2
+        proper: true
+        verb: spreads
+        activation_type: 1
+Pipes of Haunting:
+  counters:
+    - name: Pipes of Haunting
+      desc: Cause fear.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Pipes of Haunting
+        automation:
+          - type: counter
+            counter: Pipes of Haunting
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: wis
+                fail:
+                  - type: ieffect2
+                    name: Frightened
+                    buttons:
+                      - label: Resist Haunting
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: save
+                                stat: wis
+                                fail: []
+                                success:
+                                  - type: remove_ieffect
+                                dc: "15"
+                        style: "1"
+                    duration: "10"
+                success: []
+                dc: "15"
+          - type: text
+            text: These pipes have 3 charges and regain 1d3 expended charges daily at dawn. You can take a Magic action to play them and expend 1 charge to create an eerie, spellbinding tune. Each creature of your choice within 30 feet of you must succeed on a DC 15 Wisdom saving throw or have the Frightened condition for 1 minute. A creature that fails the save repeats it at the end of each of its turns, ending the effect on itself on a success. A creature that succeeds on its save is immune to the effect of these pipes for 24 hours.
+        _v: 2
+        proper: true
+        verb: plays
+        activation_type: 1
+Pipes of the Sewers:
+  counters:
+    - name: Pipes of the Sewers
+      desc: Summon rat swarms.
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: bubble
+  automations:
+    - |
+      name: Pipes of the Sewers
+      automation:
+        - type: counter
+          counter: Pipes of the Sewers
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            While these pipes are on your person, ordinary rats and giant rats are
+            Indifferent toward you and won’t attack you unless you threaten or harm
+            them.
+
+
+            The pipes have 3 charges and regain 1d3 expended charges daily at dawn. If you play the pipes as a Magic action, you can take a Bonus Action to expend 1 to 3 charges, calling forth one Swarm of Rats with each expended charge if enough rats are within half a mile of you to be called in this fashion (as determined by the DM). If there aren’t enough rats to form a swarm, the charge is wasted. Called swarms move toward the music by the shortest available route but aren’t under your control otherwise.
+
+
+            Whenever a Swarm of Rats that isn’t under another creature’s control comes within 30 feet of you while you are playing the pipes, the swarm makes a DC 15 Wisdom saving throw. On a successful save, the swarm behaves as it normally would and can’t be swayed by the pipes’ music for the next 24 hours. On a failed save, the swarm is swayed by the pipes’ music and becomes Friendly to you and your allies for as long as you continue to play the pipes each round as a Magic action. A Friendly swarm obeys your commands. If you issue no commands to a Friendly swarm, it defends itself but otherwise takes no actions. If a Friendly swarm starts its turn more than 30 feet away from you, your control over that swarm ends, and the swarm behaves as it normally would and can’t be swayed by the pipes’ music for the next 24 hours.
+      _v: 2
+      proper: true
+      verb: plays
+      activation_type: 1
+Ring of Animal Influence:
+  counters:
+    - name: Ring of Animal Influence
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Ring of Animal Influence (Animal Friendship)
+        automation:
+          - type: counter
+            counter: Ring of Animal Influence
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              This ring has 3 charges, and it regains 1d3 expended charges daily at
+              dawn. While wearing the ring, you can use an action to expend 1 of its
+              charges to cast one of the following spells:
+
+                  Animal friendship (save DC 13)
+                  Fear (save DC 13), targeting only beasts that have an Intelligence of 3 or lower
+                  Speak with animals
+          - type: spell
+            id: 2618847
+            dc: "13"
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+    - |
+      - name: Ring of Animal Influence (Fear)
+        automation:
+          - type: counter
+            counter: Ring of Animal Influence
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              This ring has 3 charges, and it regains 1d3 expended charges daily at
+              dawn. While wearing the ring, you can use an action to expend 1 of its
+              charges to cast one of the following spells:
+
+                  Animal friendship (save DC 13)
+                  Fear (save DC 13), targeting only beasts that have an Intelligence of 3 or lower
+                  Speak with animals
+          - type: spell
+            id: 2618872
+            dc: "13"
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+    - |
+      - name: Ring of Animal Influence (Speak With Animals)
+        automation:
+          - type: counter
+            counter: Ring of Animal Influence
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: text
+            text: >-
+              This ring has 3 charges, and it regains 1d3 expended charges daily at
+              dawn. While wearing the ring, you can use an action to expend 1 of its
+              charges to cast one of the following spells:
+
+                  Animal friendship (save DC 13)
+                  Fear (save DC 13), targeting only beasts that have an Intelligence of 3 or lower
+                  Speak with animals
+          - type: spell
+            id: 2619059
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Ring of Evasion:
+  counters:
+    - name: Ring of Evasion
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Ring of Evasion
+        automation:
+          - type: counter
+            counter: Ring of Evasion
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: text
+            text: This ring has 3 charges, and it regains 1d3 expended charges daily at
+              dawn. When you fail a Dexterity saving throw while wearing the ring, you
+              can take a Reaction to expend 1 charge to succeed on that save instead.
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 4
+Ring of Jumping:
+  automations:
+    - |
+      - name: Ring of Jumping
+        automation:
+          - type: text
+            text: While wearing this ring, you can cast the jump spell from it as a bonus
+              action at will, but can target only yourself when you do so.
+          - type: spell
+            id: 2618991
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 3
+Ring of Telekinesis:
+  automations:
+    - |
+      - name: Ring of Telekinesis
+        automation:
+          - type: text
+            text: While wearing this ring, you can cast Telekinesis from it.
+          - type: spell
+            id: 2619157
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Ring of the Ram:
+  counters:
+    - name: Ring of the Ram
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Ring of the Ram
+        automation:
+          - type: counter
+            counter: Ring of the Ram
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: each
+            effects:
+              - type: attack
+                hit:
+                  - type: damage
+                    damage: "{lastCounterRequestedAmount * 2}d10[force]"
+                miss: []
+                attackBonus: "7"
+          - type: text
+            text: >-
+              This ring has 3 charges and regains 1d3 expended charges daily at dawn. While wearing the ring, you can take a Magic action to expend 1 to 3 charges to make a ranged spell attack against one creature you can see within 60 feet of yourself. The ring produces a spectral ram’s head and makes its attack roll with a +7 bonus. On a hit, for each charge you spend, the target takes 2d10 Force damage and is pushed 5 feet away from you.
+
+
+              Alternatively, you can expend 1 to 3 of the ring’s charges as a Magic action to try to break a nonmagical object you can see within 60 feet of yourself that isn’t being worn or carried. The ring makes a Strength check with a +5 bonus for each charge you spend.
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Robe of Scintillating Colors:
+  counters:
+    - name: Robe of Scintillating Colors
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      - name: Robe of Scintillating Colors
+        automation:
+          - type: counter
+            counter: Robe of Scintillating Colors
+            amount: "1"
+            fixedValue: true
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Scintillating
+                duration: "2"
+                end: true
+                tick_on_caster: true
+                desc: Creatures that can see you have disadvantage on attack rolls against you.
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: wis
+                fail:
+                  - type: ieffect2
+                    name: Stunned
+                    duration: "2"
+                    end: true
+                    tick_on_caster: true
+                success: []
+                dc: "15"
+          - type: text
+            text: This robe has 3 charges, and it regains 1d3 expended charges daily at dawn. While you wear it, you can take a Magic action and expend 1 charge to cause the garment to display a shifting pattern of dazzling hues until the end of your next turn. During this time, the robe sheds Bright Light in a 30-foot radius and Dim Light for an additional 30 feet, and creatures that can see you have Disadvantage on attack rolls against you. Any creature in the Bright Light that can see you when the robe’s power is activated must succeed on a DC 15 Wisdom saving throw or have the Stunned condition until the effect ends.
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Robe of Stars:
+  counters:
+    - name: Robe of Stars
+      desc: Cast magic missile.
+      min: 0
+      max: 6
+      reset: long
+      reset_by: 1d6
+      type: circle
+  automations:
+    - |
+      - name: Robe of Stars
+        automation:
+          - type: counter
+            counter: Robe of Stars
+            amount: "1"
+            fixedValue: true
+          - type: text
+            text: >-
+              This black or dark blue robe is embroidered with small white or silver
+              stars. You gain a +1 bonus to saving throws while you wear it.
+
+
+              Six stars, located on the robe's upper front portion, are particularly large. While wearing this robe, you can use an action to pull off one of the stars and use it to cast magic missile as a 5th-level spell. Daily at dusk, 1d6 removed stars reappear on the robe.
+
+
+              While you wear the robe, you can use an action to enter the Astral Plane along with everything you are wearing and carrying. You remain there until you use an action to return to the plane you were on. You reappear in the last space you occupied, or if that space is occupied, the nearest unoccupied space.
+          - type: spell
+            id: 2619022
+            level: 5
+        _v: 2
+        proper: false
+        activation_type: 1
+Rod of Rulership:
+  counters:
+    - name: Rod of Rulership
+      desc: Charm crowds.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Rod of Rulership
+        automation:
+          - type: counter
+            counter: Rod of Rulership
+            amount: "1"
+            errorBehaviour: raise
+            fixedValue: true
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: wis
+                fail:
+                  - type: ieffect2
+                    name: Charmed
+                    duration: "4800"
+                success: []
+                dc: "15"
+          - type: text
+            text: You can take a Magic action to present the rod and command obedience from each creature of your choice that you can see within 120 feet of yourself. Each target must succeed on a DC 15 Wisdom saving throw or have the Charmed condition for 8 hours. While Charmed in this way, the creature regards you as its trusted leader. If harmed by you or your allies or commanded to do something contrary to its nature, a target ceases to be Charmed in this way. Once used, this property can’t be used again until the next dawn.
+        _v: 2
+        proper: false
+        verb: uses
+        activation_type: 1
+Rope of Entanglement:
+  automations:
+    - |
+      - name: Rope of Entanglement
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: dex
+                fail:
+                  - type: ieffect2
+                    name: Restrained
+                    buttons:
+                      - label: Escape Restraints
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: condition
+                                condition: target.stats.get_mod("strength") > target.stats.get_mod("dexterity")
+                                onTrue:
+                                  - type: check
+                                    ability: strength
+                                    dc: "15"
+                                    success:
+                                      - type: remove_ieffect
+                                    fail: []
+                                onFalse:
+                                  - type: check
+                                    ability: dexterity
+                                    dc: "15"
+                                    success:
+                                      - type: remove_ieffect
+                                    fail: []
+                        style: "1"
+                success: []
+                dc: "15"
+          - type: text
+            text: >-
+              This rope is 30 feet long. While holding one end of the rope, you can take a Magic action to command the other end to dart forward and entangle one creature you can see within 20 feet of yourself. The target must succeed on a DC 15 Dexterity saving throw or have the Restrained condition. You can release the target by letting go of your end of the rope (causing the rope to coil up in the target’s space) or by using a Bonus Action to repeat the command (causing the rope to coil up in your hand).
+
+
+              A target Restrained by the rope can take an action to make its choice of a DC 15 Strength (Athletics) or Dexterity (Acrobatics) check. On a successful check, the target is no longer Restrained by the rope. If you’re still holding onto the rope when a target escapes from it, you can take a Reaction to command the rope to coil up in your hand; otherwise, the rope coils up in the target’s space.
+
+
+              The rope has AC 20, HP 20, and Immunity to Poison and Psychic damage. It regains 1 Hit Point every 5 minutes as long as it has at least 1 Hit Point. If the rope drops to 0 Hit Points, it is destroyed.
+              View Details Page
+        _v: 2
+        proper: false
+        activation_type: 1
+Stone of Commanding Earth Elementals:
+  counters:
+    - name: Stone of Commanding Earth Elementals
+      desc: Conjure an elemental.
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      - name: Stone of Commanding Earth Elementals
+        automation:
+          - type: counter
+            counter: Stone of Commanding Earth Elementals
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: While touching this 5-pound stone to the ground, you can take a Magic action to summon an Earth Elemental. The elemental appears in an unoccupied space you choose within 30 feet of yourself, obeys your commands, and takes its turn immediately after you on your Initiative count. The elemental disappears after 1 hour, when it dies, or when you dismiss it as a Bonus Action. The stone can’t be used this way again until the next dawn.
+        _v: 2
+        proper: false
+        verb: activates
+        activation_type: 1
+Sun Blade:
+  automations:
+    - |
+      name: Sun Blade (Radiant Strike)
+      automation:
+        - type: target
+          target: all
+          effects:
+            - type: condition
+              condition: target.creature_type and "undead" in target.creature_type
+              onTrue:
+                - type: damage
+                  damage: 1d8[radiant]
+              onFalse: []
+      _v: 2
+      proper: false
+      activation_type: 2
+Trident of Fish Command:
+  counters:
+    - name: Trident of Fish Command
+      min: 0
+      max: 3
+      reset: long
+      reset_by: 1d3
+      type: circle
+  automations:
+    - |
+      name: Trident of Fish Command (Dominate Beast)
+      automation:
+        - type: counter
+          counter: Trident of Fish Command
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619146
+          dc: "15"
+        - type: text
+          text: This magic weapon has 3 charges, and it regains 1d3 expended charges daily
+            at dawn. While you carry it, you can expend 1 charge to cast Dominate
+            Beast (save DC 15) from it on a Beast that has a Swim Speed.
+      _v: 2
+      proper: false
+      verb: casts from
+      activation_type: 1
+Wind Fan:
+  counters:
+    - name: Wind Fan
+      desc: Failure chance.
+      min: 0
+      max: 100
+      reset: long
+      reset_to: 0
+  automations:
+    - |
+      name: Wind Fan
+      automation:
+        - type: roll
+          dice: 1d100
+          name: failure
+        - type: counter
+          counter: Wind Fan
+          amount: "0"
+          fixedValue: true
+          errorBehaviour: ignore
+        - type: condition
+          condition: lastRoll > lastCounterRemaining
+          onTrue:
+            - type: text
+              text: The fan fails to work, it tears into useless, nonmagical tatters.
+              title: Failure!
+          onFalse: []
+        - type: spell
+          id: 2619137
+          dc: "13"
+        - type: counter
+          counter: Wind Fan
+          amount: "-20"
+          fixedValue: true
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
