@@ -1,4 +1,857 @@
 # basic_rules_2024_staves = ''
+Staff of Charming:
+  counters:
+    - name: Staff of Charming
+      min: 0
+      max: 10
+      reset_by: 1d8+2
+      reset: long
+    - name: Staff of Charming (Resist Enchantment)
+      min: 0
+      max: 1
+      reset: long
+  automations:
+    - |
+      name: Staff of Charming (Charm Person)
+      automation:
+        - type: counter
+          counter: Staff of Charming
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618964
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff crumbles to dust and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Charming (Command)
+      automation:
+        - type: counter
+          counter: Staff of Charming
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618985
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff crumbles to dust and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Charming (Comprehend Languages)
+      automation:
+        - type: counter
+          counter: Staff of Charming
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618993
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff crumbles to dust and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Charming (Reflect Enchantment)
+      automation:
+        - type: counter
+          counter: Staff of Charming
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: If you succeed on a saving throw against an Enchantment spell that targets
+            only you, you can take a Reaction to expend 1 charge from the staff and
+            turn the spell back on its caster as if you had cast the spell.
+          title: Reflect Enchantment.
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff crumbles to dust and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Charming (Resist Enchantment)
+      automation:
+        - type: counter
+          counter: Staff of Charming (Resist Enchantment)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: If you fail a saving throw against an Enchantment spell that targets only you, you can turn your failed save into a successful one. You can’t use this property of the staff again until the next dawn.
+          title: Resist Enchantment.
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of Fire:
+  counters:
+    - name: Staff of Fire
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+  automations:
+    - |
+      name: Staff of Fire (Burning Hands)
+      automation:
+        - type: counter
+          counter: Staff of Fire
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618946
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff crumbles into cinders and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Fire (Wall of Fire)
+      automation:
+        - type: counter
+          counter: Staff of Fire
+          amount: "4"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619107
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff crumbles into cinders and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Fire (Fireball)
+      automation:
+        - type: counter
+          counter: Staff of Fire
+          amount: "3"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618887
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff crumbles into cinders and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of Frost:
+  counters:
+    - name: Staff of Frost
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+  automations:
+    - |
+      name: Staff of Frost (Cone of Cold)
+      automation:
+        - type: counter
+          counter: Staff of Frost
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619042
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff turns to water and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Frost (Fog Cloud)
+      automation:
+        - type: counter
+          counter: Staff of Frost
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618910
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff turns to water and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Frost (Ice Storm)
+      automation:
+        - type: counter
+          counter: Staff of Frost
+          amount: "4"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619178
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff turns to water and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Frost (Wall of Ice)
+      automation:
+        - type: counter
+          counter: Staff of Frost
+          amount: "4"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619195
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff turns to water and is destroyed.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of Healing:
+  counters:
+    - name: Staff of Healing
+      min: 0
+      max: 10
+      reset: long
+      reset_by: 1d6+4
+  automations:
+    - |
+      name: Staff of Healing (Cure Wounds)
+      automation:
+        - type: counter
+          counter: Staff of Healing
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            1 charge per spell level (maximum 4 for a level 4 spell)
+
+            Use `-amt` and `-l` together to set the number of charges used and spell level.
+        - type: spell
+          id: 2619079
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff vanishes in a flash of light, lost forever.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Healing (Lesser Restoration)
+      automation:
+        - type: counter
+          counter: Staff of Healing
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619016
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff vanishes in a flash of light, lost forever.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Healing (Mass Cure Wounds)
+      automation:
+        - type: counter
+          counter: Staff of Healing
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619026
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destroy
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff vanishes in a flash of light, lost forever.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of Power:
+  counters:
+    - name: Staff of Power
+      min: 0
+      max: 20
+      reset: long
+      reset_by: 2d8+4
+  automations:
+    - |
+      name: Staff of Power (Cone of Cold)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619042
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Fireball)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618887
+          level: 5
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Globe of Invulnerability)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "6"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618950
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Hold Monster)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619152
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Levitate)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618994
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Lightning Bolt)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618999
+          level: 5
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Magic Missile)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619022
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Ray of Enfeeblement)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618926
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Wall of Force)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619194
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: recharge
+              displayName: ""
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff retains its +2 bonus to attack rolls and damage rolls but loses
+                    all other properties.
+                  title: Depleted!
+              onFalse: []
+            - type: condition
+              condition: lastRoll == 20
+              onTrue:
+                - type: counter
+                  counter: Staff of Power
+                  amount: -(1d8+2)
+                  fixedValue: true
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Power (Retributive Strike)
+      automation:
+        - type: counter
+          counter: Staff of Power
+          amount: "0"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: roll
+          dice: 1d2
+          name: escape
+        - type: condition
+          condition: lastRoll == 2
+          onTrue:
+            - type: text
+              text: You instantly travel to a random plane of existence, avoiding the
+                explosion.
+              title: Escape!
+          onFalse:
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: 16*{lastCounterRemaining}
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: damage
+                  damage: 4*{lastCounterRemaining}
+              success:
+                - type: damage
+                  damage: 4*{lastCounterRemaining}/2
+              dc: "17"
+        - type: text
+          text: You can take a Magic action to break the staff over your knee or against a
+            solid surface. The staff is destroyed and releases its magic in an
+            explosion that fills a 30-foot Emanation originating from itself. You have
+            a 50 percent chance to instantly travel to a random plane of existence,
+            avoiding the explosion. If you fail to avoid the effect, you take Force
+            damage equal to 16 times the number of charges in the staff. Each other
+            creature in the area makes a DC 17 Dexterity saving throw. On a failed
+            save, a creature takes Force damage equal to 4 times the number of charges
+            in the staff. On a successful save, a creature takes half as much damage.
+          title: Retributive Strike.
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
 Staff of Striking:
   counters:
     - name: Staff of Striking
@@ -167,6 +1020,449 @@ Staff of Swarming Insects:
       _v: 2
       proper: false
       verb: activates
+      activation_type: 1
+Staff of the Woodlands:
+  counters:
+    - name: Staff of the Woodlands
+      min: 0
+      max: 6
+      reset: long
+      reset_by: 1d6
+  automations:
+    - |
+      name: Staff of the Woodlands (Animal Friendship)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618847
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Awaken)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618897
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Barkskin)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618907
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Locate Animals of Plants)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619000
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Pass without Trace)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618849
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Speak with Animals)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619059
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Speak with Plants)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "3"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619069
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Wall of Thorns)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "6"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2619202
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: casts with
+      activation_type: 1
+    - |
+      name: Staff of the Woodlands (Tree Form)
+      automation:
+        - type: counter
+          counter: Staff of the Woodlands
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The staff loses its properties and becomes a nonmagical quarterstaff.
+                  title: Destruction!
+              onFalse: []
+          onFalse: []
+        - type: text
+          text: You can take a Magic action to plant one end of the staff in earth in an unoccupied space and expend 1 charge to transform the staff into a healthy tree. The tree is 60 feet tall and has a 5-foot-diameter trunk, and its branches at the top spread out in a 20-foot radius. The tree appears ordinary but radiates a faint aura of Transmutation magic that can be discerned with the Detect Magic spell. While touching the tree and using a Magic action, you return the staff to its normal form. Any creature in the tree falls when the tree reverts to a staff.
+          title: Tree Form
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+Staff of Thunder and Lightning:
+  counters:
+    - name: Staff of Thunder and Lightning (Lightning)
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+    - name: Staff of Thunder and Lightning (Thunder)
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+    - name: Staff of Thunder and Lightning (Lightning Strike)
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+    - name: Staff of Thunder and Lightning (Thunderclap)
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+    - name: Staff of Thunder and Lightning (Thunder and Lightning)
+      min: 0
+      max: 1
+      reset: long
+      reset_to: 1
+      type: circle
+  automations:
+    - |
+      name: Staff of Thunder and Lightning (Lightning)
+      automation:
+        - type: counter
+          counter: Staff of Thunder and Lightning (Lightning)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: When you hit with a melee attack using the staff, you can cause the target
+            to take an extra 2d6 lightning damage (no action required).
+          title: Lightning
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: 2d6[lightning]
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 2
+    - |
+      name: Staff of Thunder and Lightning (Thunder)
+      automation:
+        - type: counter
+          counter: Staff of Thunder and Lightning (Thunder)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: When you hit with a melee attack using the staff, you can cause the staff to emit a crack of thunder, audible out to 300 feet (no action required). The target you hit must succeed on a DC 17 Constitution saving throw or have the Stunned condition until the end of your next turn.
+          title: Thunder
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: con
+              fail:
+                - type: ieffect2
+                  name: Stunned
+                  tick_on_caster: true
+                  duration: "2"
+              success: []
+              dc: "17"
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 2
+    - |
+      name: Staff of Thunder and Lightning (Lightning Strike)
+      automation:
+        - type: counter
+          counter: Staff of Thunder and Lightning (Lightning Strike)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can take a Magic action to cause a bolt of lightning to leap from the staff’s tip in a Line that is 5 feet wide and 120 feet long. Each creature in that Line makes a DC 17 Dexterity saving throw, taking 9d6 Lightning damage on a failed save or half as much damage on a successful one.
+          title: Lightning Strike
+        - type: roll
+          dice: 9d6[lightning]
+          name: damage
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: damage
+                  damage: "{damage}"
+              success:
+                - type: damage
+                  damage: ({damage})/2
+              dc: "17"
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Thunder and Lightning (Thunderclap)
+      automation:
+        - type: counter
+          counter: Staff of Thunder and Lightning (Thunderclap)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: You can take a Magic action to cause the staff to produce a thunderclap audible out to 600 feet. Every creature within a 60-foot Emanation originating from you makes a DC 17 Constitution saving throw. On a failed save, a creature takes 2d6 Thunder damage and has the Deafened condition for 1 minute. On a successful save, a creature takes half as much damage only.
+          title: Thunderclap
+        - type: roll
+          dice: 2d6[thunder]
+          name: damage
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: con
+              fail:
+                - type: damage
+                  damage: "{damage}"
+                - type: ieffect2
+                  name: Deafened
+                  duration: "10"
+              success:
+                - type: damage
+                  damage: ({damage})/2
+              dc: "17"
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Staff of Thunder and Lightning (Thunder and Lightning)
+      automation:
+        - type: counter
+          counter: Staff of Thunder and Lightning (Thunder and Lightning)
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: Immediately after you hit with a melee attack using the staff, you can take a Bonus Action to use the Lightning and Thunder properties (see above) at the same time. Doing so doesn’t expend the daily use of those properties, only the use of this one.
+          title: Thunder and Lightning
+        - type: target
+          target: all
+          effects:
+            - type: damage
+              damage: 2d6[lightning]
+            - type: save
+              stat: con
+              fail:
+                - type: ieffect2
+                  name: Stunned
+                  tick_on_caster: true
+                  duration: "2"
+              success: []
+              dc: "17"
+      _v: 2
+      proper: false
+      verb: uses
       activation_type: 1
 Staff of Withering:
   counters:
