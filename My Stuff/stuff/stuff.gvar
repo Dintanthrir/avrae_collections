@@ -8,6 +8,10 @@ _DEFAULT_SUBSCRIPTIONS = {
     'Staves (2014 Basic Rules)': '5a3b3deb-0345-45ec-bb0a-6f2caa05fac7',
     'Wands (2014 Basic Rules)': '4845f393-c93e-42e6-a01e-307d1fd302f2',
     'Magic Items (2014 Basic Rules)': '9e8e80a9-d910-4213-a85e-3e17a92cb7d3',
+    'Items (2024 Basic Rules)': 'a4746f39-153b-4980-9ac6-5eaab8a53521',
+    'Potions (2024 Basic Rules)': 'd7392c07-8549-4be9-85f4-50b8d0521269',
+    'Staves (2024 Basic Rules)': '0118fcfc-caef-46e0-bf4e-7856df95441a',
+    'Wands (2024 Basic Rules)': '05876103-c896-4d56-accc-bdcba0f74844',
 }
 _STUFF_SERVER_SUBSCRIPTIONS = load_yaml(get_svar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml(_DEFAULT_SUBSCRIPTIONS)))
 _STUFF_PERSONAL_SUBSCRIPTIONS = load_yaml(get_uvar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml({})))
