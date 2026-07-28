@@ -14,10 +14,13 @@
   "2d0a6901-ba12-4468-be26-0a963974c127": "Beverages/drinks_list.yml",
   "ee0df121-d5e3-44db-b58f-de76c9101e20": "Beverages/drinking_module.gvar",
 
+  "0118fcfc-caef-46e0-bf4e-7856df95441a": "My Stuff/basic_rules_2024_staves.yaml",
+  "05876103-c896-4d56-accc-bdcba0f74844": "My Stuff/basic_rules_2024_wands.yaml",
   "1b39df4c-023e-44a2-ba92-37b6cf1bd760": "My Stuff/ashirma_homebrew.yaml",
   "1be4f145-cc1d-4658-82f7-6e2f2f345a5c": "My Stuff/strixhaven_items.yaml",
   "470ea2d9-f7b5-4e97-82dd-281151da2df7": "My Stuff/ashirma_quest_items.yaml",
   "4845f393-c93e-42e6-a01e-307d1fd302f2": "My Stuff/basic_rules_2014_wands.yaml",
+  "49a1bac5-2bef-4624-9dfe-3cf87b3fb919": "My Stuff/dmg_2024_items.yaml",
   "5a3b3deb-0345-45ec-bb0a-6f2caa05fac7": "My Stuff/basic_rules_2014_staves.yaml",
   "6fe42f4d-65ed-4628-af36-22b8c65b451b": "My Stuff/stuff/stuff.gvar",
   "81c0809f-21d3-4ee8-b008-1e9af9db76c3": "My Stuff/tce_items.yaml",
@@ -25,6 +28,8 @@
   "8987b855-6fa5-489a-b8bb-713c70ca8f23": "My Stuff/dmg_2014_items.yaml",
   "9e8e80a9-d910-4213-a85e-3e17a92cb7d3": "My Stuff/basic_rules_2014_magic_items.yaml",
   "9ead6d6d-d838-4ac0-985d-1fec79c72bc4": "My Stuff/basic_rules_2014_items.yaml",
+  "a4746f39-153b-4980-9ac6-5eaab8a53521": "My Stuff/basic_rules_2024_items.yaml",
+  "d7392c07-8549-4be9-85f4-50b8d0521269": "My Stuff/basic_rules_2024_potions.yaml",
   "f3cb61c6-7a5e-41a7-9986-58270b45fd77": "My Stuff/xge_items.yaml",
   "f5e16029-2e9b-43b2-aba7-652518a0393a": "My Stuff/ashirma_guild_items.yaml",
 
