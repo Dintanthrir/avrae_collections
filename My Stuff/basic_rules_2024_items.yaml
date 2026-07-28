@@ -1939,6 +1939,195 @@ Ring of Jumping:
         proper: false
         verb: uses
         activation_type: 3
+Ring of Shooting Stars:
+  counters:
+    - name: Ring of Shooting Stars
+      min: 0
+      max: 6
+      reset: long
+      reset_by: 1d6
+  automations:
+    - |
+      name: Ring of Shooting Stars (Dancing Lights)
+      automation:
+        - type: spell
+          id: 2619058
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Ring of Shooting Stars (Light)
+      automation:
+        - type: spell
+          id: 2618996
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Ring of Shooting Stars (Faerie Fire)
+      automation:
+        - type: counter
+          counter: Ring of Shooting Stars
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618858
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+    - |
+      name: Ring of Shooting Stars (Lightning Spheres)
+      automation:
+        - type: counter
+          counter: ShootingStarsPlaceholderCounter
+          amount: "0"
+          errorBehaviour: ignore
+        - type: variable
+          name: spheres
+          value: lastCounterRequestedAmount
+          onError: "1"
+        - type: counter
+          counter: Ring of Shooting Stars
+          amount: "2"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            You can expend 2 charges as a Magic action to create up to four
+            3-foot-diameter spheres of lightning.
+
+
+            Each sphere appears in an unoccupied space you can see within 120 feet of yourself. The spheres last as long as you maintain Concentration, up to 1 minute. Each sphere sheds Dim Light in a 30-foot radius.
+
+
+            As a Bonus Action, you can move each sphere up to 30 feet, but no farther than 120 feet away from yourself. The first time the sphere comes within 5 feet of a creature other than you that isn’t behind Total Cover, the sphere discharges lightning at that creature and disappears. That creature makes a DC 15 Dexterity saving throw. On a failed save, the creature takes Lightning damage based on the number of spheres you created, as shown in the following table. On a successful save, the creature takes half as much damage.
+
+
+            Number of Spheres 	Lightning Damage
+
+            1 	4d12
+
+            2 	5d4
+
+            3 	2d6
+
+            4 	2d4
+
+
+            Use `-amt` to specify the number of spheres created.
+          title: Lightning Spheres.
+        - type: target
+          target: self
+          effects:
+            - type: ieffect2
+              name: Lightning Spheres
+              desc: Controlling {spheres} spheres.
+              conc: true
+              duration: "10"
+              attacks:
+                - attack:
+                    _v: 2
+                    name: Move Lightning Spheres
+                    automation:
+                      - type: text
+                        text: As a Bonus Action, you can move each sphere up to 30 feet, but no farther
+                          than 120 feet away from yourself. The first time the sphere
+                          comes within 5 feet of a creature other than you that isn’t
+                          behind Total Cover, the sphere discharges lightning at that
+                          creature and disappears.
+                    verb: chooses to
+                    proper: true
+                - attack:
+                    _v: 2
+                    name: Discharge Sphere
+                    automation:
+                      - type: condition
+                        condition: spheres == 4
+                        onTrue:
+                          - type: roll
+                            dice: 2d4
+                            name: damage
+                        onFalse: []
+                      - type: condition
+                        condition: spheres == 3
+                        onTrue:
+                          - type: roll
+                            dice: 2d6
+                            name: damage
+                        onFalse: []
+                      - type: condition
+                        condition: spheres == 2
+                        onTrue:
+                          - type: roll
+                            dice: 5d4
+                            name: damage
+                        onFalse: []
+                      - type: condition
+                        condition: spheres <= 1
+                        onTrue:
+                          - type: roll
+                            dice: 4d12
+                            name: damage
+                        onFalse: []
+                      - type: target
+                        target: all
+                        effects:
+                          - type: save
+                            stat: dex
+                            fail:
+                              - type: damage
+                                damage: "{damage}[lightning]"
+                            success:
+                              - type: damage
+                                damage: "{damage}/2[lightning]"
+                            dc: "15"
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+      list_display_override: Summon `-amt` lightning spheres.
+    - |
+      name: Ring of Shooting Stars (Shooting Stars)
+      automation:
+        - type: counter
+          counter: Ring of Shooting Stars
+          amount: "1"
+          errorBehaviour: raise
+        - type: text
+          text: >-
+            You can expend 1 to 3 charges as a Magic action. For every charge you
+            expend, you launch a glowing mote of light from the ring at a point you
+            can see within 60 feet of yourself. Each creature in a 15-foot Cube
+            originating from that point is showered in sparks and makes a DC 15
+            Dexterity saving throw, taking 5d4 Radiant damage on a failed save or half
+            as much damage on a successful one.
+
+
+            Use `-amt` to specify the number of charges to use.
+          title: Shooting Stars.
+        - type: roll
+          dice: 5d4[radiant]
+          name: damage
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: damage
+                  damage: "{damage}"
+              success:
+                - type: damage
+                  damage: ({damage})/2
+              dc: "15"
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
 Ring of Telekinesis:
   automations:
     - |
@@ -2064,6 +2253,73 @@ Robe of Stars:
         _v: 2
         proper: false
         activation_type: 1
+Rod of Resurrection:
+  counters:
+    - name: Rod of Resurrection
+      min: 0
+      max: 5
+      reset_by: 1
+      reset: long
+  automations:
+    - |
+      name: Rod of Resurrection (Heal)
+      automation:
+        - type: counter
+          counter: Rod of Resurrection
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618979
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The rod disappears in a harmless burst of radiance.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
+
+    - |
+      name: Rod of Resurrection (Resurrection)
+      automation:
+        - type: counter
+          counter: Rod of Resurrection
+          amount: "5"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: spell
+          id: 2618953
+        - type: condition
+          condition: lastCounterRemaining == 0
+          onTrue:
+            - type: roll
+              dice: 1d20
+              name: destruction
+              fixedValue: true
+            - type: condition
+              condition: lastRoll == 1
+              onTrue:
+                - type: text
+                  text: The rod disappears in a harmless burst of radiance.
+                  title: Destroyed!
+              onFalse: []
+          onFalse: []
+      _v: 2
+      proper: false
+      verb: uses
+      activation_type: 1
 Rod of Rulership:
   counters:
     - name: Rod of Rulership
@@ -2190,6 +2446,93 @@ Sun Blade:
       _v: 2
       proper: false
       activation_type: 2
+Thunderous Greatclub:
+  counters:
+    - name: Thunderous Greatclub
+      desc: Create an earthquake.
+      min: 0
+      max: 1
+      reset: long
+  automations:
+    - |
+      name: Thunderous Greatclub (Clap of Thunder)
+      automation:
+        - type: text
+          text: As a Magic action, you can strike the weapon against a hard surface to
+            create a loud clap of thunder audible out to 300 feet. You also create a
+            30-foot Cone of thunderous energy. Each creature in the Cone must succeed
+            on a DC 15 Strength saving throw or have the Prone condition. Nonmagical
+            objects in the Cone that aren’t being worn or carried take 3d8 Thunder
+            damage.
+          title: Clap of Thunder.
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: str
+              fail:
+                - type: ieffect2
+                  name: Prone
+                  effects:
+                    attack_advantage: "-1"
+                  desc: A prone creature's only movement option is to crawl, unless it stands up
+                    and thereby ends the condition
+                  buttons:
+                    - label: Stand Up
+                      verb: stands up
+                      automation:
+                        - type: remove_ieffect
+              success: []
+              dc: "15"
+      _v: 2
+      proper: false
+      activation_type: 1
+    - |
+      name: Thunderous Greatclub (Earthquake)
+      automation:
+        - type: counter
+          counter: Thunderous Greatclub
+          amount: "1"
+          fixedValue: true
+          errorBehaviour: raise
+        - type: text
+          text: As a Magic action, you can strike the weapon against the ground to create
+            an intense seismic disturbance in a 50-foot-radius circle centered on the
+            point of impact. Structures in contact with the ground in that area take
+            50 Bludgeoning damage, and each creature on the ground in that area must
+            succeed on a DC 20 Dexterity saving throw or have the Prone condition. If
+            that creature is also concentrating, it must succeed on a DC 20
+            Constitution saving throw, or its Concentration is broken. In addition,
+            you can cause a 30-foot-deep, 10-foot-wide fissure to open up on the
+            ground anywhere in the area. Any creature on a spot where the fissure
+            opens must make a DC 20 Dexterity saving throw, falling into the fissure
+            on a failed save or moving with the fissure’s edge on a successful one.
+            Any structure on a spot where the fissure opens collapses into the
+            fissure. Once you use this property, it can’t be used again until the next
+            dawn.
+          title: Earthquake.
+        - type: target
+          target: all
+          effects:
+            - type: save
+              stat: dex
+              fail:
+                - type: ieffect2
+                  name: Prone
+                  effects:
+                    attack_advantage: "-1"
+                  desc: A prone creature's only movement option is to crawl, unless it stands up
+                    and thereby ends the condition
+                  buttons:
+                    - label: Stand Up
+                      verb: stands up
+                      automation:
+                        - type: remove_ieffect
+              success: []
+              dc: "20"
+      _v: 2
+      proper: false
+      activation_type: 1
 Trident of Fish Command:
   counters:
     - name: Trident of Fish Command
