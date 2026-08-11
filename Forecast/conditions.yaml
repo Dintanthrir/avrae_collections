@@ -1,0 +1,40 @@
+clear:
+  desc: Clear skies. Good visibility.
+cloudy:
+  desc: Occassional clouds. Good visibility.
+overcast:
+  desc: Complete cloud cover. Good visibility.
+frost:
+  desc: Temperatures temporarily drop below freezing, covering the ground in ice crystals.
+fog:
+  desc: Fog blankets the land. Spaces are lightly obscured beyond 50', heavily obscured beyond 100'.
+drizzle:
+  desc: A light drizzle dampens everything.
+rain:
+  desc: Rain falls across the region.
+downpour:
+  desc: A downpour drenches the environment. _Heavy Rain_ creates difficult and muddy conditions.
+thunderstorm:
+  desc: Thunderstorms roll through. Lightning strikes at random.
+squall:
+  desc: A squall brings sudden and brief _Strong Wind_ with little warning.
+gale:
+  desc: A gale brings constant _Strong Wind_.
+tornado:
+  desc: Storms spawn damaging tornados causing localized destruction.
+monsoon:
+  desc: A monsoon sweeps through the region. Bringing _Heavy Rain_ and _Strong Wind_.
+hail:
+  desc: Hail pummels everything.
+flurries:
+  desc: Snow flurries dust the land.
+snow:
+  desc: Snow falls quietly.
+blizzard:
+  desc: A fierce blizzard piles up deep snow. _Heavy Snowfall_ creates white-out conditions.
+dust-storm:
+  desc: A dust storm fills the air. _Strong Wind_ causes all outdoor spaces to be lightly obscured.
+heat-wave:
+  desc: _Extreme Heat_ bakes the area.
+cold-spell:
+  desc: _Extreme Cold_ paralyzes the area.

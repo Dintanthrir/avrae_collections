@@ -1,21 +1,47 @@
-SETTINGS_SVAR
-SEASON_SVAR
+# forecast = ''
 
-{
-  "regions": {
-    "region name": {
-      "categories": ["category_id"],
-      "channels": ["channel_id"],
-      "seasons": {
-        "season_name": {
-          "conditions": {
-            "condition_name": {
-              "weight": 1,
+using(random = '51e97e64-607e-4562-8924-88f1b316cfc7')
 
-            }
-          }
-        }
-      }
-    }
-  }
-}
+SETTINGS_SVAR = 'forecast_settings'
+SEASON_SVAR = 'current_season'
+DEFAULT_CONDITIONS_GVAR = ''
+DEFAULT_SETTINGS = {}
+# {
+#   "conditions": {
+#     "condition_name": {
+#       "desc": "description"
+#     }
+#   }
+#   "regions": {
+#     "region name": {
+#       "categories": ["category_id"],
+#       "channels": ["channel_id"],
+#       "seasons": {
+#         "season_name": {
+#           "condition_name": 1
+#         }
+#       }
+#     }
+#   }
+#   "duration": "seconds"
+# }
+
+now = time()
+
+def get_forecasts(region=None):
+  settings = load_yaml(get_svar(SETTINGS_SVAR), dump_yaml(DEFAULT_SETTINGS))
+  season = get_svar(SEASON_SVAR, 'spring')
+  conditions = settings.get('conditions', {}) & load_yaml(get_gvar(DEFAULT_CONDITIONS_GVAR))
+
+  seed = now / settings.get('duration', 24*60*60)
+  random.seed(seed)
+
+  visible_regions = {}
+
+  for name, region in settings.get('regions', {}):
+    if (region.get('categories') == None and region.get('channels') == None) or ctx.category_id in region.get('categories') or ctx.channel_id in region.get('channels'):
+      possible_conditions = region.get(season, {})
+      current_condition = random.pseudorandchoices(possible_conditions.keys, weights=possible_conditions.values, k=1)
+      visible_regions[name] = current_condition
+
+  return visible_regions
