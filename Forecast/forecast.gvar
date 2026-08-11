@@ -1,0 +1,21 @@
+SETTINGS_SVAR
+SEASON_SVAR
+
+{
+  "regions": {
+    "region name": {
+      "categories": ["category_id"],
+      "channels": ["channel_id"],
+      "seasons": {
+        "season_name": {
+          "conditions": {
+            "condition_name": {
+              "weight": 1,
+
+            }
+          }
+        }
+      }
+    }
+  }
+}
