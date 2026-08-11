@@ -1,0 +1,154 @@
+# random = '51e97e64-607e-4562-8924-88f1b316cfc7'
+#
+# Seedable pseudo-random numbers.
+#
+# Based on https://github.com/bmurray7/mersenne-twister-examples/blob/master/python-mersenne-twister.py which is licensed as CCA-NC-SA
+# and https://github.com/python/cpython/blob/3.14/Lib/random.py
+#
+# Functions:
+# ==========
+# seed(seed_value)
+# pseudorandint(start, stop=None, step=1)
+# pseudorandchoice(seq)
+# pseudorandchoices(population, weights=None, cum_weights=None, k=1)
+
+def _int32(x):
+  # Get the 32 least significant bits.
+  return int(0xFFFFFFFF & x)
+
+_STATE = {
+  "index": 624,
+  "mt": [0] * 624
+}
+
+def _twist():
+  for i in range(624):
+    # Get the most significant bit and add it to the less significant
+    # bits of the next number
+    y = _int32((_STATE.mt[i] & 0x80000000) +
+      (_STATE.mt[(i + 1) % 624] & 0x7fffffff))
+    _STATE.mt[i] = _STATE.mt[(i + 397) % 624] ^ y >> 1
+
+    if y % 2 != 0:
+      _STATE.mt[i] = _STATE.mt[i] ^ 0x9908b0df
+  _STATE["index"] = 0
+
+def seed(seed_value):
+  _STATE["index"] = 624
+  _STATE["mt"] = [0] * 624
+  _STATE.mt[0] = seed_value
+  for i in range(1, 624):
+    _STATE.mt[i] = _int32(
+      1812433253 * (_STATE.mt[i - 1] ^ _STATE.mt[i - 1] >> 30) + i)
+
+def _extract_number():
+  if _STATE.index >= 624:
+    _twist()
+
+  y = _STATE.mt[_STATE.index]
+
+  # Right shift by 11 bits
+  y = y ^ y >> 11
+  # Shift y left by 7 and take the bitwise and of 2636928640
+  y = y ^ y << 7 & 2636928640
+  # Shift y left by 15 and take the bitwise and of y and 4022730752
+  y = y ^ y << 15 & 4022730752
+  # Right shift by 18 bits
+  y = y ^ y >> 18
+
+  _STATE["index"] = _STATE.index + 1
+
+  return _int32(y)
+
+def _random():
+  """Get the next random number in the range 0.0 <= X < 1.0."""
+  return float(_extract_number())/(1<<32)
+
+def _randbelow(n):
+  """Return a random int in the range [0,n).  Defined for n > 0.
+  """
+  maxsize=1<<32
+  if n >= maxsize:
+    err("Random implementation limited to 32 bits")
+  rem = maxsize % n
+  limit = (maxsize - rem) / maxsize   # int(limit * maxsize) % n == 0
+  r = _random()
+  while r >= limit:
+      r = _random()
+  return floor(r * maxsize) % n
+
+def pseudorandint(start, stop=None, step=1):
+  """Choose a random item from range(stop) or range(start, stop[, step]).
+  """
+  # This code is a bit messy to make it fast for the
+  # common case while still doing adequate error checking.
+  istart = int(start)
+  if stop is None:
+    # We don't check for "step != 1" because it hasn't been
+    # type checked and converted to an integer yet.
+    if step is not 1:
+      err("Missing a non-None stop argument")
+    if istart > 0:
+      return _randbelow(istart)
+    err("empty range for randrange()")
+
+  # Stop argument supplied.
+  istop = int(stop)
+  width = istop - istart
+  istep = int(step)
+  # Fast path.
+  if istep == 1:
+    if width > 0:
+      return istart + _randbelow(width)
+    err(f"empty range in randrange({start}, {stop})")
+
+  # Non-unit step argument supplied.
+  if istep > 0:
+    n = (width + istep - 1) // istep
+  elif istep < 0:
+    n = (width + istep + 1) // istep
+  else:
+    err("zero step for randrange()")
+  if n <= 0:
+    err(f"empty range in randrange({start}, {stop}, {step})")
+  return istart + istep * _randbelow(n)
+
+def pseudorandchoice(seq):
+  """Choose a random element from a non-empty sequence."""
+  if not len(seq):
+    raise err('Cannot choose from an empty sequence')
+  return seq[_randbelow(len(seq))]
+
+def pseudorandchoices(population, weights=None, cum_weights=None, k=1):
+  """Return a k sized list of population elements chosen with replacement.
+
+  If the relative weights or cumulative weights are not specified,
+  the selections are made with equal probability.
+  """
+  n = len(population)
+  if cum_weights is None:
+    if weights is None:
+      return [population[floor(_random() * n)] for i in range(0, k)]
+    total = 0
+    cum_weights = []
+    for weight in weights:
+      total = total + weight
+      cum_weights.append(total)
+  elif weights is not None:
+    err('Cannot specify both weights and cumulative weights')
+  if len(cum_weights) != n:
+    err('The number of weights does not match the population')
+  total = cum_weights[-1]
+  if total <= 0:
+    err('Total of weights must be greater than zero')
+  hi = n - 1
+  choices = []
+  for choice in range(0, k):
+    pick = _random() * total
+    index = 0
+    while cum_weights[index] <= pick:
+      index = index + 1
+    choices.append(population[index])
+  return choices
+
+seed(int(time()))

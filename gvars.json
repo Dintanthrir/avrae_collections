@@ -1,6 +1,7 @@
 {
   "00186972-7692-4f56-9ab7-60f0089704a4": "gvars/log.gvar",
   "15397c01-adc2-4a9a-9011-b2e7a29245f7": "gvars/tests.gvar",
+  "51e97e64-607e-4562-8924-88f1b316cfc7": "gvars/random.gvar",
   "5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e": "gvars/docstring.gvar",
   "7207a79c-07b0-4317-8653-f671df7305ee": "gvars/roll_utils.gvar",
   "7fdffa53-ac7b-4a40-80d8-eef3aba6f32a": "gvars/currency.gvar",
