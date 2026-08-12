@@ -1,0 +1,16 @@
+<drac2>
+using(
+    forecast = 'd01fced4-7e98-46c7-bcde-e9d39cd14989',
+    embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+)
+
+USAGE = f"{ctx.prefix}{ctx.alias}"
+forecasts = forecast.get_forecasts()
+embed = {
+    'title': f"Forecast",
+    'fields': [{'title': title, 'body': condition.desc} for title, condition in forecasts.items()],
+    'footer': USAGE,
+}
+
+return embeds.get_output(embed = embed)
+</drac2>

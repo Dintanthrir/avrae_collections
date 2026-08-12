@@ -15,6 +15,9 @@
   "2d0a6901-ba12-4468-be26-0a963974c127": "Beverages/drinks_list.yml",
   "ee0df121-d5e3-44db-b58f-de76c9101e20": "Beverages/drinking_module.gvar",
 
+  "fcc6dc62-a060-49da-afb2-11e92d80334b": "Forecast/conditions.yaml",
+  "d01fced4-7e98-46c7-bcde-e9d39cd14989": "Forecast/forecast.gvar",
+
   "0118fcfc-caef-46e0-bf4e-7856df95441a": "My Stuff/basic_rules_2024_staves.yaml",
   "05876103-c896-4d56-accc-bdcba0f74844": "My Stuff/basic_rules_2024_wands.yaml",
   "1b39df4c-023e-44a2-ba92-37b6cf1bd760": "My Stuff/ashirma_homebrew.yaml",
