@@ -1,0 +1,16 @@
+forecast.get_forecasts()
+---
+{ 'home': {} }
+---
+name: something
+vars:
+  svars:
+    current_season: spring
+    forecast_settings:
+      'regions':
+        'home':
+          'seasons':
+            'spring':
+              'rain': 10
+              'clear': 30
+              'cloudy': 30

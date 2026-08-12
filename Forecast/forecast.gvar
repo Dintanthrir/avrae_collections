@@ -1,0 +1,59 @@
+# forecast = 'd01fced4-7e98-46c7-bcde-e9d39cd14989'
+
+using(
+  prng = '51e97e64-607e-4562-8924-88f1b316cfc7',
+)
+
+SETTINGS_SVAR = 'forecast_settings'
+SEASON_SVAR = 'current_season'
+DEFAULT_CONDITIONS_GVAR = 'fcc6dc62-a060-49da-afb2-11e92d80334b'
+DEFAULT_SETTINGS = {}
+# Settings
+# ========
+# {
+#   "conditions": {
+#     "condition_name": {
+#       "desc": "description"
+#     }
+#   }
+#   "regions": {
+#     "region name": {
+#       "categories": ["category_id"],
+#       "channels": ["channel_id"],
+#       "seasons": {
+#         "season_name": {
+#           "condition_name": weight
+#         }
+#       }
+#     }
+#   }
+#   "duration": "seconds"
+# }
+
+now = time()
+
+def get_forecasts():
+  """
+  Generates a weather report for each visible region.
+
+  A region is visible if it has no channel or category restrictions or if any such restrictions match the location where it was run.
+
+  Returns a dict mapping region names to condition dicts.
+  """
+  settings = load_yaml(get_svar(SETTINGS_SVAR, default=dump_yaml(DEFAULT_SETTINGS)))
+  season = get_svar(SEASON_SVAR, default='spring')
+  conditions = load_yaml(get_gvar(DEFAULT_CONDITIONS_GVAR)) | settings.get('conditions', {})
+
+  seed = (now - settings.get('start', 1785567600)) / settings.get('duration', 24*60*60)
+  prng.seed(int(seed))
+
+  visible_regions = {}
+
+  for name, details in settings.get('regions', {}).items():
+    possible_conditions = details.get('seasons', {}).get(season, {})
+    if len(possible_conditions) > 0:
+      current_condition = prng.pseudorandchoices(list(possible_conditions.keys()), weights=list(possible_conditions.values()), k=1)[0] # always call prng for every region so the results are stable
+      if (details.get('categories') == None and details.get('channels') == None) or ctx.channel.category.id in details.get('categories', []) or ctx.channel.id in details.get('channels', []):
+        visible_regions[name] = {'name': current_condition} | conditions[current_condition]
+
+  return visible_regions

@@ -1,0 +1,99 @@
+# conditions = 'fcc6dc62-a060-49da-afb2-11e92d80334b'
+clear:
+  desc: _Clear skies. Good visibility._
+cloudy:
+  desc: _Occassional clouds. Good visibility._
+overcast:
+  desc: _Complete cloud cover. Good visibility at ground level._
+frost:
+  desc: _Temperatures temporarily drop below freezing, covering the ground in frost._
+fog:
+  desc: >-
+        _Fog blankets the land. Distant objects disappear behind a wall of clouds._
+
+
+        Spaces are Lightly Obscured beyond 50', Heavily Obscured beyond 100'.
+
+
+        __Lightly Obscured:__ You have Disadvantage on Wisdom (Perception) checks to see something in a Lightly Obscured space.
+
+        __Heavily Obscured:__ You have the Blinded condition while trying to see something in a Heavily Obscured space.
+drizzle:
+  desc: _A light drizzle dampens everything._
+rain:
+  desc: _Rain falls across the region._
+downpour:
+  desc: >-
+        _A downpour drenches the environment. Heavy Rain creates difficult and muddy conditions._
+
+
+        __Heavy Rain:__ Everything within an area of heavy rain is Lightly Obscured, and creatures in the area have Disadvantage on all Wisdom (Perception) checks. Heavy rain also extinguishes open flames.
+thunderstorm:
+  desc: >-
+        _Thunderstorms roll through. Lightning strikes at random._
+
+
+        At the end of each creature's turn, if it is in the open, there is a 5% chance it is targeted by Call Lightning (DC 12).
+squall:
+  desc: >-
+        _A squall brings sudden and brief Strong Wind with little warning._
+
+
+        At the start of each round there is a 10% chance of a Strong Wind lasting for that round.
+
+
+        __Strong Wind:__ Strong wind imposes Disadvantage on ranged attack rolls with weapons. It also extinguishes open flames and disperses fog. A flying creature in a strong wind must land at the end of its turn or fall.
+gale:
+  desc: >-
+        _A gale brings constant Strong Wind._
+
+
+        __Strong Wind:__ Strong wind imposes Disadvantage on ranged attack rolls with weapons. It also extinguishes open flames and disperses fog. A flying creature in a strong wind must land at the end of its turn or fall.
+tornado:
+  desc: _Storms spawn damaging tornados causing localized destruction._
+monsoon:
+  desc: >-
+        _A monsoon sweeps through the region. Bringing Heavy Rain and Strong Wind_.
+
+
+        __Heavy Rain:__ Everything within an area of heavy rain is Lightly Obscured, and creatures in the area have Disadvantage on all Wisdom (Perception) checks. Heavy rain also extinguishes open flames.
+
+        __Strong Wind:__ Strong wind imposes Disadvantage on ranged attack rolls with weapons. It also extinguishes open flames and disperses fog. A flying creature in a strong wind must land at the end of its turn or fall.
+hail:
+  desc: >-
+        _Hail pummels everything._
+
+
+        At the start of each round there is a 10% chance of hail lasting for that round.
+        At the end of each creature's turn, if it is not sheltered from the hail, it takes 1d6 bludgeoning damage.
+flurries:
+  desc: _Snow flurries dust the land._
+snow:
+  desc: _Snow falls quietly._
+blizzard:
+  desc: >-
+        _A fierce blizzard piles up deep snow. Heavy Snowfall creates white-out conditions._
+
+
+        __Heavy Snowfall:__ Everything within an area of heavy snowfall is Lightly Obscured, and creatures in the area have Disadvantage on all Wisdom (Perception) checks.
+dust-storm:
+  desc: >-
+        _A dust storm fills the air._
+
+
+        Strong Wind causes all outdoor spaces to be lightly obscured.
+
+
+        __Strong Wind:__ Strong wind imposes Disadvantage on ranged attack rolls with weapons. It also extinguishes open flames and disperses fog. A flying creature in a strong wind must land at the end of its turn or fall.
+heat-wave:
+  desc: >-
+        _Extreme Heat bakes the area._
+
+
+        __Extreme Heat:__ When the temperature is 100 degrees Fahrenheit or higher, a creature exposed to the extreme heat and without access to drinkable water must succeed on a Constitution saving throw at the end of each hour or gain 1 Exhaustion level. The DC is 5 for the first hour and increases by 1 for each additional hour. Creatures wearing Medium or Heavy armor have Disadvantage on the save. Creatures that have Resistance or Immunity to Fire damage automatically succeed on the save.
+cold-spell:
+  desc: >-
+        _Extreme Cold paralyzes the area._
+
+
+        __Extreme Cold:__ When the temperature is 0 degrees Fahrenheit or lower, a creature exposed to the extreme cold must succeed on a DC 10 Constitution saving throw at the end of each hour or gain 1 Exhaustion level. Creatures that have Resistance or Immunity to Cold damage automatically succeed on the save.

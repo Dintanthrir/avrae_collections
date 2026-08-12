@@ -1,0 +1,33 @@
+!forecast
+---
+'"-title" "Forecast"'
+---
+vars:
+  svars:
+    current_season: spring
+    forecast_settings:
+      'regions':
+        'Waterdeep':
+          'seasons':
+            'spring':
+              'clear': 10
+              'cloudy': 10
+              'overcast': 10
+        'Luskan':
+          'seasons':
+            'spring':
+              'frost': 10
+              'fog': 10
+              'drizzle': 10
+        'Neverwinter':
+          'seasons':
+            'winter':
+              'snow': 1
+        "Baldur's Gate":
+          'seasons':
+            'spring':
+              'rain': 1
+              'downpour': 1
+              'thunderstorm': 1
+              'squall': 1
+              'gale': 1

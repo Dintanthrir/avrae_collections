@@ -138,6 +138,8 @@ def pseudorandchoices(population, weights=None, cum_weights=None, k=1):
     err('Cannot specify both weights and cumulative weights')
   if len(cum_weights) != n:
     err('The number of weights does not match the population')
+  if len(population) == 0:
+    err('Cannot choose from an empty population')
   total = cum_weights[-1]
   if total <= 0:
     err('Total of weights must be greater than zero')
