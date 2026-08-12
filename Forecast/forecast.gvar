@@ -53,7 +53,7 @@ def get_forecasts():
     possible_conditions = details.get('seasons', {}).get(season, {})
     if len(possible_conditions) > 0:
       current_condition = prng.pseudorandchoices(list(possible_conditions.keys()), weights=list(possible_conditions.values()), k=1)[0] # always call prng for every region so the results are stable
-      if (details.get('categories') == None and details.get('channels') == None) or ctx.category_id in details.get('categories') or ctx.channel_id in details.get('channels'):
+      if (details.get('categories') == None and details.get('channels') == None) or ctx.channel.category.id in details.get('categories', []) or ctx.channel.id in details.get('channels', []):
         visible_regions[name] = {'name': current_condition} | conditions[current_condition]
 
   return visible_regions
