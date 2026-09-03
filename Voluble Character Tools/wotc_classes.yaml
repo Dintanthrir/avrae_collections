@@ -275,73 +275,79 @@
     Artillerist: { parent: Artificer }
     Battle Smith: { parent: Artificer }
 2024:
-  # Player’s Handbook
   classes:
+    # Player’s Handbook
     Barbarian:
       hit_die: 12
-      sub_level: 1
+      sub_level: 3
       features:
         weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
     Bard:
       hit_die: 8
-      sub_level: 1
+      sub_level: 3
       features:
         magical_secrets: { title: 'Magical Secrets', type: list, level: 10 }
     Cleric:
       hit_die: 8
-      sub_level: 1
+      sub_level: 3
       features:
         divine_order: { title: 'Divine Order', type: string, level: 1 }
         blessed_strikes: { title: 'Blessed Strikes', type: string, level: 7 }
     Druid:
       hit_die: 8
-      sub_level: 1
+      sub_level: 3
       features:
         primal_order: { title: 'Primal Order', type: string, level: 1 }
         wildshape_forms: { title: 'Wildshape Forms', type: list, level: 2 }
         elemental_fury: { title: 'Elemental Fury', type: string, level: 7 }
     Fighter:
       hit_die: 10
-      sub_level: 1
+      sub_level: 3
       features:
         fighting_styles: { title: 'Fighting Styles', type: list, level: 1 }
         weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
     Monk:
       hit_die: 8
-      sub_level: 1
+      sub_level: 3
     Paladin:
       hit_die: 10
-      sub_level: 1
+      sub_level: 3
       features:
         weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
         fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
     Ranger:
       hit_die: 10
-      sub_level: 1
+      sub_level: 3
       features:
         weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
         fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
     Rogue:
       hit_die: 8
-      sub_level: 1
+      sub_level: 3
     Sorcerer:
       hit_die: 6
-      sub_level: 1
+      sub_level: 3
       features:
         metamagic: { title: 'Metamagic', type: list, level: 2 }
     Warlock:
       hit_die: 8
-      sub_level: 1
+      sub_level: 3
       features:
         patron: { title: 'patron', type: string, level: 1 }
         eldritch_invocations: { title: 'Eldritch Invocations', type: list, level: 2 }
         mystic_arcanum: { title: 'Mystic Arcanum', type: list, level: 11 }
     Wizard:
       hit_die: 6
-      sub_level: 1
+      sub_level: 3
       features:
         spell_mastery: { title: 'Spell Mastery', type: list, level: 18 }
         signature_spells: { title: 'Signature Spells', type: list, level: 20 }
+    # Eberron: Forge of the Artificer
+    Artificer:
+      hit_die: 8
+      sub_level: 3
+      features:
+        magic_item_plans: { title: 'Magic Item Plans', type: list, level: 2 }
   subclasses:
     # Barbarian
     Path of the Berserker: { parent: Barbarian }
@@ -425,3 +431,13 @@
     Diviner: { parent: Wizard }
     Evoker: { parent: Wizard }
     Illusionist: { parent: Wizard }
+    # Artificer
+    Alchemist: { parent: Artificer }
+    Armorer:
+      parent: Artificer
+      features:
+        armor_model: { title: 'Armor Model', type: string, level: 3 }
+    Artillerist: { parent: Artificer }
+    Battle Smith: { parent: Artificer }
+    Cartographer: { parent: Artificer }
+    Reanimator: { parent: Artificer }
