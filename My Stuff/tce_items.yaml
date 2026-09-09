@@ -265,61 +265,61 @@ Devotee's Censer:
   automations:
     - |
       - name: Devotee's Incense
-      automation:
-        - type: counter
-          counter: Devotee's Censer
-          amount: "1"
-          errorBehaviour: raise
-        - type: target
-          target: self
-          effects:
-            - type: ieffect2
-              name: Incense of Devotion
-              duration: "10"
-              effects: null
-              attacks:
-                - attack:
-                    name: Soothing Incense
-                    automation:
-                      - type: target
-                        target: all
-                        effects:
-                          - type: damage
-                            damage: -1d4[healing]
-                            overheal: false
-                          - type: text
-                            text: As a bonus action, you can speak the command word to cause the flail to
-                              emanate a thin cloud of incense out to 10 feet for 1
-                              minute. At the start of each of your turns, you and any
-                              other creatures in the incense each regain 1d4 hit
-                              points. This property can’t be used again until the next
-                              dawn.
-                            title: Devotee's Censer
-                    _v: 2
-                    verb: exudes
-                    activation_type: 2
-                  defaultDC: null
-                  defaultAttackBonus: null
-                  defaultCastingMod: null
-              buttons: []
-              end: false
-              conc: false
-              desc: At the start of each of your turns, you and any other creatures in the
-                incense each regain 1d4 hit points.
-              stacking: false
-              save_as: null
-              parent: null
-        - type: text
-          text: As a bonus action, you can speak the command word to cause the flail to
-            emanate a thin cloud of incense out to 10 feet for 1 minute. At the start
-            of each of your turns, you and any other creatures in the incense each
-            regain 1d4 hit points. This property can’t be used again until the next
-            dawn.
-          title: Devotee's Censer
-      _v: 2
-      proper: true
-      verb: releases the
-      activation_type: 3
+        automation:
+          - type: counter
+            counter: Devotee's Censer
+            amount: "1"
+            errorBehaviour: raise
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Incense of Devotion
+                duration: "10"
+                effects: null
+                attacks:
+                  - attack:
+                      name: Soothing Incense
+                      automation:
+                        - type: target
+                          target: all
+                          effects:
+                            - type: damage
+                              damage: -1d4[healing]
+                              overheal: false
+                            - type: text
+                              text: As a bonus action, you can speak the command word to cause the flail to
+                                emanate a thin cloud of incense out to 10 feet for 1
+                                minute. At the start of each of your turns, you and any
+                                other creatures in the incense each regain 1d4 hit
+                                points. This property can’t be used again until the next
+                                dawn.
+                              title: Devotee's Censer
+                      _v: 2
+                      verb: exudes
+                      activation_type: 2
+                    defaultDC: null
+                    defaultAttackBonus: null
+                    defaultCastingMod: null
+                buttons: []
+                end: false
+                conc: false
+                desc: At the start of each of your turns, you and any other creatures in the
+                  incense each regain 1d4 hit points.
+                stacking: false
+                save_as: null
+                parent: null
+          - type: text
+            text: As a bonus action, you can speak the command word to cause the flail to
+              emanate a thin cloud of incense out to 10 feet for 1 minute. At the start
+              of each of your turns, you and any other creatures in the incense each
+              regain 1d4 hit points. This property can’t be used again until the next
+              dawn.
+            title: Devotee's Censer
+        _v: 2
+        proper: true
+        verb: releases the
+        activation_type: 3
 Duplicitous Manuscript:
   counters:
     - name: Duplicitous Manuscript
