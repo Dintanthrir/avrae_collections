@@ -1,1 +1,1 @@
-help {{ctx.alias}}
+help {{ctx.alias}} sources
