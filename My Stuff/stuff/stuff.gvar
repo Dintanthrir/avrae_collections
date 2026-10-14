@@ -21,10 +21,35 @@ _SUBSCRIPTIONS = _STUFF_SERVER_SUBSCRIPTIONS | _STUFF_PERSONAL_SUBSCRIPTIONS | _
 def _is_gvar_id(string):
     return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
 
+def _convert_from_bb_counter(counter):
+    return {
+        'name': counter.get('name'),
+        'min': counter.get('minv'),
+        'max': counter.get('maxv'),
+        'reset': counter.get('reset'),
+        'type': counter.get('display_type'),
+        'reset_to': counter.get('reset_to'),
+        'reset_by': counter.get('reset_by'),
+        'title': counter.get('title'),
+        'desc': counter.get('desc'),
+        'value': counter.get('value'),
+    }
+
+def _convert_from_bb(automation):
+    return {
+        'counters': [_convert_from_bb_counter(counter) for counter in automation.get('counters', [])],
+        'automations': [dump_yaml(a) for a in automation.get('automations')],
+    }
+
 def _load_group(group):
     subscription = _SUBSCRIPTIONS.get(group)
     if subscription:
-        return load_yaml(get_gvar(subscription)) if _is_gvar_id(subscription) else subscription
+        group_data = load_yaml(get_gvar(subscription)) if _is_gvar_id(subscription) else subscription
+        if 'List' in typeof(group_data):
+            if not (group_data.get('automation') and group_data.get('name')):
+                err(f'Unexpected data format for {group} ({subscription})')
+            group_data = { bb_automation.get('name'):_convert_from_bb(bb_automation) for bb_automation in group_data }
+        return group_data
     else:
         return {}
 
