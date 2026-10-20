@@ -1,0 +1,1 @@
+Items from Bigby Presents: Glory of the Giants

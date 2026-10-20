@@ -4,14 +4,14 @@ _character = character()
 
 _STUFF_SUBSCRIPTIONS_SVAR = 'my_stuff'
 _DEFAULT_SUBSCRIPTIONS = {
-    'Items (2014 Basic Rules)': '9ead6d6d-d838-4ac0-985d-1fec79c72bc4',
-    'Staves (2014 Basic Rules)': '5a3b3deb-0345-45ec-bb0a-6f2caa05fac7',
-    'Wands (2014 Basic Rules)': '4845f393-c93e-42e6-a01e-307d1fd302f2',
-    'Magic Items (2014 Basic Rules)': '9e8e80a9-d910-4213-a85e-3e17a92cb7d3',
-    'Items (2024 Basic Rules)': 'a4746f39-153b-4980-9ac6-5eaab8a53521',
-    'Potions (2024 Basic Rules)': 'd7392c07-8549-4be9-85f4-50b8d0521269',
-    'Staves (2024 Basic Rules)': '0118fcfc-caef-46e0-bf4e-7856df95441a',
-    'Wands (2024 Basic Rules)': '05876103-c896-4d56-accc-bdcba0f74844',
+    'Items (2014 BR)': '9ead6d6d-d838-4ac0-985d-1fec79c72bc4',
+    'Magic Items (2014 BR)': '9e8e80a9-d910-4213-a85e-3e17a92cb7d3',
+    'Staves (2014 BR)': '5a3b3deb-0345-45ec-bb0a-6f2caa05fac7',
+    'Wands (2014 BR)': '4845f393-c93e-42e6-a01e-307d1fd302f2',
+    'Magic Items (2024 BR)': 'a4746f39-153b-4980-9ac6-5eaab8a53521',
+    'Potions (2024 BR)': 'd7392c07-8549-4be9-85f4-50b8d0521269',
+    'Staves (2024 BR)': '0118fcfc-caef-46e0-bf4e-7856df95441a',
+    'Wands (2024 BR)': '05876103-c896-4d56-accc-bdcba0f74844',
 }
 _STUFF_SERVER_SUBSCRIPTIONS = load_yaml(get_svar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml(_DEFAULT_SUBSCRIPTIONS)))
 _STUFF_PERSONAL_SUBSCRIPTIONS = load_yaml(get_uvar(_STUFF_SUBSCRIPTIONS_SVAR, default=dump_yaml({})))
@@ -21,10 +21,35 @@ _SUBSCRIPTIONS = _STUFF_SERVER_SUBSCRIPTIONS | _STUFF_PERSONAL_SUBSCRIPTIONS | _
 def _is_gvar_id(string):
     return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
 
+def _convert_from_bb_counter(counter):
+    return {
+        'name': counter.get('name'),
+        'min': counter.get('minv'),
+        'max': counter.get('maxv'),
+        'reset': counter.get('reset'),
+        'type': counter.get('display_type'),
+        'reset_to': counter.get('reset_to'),
+        'reset_by': counter.get('reset_by'),
+        'title': counter.get('title'),
+        'desc': counter.get('desc'),
+        'value': counter.get('value'),
+    }
+
+def _convert_from_bb(automation):
+    return {
+        'counters': [_convert_from_bb_counter(counter) for counter in automation.get('counters', [])],
+        'automations': [dump_yaml(a) for a in automation.get('automations')],
+    }
+
 def _load_group(group):
     subscription = _SUBSCRIPTIONS.get(group)
     if subscription:
-        return load_yaml(get_gvar(subscription)) if _is_gvar_id(subscription) else subscription
+        group_data = load_yaml(get_gvar(subscription)) if _is_gvar_id(subscription) else subscription
+        if 'List' in typeof(group_data):
+            if not (group_data.get('automation') and group_data.get('name')):
+                err(f'Unexpected data format for {group} ({subscription})')
+            group_data = { bb_automation.get('name'):_convert_from_bb(bb_automation) for bb_automation in group_data }
+        return group_data
     else:
         return {}
 

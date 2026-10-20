@@ -1,0 +1,1 @@
+Items from Xanathar's Guide to Everything
