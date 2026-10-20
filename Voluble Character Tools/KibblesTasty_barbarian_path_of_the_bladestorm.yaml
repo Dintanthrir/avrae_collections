@@ -9,59 +9,59 @@ automations:
     level: 10
     actions:
       - |
-        name: Winds of Rage
-        automation:
-          - type: spell
-            id: 2383
-          - type: text
-            text: While you are raging, you can cast gust as a bonus action, and the range
-              you can pick up weapons with Endless Blades increases to 60 feet.
-        _v: 2
-        proper: true
-        verb: summons
-        activation_type: 3
+        - name: Winds of Rage
+          automation:
+            - type: spell
+              id: 2383
+            - type: text
+              text: While you are raging, you can cast gust as a bonus action, and the range
+                you can pick up weapons with Endless Blades increases to 60 feet.
+          _v: 2
+          proper: true
+          verb: summons
+          activation_type: 3
   Bladestorm:
     level: 14
     actions:
       - |
-        name: Bladestorm
-        automation:
-          - type: counter
-            counter: Bladestorm Placeholder Counter
-            amount: "1"
-            errorBehaviour: ignore
-          - type: roll
-            dice: "{lastCounterRequestedAmount}d6 + {strengthMod} + 2 + {int(barbarianLevel
-              >= 9)} + {int(barbarianLevel >= 16)} [weapon]"
-            name: damage
-            displayName: Damage
-          - type: target
-            target: all
-            effects:
-              - type: save
-                stat: dex
-                fail:
-                  - type: damage
-                    damage: "{damage}"
-                success: []
-                dc: 8 + proficiencyBonus + strengthMod
-          - type: text
-            text: >-
-              As an action when you are raging, you can start a Bladestorm. You can
-              fling out up two light melee weapons you are carrying and whip any weapons
-              animated by Whirling Death into it. All creatures of your choosing within
-              20 feet of you must make a Dexterity saving throw with a DC of 8 + your
-              proficiency modifier + your strength modifier. On failure, they take 1d6
-              damage for each blade that is part of the bladestorm (up to 4d6) + your
-              Strength modifier + your rage bonus damage.
+        - name: Bladestorm
+          automation:
+            - type: counter
+              counter: Bladestorm Placeholder Counter
+              amount: "1"
+              errorBehaviour: ignore
+            - type: roll
+              dice: "{lastCounterRequestedAmount}d6 + {strengthMod} + 2 + {int(barbarianLevel
+                >= 9)} + {int(barbarianLevel >= 16)} [weapon]"
+              name: damage
+              displayName: Damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success: []
+                  dc: 8 + proficiencyBonus + strengthMod
+            - type: text
+              text: >-
+                As an action when you are raging, you can start a Bladestorm. You can
+                fling out up two light melee weapons you are carrying and whip any weapons
+                animated by Whirling Death into it. All creatures of your choosing within
+                20 feet of you must make a Dexterity saving throw with a DC of 8 + your
+                proficiency modifier + your strength modifier. On failure, they take 1d6
+                damage for each blade that is part of the bladestorm (up to 4d6) + your
+                Strength modifier + your rage bonus damage.
 
 
-              On subsequent turns while raging, you can use your action to keep the
-              Bladestorm going, forcing all creatures within 20 feet to make the save
-              again. You can keep a Bladestorm going for a number of turns equal to your
-              Strength modifier. You can use this feature once per rage. When a
-              bladestorm ends, all included weapons fall to the ground around you.
-        _v: 2
-        proper: false
-        activation_type: 1
-        list_display_override: use `-amt` to specify the number of blades
+                On subsequent turns while raging, you can use your action to keep the
+                Bladestorm going, forcing all creatures within 20 feet to make the save
+                again. You can keep a Bladestorm going for a number of turns equal to your
+                Strength modifier. You can use this feature once per rage. When a
+                bladestorm ends, all included weapons fall to the ground around you.
+          _v: 2
+          proper: false
+          activation_type: 1
+          list_display_override: use `-amt` to specify the number of blades

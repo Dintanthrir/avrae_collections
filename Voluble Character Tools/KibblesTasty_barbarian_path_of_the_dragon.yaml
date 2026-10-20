@@ -9,511 +9,499 @@ automations:
     level: 3
     actions:
       - |
-        name: Draconic Wrath
-        automation:
-          - type: counter
-            counter: Rage
-            amount: "1"
-            errorBehaviour: raise
-          - type: target
-            target: self
-            effects:
-              - type: ieffect2
-                name: Draconic Rage
-                duration: "10"
-                effects:
-                  save_adv:
-                    - str
-                  check_adv:
-                    - strength
-                  resistances:
-                    - bludgeoning
-                    - piercing
-                    - slashing
-                    - fire
-                save_as: rage
-                buttons:
-                  - label: End Rage
-                    automation:
-                      - type: remove_ieffect
-                    verb: ends their rage
-                    style: "2"
-                attacks:
-                  - attack:
-                      _v: 2
-                      name: Claws
+        - name: Draconic Wrath
+          automation:
+            - type: counter
+              counter: Rage
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Draconic Rage
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - fire
+                  save_as: rage
+                  buttons:
+                    - label: End Rage
                       automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d4[slashing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Fangs
+                        - type: remove_ieffect
+                      verb: ends their rage
+                      style: "2"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d4[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Fangs
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d8[piercing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Tail
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d6[bludgeoning]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                - type: condition
+                  condition: choice and 'damage' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Rage Damage
+                      effects:
+                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
+                      parent: rage
+                  onFalse: []
+          _v: 2
+          proper: true
+          verb: releases their
+          activation_type: 3
+          list_display_override: Enter a rage and gain draconic natural weapons. Use
+            `-choice damage` to have your Rage damage apply automatically.
+        - name: Draconic Wrath (Elemental Damage)
+          automation:
+            - type: counter
+              counter: Rage
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Elemental Rage
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - fire
+                  save_as: rage
+                  buttons:
+                    - label: End Rage
                       automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d8[piercing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Tail
+                        - type: remove_ieffect
+                      verb: ends their rage
+                      style: "2"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d4[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Fangs
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d8[piercing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Tail
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d6[bludgeoning]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                - type: condition
+                  condition: choice and 'damage' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Rage Damage
+                      effects:
+                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} [fire]
+                      parent: rage
+                  onFalse: []
+          _v: 2
+          proper: true
+          verb: releases their
+          activation_type: 3
+          list_display_override: Enter a rage and gain draconic natural weapons and elemental damage. Use
+            `-choice damage` to have your Rage damage apply automatically.
+        - name: Draconic Wrath (Elemental Damage, No Transformation)
+          automation:
+            - type: counter
+              counter: Rage
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Elemental Rage
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - fire
+                  save_as: rage
+                  buttons:
+                    - label: End Rage
                       automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d6[bludgeoning]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-              - type: condition
-                condition: choice and 'damage' in choice
-                onTrue:
-                  - type: ieffect2
-                    name: Rage Damage
-                    effects:
-                      damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
-                    parent: rage
-                onFalse: []
-        _v: 2
-        proper: true
-        verb: releases their
-        activation_type: 3
-        list_display_override: Enter a rage and gain draconic natural weapons. Use
-          `-choice damage` to have your Rage damage apply automatically.
-  Draconic Wrath (Elemental Damage):
-    level: 3
-    actions:
-      - |
-        name: Draconic Wrath (Elemental Damage)
-        automation:
-          - type: counter
-            counter: Rage
-            amount: "1"
-            errorBehaviour: raise
-          - type: target
-            target: self
-            effects:
-              - type: ieffect2
-                name: Elemental Rage
-                duration: "10"
-                effects:
-                  save_adv:
-                    - str
-                  check_adv:
-                    - strength
-                  resistances:
-                    - bludgeoning
-                    - piercing
-                    - slashing
-                    - fire
-                save_as: rage
-                buttons:
-                  - label: End Rage
-                    automation:
-                      - type: remove_ieffect
-                    verb: ends their rage
-                    style: "2"
-                attacks:
-                  - attack:
-                      _v: 2
-                      name: Claws
-                      automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d4[slashing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Fangs
-                      automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d8[piercing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Tail
-                      automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d6[bludgeoning]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-              - type: condition
-                condition: choice and 'damage' in choice
-                onTrue:
-                  - type: ieffect2
-                    name: Rage Damage
-                    effects:
-                      damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} [fire]
-                    parent: rage
-                onFalse: []
-        _v: 2
-        proper: true
-        verb: releases their
-        activation_type: 3
-        list_display_override: Enter a rage and gain draconic natural weapons and elemental damage. Use
-          `-choice damage` to have your Rage damage apply automatically.
-  Draconic Wrath (Elemental Damage, No Transformation):
-    level: 3
-    actions:
-      - |
-        name: Draconic Wrath (Elemental Damage, No Transformation)
-        automation:
-          - type: counter
-            counter: Rage
-            amount: "1"
-            errorBehaviour: raise
-          - type: target
-            target: self
-            effects:
-              - type: ieffect2
-                name: Elemental Rage
-                duration: "10"
-                effects:
-                  save_adv:
-                    - str
-                  check_adv:
-                    - strength
-                  resistances:
-                    - bludgeoning
-                    - piercing
-                    - slashing
-                    - fire
-                save_as: rage
-                buttons:
-                  - label: End Rage
-                    automation:
-                      - type: remove_ieffect
-                    verb: ends their rage
-                    style: "2"
-              - type: condition
-                condition: choice and 'damage' in choice
-                onTrue:
-                  - type: ieffect2
-                    name: Rage Damage
-                    effects:
-                      damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} + 1 [fire]
-                    parent: rage
-                onFalse: []
-        _v: 2
-        proper: true
-        verb: releases their
-        activation_type: 3
-        list_display_override: Enter a rage and gain additional elemental damage. Use
-          `-choice damage` to have your Rage damage apply automatically.
+                        - type: remove_ieffect
+                      verb: ends their rage
+                      style: "2"
+                - type: condition
+                  condition: choice and 'damage' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Rage Damage
+                      effects:
+                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} + 1 [fire]
+                      parent: rage
+                  onFalse: []
+          _v: 2
+          proper: true
+          verb: releases their
+          activation_type: 3
+          list_display_override: Enter a rage and gain additional elemental damage. Use
+            `-choice damage` to have your Rage damage apply automatically.
   Unleashed Savagery:
     level: 6
     actions:
       - |
-        name: Unleashed Savagery
-        automation:
-          - type: roll
-            dice: 6d6[fire]
-            name: damage
-          - type: target
-            target: all
-            effects:
-              - type: save
-                stat: dex
-                fail:
-                  - type: damage
-                    damage: "{damage}"
-                success: []
-                dc: 8 + proficiencyBonus + strengthMod
-          - type: text
-            text: Once during a rage, as an attack as part of the Attack action, you can
-              unleash your Rage into pure energy, exhaling a blast of elemental power.
-              Creatures within 15 foot cone must make a Dexterity saving throw. The DC
-              of this saving throw is 8 + your proficiency modifier + your strength
-              modifier. A creature takes 6d6 damage of the Elemental Type of your Dragon
-              Color on a failed save.
-        _v: 2
-        proper: true
+        - name: Unleashed Savagery
+          automation:
+            - type: roll
+              dice: 6d6[fire]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success: []
+                  dc: 8 + proficiencyBonus + strengthMod
+            - type: text
+              text: Once during a rage, as an attack as part of the Attack action, you can
+                unleash your Rage into pure energy, exhaling a blast of elemental power.
+                Creatures within 15 foot cone must make a Dexterity saving throw. The DC
+                of this saving throw is 8 + your proficiency modifier + your strength
+                modifier. A creature takes 6d6 damage of the Elemental Type of your Dragon
+                Color on a failed save.
+          _v: 2
+          proper: true
   Draconic Wrath:
     level: 6
     actions:
       - |
-        name: Draconic Wrath
-        automation:
-          - type: counter
-            counter: Rage
-            amount: "1"
-            errorBehaviour: raise
-          - type: target
-            target: self
-            effects:
-              - type: ieffect2
-                name: Draconic Rage
-                duration: "10"
-                effects:
-                  save_adv:
-                    - str
-                  check_adv:
-                    - strength
-                  resistances:
-                    - bludgeoning
-                    - piercing
-                    - slashing
-                    - fire
-                save_as: rage
-                buttons:
-                  - label: End Rage
-                    automation:
-                      - type: remove_ieffect
-                    verb: ends their rage
-                    style: "2"
-                attacks:
-                  - attack:
-                      _v: 2
-                      name: Claws
+        - name: Draconic Wrath
+          automation:
+            - type: counter
+              counter: Rage
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Draconic Rage
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - fire
+                  save_as: rage
+                  buttons:
+                    - label: End Rage
                       automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d4[magical slashing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Fangs
+                        - type: remove_ieffect
+                      verb: ends their rage
+                      style: "2"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d4[magical slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Fangs
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d8[magical piercing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Tail
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d6[magical bludgeoning]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                - type: condition
+                  condition: choice and 'damage' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Rage Damage
+                      effects:
+                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
+                      parent: rage
+                  onFalse: []
+          _v: 2
+          proper: true
+          verb: releases their
+          activation_type: 3
+          list_display_override: Enter a rage and gain draconic natural weapons. Use
+            `-choice damage` to have your Rage damage apply automatically.
+        - name: Draconic Wrath (Elemental Damage)
+          automation:
+            - type: counter
+              counter: Rage
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Elemental Rage
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - fire
+                  save_as: rage
+                  buttons:
+                    - label: End Rage
                       automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d8[magical piercing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Tail
-                      automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d6[magical bludgeoning]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-              - type: condition
-                condition: choice and 'damage' in choice
-                onTrue:
-                  - type: ieffect2
-                    name: Rage Damage
-                    effects:
-                      damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
-                    parent: rage
-                onFalse: []
-        _v: 2
-        proper: true
-        verb: releases their
-        activation_type: 3
-        list_display_override: Enter a rage and gain draconic natural weapons. Use
-          `-choice damage` to have your Rage damage apply automatically.
-  Draconic Wrath (Elemental Damage):
-    level: 6
-    actions:
-      - |
-        name: Draconic Wrath (Elemental Damage)
-        automation:
-          - type: counter
-            counter: Rage
-            amount: "1"
-            errorBehaviour: raise
-          - type: target
-            target: self
-            effects:
-              - type: ieffect2
-                name: Elemental Rage
-                duration: "10"
-                effects:
-                  save_adv:
-                    - str
-                  check_adv:
-                    - strength
-                  resistances:
-                    - bludgeoning
-                    - piercing
-                    - slashing
-                    - fire
-                save_as: rage
-                buttons:
-                  - label: End Rage
-                    automation:
-                      - type: remove_ieffect
-                    verb: ends their rage
-                    style: "2"
-                attacks:
-                  - attack:
-                      _v: 2
-                      name: Claws
-                      automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d4[magical slashing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Fangs
-                      automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d8[magical piercing]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-                  - attack:
-                      _v: 2
-                      name: Tail
-                      automation:
-                        - type: target
-                          target: each
-                          effects:
-                            - type: attack
-                              hit:
-                                - type: damage
-                                  damage: 1d6[magical bludgeoning]
-                              miss: []
-                              attackBonus: strengthMod + proficiencyBonus
-              - type: condition
-                condition: choice and 'damage' in choice
-                onTrue:
-                  - type: ieffect2
-                    name: Rage Damage
-                    effects:
-                      damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} [fire]
-                    parent: rage
-                onFalse: []
-        _v: 2
-        proper: true
-        verb: releases their
-        activation_type: 3
-        list_display_override: Enter a rage and gain draconic natural weapons and elemental damage. Use
-          `-choice damage` to have your Rage damage apply automatically.
+                        - type: remove_ieffect
+                      verb: ends their rage
+                      style: "2"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d4[magical slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Fangs
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d8[magical piercing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Tail
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d6[magical bludgeoning]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                - type: condition
+                  condition: choice and 'damage' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Rage Damage
+                      effects:
+                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} [fire]
+                      parent: rage
+                  onFalse: []
+          _v: 2
+          proper: true
+          verb: releases their
+          activation_type: 3
+          list_display_override: Enter a rage and gain draconic natural weapons and elemental damage. Use
+            `-choice damage` to have your Rage damage apply automatically.
   Unleashed Savagery:
     level: 10
     actions:
       - |
-        name: Unleashed Savagery
-        automation:
-          - type: roll
-            dice: 8d6[fire]
-            name: damage
-          - type: target
-            target: all
-            effects:
-              - type: save
-                stat: dex
-                fail:
-                  - type: damage
-                    damage: "{damage}"
-                success: []
-                dc: 8 + proficiencyBonus + strengthMod
-          - type: text
-            text: Once during a rage, as an attack as part of the Attack action, you can
-              unleash your Rage into pure energy, exhaling a blast of elemental power.
-              Creatures within 30 foot cone must make a Dexterity saving throw. The DC
-              of this saving throw is 8 + your proficiency modifier + your strength
-              modifier. A creature takes 8d6 damage of the Elemental Type of your Dragon
-              Color on a failed save.
-        _v: 2
-        proper: true
+        - name: Unleashed Savagery
+          automation:
+            - type: roll
+              dice: 8d6[fire]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success: []
+                  dc: 8 + proficiencyBonus + strengthMod
+            - type: text
+              text: Once during a rage, as an attack as part of the Attack action, you can
+                unleash your Rage into pure energy, exhaling a blast of elemental power.
+                Creatures within 30 foot cone must make a Dexterity saving throw. The DC
+                of this saving throw is 8 + your proficiency modifier + your strength
+                modifier. A creature takes 8d6 damage of the Elemental Type of your Dragon
+                Color on a failed save.
+          _v: 2
+          proper: true
   Unleashed Savagery:
     level: 14
     actions:
       - |
-        name: Unleashed Savagery
-        automation:
-          - type: roll
-            dice: 10d6[fire]
-            name: damage
-          - type: target
-            target: all
-            effects:
-              - type: save
-                stat: dex
-                fail:
-                  - type: damage
-                    damage: "{damage}"
-                success: []
-                dc: 8 + proficiencyBonus + strengthMod
-          - type: text
-            text: Once during a rage, as an attack as part of the Attack action, you can
-              unleash your Rage into pure energy, exhaling a blast of elemental power.
-              Creatures within 60 foot cone must make a Dexterity saving throw. The DC
-              of this saving throw is 8 + your proficiency modifier + your strength
-              modifier. A creature takes 10d6 damage of the Elemental Type of your Dragon
-              Color on a failed save.
-        _v: 2
-        proper: true
+        - name: Unleashed Savagery
+          automation:
+            - type: roll
+              dice: 10d6[fire]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success: []
+                  dc: 8 + proficiencyBonus + strengthMod
+            - type: text
+              text: Once during a rage, as an attack as part of the Attack action, you can
+                unleash your Rage into pure energy, exhaling a blast of elemental power.
+                Creatures within 60 foot cone must make a Dexterity saving throw. The DC
+                of this saving throw is 8 + your proficiency modifier + your strength
+                modifier. A creature takes 10d6 damage of the Elemental Type of your Dragon
+                Color on a failed save.
+          _v: 2
+          proper: true
   Unleashed Savagery:
     level: 18
     actions:
       - |
-        name: Unleashed Savagery
-        automation:
-          - type: roll
-            dice: 10d6[fire]
-            name: damage
-          - type: target
-            target: all
-            effects:
-              - type: save
-                stat: dex
-                fail:
-                  - type: damage
-                    damage: "{damage}"
-                success: []
-                dc: 8 + proficiencyBonus + strengthMod
-          - type: text
-            text: Twice during a rage but only once per turn, as an attack as part of the Attack action, you can
-              unleash your Rage into pure energy, exhaling a blast of elemental power.
-              Creatures within 60 foot cone must make a Dexterity saving throw. The DC
-              of this saving throw is 8 + your proficiency modifier + your strength
-              modifier. A creature takes 10d6 damage of the Elemental Type of your Dragon
-              Color on a failed save.
-        _v: 2
-        proper: true
+        - name: Unleashed Savagery
+          automation:
+            - type: roll
+              dice: 10d6[fire]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success: []
+                  dc: 8 + proficiencyBonus + strengthMod
+            - type: text
+              text: Twice during a rage but only once per turn, as an attack as part of the Attack action, you can
+                unleash your Rage into pure energy, exhaling a blast of elemental power.
+                Creatures within 60 foot cone must make a Dexterity saving throw. The DC
+                of this saving throw is 8 + your proficiency modifier + your strength
+                modifier. A creature takes 10d6 damage of the Elemental Type of your Dragon
+                Color on a failed save.
+          _v: 2
+          proper: true
