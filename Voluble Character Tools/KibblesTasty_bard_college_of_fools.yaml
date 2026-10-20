@@ -1,0 +1,115 @@
+# 'a7ee1f31-717a-41d3-b657-ac3b34691900'
+# KibblesTasty: Bard - College of Fools
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: College of Fools
+parent: Bard
+automations:
+  Jester's Juggling:
+    level: 3
+    actions:
+      - |
+        - name: "Jester's Juggling"
+          automation:
+            - type: text
+              text: |-
+                You can draw or stow any number of items or
+                weapons during your turn. You can hold an more weapons or
+                objects than you have hands, but when you do so, at the end
+                of your turn you must make Dexterity (Performance) check
+                with a DC of 5 times the additional number of hands you
+                need to hold all the items you are holding (for example, to
+                hold 3 daggers would be a DC 5, while to hold 3 daggers and
+                greatsword would be DC 15). On failure, you drop any that
+                you don't have sufficient hands to hold.
+            - type: counter
+              counter: Jester's Juggling Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: save
+                  stat: dex
+                  fail: []
+                  success: []
+                  dc: 5*lastCounterRequestedAmount
+          _v: 2
+          proper: true
+          verb: performs
+          activation_type: 2
+          list_display_override: use `-amt` to specify the additional number of hands needed
+  Fool's Fumble:
+    level: 3
+    actions:
+      - |
+        - name: "Fool's Fumble"
+          automation:
+            - type: counter
+              counter: Bardic Inspiration
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: |-
+                When you fail an ability check or attack roll,
+                you can expend a use of Bardic Inspiration to attempt to pass it off
+                as an intentional failure, recovering in spectacular fashion.
+                When you do so, reroll the check and add your Bardic
+                Inspiration to the result.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 2
+  Acrobatic Antics:
+    level: 6
+    actions:
+      - |
+        - name: "Acrobatic Antics"
+          automation:
+            - type: text
+              text: |-
+                As a bonus action, you can leap and tumble, spending up
+                to 10 feet of movement while ignoring difficult terrain, not
+                provoking opportunity attacks, and moving through
+                creatures' spaces (including hostile creatures).
+          _v: 2
+          proper: true
+          verb: performs
+          activation_type: 3
+  Fatal Flourish:
+    level: 6
+    actions:
+      - |
+        - name: Fatal Flourish
+          automation:
+            - type: text
+              text: When you use your Action to make an ability check, cast vicious mockery,
+                or make a weapon attack with a light melee weapon, you can make a single
+                weapon attack with a melee weapon or dart as bonus action.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 3
+  Energetic Encore:
+    level: 14
+    actions:
+      - |
+        - name: "Energetic Encore "
+          automation:
+            - type: text
+              text: |-
+                You can build off the success of others
+                and encourage them to greater heights. When another
+                creature scores a critical strike while within 30 feet of you,
+                you can use your reaction to make a single weapon attack
+                against the same target. When you deal a critical strike or a
+                creature fails a saving throw against one of your spells by 5 or
+                more, you can use your reaction to take the Help action to
+                encourage an ally to follow up on success.
+
+                You can expend a use of Bardic Inspiration to take one of
+                these reactions even when the attack was not a critical hit.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 4
