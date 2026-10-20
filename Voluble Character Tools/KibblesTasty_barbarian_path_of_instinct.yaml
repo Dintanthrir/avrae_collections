@@ -10,7 +10,7 @@ counters:
       minVal: 0
       maxVal: proficiencyBonus
       reset: short
-      resetTo: 0
+      reset_to: 0
       desc: Path of Instinct grants Focus Dice when raging.
 automations:
   Focused Rage:
