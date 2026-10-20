@@ -1,0 +1,154 @@
+# 'efa1e552-f465-41cb-a1d0-4d75bcfe3a67'
+# KibblesTasty: Cleric - Void Domain
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Void Domain
+parent: Cleric
+counters:
+  1:
+    - name: Void Step
+      minVal: 0
+      maxVal: wisdomMod
+      reset: long
+      reset_to: wisdomMod
+  6:
+    - name: Void Negation
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  17:
+    - name: Void Obliteration
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Void Step:
+    level: 1
+    actions:
+      - |
+        - name: Void Step
+          automation:
+            - type: counter
+              counter: Void Step
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: |-
+                You gain the ability
+                to step through the void crossing a long distance in a single
+                step. As a bonus action, you can teleport up to 5 × your cleric
+                level feet to an unoccupied space you can see. This
+                teleportation cannot pass through creatures or objects that
+                block your path.
+
+                You can use this feature a number of times equal to your
+                Wisdom modifier (minimum of once), and you regain all
+                expended uses when you finish a long rest.
+          _v: 2
+          proper: false
+          verb: takes
+          activation_type: 3
+          list_display_override: teleport up to {5*clericLevel} feet
+  Void Negation:
+    level: 6
+    actions:
+      - |
+        - name: Void Negation
+          automation:
+            - type: counter
+              counter: Void Negation
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: |-
+                When a ranged attack
+                roll targets a creature within 30 feet of you, you can use your
+                reaction to open a crack in the void which swallows that
+                attack, causing it to automatically miss and have no effect.
+                Once you use this ability, you cannot use it again until you
+                complete a short or long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 4
+Unimpeded Steps:
+  level: 6
+  actions:
+    - |
+      - name: Void Step
+        automation:
+          - type: counter
+            counter: Void Step
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: |-
+              You gain the ability
+              to step through the void crossing a long distance in a single
+              step. As a bonus action, you can teleport up to 5 × your cleric
+              level feet to an unoccupied space you can see.
+
+              You can use this feature a number of times equal to your
+              Wisdom modifier (minimum of once), and you regain all
+              expended uses when you finish a long rest.
+        _v: 2
+        proper: false
+        verb: takes
+        activation_type: 3
+        list_display_override: teleport up to {5*clericLevel} feet
+Void Obliteration:
+  level: 17
+  actions:
+    - |
+      - name: Void Obliteration
+        automation:
+          - type: counter
+            counter: Void Obliteration
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: |-
+              You learn the spell blackhole. It is
+              always prepared and does not count against your spells
+              known. It is considered a cleric spell for you. You can cast it
+              without expending a spell slot once, but when you do so, the
+              radius is reduced to 5 feet, and the range of the disruption to
+              movement is reduced to a 60 feet radius.
+
+              You regain the ability to cast it this way again when you
+              complete a long rest.
+        _v: 2
+        proper: true
+        verb: uses
+        activation_type: 1
+Unlocked Steps:
+  level: 17
+  actions:
+    - |
+      - name: Void Step
+        automation:
+          - type: counter
+            counter: Void Step
+            amount: "1"
+            errorBehaviour: raise
+          - type: text
+            text: |-
+              You gain the ability
+              to step through the void crossing a long distance in a single
+              step. As a bonus action, you can teleport up to 5 × your cleric
+              level feet.
+
+              If you would arrive in a place already occupied by an object
+              or a creature, you take 4d6 force damage, and the ability fails
+              to teleport you.
+
+              You can use this feature a number of times equal to your
+              Wisdom modifier (minimum of once), and you regain all
+              expended uses when you finish a long rest.
+        _v: 2
+        proper: false
+        verb: takes
+        activation_type: 3
+        list_display_override: teleport up to {5*clericLevel} feet

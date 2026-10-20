@@ -1,0 +1,100 @@
+# 'df7ee0eb-c8eb-4261-9d0f-86c065f2b22f'
+# KibblesTasty: Cleric - Martyr Domain
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Martyr Domain
+parent: Cleric
+counters:
+  1:
+    - name: Relieve Suffering
+      minVal: 0
+      maxVal: wisdomMod
+      reset: long
+      reset_to: wisdomMod
+automations:
+  Relieve Suffering:
+    level: 1
+    actions:
+      - |
+        - name: Relieve Suffering - Heal
+          automation:
+            - type: counter
+              counter: Relieve Suffering Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: condition
+              condition: lastCounterRequestedAmount > clericLevel
+              onTrue:
+                - type: text
+                  text: Cannot heal more than your current cleric level ({clericLevel}).
+                  title: Error
+              onFalse:
+                - type: target
+                  target: self
+                  effects:
+                    - type: damage
+                      damage: "{lastCounterRequestedAmount}"
+                - type: target
+                  target: all
+                  effects:
+                    - type: damage
+                      damage: -{lastCounterRequestedAmount}[healing]
+            - type: text
+              text: When you cast a spell of 1st level or higher that restores hit points, you
+                can expend some of your own hit points to increase the amount another
+                creature who is healed by the spell regains, expending a number of hit
+                points up to your Cleric level to increase the amount one creature is
+                healed by an equivalent value.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+          list_display_override: use `-amt` to specify hit points to transfer
+        - name: Relieve Suffering - Transfer Condition
+          automation:
+            - type: text
+              text: >-
+                You can touch a creature suffering a disease or the blinded, deafened,
+                paralyzed or poisoned condition and transfer that disease or condition to
+                yourself. Starting at 9th level, the range of conditions you can take
+                increases, including exhaustion (1 level at a time), petrified, stunned,
+                the effect of a curse, or any reduction to their ability scores. You are
+                afflicted by the effect in the same manner the creature you took it was,
+                for the same duration and possible methods of ending the effect.
+
+
+                You transfer a condition affecting another creature a number of times
+                equal to your Wisdom modifier, regaining all uses on a long rest.
+            - type: counter
+              counter: Relieve Suffering
+              amount: "1"
+              errorBehaviour: raise
+          _v: 2
+          proper: true
+          verb: uses
+  Bear the Burden:
+    level: 2
+    actions:
+      - |
+        - name: "Channel Divinity: Bear the Burden"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Bear the Burden
+                  duration: "1"
+                  desc: Speed = 0. Sharing damage with allies.
+                - type: temphp
+                  amount: "{clericLevel} * 2"
+            - type: text
+              text: As an action, you present your holy symbol and enter a divine trance.
+                Until the start of your next turn, your movement speed becomes zero and
+                you gain temporary hit points equal to twice your Cleric level. Any time
+                an allied creature within 30 feet of you takes damage, they have
+                resistance to the damage taken, but you take damage equal to the damage
+                they take.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1

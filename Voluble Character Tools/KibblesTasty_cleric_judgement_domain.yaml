@@ -1,0 +1,179 @@
+# '1b7a36f0-f5f9-4fd3-81ef-83ea870dccde'
+# KibblesTasty: Cleric - Judgement Domain
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Judgement Domain
+parent: Cleric
+counters:
+  1:
+    - name: Sacred Judgment
+      minVal: 0
+      maxVal: wisdomMod
+      reset: long
+      reset_to: wisdomMod
+  6:
+    - name: Rebuke
+      minVal: 0
+      maxVal: wisdomMod
+      reset: long
+      reset_to: wisdomMod
+automations:
+  Sacred Judgment:
+    level: 1
+    actions:
+      - |
+        - name: Sacred Judgment
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: counter
+                  counter: Sacred Judgement
+                  amount: "1"
+                  errorBehaviour: raise
+                - type: damage
+                  damage: "{wisdomMod}[spell]"
+            - type: text
+              text: >-
+                When deal damage to a creature with a cleric spell, you can apply
+                additional damage to a creature equal to your Wisdom modifier damage if
+                that target has dealt damage to another creature since the end of your
+                last turn.
+
+
+                You can do this a number of times equal to your Wisdom modifier, regaining
+                all uses on a long rest.
+
+
+                **Sweeping Judgements**
+
+                If a spell effects multiple creatures, you can apply Sacred Judgement to
+                multiple targets, but each application counts as one use of the ability.
+          _v: 2
+          proper: true
+          activation_type: 2
+  "Channel Divinity: Invoke Judgement":
+    level: 2
+    actions:
+      - |
+        - name: "Channel Divinity: Invoke Judgement"
+          automation:
+            - type: counter
+              counter: Channel Divinity
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Prone
+                      duration: "10"
+                      buttons:
+                        - label: Stand Up
+                          automation:
+                            - type: remove_ieffect
+                          verb: Stands Up
+                          style: "1"
+                    - type: ieffect2
+                      name: Movement speed = 0
+                      duration: "10"
+                      buttons:
+                        - label: Resist Judgement
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: wis
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          verb: attempts to Resist Judgement
+                          style: "1"
+                          defaultDC: spell_dc
+                        - label: Resist Judgement (dealt damage)
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: wis
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                                  adv: -1
+                          verb: attempts to Resist Judgement
+                          style: "1"
+                          defaultDC: spell_dc
+                    - type: ieffect2
+                      name: Judged
+                      duration: "10"
+                      desc: A valid target for Sacred Judgement.
+                  success: []
+            - type: text
+              text: >-
+                As an action you can present your holy symbol and invoke judgment upon
+                your enemies. You crush a target within 60 feet under the weight of their
+                sins. The target makes a Wisdom saving throw. On failure, the creature is
+                knocked prone and their movement speed is dropped to zero for 1 minute.
+                The creature can repeat their saving throw at the end of each of their
+                turns. They make this save with disadvantage if they have dealt damage
+                since the start of their turn.
+
+
+                You can apply the bonus damage of Sacred Judgement when dealing damage
+                with a Cleric spell to a creature you have Invoked Judgement on regardless
+                of if they have damaged another creature. This persists for 1 minute
+                regardless of their save.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  Rebuke:
+    level: 6
+    actions:
+      - |
+        - name: Rebuke
+          automation:
+            - type: counter
+              counter: Rebuke
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2142
+            - type: text
+              text: >-
+                When an allied creature within 60 feet of you is reduced to zero hit
+                points or takes damage from another creature while under the effect of a
+                sanctuary spell you cast, you can cast hellish rebuke against the attacker
+                them without expending a spell slot.
+
+
+                You can do this a number of times equal to your Wisdom modifier, regain
+                all uses on a long rest.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Eternal Judgment:
+    level: 17
+    actions:
+      - |
+        - name: Sacred Judgment
+          automation:
+            - type: text
+              text: >-
+                When deal damage to a creature with a cleric spell, you can apply
+                additional damage to a creature equal to your Wisdom modifier damage if
+                that target has dealt damage to another creature since the end of your
+                last turn.
+
+                **Sweeping Judgements**
+
+                If a spell effects multiple creatures, you can apply Sacred Judgement to
+                multiple targets, but each application counts as one use of the ability.
+          _v: 2
+          proper: true
+          activation_type: 2
