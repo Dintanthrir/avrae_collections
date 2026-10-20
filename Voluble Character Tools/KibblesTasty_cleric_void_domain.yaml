@@ -50,7 +50,7 @@ automations:
           proper: false
           verb: takes
           activation_type: 3
-          list_display_override: teleport up to {5*clericLevel} feet
+          list_display_override: teleport up to {5*ClericLevel} feet
   Void Negation:
     level: 6
     actions:
@@ -97,7 +97,7 @@ Unimpeded Steps:
         proper: false
         verb: takes
         activation_type: 3
-        list_display_override: teleport up to {5*clericLevel} feet
+        list_display_override: teleport up to {5*ClericLevel} feet
 Void Obliteration:
   level: 17
   actions:
@@ -151,4 +151,4 @@ Unlocked Steps:
         proper: false
         verb: takes
         activation_type: 3
-        list_display_override: teleport up to {5*clericLevel} feet
+        list_display_override: teleport up to {5*ClericLevel} feet

@@ -23,10 +23,10 @@ automations:
               amount: "0"
               errorBehaviour: ignore
             - type: condition
-              condition: lastCounterRequestedAmount > clericLevel
+              condition: lastCounterRequestedAmount > ClericLevel
               onTrue:
                 - type: text
-                  text: Cannot heal more than your current cleric level ({clericLevel}).
+                  text: Cannot heal more than your current cleric level ({ClericLevel}).
                   title: Error
               onFalse:
                 - type: target
@@ -86,7 +86,7 @@ automations:
                   duration: "1"
                   desc: Speed = 0. Sharing damage with allies.
                 - type: temphp
-                  amount: "{clericLevel} * 2"
+                  amount: "{ClericLevel} * 2"
             - type: text
               text: As an action, you present your holy symbol and enter a divine trance.
                 Until the start of your next turn, your movement speed becomes zero and

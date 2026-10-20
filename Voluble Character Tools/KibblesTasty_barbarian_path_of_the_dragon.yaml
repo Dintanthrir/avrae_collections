@@ -84,7 +84,7 @@ automations:
                     - type: ieffect2
                       name: Rage Damage
                       effects:
-                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
+                        damage_bonus: 2 + {int(BarbarianLevel >= 9)} + {int(BarbarianLevel >= 16)}
                       parent: rage
                   onFalse: []
           _v: 2
@@ -168,7 +168,7 @@ automations:
                     - type: ieffect2
                       name: Rage Damage
                       effects:
-                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} [fire]
+                        damage_bonus: 2 + {int(BarbarianLevel >= 9)} + {int(BarbarianLevel >= 16)} [fire]
                       parent: rage
                   onFalse: []
           _v: 2
@@ -212,7 +212,7 @@ automations:
                     - type: ieffect2
                       name: Rage Damage
                       effects:
-                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} + 1 [fire]
+                        damage_bonus: 2 + {int(BarbarianLevel >= 9)} + {int(BarbarianLevel >= 16)} + 1 [fire]
                       parent: rage
                   onFalse: []
           _v: 2
@@ -328,7 +328,7 @@ automations:
                     - type: ieffect2
                       name: Rage Damage
                       effects:
-                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
+                        damage_bonus: 2 + {int(BarbarianLevel >= 9)} + {int(BarbarianLevel >= 16)}
                       parent: rage
                   onFalse: []
           _v: 2
@@ -412,7 +412,7 @@ automations:
                     - type: ieffect2
                       name: Rage Damage
                       effects:
-                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)} [fire]
+                        damage_bonus: 2 + {int(BarbarianLevel >= 9)} + {int(BarbarianLevel >= 16)} [fire]
                       parent: rage
                   onFalse: []
           _v: 2

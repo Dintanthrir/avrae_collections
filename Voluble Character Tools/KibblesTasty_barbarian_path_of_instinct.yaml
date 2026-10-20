@@ -138,7 +138,7 @@ automations:
                       name: Rage damage
                       parent: rage
                       effects:
-                        damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
+                        damage_bonus: 2 + {int(BarbarianLevel >= 9)} + {int(BarbarianLevel >= 16)}
                   onFalse: []
           _v: 2
           proper: false

@@ -31,8 +31,8 @@ automations:
               amount: "1"
               errorBehaviour: ignore
             - type: roll
-              dice: "{lastCounterRequestedAmount}d6 + {strengthMod} + 2 + {int(barbarianLevel
-                >= 9)} + {int(barbarianLevel >= 16)} [weapon]"
+              dice: "{lastCounterRequestedAmount}d6 + {strengthMod} + 2 + {int(BarbarianLevel
+                >= 9)} + {int(BarbarianLevel >= 16)} [weapon]"
               name: damage
               displayName: Damage
             - type: target
