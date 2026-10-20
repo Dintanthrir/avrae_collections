@@ -32,7 +32,7 @@ automations:
             errorBehaviour: ignore
           - type: roll
             dice: "{lastCounterRequestedAmount}d6 + {strengthMod} + 2 + {int(barbarianLevel
-              >= 9)} + {int(barbarianLevel >= 16)}"
+              >= 9)} + {int(barbarianLevel >= 16)} [weapon]"
             name: damage
             displayName: Damage
           - type: target
