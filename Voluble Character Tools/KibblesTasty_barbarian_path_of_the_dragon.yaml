@@ -93,6 +93,9 @@ automations:
         activation_type: 3
         list_display_override: Enter a rage and gain draconic natural weapons. Use
           `-choice damage` to have your Rage damage apply automatically.
+  Draconic Wrath (Elemental Damage):
+    level: 3
+    actions:
       - |
         name: Draconic Wrath (Elemental Damage)
         automation:
@@ -178,6 +181,9 @@ automations:
         activation_type: 3
         list_display_override: Enter a rage and gain draconic natural weapons and elemental damage. Use
           `-choice damage` to have your Rage damage apply automatically.
+  Draconic Wrath (Elemental Damage, No Transformation):
+    level: 3
+    actions:
       - |
         name: Draconic Wrath (Elemental Damage, No Transformation)
         automation:
@@ -339,6 +345,9 @@ automations:
         activation_type: 3
         list_display_override: Enter a rage and gain draconic natural weapons. Use
           `-choice damage` to have your Rage damage apply automatically.
+  Draconic Wrath (Elemental Damage):
+    level: 6
+    actions:
       - |
         name: Draconic Wrath (Elemental Damage)
         automation:
