@@ -1,0 +1,168 @@
+# 'a96eb25e-10f7-4e49-817e-eb5a83ca05da'
+# KibblesTasty: Barbarian - Path of Instinct
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Path of Instinct
+parent: Barbarian
+counters:
+  3:
+    - name: Focus Dice
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: short
+      resetTo: 0
+      desc: Path of Instinct grants Focus Dice when raging.
+automations:
+  Focused Rage:
+    level: 3
+    actions:
+      - |
+        name: Focused Rage
+        automation:
+          - type: counter
+            counter: Rage
+            amount: "1"
+            errorBehaviour: raise
+          - type: counter
+            counter: Focus Dice
+            amount: -proficiencyBonus
+            fixedValue: true
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Focused Rage
+                duration: "10"
+                end: true
+                effects:
+                  save_adv:
+                    - str
+                  check_adv:
+                    - strength
+                  resistances:
+                    - bludgeoning
+                    - piercing
+                    - slashing
+                buttons:
+                  - label: End Rage
+                    automation:
+                      - type: counter
+                        counter: Focus Dice
+                        amount: proficiencyBonus
+                        errorBehaviour: ignore
+                        fixedValue: true
+                      - type: remove_ieffect
+                    verb: ends their rage
+                    style: "2"
+                attacks:
+                  - attack:
+                      _v: 2
+                      name: Perfect Dodge
+                      automation:
+                        - type: roll
+                          dice: 1d8
+                          name: focus
+                          fixedValue: false
+                          displayName: Focus Die
+                        - type: text
+                          text: When you make a Dexterity saving throw or Dexterity ability check, you can
+                            expend a focus die, expending it and adding to the roll. You
+                            can do this after rolling the d20, but before the outcome is
+                            determined.
+                      verb: performs a
+                      activation_type: 2
+                  - attack:
+                      _v: 2
+                      name: Perfect Intuition
+                      automation:
+                        - type: roll
+                          dice: 1d8
+                          name: focus
+                          displayName: Focus Die
+                        - type: text
+                          text: When you make a Wisdom saving throw or ability check, you can expend a
+                            focus die to add it to the roll. When you do this with the
+                            Search action, you can take the Search action as a bonus
+                            action.
+                      verb: has
+                      activation_type: 2
+                  - attack:
+                      _v: 2
+                      name: Perfect Parry
+                      automation:
+                        - type: roll
+                          dice: 1d8 + {max(strengthMod, dexterityMod)}
+                          name: focus
+                          displayName: Focus Die
+                        - type: text
+                          text: When another creature damages you with a weapon attack, you can use your
+                            reaction and expend one focus die to reduce the damage by
+                            the number you roll on your focus die + your Strength or
+                            Dexterity modifier (your choice).
+                      verb: performs a
+                      activation_type: 4
+                  - attack:
+                      _v: 2
+                      name: Perfect Strike
+                      automation:
+                        - type: roll
+                          dice: 1d8
+                          name: focus
+                          displayName: Focus Die
+                        - type: text
+                          text: When you make a weapon attack roll against a creature, you can expend one
+                            focus die to add it to the roll. You can use this ability
+                            after making the attack roll, but before any effects of the
+                            attack are applied.
+                      verb: performs a
+                      activation_type: 2
+                  - attack:
+                      _v: 2
+                      name: Perfect Focus
+                      automation:
+                        - type: roll
+                          dice: 1d8
+                          name: focus
+                          displayName: Focus Die
+                        - type: text
+                          text: If your rage would end for any reason other being knocked unconscious, you
+                            can expend a focus die to prevent it from ending until the
+                            start of your next turn.
+                      verb: has
+                      activation_type: 2
+                save_as: rage
+              - type: condition
+                condition: choice and 'damage' in choice
+                onTrue:
+                  - type: ieffect2
+                    name: Rage damage
+                    parent: rage
+                    effects:
+                      damage_bonus: 2 + {int(barbarianLevel >= 9)} + {int(barbarianLevel >= 16)}
+                onFalse: []
+        _v: 2
+        proper: false
+        verb: enters
+        activation_type: 3
+        list_display_override: Enter a rage with {proficiencyBonus} Focus Dice. Use
+          `-choice damage` to have your Rage damage apply automatically.
+  Instinctive Strike:
+    level: 14
+    actions:
+      - |
+        name: Instinctive Strike
+        automation:
+          - type: counter
+            counter: Focus Dice
+            amount: "1"
+            fixedValue: true
+            errorBehaviour: raise
+          - type: text
+            text: When a creature ends their turn within range of your blindsight, you can
+              expend a focus die as a reaction to move toward that creature (up to your
+              movement speed). If you can reach the creature after your movement, you
+              can make one weapon attack against them as part of this reaction. This
+              movement does not trigger opportunity attacks.
+        _v: 2
+        proper: false
+        activation_type: 4

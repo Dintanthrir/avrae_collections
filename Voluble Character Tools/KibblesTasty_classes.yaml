@@ -1,0 +1,11 @@
+# KibblesTasty_classes = '9f573f11-7a45-4163-b793-5bfe5608f000'
+# Homebrew classes and subclasses by KibblesTasty, definitions for Voluble Character Tools
+# https://www.kthomebrew.com/thelist
+
+2014:
+  subclasses:
+    # Base Classes
+    # Barbarian
+    Path of Instinct: 'a96eb25e-10f7-4e49-817e-eb5a83ca05da'
+    Path of the Dragon: '6b1eaaf6-b48c-4a92-a552-93fe4bc49919'
+    Path of the Bladestorm: '3e45a05b-4cd0-4824-8f72-d6ee7a84a517'
