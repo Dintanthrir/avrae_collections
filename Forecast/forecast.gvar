@@ -32,6 +32,9 @@ DEFAULT_SETTINGS = {}
 
 now = time()
 
+def _is_gvar_id(string):
+    return typeof(string) == 'str' and len(string) == 36 and [char for char in string if not char in '0123456789abcdef-'] == []
+
 def get_forecasts():
   """
   Generates a weather report for each visible region.
@@ -41,6 +44,7 @@ def get_forecasts():
   Returns a dict mapping region names to condition dicts.
   """
   settings = load_yaml(get_svar(SETTINGS_SVAR, default=dump_yaml(DEFAULT_SETTINGS)))
+  settings = load_yaml(get_gvar(settings)) if _is_gvar_id(settings) else settings
   season = get_svar(SEASON_SVAR, default='spring')
   conditions = load_yaml(get_gvar(DEFAULT_CONDITIONS_GVAR)) | settings.get('conditions', {})
 
@@ -55,5 +59,6 @@ def get_forecasts():
       current_condition = prng.pseudorandchoices(list(possible_conditions.keys()), weights=list(possible_conditions.values()), k=1)[0] # always call prng for every region so the results are stable
       if (details.get('categories') == None and details.get('channels') == None) or ctx.channel.category.id in details.get('categories', []) or ctx.channel.id in details.get('channels', []):
         visible_regions[name] = {'name': current_condition} | conditions[current_condition]
-
+    else:
+      err(f'No weather conditions found for region ${name}, season ${season}.')
   return visible_regions
