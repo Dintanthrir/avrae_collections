@@ -1,0 +1,7 @@
+# 'ac0d82c7-fbcb-4b22-a9c9-90f40914ca11'
+# KibblesTasty: Fighter - Spiritsworn
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Spiritsworn
+parent: Fighter
+automations: {}

@@ -1,0 +1,54 @@
+# 'f92feb70-6ac5-43ca-a5c8-9a7809dc3cc6'
+# KibblesTasty: Fighter - Champion (Revised)
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Champion (Revised)
+parent: Fighter
+automations:
+  Determination:
+    level: 15
+    actions:
+      - |
+        - name: Determination
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: variable
+                  name: spell_save
+                  value: target.spellbook.dc
+            - type: target
+              target: self
+              effects:
+                - type: check
+                  ability: athletics
+                  dc: spell_save
+                  success: []
+                  fail: []
+            - type: text
+              text: As an action, you can make a Strength (Athletics) check against the spell
+                save DC of the caster to attempt to force your way through magical
+                barriers or effects. On success, you can move through the effect, spending
+                four feet of movement for each foot moved through the effect.
+          _v: 2
+          proper: true
+          activation_type: 1
+  Survivor:
+    level: 18
+    actions:
+      - |
+        - name: Survivor
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: condition
+                  condition: target.hp > 0 and target.hp <= target.max_hp / 2
+                  onTrue:
+                    - type: damage
+                      damage: -(5+{constitutionMod})[healing]
+                  onFalse: []
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2

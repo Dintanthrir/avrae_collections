@@ -1,0 +1,33 @@
+# '54fb368c-28ad-4cc0-9e9f-e6b720a7c1c2'
+# KibblesTasty: Fighter - Adventurer
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Adventurer
+parent: Fighter
+counters:
+  18:
+    - name: Adventurer's Intuition
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Adventurer's Intuition:
+    level: 18
+    actions:
+      - |
+        - name: Adventurer's Intuition
+          automation:
+            - type: counter
+              counter: Adventurer's Intuition
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: When you make an attack roll, saving throw, or ability check, you can
+                replace the roll with your Fighter level. You can use this after you roll,
+                but before you know the outcome. Once you do this, you cannot do so again
+                until you complete a short or long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2

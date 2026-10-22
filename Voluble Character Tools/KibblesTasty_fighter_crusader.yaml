@@ -1,0 +1,7 @@
+# '64744389-479a-410f-b1d2-4d6588163be6'
+# KibblesTasty: Fighter - Crusader
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Crusader
+parent: Fighter
+automations: {}

@@ -1,0 +1,53 @@
+# '43f33914-8993-4da3-a809-97f1f8665f32'
+# KibblesTasty: Fighter - Tech Knight
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Tech Knight
+parent: Fighter
+counters:
+  3:
+    - name: Rev Up
+      minVal: 0
+      maxVal: intelligenceMod
+      reset: short
+      reset_to: intelligenceMod
+automations:
+  Rev Up:
+    level: 3
+    actions:
+      - |
+        - name: Rev Up
+          automation:
+            - type: counter
+              counter: Rev Up
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                When hit an attack with your Brutal Invention, you can overcharge with an
+                effect based on your Brutal Invention selection, granting it an additional
+                benefit:
+
+
+                - Reckless Power (Chainblade): The weapon's damage dice become d6's for
+                that attack (including the special property if activated).
+
+                - Excessive Force (Ramming Gauntlet): The target is knocked 10 feet
+                backwards.
+
+                - Full Auto (Repeating Hand Crossbow): You immediately make a single
+                additional attack as part of the same action, rolling three d20s for the
+                attack roll and taking the lowest.
+
+                - Overcharge (Transforming Weapon): You deal an additional 1d6 lightning
+                damage.
+
+                - Hypervelocity (Ricocheting Weapon): The weapon bounces to an additional
+                target.
+
+
+                You can use this ability a number of times equal to your Intelligence
+                modifier, regaining all uses on a short or long rest.
+          _v: 2
+          proper: true
+          activation_type: 2

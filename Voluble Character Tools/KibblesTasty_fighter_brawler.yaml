@@ -1,0 +1,77 @@
+# 'fe056276-85b1-454f-8dfd-6d772db8b087'
+# KibblesTasty: Fighter - Brawler
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Brawler
+parent: Fighter
+counters:
+  18:
+    - name: Legendary Feat
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Improvised Weapon:
+    level: 3
+    actions:
+      - |
+        - name: Improvised Weapon
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{8 + 2*(int(FighterLevel >= 15))}[{choice if choice else
+                        'bludgeoning'}]
+                  miss: []
+                  attackBonus: strengthMod + proficiencyBonus
+          _v: 2
+          proper: false
+          list_display_override: use `-choice` to specify damage type
+  Endurance:
+    level: 7
+    actions:
+      - |
+        - name: Endurance
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Endurance
+                  duration: "1"
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Legendary Feat:
+    level: 18
+    actions:
+      - |
+        - name: Legendary Feat
+          automation:
+            - type: counter
+              counter: Legendary Feat
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                Before you make an attack roll, saving throw, or Strength, Dexterity, or
+                Constitution ability check, you can make it a legendary feat, adding your
+                Fighter level to the roll.
+
+
+                Once you do so, you cannot do so again until you complete a short or long
+                rest.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 2
