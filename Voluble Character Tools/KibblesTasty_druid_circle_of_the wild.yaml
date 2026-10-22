@@ -1,0 +1,55 @@
+# 'd5fb48cc-08b5-4faf-aacf-13e302467bae'
+# KibblesTasty: Druid - Circle of the Wild
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Circle of the Wild
+parent: Druid
+automations:
+  Primal Companion:
+    level: 2
+    actions:
+      - |
+        - name: Primal Companion
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You form a bond with a beast spirit and can allow it to take form by
+                expending a use of your Wildshape. Its statblock becomes that of your
+                Beast Companion, applying the modifications from the customization table
+                that best fit the form it takes. At the GM's discretion, custom abilities
+                can replace those powers to better represent the beast companion. Once
+                selected, the traits cannot be changed, as the beasts spirit takes on that
+                form permanently.
+
+
+                The beast's soul becomes entangled with your own, granting you the ability
+                to call it forth from wherever it is, and even return it to life should it
+                ever fall, by expending a use of your Wildshape ability. You can expend a
+                use of Wildshape to call it to an empty space within 10 feet of you, where
+                it appears at full hit points, and free of any conditions or spells that
+                were affecting it. You can cause it to return to its spirit form as a
+                bonus action, but must expend a use of Wildshape to call it forth once
+                more after doing so.
+
+
+                In combat, the Beast Companion shares your initiative count, but it takes
+                its turn immediately after yours. The only action it takes on its turn is
+                the Dodge action, unless you take a bonus action on your turn to command
+                it to take another action. You can command your Beast Companion as part of
+                the same bonus action used to summon it. That action can be the one in its
+                stat block or some other action. If you are incapacitated, the Beast
+                Spirit can take an take any action of its choice, not just Dodge.
+
+
+                When you manifest the beast, it lasts until you complete a long rest
+                (unless you expend a use of Wildshape to keep it manifested), it is
+                reduced to zero hit points, or you die, at which point it vanishes, fading
+                away until you expend a use of Wildshape to call it forth again.
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 3

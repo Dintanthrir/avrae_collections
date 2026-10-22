@@ -1,0 +1,140 @@
+# 'aac9ba58-6d0e-4b94-9b52-53e5f76d343a'
+# KibblesTasty: Druid - Circle of the Sun
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Circle of the Sun
+parent: Druid
+counters:
+  10:
+    - name: Cleansing Fire
+      minVal: 0
+      maxVal: wisdomMod
+      reset: long
+      reset_to: wisdomMod
+      desc: Cast remove curse or lesser restoration
+automations:
+  Unleash Radiance:
+    level: 2
+    actions:
+      - |
+        - name: Unleash Radiance
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Radiant Form
+                  duration: "10"
+                  effects:
+                    resistances:
+                      - fire
+                      - radiant
+                  desc: You shed bright light in a radius of 20 feet, and dimlight for another 20
+                    feet. The bright light is sunlight.
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Radiant Damage
+                        automation:
+                          - type: text
+                            text: Once per turn, when you deal fire or radiant damage on your turn, you can
+                              deal an addition 1d4 fire or radiant damage to that enemy.
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: 1d4 [{choice if choice else 'radiant'}]
+                        verb: adds
+                        activation_type: 2
+                    - attack:
+                        _v: 2
+                        name: Radiant Beam
+                        automation:
+                          - type: remove_ieffect
+                          - type: roll
+                            dice: 2d8 [radiant]
+                            name: damage
+                            cantripScale: true
+                          - type: target
+                            target: all
+                            effects:
+                              - type: save
+                                stat: dex
+                                fail:
+                                  - type: damage
+                                    damage: "{damage}"
+                                success:
+                                  - type: damage
+                                    damage: "{damage}/2"
+                        activation_type: 1
+                      defaultDC: spell_dc
+            - type: text
+              text: ""
+          _v: 2
+          proper: true
+          verb: begins to
+          activation_type: 3
+  Absorb Radiance:
+    level: 2
+    actions:
+      - |
+        - name: Absorb Radiance
+          automation:
+            - type: text
+              text: When you end your turn in sunlight, you gain temporary hit points equal to
+                your Wisdom modifier. Once you gain these temporary hit points, you
+                cannot gain them again for 1 minute.
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: "{wisdomMod}"
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Burning Light:
+    level: 6
+    actions:
+      - |
+        - name: Burning Light
+          automation:
+            - type: text
+              text: The first time on your turn that you roll radiant or fire damage against a
+                creature is in bright light, you can add your Wisdom modifier to that
+                damage roll.
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{wisdomMod}"
+          _v: 2
+          proper: true
+          activation_type: 2
+  Cleansing Fire:
+    level: 10
+    actions:
+      - |
+        - name: Cleansing Fire
+          automation:
+            - type: counter
+              counter: Cleansing Fire
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can cast remove curse or lesser restoration without expending a
+                spell slot, but when you cast it this way the target takes 1d10 fire
+                damage for each condition or disease removed, or 1d10 radiant damage for
+                each curse removed.
+
+
+                You can do this a number of times equal to your Wisdom modifier,
+                regaining all uses when you complete a long rest.
+          _v: 2
+          proper: false
+          activation_type: 1

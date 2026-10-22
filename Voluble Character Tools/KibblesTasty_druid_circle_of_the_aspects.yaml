@@ -1,0 +1,88 @@
+# '21816018-be08-4043-8521-4d32eb11251c'
+# KibblesTasty: Druid - Circle of the Aspects
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Circle of the Aspects
+parent: Druid
+automations:
+  Spirit Aspect:
+    level: 2
+    actions:
+      - |
+        - name: Spirit Aspect
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Spirit Aspect
+                  duration: "100"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Aspect of the Bear
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: ieffect2
+                                name: Aspect of the Bear
+                                parent: spirit_aspect
+                                desc: You gain supernatural strength and your magic impacts with staggering
+                                  force. Your Strength ability score becomes equal to your
+                                  Wisdom ability score (if it was lower), and you can add
+                                  your Strength modifier to the damage of your melee spell
+                                  attacks. You gain proficiency in Strength saving throws
+                                  while manifesting this aspect.
+                        verb: assumes
+                        activation_type: 2
+                    - attack:
+                        _v: 2
+                        name: Aspect of the Tiger
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: ieffect2
+                                name: Aspect of the Tiger
+                                parent: spirit_aspect
+                                desc: When you make a melee spell attack or cast a spell as part of your action,
+                                  you can make one melee weapon attack as a bonus action.
+                                  You gain proficiency in Dexterity saving throws while
+                                  manifesting this aspect.
+                        verb: assumes
+                        activation_type: 2
+                    - attack:
+                        _v: 2
+                        name: Aspect of the Turtle
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: ieffect2
+                                name: Aspect of the Turtle
+                                parent: spirit_aspect
+                                desc: When you enter this form, and at the start of your turn while in this
+                                  form, you gain temporary hit points equal to your Wisdom
+                                  modifier. You gain proficiency in Constitution saving
+                                  throws while manifesting this aspect.
+                                buttons:
+                                  - label: Turtle Temp HP
+                                    automation:
+                                      - type: target
+                                        target: self
+                                        effects:
+                                          - type: temphp
+                                            amount: "{wisdomMod}"
+                                    style: "3"
+                        verb: assumes
+                        activation_type: 2
+                  save_as: spirit_aspect
+          _v: 2
+          proper: false
+          verb: assumes
+          activation_type: 3

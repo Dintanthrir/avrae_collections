@@ -1,0 +1,60 @@
+# '05e31831-9dda-447f-ad15-1dc3372b99ce'
+# KibblesTasty: Druid - Circle of Growth
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Circle of Growth
+parent: Druid
+automations:
+  Sprout Sapling:
+    level: 2
+    actions:
+      - |
+        - name: Sprout Sapling
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As a bonus action, you can expend one use of your Wild Shape feature to
+                sprout a sapling, rather than assuming a beast form. The Sapling to
+                sprouts to life in an empty space you can see within 30 feet. The Seedling
+                is friendly to you and your companions and obeys your commands.
+
+
+                In combat, the Sapling shares your initiative count, but it takes its turn
+                immediately after yours. The only action it takes on its turn is the Dodge
+                action, unless you take a bonus action on your turn to command it to take
+                another action. You can command your sapling as part of the same bonus
+                action used to summon it. That action can be one in its stat block or some
+                other action. If you are incapacitated, the Seedling can take any action
+                of its choice, not just Dodge. When you cast a spell with a range other
+                than self, the spell can originate from you or your Sapling.
+
+
+                The Seedling manifests for 10 minutes, until it is reduced to 0 hit
+                points, until you use this feature to summon the spirit again, or until
+                you die.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Grasp of Nature:
+    level: 10
+    actions:
+      - |
+        - name: Grasp of Nature
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{wisdomMod}"
+            - type: text
+              text: When a creature starts its turn grappled or restrained by you, your
+                spells, creatures created by your spells, or your Sapling, it takes damage
+                equal to your Wisdom modifier.
+          _v: 2
+          proper: true
+          activation_type: 2

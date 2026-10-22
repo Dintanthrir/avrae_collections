@@ -1,0 +1,279 @@
+# 'a0a999d1-d16f-4332-86ad-7f355abe7fe1'
+# KibblesTasty: Druid - Circle of Elements
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Circle of Elements
+parent: Druid
+automations:
+  Invoke Element:
+    level: 2
+    actions:
+      - |
+        - name: Invoke Element
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: condition
+                  condition: choice and 'air' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Invoke Element
+                      duration: "10"
+                      desc: "Air: Coalesced Lighting"
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Coalesced Lighting
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: dex
+                                    fail:
+                                      - type: damage
+                                        damage: "{1 + int(DruidLevel >= 10)}d{6 + 2*int(DruidLevel >= 10)} + {spell}
+                                          [lightning]"
+                                    success: []
+                                    dc: ""
+                          defaultDC: spell_dc
+                          defaultCastingMod: wisdomMod
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'earth' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Invoke Element
+                      duration: "10"
+                      desc: "Earth: Stone Pillar"
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'fire' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Invoke Element
+                      desc: "Fire: Fiery Blaze"
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Fiery Blaze
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: damage
+                                    damage: "{1 + int(DruidLevel >= 10)}d4[fire]"
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'water' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Invoke Element
+                      duration: "10"
+                      desc: "Water: Icy Blizzard"
+                  onFalse: []
+            - type: text
+              text: >-
+                As a bonus action, you can invoke primal powers to manifest elemental
+                powers at a point within 60 feet. When you invoke this power, select an
+                element to invoke, which has a different effect.
+
+
+                You can move an elemental manifestation up to 20 feet on subsequent turns
+                as a bonus action. If you move a stone pillar, the pillar is destroyed and
+                you can create a new pillar. Instead of moving a Fiery Blaze or Icy
+                Blizzard, you can expand their radius by 5 feet as a bonus action, up to a
+                number of times equal to your proficiency bonus. Their radius is reset the
+                base size if you move them. You are unaffected by the effects of your own
+                elemental manifestations (though cannot move through stone pillars you
+                create unless otherwise able to).
+
+
+                The manifested elemental lasts for 1 minute, ending early if you dismiss
+                it (no action required), are incapacitated, die, or use this feature
+                again.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+          list_display_override: use `-choice air|earth|fire|water`
+  Paraelemental Manifestations:
+    level: 10
+    actions:
+      - |
+        - name: Paraelemental Manifestations
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "2"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: condition
+                  condition: choice and 'dust' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Paraelemental Manifestation
+                      duration: "10"
+                      desc: "Air: Coalesced Lighting + Earth: Stone Pillar = Dust"
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Coalesced Lighting
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: dex
+                                    fail:
+                                      - type: damage
+                                        damage: "{1 + int(DruidLevel >= 10)}d{6 + 2*int(DruidLevel >= 10)} + {spell}
+                                          [lightning]"
+                                    success: []
+                                    dc: ""
+                          defaultDC: spell_dc
+                          defaultCastingMod: wisdomMod
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'fog' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Paraelemental Manifestation
+                      duration: "10"
+                      desc: "Air: Coalesced Lighting + Water: Icy Blizzard = Fog"
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Coalesced Lighting
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: dex
+                                    fail:
+                                      - type: damage
+                                        damage: "{1 + int(DruidLevel >= 10)}d{6 + 2*int(DruidLevel >= 10)} + {spell}
+                                          [lightning]"
+                                    success: []
+                                    dc: ""
+                          defaultDC: spell_dc
+                          defaultCastingMod: wisdomMod
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'smoke' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Paraelemental Manifestation
+                      duration: "10"
+                      desc: "Air: Coalesced Lighting + Fire: Fiery Blaze = Smoke"
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Coalesced Lighting
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: dex
+                                    fail:
+                                      - type: damage
+                                        damage: "{1 + int(DruidLevel >= 10)}d{6 + 2*int(DruidLevel >= 10)} + {spell}
+                                          [lightning]"
+                                    success: []
+                                    dc: ""
+                          defaultDC: spell_dc
+                          defaultCastingMod: wisdomMod
+                        - attack:
+                            _v: 2
+                            name: Fiery Blaze
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: damage
+                                    damage: "{1 + int(DruidLevel >= 10)}d4[fire]"
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'steam' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Paraelemental Manifestation
+                      duration: "10"
+                      desc: "Fire: Fiery Blaze + Water: Icy Blizzard = Steam"
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Fiery Blaze
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: damage
+                                    damage: "{1 + int(DruidLevel >= 10)}d4[fire]"
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'mud' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Paraelemental Manifestation
+                      duration: "10"
+                      desc: "Earth: Stone Pillar + Water: Icy Blizzard = Mud"
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'magma' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Paraelemental Manifestation
+                      duration: "10"
+                      desc: "Earth: Stone Pillar + Fire: Fiery Blaze = Magma"
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Fiery Blaze
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: damage
+                                    damage: "{1 + int(DruidLevel >= 10)}d4[fire]"
+                        - attack:
+                            _v: 2
+                            name: Magma
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: damage
+                                    damage: 1d12[fire]
+                            verb: retaliates with
+                            activation_type: 2
+                  onFalse: []
+            - type: text
+              text: >-
+                When you invoke an element, you can expend 2 uses of Wild Shape to invoke
+                two elements at once in the same area. The effect has a radius of 5 feet,
+                or the biggest radius of the effects that makes it up if larger than 5
+                feet, and gains the effects of both manifestations, plus an additional
+                effect based on the combination:
+
+                **Dust, Fog, Smoke, or Steam.** The area becomes heavily obscured.
+
+                **Mud.** Difficult terrain generated on the ground requires an additional
+                5 feet for movement to move through.
+
+                **Magma.** Melee weapon attacks that hit stone pillars deal 1d12 fire
+                damage to the attacker.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+          list_display_override: use `-choice dust|fog|smoke|steam|mud|magma`

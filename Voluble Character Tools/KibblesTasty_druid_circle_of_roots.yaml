@@ -1,0 +1,94 @@
+# '377dfc58-a3d8-4d48-ba4e-4fcb04dce554'
+# KibblesTasty: Druid - Circle of Roots
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Circle of Roots
+parent: Druid
+automations:
+  Tree Shape:
+    level: 2
+    actions:
+      - |
+        - name: Tree Shape
+          automation:
+            - type: counter
+              counter: Wild Shape
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As a bonus action, you assume a treelike form, covered in leaves and bark,
+                which lasts up to one hour, or until you end it as a bonus action or until
+                you are incapacitated.
+
+
+                You gain the following properties when you transform:
+
+                - You can make yourself Large sized. If you do so, reach becomes 10 feet.
+
+                - You can make a Wisdom (Athletics) check to initiate, maintain, or
+                contest a grapple, and have a number of grappling appendages (in the form
+                of grasping roots or branches) equal to your Wisdom modifier.
+
+                - Each appendage serves as a natural weapon under the effect of
+                shillelagh. While in this form, you can cast shillelagh on any weapon you
+                are carrying.
+
+                - Your AC is 10 + your Constitution modifier + your Wisdom modifier. You
+                cannot benefit from the AC of armor or shields while in this form.
+
+                - You gain temporary hit points equal to your Wisdom modifier + twice your
+                Druid level when you transform into tree form. When the form ends, you
+                lose any temporary hit points you have from it.
+
+                - Any speed you have becomes 15 feet, unless the speed was lower. If you
+                don't move during your turn, you have advantage on Ability Checks and
+                Saving Throws against effects that would move you or knock you prone.
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Tree Shape
+                  duration: "600"
+                  effects:
+                    ac_value: 10 + constitutionMod + wisdomMod
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Tree Limb
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d8 + spell [magical bludgeoning]
+                                miss: []
+                                attackBonus: sab
+                      defaultAttackBonus: wisdomMod + proficiencyBonus
+                      defaultCastingMod: wisdomMod
+                - type: temphp
+                  amount: "{wisdomMod + 2 * DruidLevel}"
+          _v: 2
+          proper: false
+          verb: assumes
+          activation_type: 3
+  Crushing Grasp:
+    level: 14
+    actions:
+      - |
+        - name: Crushing Grasp
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 2d6 [bludgeoning]
+            - type: text
+              text: Any creature grappled or restrained by you (by a grapple or a spell such
+                as entangle) takes 2d6 bludgeoning damage at the start of their turn as
+                your grasp crushes it.
+          _v: 2
+          proper: false
+          activation_type: 2
