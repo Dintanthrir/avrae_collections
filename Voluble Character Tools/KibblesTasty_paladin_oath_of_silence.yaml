@@ -4,13 +4,6 @@
 # subclass definition for Voluble Character Tools
 name: Oath of Silence
 parent: Paladin
-counters:
-  20:
-    - name: Clarity of Purpose
-      minVal: 0
-      maxVal: 1
-      reset: long
-      reset_to: 1
 automations:
   Channel Divinity:
     level: 3

@@ -1,0 +1,58 @@
+# 'd52cd9ea-ccb9-470b-8ec1-7af93e23334e'
+# KibblesTasty: Ranger - Bounty Hunter
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Bounty Hunter
+parent: Ranger
+automations:
+  Dead or Alive:
+    level: 3
+    actions:
+      - |
+        - name: Dead or Alive
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Dead or Alive
+                  duration: "10"
+                  save_as: dead_or_alive
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: if choice and 'dead' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: "Wanted: Dead"
+                      parent: dead_or_alive
+                  onFalse:
+                    - type: ieffect2
+                      name: "Wanted: Alive"
+                      parent: dead_or_alive
+            - type: text
+              text: >-
+                You can mark a target to bring them down dead or alive. You can place this
+                mark on a creature you can see within 120 feet as a bonus action, or as
+                part of placing a mark on the creature that requires a bonus action (such
+                as hunter's mark). This mark lasts for 1 minute, or until you use it
+                again. Choose one of the following when you mark a creature:
+
+                - **Dead.** When you roll a 1 or 2 on a damage die for an attack, you can
+                reroll the die and must use the new roll, even if the new roll is a 1 or a
+                2. Any attack roll you make against the marked target is a critical hit on
+                a roll of 19 or 20 on the d20.
+
+                Add `-criton 19` to attacks, reroll dice as needed or roll initial damage
+                with `ro<3`.
+
+                - **Alive.** When you make an attack roll against the target with a net,
+                you don't have disadvantage when attacking at melee range or long range.
+                You can deal nonlethal damage with ranged attacks against the marked
+                target.
+          _v: 2
+          proper: true
+          verb: wants you
+          activation_type: 3
+          list_display_override: use `-choice dead|alive`
