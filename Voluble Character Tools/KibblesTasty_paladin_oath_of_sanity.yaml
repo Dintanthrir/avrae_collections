@@ -1,0 +1,134 @@
+# '7eb9cba7-279d-4bef-a813-bdb03b576634'
+# KibblesTasty: Paladin - Oath of Sanity
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Oath of Sanity
+parent: Paladin
+counters:
+  20:
+    - name: Clarity of Purpose
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Channel Divinity:
+    level: 3
+    actions:
+      - |
+        - name: Turn the Aberrant
+          automation:
+            - type: counter
+              counter: Channel Divinity
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: target.creature_type and ('aberration' in target.creature_type or
+                    'undead' in target.creature_type)
+                  onTrue:
+                    - type: save
+                      stat: wis
+                      fail:
+                        - type: ieffect2
+                          name: Turned
+                          duration: "10"
+                          buttons:
+                            - label: End Turned
+                              automation:
+                                - type: remove_ieffect
+                              style: "2"
+                      success: []
+                  onFalse: []
+            - type: text
+              text: >-
+                As an action, you can make any aberration or undead, provided that it's
+                within 30 feet and that can see or hear you, make a Wisdom saving throw.
+                If the creature fails its saving throw, it is turned for 1 minute or until
+                it takes damage. A turned creature must spend its turns trying to move as
+                far away from you as it can, and it can't willingly move to a space within
+                30 feet of you. It also can't take reactions. For its action, it can use
+                only the Dash action or try to escape from an effect that prevents it from
+                moving. If there's nowhere to move, the creature can use the Dodge action.
+
+
+                If the creature's true form is concealed by an illusion, shapeshifting, or
+                other effect, that form is revealed while it is turned.
+          _v: 2
+          proper: true
+          verb: attempts to
+          activation_type: 1
+        - name: Deny the Supernatural
+          automation:
+            - type: counter
+              counter: Channel Divinity
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: cha
+                  fail:
+                    - type: ieffect2
+                      name: Denied
+                      end: true
+                      duration: "1"
+                      desc: unable to cast spells or use psionic abilities
+                  success: []
+            - type: text
+              text: Immediately after you deal damage to a creature with your Divine Smite
+                feature, you can use your Channel Divinity as a bonus action to attempt to
+                strip the target of its powers. The target must make a Charisma saving
+                throw or be unable to cast spells or use psionic abilities until the end
+                of it's next turn.
+          _v: 2
+          proper: true
+          verb: attempts to
+          activation_type: 3
+  Clarity of Purpose:
+    level: 20
+    actions:
+      - |
+        - name: Clarity of Purpose
+          automation:
+            - type: counter
+              counter: Clarity of Purpose
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Clarity of Purpose
+                  duration: "10"
+                  effects:
+                    immunities:
+                      - psychic
+                  desc: 120' truesight, adv on saves against magical or psychic effects
+            - type: text
+              text: >-
+                As an action, you can fully perceive the world around you for what it is,
+                shattering the foul magics that bind and piecing the veils that hide,
+                unrelenting and focused, gaining the following benefits for 1 minute:
+
+
+                - You can gain truesight with a range of 120 feet.
+
+                - You are immune to psychic damage.
+
+                - You have advantage on saving throws against magical or psionic effects.
+
+                - When you strike an enemy with a Divine Smite you can choose to cast
+                dispel magic on the target as a bonus action without expending a spell
+                slot. If the level of the spell slot spent on Divine Smite was higher than
+                3rd level, you cast dispel magic at the level of spell slot spent.
+
+                Once you use this feature, you can't use it again until you finish a long
+                rest.
+          _v: 2
+          proper: false
+          verb: gains
+          activation_type: 1

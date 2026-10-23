@@ -1,0 +1,137 @@
+# '8f7ee061-a228-4c7e-8c0b-478af69bd28c'
+# KibblesTasty: Paladin - Oath of Silence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Oath of Silence
+parent: Paladin
+counters:
+  20:
+    - name: Clarity of Purpose
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Channel Divinity:
+    level: 3
+    actions:
+      - |
+        - name: Shroud of Silence
+          automation:
+            - type: counter
+              counter: Channel Divinity
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Silenced
+                      duration: "100"
+                      buttons:
+                        - label: Resist Silence
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: wis
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          style: "1"
+                          defaultDC: spell_dc
+                      effects:
+                        check_adv:
+                          - stealth
+                  success: []
+            - type: text
+              text: >-
+                As a bonus action, you present your holy symbol and whisper a prayer
+                shrouded in target in an aura of silence. For 10 minutes, the target makes
+                no noise. It cannot speak (including the verbal components of spells) and
+                gains advantage on Stealth (Dexterity) ability checks.
+
+
+                An unwilling target makes a Wisdom saving throw against your spell save DC
+                to prevent the effect when targeted, and can repeat the saving throw at
+                the end of each of their turns to end the effect on a success.
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 3
+        - name: Sanctuary of the Sacrosanct
+          automation:
+            - type: counter
+              counter: Channel Divinity
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{caster.levels.get('Paladin') + charismaMod}"
+            - type: text
+              text: As an action, you present your holy symbol and whisper prayer to bring
+                refugees from the turmoil of the world. All creatures of your choice
+                within 30 feet gain temporary hit points equal to your Paladin level +
+                your Charisma modifier, and if they are under the effect of a condition or
+                spell they can normally save against the end of their turn, they can
+                immediately make a save against the effect, ending it on success as
+                normal.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 1
+  Rebuke:
+    level: 15
+    actions:
+      - |
+        - name: Rebuke
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{charismaMod}[radiant]"
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Silenced
+                      duration: "1"
+                  success: []
+          _v: 2
+          proper: false
+          activation_type: 4
+Ordered World:
+  level: 20
+  actions:
+    - |
+      - name: Ordered World
+        automation:
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Ordered World
+                duration: "10"
+          - type: text
+            text: >-
+              As an action, you can bring ordered tranquility to the world around you
+              for 1 minute. Your Aura of Serenity doubles in size, and you can use
+              Rebuke without expending your reaction a number of times equal to your
+              Charisma modifier without spending your reaction, regaining all uses at
+              the start of your next turn.
+
+
+              For the duration, all creatures of your choice have advantage on saving
+              throws against the charmed condition, the frightened condition, or the
+              effects of spells.
+        _v: 2
+        proper: false
+        verb: creates
+        activation_type: 1
