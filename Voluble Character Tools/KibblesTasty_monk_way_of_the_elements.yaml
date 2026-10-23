@@ -1,0 +1,293 @@
+# '5605e23a-beb8-40bb-b1d0-11db4e0d3ac0'
+# KibblesTasty: Monk - Way of the Elements
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Way of the Elements
+parent: Monk
+features:
+  elemental_techniques: { title: 'Elemental Techniques', type: list, level: 3 }
+counters:
+  17:
+    - name: Elemental Avatar
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Elemental Techniques:
+    level: 3
+    actions:
+      - |
+        - name: Arms of Stone
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Arms of Stone
+                  duration: "1"
+                  effects:
+                    ac_bonus: lastCounterRequestedAmount
+                    damage_bonus: lastCounterRequestedAmount
+            - type: text
+              text: Your arms become stone until the start of your next turn (no action
+                required). For the duration, your melee attack damage and AC increase by
+                the number of ki points spent.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Bend the Earth
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2394
+            - type: text
+              text: You can cast _mold earth_ as a bonus action. You can use this technique as
+                an action without spending a ki point.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Control the Flames
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2374
+            - type: text
+              text: You can cast _control flames_ as a bonus action. You can use this
+                technique as an action without spending a ki point.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Elemental Power
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You learn one spell from the Elemental Spell List. You can cast this spell
+                by expending ki point to equal to the level of the spell. You can cast the
+                spell at a higher level by expending additional ki, increasing the level
+                of the spell for each ki spent, up to the limit of ki you can spend in a
+                turn.
+          _v: 2
+          proper: false
+          verb: uses
+          activation_type: 8
+        - name: Fangs of the Fire Snake
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Fangs of the Fire Snake
+                  duration: "1"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Fangs of the Fire Snake
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: "{lastCounterRequestedAmount}d{4 + 2*int(MonkLevel >= 5) +
+                                      2*int(MonkLevel >= 11) + 2*int(MonkLevel >=
+                                      17)}[fire]"
+                                miss: []
+                                attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: Your unarmed strikes become tendrils of fire until the start of your next
+                turn (no action required). Your reach with unarmed strikes increases to 15
+                feet, and your unarmed strikes do fire damage. You can spend an additional
+                ki point to increase the damage of your unarmed strikes during the
+                duration by your martial arts die for the duration.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Fist of Unbroken Air
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: dexterityMod + {1 + lastCounterRequestedAmount}d{4 + 2*int(MonkLevel >=
+                        5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel >= 17)}[bludgeoning]
+                    - type: save
+                      stat: str
+                      fail: []
+                      success: []
+                      dc: 8 + proficiencyBonus + wisdomMod
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: As an attack as part of the attack action, you can launch a blast of
+                compressed air at a creature within 30 feet. On hit, the target takes
+                damage equal to two rolls of your martial arts die + your Dexterity
+                modifier and must make a Strength saving throw or be knocked 10 feet away
+                from you. You can spend additional ki on this technique, increasing the
+                damage dealt by your martial arts die and the distance knocked back by 10
+                feet for each ki point spent.
+          _v: 2
+          proper: false
+        - name: Gust the Wind
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2383
+            - type: text
+              text: You can cast _gust_ as a bonus action. You can use this technique as an
+                action without spending a ki point.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Shape the River
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2397
+            - type: text
+              text: You can cast _shape water_ as a bonus action. You can use this technique
+                as an action without spending a ki point.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Skyward Leap
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Levitating
+                  duration: "2"
+                  end: true
+                  conc: true
+            - type: text
+              text: As a bonus action, you jump 20 feet per ki spent and can hover as if under
+                the effect of the levitate spell by concentrating (as if concentrating on
+                a spell) until the end of your next turn. You can end this concentration
+                at any time.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 3
+        - name: Water Whip
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: dexterityMod + 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) +
+                        2*int(MonkLevel >= 17)}[bludgeoning]
+                    - type: save
+                      stat: str
+                      fail:
+                        - type: condition
+                          condition: choice and 'prone' in choice
+                          onTrue:
+                            - type: ieffect2
+                              name: Prone
+                              effects:
+                                attack_advantage: "-1"
+                              desc: A prone creature's only movement option is to crawl, unless it stands up
+                                and thereby ends the condition
+                              buttons:
+                                - label: Stand Up
+                                  verb: stands up
+                                  automation:
+                                    - type: remove_ieffect
+                          onFalse: []
+                      success: []
+                      dc: 8 + proficiencyBonus + wisdomMod
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: As an attack as part of the attack action, you can create a whip of water
+                and attack a creature within 30 feet of you with it. On hit, the target
+                takes damage equal to two rolls of your martial arts die + your Dexterity
+                modifier and must make a Strength saving throw. On failure, it is either
+                knocked prone or pulled up 25 feet closer to you.
+          _v: 2
+          proper: false
+          list_display_override: use `-choice prone|pull`
+  Elemental Avatar:
+    level: 17
+    actions:
+      - |
+        - name: Elemental Avatar
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "6"
+              errorBehaviour: raise
+            - type: text
+              text: You learn the _form of fire_, _form of ice_, _form of stone_, _form of water_,
+                and _form of wind_ spells. You can cast them by expending 6 ki points.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+        - name: "Elemental Avatar: Form of the Elements"
+          automation:
+            - type: counter
+              counter: Elemental Avatar
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You learn the _form of fire_, _form of ice_, _form of stone_, _form of
+                water_, and _form of wind_ spells. You can cast them by expending 6 ki
+                points.
+
+
+                Additionally, you can activate all of them at the same time, casting _form
+                of the elements_ without expending a spell slot or ki points. Once you do
+                so, you cannot do so again until you complete a long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1

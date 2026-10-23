@@ -1,0 +1,361 @@
+# 'f1bd541b-c143-4eca-b547-b5875fc0d646'
+# KibblesTasty: Monk - Way of the Sword Saint
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Way of the Sword Saint
+parent: Monk
+features:
+  mystical_techniques: { title: 'Mystical Techniques', type: list, level: 3 }
+  weapon_mastery: { title: 'Weapon Mastery', type: list, level: 3 }
+automations:
+  Mystical Techniques:
+    level: 3
+    actions:
+      - |
+        - name: Agile Defense
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel >=
+                17)}
+              name: martial_arts
+              displayName: Martial Arts
+            - type: text
+              text: As a reaction to being attacked, you can attempt to parry the attack,
+                rolling your Martial Arts die and increasing your AC by the value rolled
+                against the attack. If the attack still hits, you reduce the damage
+                taken by the value rolled ({martial_arts}) + your proficiency bonus
+                ({proficiencyBonus}) = {martial_arts + proficiencyBonus}.
+              title: Agile Defense (1 Ki).
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 4
+        - name: Cut the Weave
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "3"
+              errorBehaviour: raise
+            - type: text
+              text: You cast dispel magic with a range of 5 feet. Alternatively, as an attack
+                as part of the attack action, you can attempt to open a 5-foot by 5-foot
+                hole in a magical barrier, lasting until the start of your next turn.
+                Make a weapon attack treating the magical effect as having an AC equal
+                to the spellcaster’s spell DC (your DM determines what magical barriers
+                this might work on).
+              title: Cut the Weave (3 Ki).
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Dancing Weapon
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: As a bonus action, you infuse a monk weapon you are holding with ki
+                causing it to animate with your will. Until the end of your next turn,
+                when you make an attack, you can attack with it as if you were holding
+                it, causing it to fly up to 30 feet before striking a target. It returns
+                to you after any attacks made this way.
+              title: Dancing Weapon (1 Ki).
+          _v: 2
+          proper: false
+          activation_type: 3
+        - name: Deft Attack
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel >=
+                17)}
+              name: martial_arts
+              displayName: Martial Arts
+            - type: text
+              text: When you make an attack roll, you can gain advantage on the attack. If the
+                attack hits, you can add your Martial Arts die ({martial_arts}) to the
+                damage dealt.
+              title: Deft Attack (1 Ki).
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Dimension Slash
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "4"
+              errorBehaviour: raise
+            - type: text
+              text: You can cast dimension cutter.
+              title: Dimension Slash (4 Ki).
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Distracting Strike
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel >=
+                17)}
+              name: martial_arts
+              displayName: Martial Arts
+            - type: text
+              text: When you hit a creature with a weapon attack, it deals additional damage
+                equal to your Martial Arts die ({martial_arts}) and leaves an opening
+                for the next attack. The next attack against that creature has
+                advantage.
+              title: Distracting Strike (1 Ki).
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Imparted Force
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{lastCounterRequestedAmount}d{4 + 2*int(MonkLevel >= 5) +
+                    2*int(MonkLevel >= 11) + 2*int(MonkLevel >= 17)}[choice if choice
+                    else 'bludgeoning']"
+                - type: save
+                  stat: str
+                  fail: []
+                  success: []
+                  dc: 8 + proficiencyBonus + wisdomMod
+            - type: text
+              text: When you hit a target with an attack, you can expend up to 3 ki points,
+                dealing a number of rolls of your Martial Arts die equal to the ki
+                spent, and forcing the target to make a Strength saving throw. On
+                failure, they are pushed 10 feet for each ki point spent.
+              title: Imparted Force (1-3 Ki).
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Instant Strike
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: As a reaction to a creature moving within your reach, you can make a melee
+                weapon attack against them.
+              title: Instant Strike (1 Ki).
+          _v: 2
+          proper: false
+          activation_type: 4
+        - name: Iron Wind Strike
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "2"
+              errorBehaviour: raise
+            - type: text
+              text: You can cast iron wind strike, casting it at a level equal to the Ki
+                spent.
+              title: Iron Wind Strike (2+ Ki).
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Sever Soul
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "6"
+              errorBehaviour: raise
+            - type: roll
+              dice: 6d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel >=
+                17)}[{choice if choice else 'bludgeoning'}]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Exhaustion
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+            - type: text
+              text: When you strike a creature, you can attempt to sever its soul. The target
+                must make a Constitution saving throw. On failure, they take necrotic
+                damage equal to 6 rolls of your Martial Arts die. If this damage reduces
+                them to 0 hit points, they die. Otherwise, they gain a level of
+                exhaustion. On pass, they take half as much damage, and suffer none of
+                the other effects.
+              title: Sever Soul (6 Ki).
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Sharpen the Blade
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Sharpen the Blade
+                  duration: "10"
+                  effects:
+                    damage_bonus: "{lastCounterRequestedAmount}"
+            - type: text
+              text: You can infuse a monk weapon you are holding with ki, granting it a bonus
+                to attack and damage rolls equal to the ki spent for 1 minute (no action
+                required). This bonus can stack with an existing bonus a weapon has, but
+                the total bonus cannot exceed +3.
+              title: Sharpen the Blade (1-3 Ki).
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Slashing Spin
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel >=
+                17)}[{choice if choice else 'bludgeoning'}]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + wisdomMod
+            - type: text
+              text: As an attack as part of the attack action, you can whirl your blade in a
+                circle, forcing all creatures within 5 of you feet to make a Dexterity
+                saving throw. On failure they take damage equal to your Martial Arts die
+                + your Dexterity modifier, or half as much on success.
+              title: Slashing Spin (1 Ki).
+          _v: 2
+          proper: false
+        - name: Skyward Leap
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Levitating
+                  duration: "2"
+                  end: true
+                  conc: true
+            - type: text
+              text: As a bonus action, you jump 20 feet per ki spent and can hover as if under
+                the effect of the levitate spell by concentrating (as if concentrating
+                on a spell) until the end of your next turn. You can end this
+                concentration at any time.
+              title: Skyward Leap (1+ Ki).
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 3
+        - name: Steel Wind Strike
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "5"
+              errorBehaviour: raise
+            - type: text
+              text: You can cast flickering strikes.
+              title: Steel Wind Strike (5 Ki).
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Sundering Strike
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "2"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                    >= 17)}[choice if choice else 'bludgeoning']
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Sundered
+                      effects:
+                        ac_bonus: "-2"
+                  success: []
+                  dc: 8 + proficiencyBonus + wisdomMod
+            - type: text
+              text: When you strike a target, you can empower the attack with destructive ki.
+                If you are attacking an object that is not being worn or carried, the
+                attack becomes a critical hit and deals double damage to the object. If
+                the target is a creature, it takes damage equal to two rolls of your
+                Martial Arts Die, and if it is using nonmagical armor or a nonmagical
+                shield, it must make a Constitution saving throw. On failure, you can
+                destroy its shield or damage its armor (reducing its AC by 2).
+              title: Sundering Strike (2 Ki).
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Sword Spirit
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "2"
+              errorBehaviour: raise
+            - type: text
+              text: You can cast spirit echo.
+              title: Sword Spirit (2 Ki).
+          _v: 2
+          proper: false
+          activation_type: 3
+        - name: Vaulting Strike
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                    >= 17)}[choice if choice else 'bludgeoning']
+            - type: text
+              text: When you hit a target with an attack, you can expend a ki point to deal
+                additional damage to the target equal to your Martial Arts die and leap
+                over the target, landing in an occupied space adjacent to them.
+              title: Vaulting Strike (1 Ki).
+          _v: 2
+          proper: false
+          activation_type: 2

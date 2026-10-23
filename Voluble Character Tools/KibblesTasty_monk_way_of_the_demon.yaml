@@ -1,0 +1,629 @@
+# 'bacb62cc-2498-4e89-9bcd-bfd38fd6d10d'
+# KibblesTasty: Monk - Way of the Demon
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Way of the Demon
+parent: Monk
+automations:
+  Demonic Techniques:
+    level: 3
+    actions:
+      - |
+        - name: Demon Burst
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  success: []
+            - type: text
+              text: You unleash a wave of demonic energy. Each creature within 5 feet of you
+                must make a Dexterity saving throw, or Necrotic damage equal to your
+                Martial Arts die.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Punch
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You make an unarmed strike. On hit, the damage is converted to Necrotic
+                damage and the target is knocked 5 feet away from you for each die of
+                damage dealt by this attack.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Flare
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[fire]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You unleash a flare of demonic fire at a creature within 30 feet, making a
+                ranged weapon attack. On hit the target takes Fire damage equal to your
+                unarmed strike.
+          _v: 2
+          activation_type: 1
+          proper: false
+  Empowered Techniques:
+    level: 3
+    actions:
+      - |
+        - name: Empowered Demon Burst
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  success: []
+            - type: text
+              text: >-
+                You unleash a wave of demonic energy. Each creature within 5 feet of you
+                must make a Dexterity saving throw, or Necrotic damage equal to your
+                Martial Arts die.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Punch
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You make an unarmed strike. On hit, the damage is converted to Necrotic
+                damage and the target is knocked 5 feet away from you for each die of
+                damage dealt by this attack.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Flare
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[fire]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You unleash a flare of demonic fire at a creature within 30 feet, making a
+                ranged weapon attack. On hit the target takes Fire damage equal to your
+                unarmed strike.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          activation_type: 1
+          proper: false
+  Quick Techniques:
+    level: 5
+    actions:
+      - |
+        - name: Demon Burst
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  success: []
+            - type: text
+              text: You unleash a wave of demonic energy. Each creature within 5 feet of you
+                must make a Dexterity saving throw, or Necrotic damage equal to your
+                Martial Arts die.
+          _v: 2
+          proper: false
+        - name: Demon Punch
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You make an unarmed strike. On hit, the damage is converted to Necrotic
+                damage and the target is knocked 5 feet away from you for each die of
+                damage dealt by this attack.
+          _v: 2
+          proper: false
+        - name: Demon Flare
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[fire]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You unleash a flare of demonic fire at a creature within 30 feet, making a
+                ranged weapon attack. On hit the target takes Fire damage equal to your
+                unarmed strike.
+          _v: 2
+          proper: false
+  Quick Empowered Techniques:
+    level: 5
+    actions:
+      - |
+        - name: Empowered Demon Burst
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  success: []
+            - type: text
+              text: >-
+                You unleash a wave of demonic energy. Each creature within 5 feet of you
+                must make a Dexterity saving throw, or Necrotic damage equal to your
+                Martial Arts die.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          proper: false
+        - name: Demon Punch
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You make an unarmed strike. On hit, the damage is converted to Necrotic
+                damage and the target is knocked 5 feet away from you for each die of
+                damage dealt by this attack.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          proper: false
+        - name: Demon Flare
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[fire]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You unleash a flare of demonic fire at a creature within 30 feet, making a
+                ranged weapon attack. On hit the target takes Fire damage equal to your
+                unarmed strike.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          proper: false
+  Charged Techniques:
+    level: 5
+    actions:
+      - |
+        - name: Demon Burst
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  success: []
+            - type: text
+              text: You unleash a wave of demonic energy. Each creature within 5 feet of you
+                must make a Dexterity saving throw, or Necrotic damage equal to your
+                Martial Arts die.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Punch
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You make an unarmed strike. On hit, the damage is converted to Necrotic
+                damage and the target is knocked 5 feet away from you for each die of
+                damage dealt by this attack.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Flare
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[fire]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You unleash a flare of demonic fire at a creature within 30 feet, making a
+                ranged weapon attack. On hit the target takes Fire damage equal to your
+                unarmed strike.
+          _v: 2
+          activation_type: 1
+          proper: false
+  Charged Empowered Techniques:
+    level: 5
+    actions:
+      - |
+        - name: Empowered Demon Burst
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: 3d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  success: []
+            - type: text
+              text: >-
+                You unleash a wave of demonic energy. Each creature within 5 feet of you
+                must make a Dexterity saving throw, or Necrotic damage equal to your
+                Martial Arts die.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Punch
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 3d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You make an unarmed strike. On hit, the damage is converted to Necrotic
+                damage and the target is knocked 5 feet away from you for each die of
+                damage dealt by this attack.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Demon Flare
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 3d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[fire]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: You unleash a flare of demonic fire at a creature within 30 feet, making a
+                ranged weapon attack. On hit the target takes Fire damage equal to your
+                unarmed strike.
+
+
+                When you use a Demonic Technique, you can empower it by spending 1 Ki
+                Point, increasing the damage dealt by one roll of your Martial Arts die.
+          _v: 2
+          activation_type: 1
+          proper: false
+  Abyssal Passage:
+    level: 6
+    actions:
+      - |
+        - name: Abyssal Passage
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You can spend 1 ki point to take the Disengage or Dash action as a bonus
+                action on your turn, and your jump distance is doubled for the turn.
+              title: Step of the Wind
+            - type: text
+              text: When you use your Step of the Wind feature, you can take on the form of a
+                demonic shadow, gaining resistance to all damage and flying speed equal to
+                half your walking speed. While in this form you can pass through other
+                creatures without expending extra movement, and when you do so for the
+                first time on a turn, they must pass a Dexterity saving throw or take
+                damage equal to your Martial Arts die. This form ends at the end of your
+                turn, or when you make an attack.
+              title: Abyssal Passage
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Demonic Shadow
+                  duration: "1"
+                  end: true
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - acid
+                      - cold
+                      - fire
+                      - force
+                      - lightning
+                      - necrotic
+                      - poison
+                      - psychic
+                      - radiant
+                      - thunder
+                  buttons:
+                    - label: End Shadow Form
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[necrotic]
+                  success: []
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 3
+  Asura Unleashed:
+    level: 11
+    actions:
+      - |
+        - name: Asura Unleashed
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "2"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Asura Unleashed
+                  duration: "10"
+                  desc: manifesting demonic limbs
+            - type: text
+              text: When you roll initiative, or as a bonus action at any time, you can expend
+                2 Ki Points to manifest your inner demonic power, growing four additional
+                demonic limbs sprouting from your shoulders for 1 minute. These arms can
+                be used to make unarmed strikes or to grapple creatures. While you have
+                these arms manifested, your Flurry of Blows does not cost a Ki point, and
+                you can perform it even if you did not take attack action on your turn.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Ultimate Rage:
+    level: 17
+    actions:
+      - |
+        - name: Ultimate Rage
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)}[bludgeoning]
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+                - type: condition
+                  condition: lastAttackDidHit
+                  onTrue:
+                    - type: counter
+                      counter: Ki Points
+                      amount: "4"
+                      errorBehaviour: raise
+                    - type: variable
+                      name: hits
+                      value: "0"
+                    - type: attack
+                      hit:
+                        - type: damage
+                          damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                            >= 17)}[bludgeoning]
+                        - type: variable
+                          name: hits
+                          value: hits + 1
+                      miss: []
+                      attackBonus: dexterityMod + proficiencyBonus
+                    - type: attack
+                      hit:
+                        - type: damage
+                          damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                            >= 17)}[bludgeoning]
+                        - type: variable
+                          name: hits
+                          value: hits + 1
+                      miss: []
+                      attackBonus: dexterityMod + proficiencyBonus
+                    - type: attack
+                      hit:
+                        - type: damage
+                          damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                            >= 17)}[bludgeoning]
+                        - type: variable
+                          name: hits
+                          value: hits + 1
+                      miss: []
+                      attackBonus: dexterityMod + proficiencyBonus
+                    - type: condition
+                      condition: hit >= 3
+                      onTrue:
+                        - type: ieffect2
+                          name: Prone
+                          buttons:
+                            - label: Stand Up
+                              automation:
+                                - type: remove_ieffect
+                              style: "1"
+                        - type: ieffect2
+                          name: Dazed
+                          duration: "1"
+                          desc: "Can only do one of the following: move, take its action, or take a bonus
+                            action. It cannot take reactions."
+                          end: true
+                      onFalse: []
+                    - type: condition
+                      condition: caster.hp <= caster.max_hp / 2
+                      onTrue:
+                        - type: attack
+                          hit:
+                            - type: damage
+                              damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                                >= 17)}[bludgeoning]
+                          miss: []
+                          attackBonus: dexterityMod + proficiencyBonus
+                        - type: attack
+                          hit:
+                            - type: damage
+                              damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                                >= 17)}[bludgeoning]
+                          miss: []
+                          attackBonus: dexterityMod + proficiencyBonus
+                      onFalse: []
+                  onFalse: []
+          _v: 2
+          proper: false
+          activation_type: 1

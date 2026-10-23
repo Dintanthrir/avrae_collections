@@ -1,0 +1,237 @@
+# '10711c7d-db49-47fc-ae27-cfa7a4c1b70e'
+# KibblesTasty: Monk - Way of the Soul Blade
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Way of the Soul Blade
+parent: Monk
+automations:
+  Soul Blade:
+    level: 3
+    actions:
+      - |
+        - name: Soul Blade
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{8 + 2*int(MonkLevel >= 17)} + {int(MonkLevel >= 17)}[psychic]
+                  miss: []
+                  attackBonus: max(strengthMod, dexterityMod) + proficiencyBonus + int(MonkLevel
+                    >= 17)
+          _v: 2
+          proper: false
+  Telekinesis Discipline:
+    level: 3
+    actions:
+      - |
+        - name: Telekinetic Hands
+          automation:
+            - type: text
+              text: >-
+                When you gain this feature, you can manipulate small objects within 30
+                feet with your mind as if using your hand to interact with it. You can use
+                this power to manipulate an object, open an unlocked door or container,
+                stow or retrieve an item from an open container, or pour the contents out
+                of a vial. You cannot Attack, activate magical items, or carry more than
+                10 pounds in this manner. You can move an item you are controlling in this
+                way up to 30 feet during your turn.
+
+
+                You can spend 1 or more psi point to increase how much you can lift by 100
+                pounds per psi point spent for 1 turn.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Telekinetic Force
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: str
+                  fail:
+                    - type: damage
+                      damage: 1d10[bludgeoning]
+                  success: []
+                  dc: 8 + proficiencyBonus + wisdomMod
+            - type: text
+              text: You smash a target creature you can see or object with your mental power.
+                The target must succeed on a Strength saving throw, or take 1d10
+                bludgeoning damage and be shoved 5 feet in a direction of your choosing
+                or be knocked prone.
+          _v: 2
+          proper: true
+          activation_type: 1
+        - name: Telekinetic Force - Hammering
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{lastCounterRequestedAmount}d10[bludgeoning]"
+            - type: text
+              text: The target takes +1d10 bludgeoning damage for each point spent.
+              title: Hammering (1+ psi points)
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Telekinetic Force - Hurling
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: The target is shoved +10 feet in a direction of your choosing for each
+                point spent.
+              title: Hurling (1-3 psi points)
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Telekinetic Force - Crushing
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "2"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Restrained
+                  duration: "1"
+                  end: true
+                  effects:
+                    attack_advantage: "-1"
+                    save_dis:
+                      - dex
+            - type: text
+              text: The target is restrained until the end of its next turn if it fails its
+                saving throw.
+              title: Crushing (2 psi points)
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Zone of Telekinetic Force
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You can target all creatures in a 5 foot radius. The radius doubles for
+                each point spent (5 ft., 10 ft., 20 ft.).
+              title: Zone (1-3 psi points)
+          _v: 2
+          proper: false
+          activation_type: 2
+  Art of the Soul Blade:
+    level: 6
+    actions:
+      - |
+        - name: Extended Blade
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You can expend 1 ki point to give your Soul Blade the Reach property until
+                the end of your turn.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Psionic Flurry
+          automation:
+            - type: text
+              text: When you make a Flurry of Blows, you can make the additional attacks with
+                your Soul Blade.
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Soul Strike
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{8 + 2*int(MonkLevel >= 17)} + {int(MonkLevel >= 17)} + {wisdomMod}
+                        [psychic]
+                  miss: []
+                  attackBonus: max(strengthMod, dexterityMod) + proficiencyBonus + int(MonkLevel
+                    >= 17) + target.ac - (10 + target.stats.get_mod('dexterity'))
+          _v: 2
+          proper: false
+          activation_type: 1
+  Power of the Mind:
+    level: 11
+    actions:
+      - |
+        - name: Ethereal Sweep
+          automation:
+            - type: text
+              text: When you use Extended Blade, you can sweep or stab through multiple
+                creatures with a single blow. Once per turn, when you make an attack with
+                your Soul Blade, if you have activated Extended Blade you can make a
+                single additional weapon attack with your Soul Blade against a number of
+                creatures equal to your Wisdom modifier ({wisdomMod}) within range.
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Consumptive Blade
+          automation:
+            - type: text
+              text: Whenever you kill a creature with your Soul Blade that has an Intelligence
+                of 6 or higher, you can use your reaction to draw in part of their psionic
+                essence. You regain 1d4 hit points and 1 expended ki point.
+            - type: variable
+              name: should_heal
+              value: "0"
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: target.hp <= 0 and target.stats.intelligence >= 6
+                  onTrue:
+                    - type: variable
+                      name: should_heal
+                      value: "1"
+                  onFalse:
+                    - type: text
+                      text: "{target} is not a valid target."
+            - type: condition
+              condition: should_heal > 0
+              onTrue:
+                - type: target
+                  target: self
+                  effects:
+                    - type: damage
+                      damage: -1d4[healing]
+                    - type: counter
+                      counter: Ki Points
+                      amount: "-1"
+              onFalse: []
+          _v: 2
+          proper: false
+        - name: Empowered Discipline
+          automation:
+            - type: text
+              text: When you use a Psionic Discipline, you can expend 1 ki point for free
+                without exhausting the ki point on empowering the psionic power granted by
+                the Discipline, even if you do not have any remaining ki (this can’t be
+                used on the spells granted by the Discipline).
+          _v: 2
+          proper: false
+          verb: knows
+          activation_type: 2

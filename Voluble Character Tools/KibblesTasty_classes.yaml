@@ -3,6 +3,36 @@
 # https://www.kthomebrew.com/thelist
 
 2014:
+  classes:
+    Inventor:
+      hit_die: 8
+      sub_level: 1
+    Occultist:
+      hit_die: 6
+      sub_level: 1
+    Paragon:
+      hit_die: 10
+      sub_level: 1
+    Psion:
+      hit_die: 6
+      sub_level: 1
+    Spellblade:
+      hit_die: 8
+      sub_level: 3
+    Summoner:
+      hit_die: 6
+      sub_level: 3
+    Warden:
+      hit_die: 12
+      sub_level: 1
+    Warlord:
+      hit_die: 8
+      sub_level: 1
+      counters:
+        Leadership Dice:
+          minVal: 0
+          maxVal: WarlordLevel
+          reset: short
   subclasses:
     # Base Classes
     # Barbarian
@@ -29,3 +59,105 @@
     Crusader: '64744389-479a-410f-b1d2-4d6588163be6'
     Tech Knight: '43f33914-8993-4da3-a809-97f1f8665f32'
     Spiritsworn: 'ac0d82c7-fbcb-4b22-a9c9-90f40914ca11'
+    # Monk
+    Way of the Demon: 'bacb62cc-2498-4e89-9bcd-bfd38fd6d10d'
+    Way of the Elements: '5605e23a-beb8-40bb-b1d0-11db4e0d3ac0'
+    Way of the Outcast: '1634408f-467f-429e-9c6d-f40ee0111506'
+    Way of the Soulblade: '10711c7d-db49-47fc-ae27-cfa7a4c1b70e'
+    Way of the Sword Saint: 'f1bd541b-c143-4eca-b547-b5875fc0d646'
+    # Paladin
+    Oath of Sanity: ''
+    Oath of Silence: ''
+    # Ranger
+    Beast Master (Revised): ''
+    Bounty Hunter: ''
+    # Rogue
+    Assassin (Revised): ''
+    Divine Hand: ''
+    Gadgeteer: ''
+    Shinobi: ''
+    Surgeon: ''
+    # Sorcerer
+    Aether Heart Origin: ''
+    Fey Origin: ''
+    Fiend Origin: ''
+    Phoenix Spark: ''
+    Sea Soul: ''
+    Stoneheart: ''
+    # Warlock
+    The Dragon: ''
+    The Fey: ''
+    The Knowledge Keeper: ''
+    The Overseer: ''
+    The Tempest: ''
+    # Wizard
+    Order of Chronomancy: ''
+    School of Innovation: ''
+    School of Pathology: ''
+    Theurge: ''
+
+    # Homebrew Classes
+    # Inventor
+    Gadgetsmith: { parent: Inventor }
+    Golemsmith: { parent: Inventor }
+    Infusionsmith: { parent: Inventor }
+    Potionsmith: { parent: Inventor }
+    Thundersmith: { parent: Inventor }
+    Warsmith: { parent: Inventor }
+    Fleshsmith: { parent: Inventor }
+    Cursesmith: { parent: Inventor }
+    Runesmith: { parent: Inventor }
+    Relicsmith: { parent: Inventor }
+    Plantsmith: { parent: Inventor }
+    Wingsmith: { parent: Inventor }
+    # Occultist
+    Tradition of the Witch: { parent: Occultist }
+    Tradition of the Hedge Mage: { parent: Occultist }
+    Tradition of the Oracle: { parent: Occultist }
+    Tradition of the Shaman: { parent: Occultist }
+    # Paragon:
+    Prodigy: { parent: Paragon }
+    Divine: { parent: Paragon }
+    Gifted: { parent: Paragon }
+    Augmented: { parent: Paragon }
+    Vampiric: { parent: Paragon }
+    # Psion:
+    Awakened Mind: { parent: Psion }
+    Unleashed Mind: { parent: Psion }
+    Transcended Mind: { parent: Psion }
+    Shaper’s Mind: { parent: Psion }
+    Wandering Mind: { parent: Psion }
+    Consuming Mind: { parent: Psion }
+    Warped Mind: { parent: Psion }
+    # Spellblade:
+    Battlemage: { parent: Spellblade }
+    Aether Blade: { parent: Spellblade }
+    Guardian: { parent: Spellblade }
+    Mage Hunter: { parent: Spellblade }
+    Swiftblade: { parent: Spellblade }
+    Spellshot: { parent: Spellblade }
+    # Summoner:
+    Legion Caller: { parent: Summoner }
+    Contractor: { parent: Summoner }
+    Invoker: { parent: Summoner }
+    Swarm Controller: { parent: Summoner }
+    World Sculptor: { parent: Summoner }
+    # Warden:
+    Elemental Soul: { parent: Warden }
+    Beasthide: { parent: Warden }
+    Elderheart: { parent: Warden }
+    Stoneblood: { parent: Warden }
+    Sunwatcher: { parent: Warden }
+    Ironbound: { parent: Warden }
+    Dreadwing: { parent: Warden }
+    Timetwister: { parent: Warden }
+    Astral Guardian: { parent: Warden }
+    Bone Binder: { parent: Warden }
+    # Warlord
+    Commander's Presence: { parent: Warlord }
+    Chieftain's Presence: { parent: Warlord }
+    Noble's Presence: { parent: Warlord }
+    Packleader's Presence: { parent: Warlord }
+    Paragon's Presence: { parent: Warlord }
+    Tactician's Presence: { parent: Warlord }
+    Dancer's Presence: { parent: Warlord }

@@ -1,0 +1,92 @@
+# '1634408f-467f-429e-9c6d-f40ee0111506'
+# KibblesTasty: Monk - Way of the Outcast
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Way of the Outcast
+parent: Monk
+automations:
+  Pragmatism:
+    level: 3
+    actions:
+      - |
+        - name: Kick 'em While They're Down
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 2d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                    >= 17)}[{choice if choice else 'bludgeoning'}]
+            - type: text
+              text: When you hit a target that is prone, restrained, or incapacitated, you can
+                expend a Ki point to deal additional damage equal to two rolls of your
+                Martial Arts die.
+          _v: 2
+          proper: true
+          verb: decides to
+          activation_type: 2
+          list_display_override: use `-choice` to specify damage type
+        - name: Unexpected Technique
+          automation:
+            - type: counter
+              counter: Ki Points
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel >=
+                17)}
+              name: martial_arts
+              displayName: Martial Arts
+            - type: text
+              text: When you make a grapple check, you can expend a ki point to add your
+                Martial Arts die to the roll. You can do this after the contested roll,
+                and it can potentially turn a failure into a success. On success, the
+                target takes damage equal to the amount rolled on the added die.
+          _v: 2
+          proper: false
+          verb: uses
+          activation_type: 2
+  Soak it Up:
+    level: 6
+    actions:
+      - |
+        - name: Soak it Up
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: proficiencyBonus + constitutionMod
+            - type: text
+              text: Your extensive training in the art of getting hit with bar stools and
+                broken bottles grants you increased endurance. When you roll initiative
+                you gain temporary hit points equal to your Constitution modifier + your
+                proficiency bonus. These temporary hit points are refreshed any time you
+                take the Dodge action.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 2
+  Lean Into It:
+    level: 17
+    actions:
+      - |
+        - name: Lean Into It
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{4 + 2*int(MonkLevel >= 5) + 2*int(MonkLevel >= 11) + 2*int(MonkLevel
+                        >= 17)} + 2 * proficiencyBonus
+                  miss: []
+                  attackBonus: max(strengthMod, dexterityMod)
+          _v: 2
+          proper: true
+          verb: decides to
