@@ -1,0 +1,243 @@
+# 'fca59a6a-0646-43e3-acd8-6f26dd3e5f59'
+# KibblesTasty: Rogue - Surgeon
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Surgeon
+parent: Rogue
+automations:
+  Surgical Assessment:
+    level: 3
+    actions:
+      - |
+        - name: Quick Treatment
+          automation:
+            - type: text
+              text: You can use your Cunning Action to use or administer a healing potion (any
+                potion that restores hit points) or Healer's Kit.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 3
+        - name: Surgical Assessment
+          automation:
+            - type: target
+              target: 1
+              effects:
+                - type: variable
+                  name: target_ac
+                  value: target.ac
+            - type: target
+              target: self
+              effects:
+                - type: check
+                  ability: medicine
+                  dc: target_ac
+                  success:
+                    - type: text
+                      text: AC = {target_ac}
+                  fail: []
+            - type: text
+              text: You can assess the anatomical weaknesses of a creature that you can see.
+                Make a Wisdom (Medicine) check against a creature you can see, with a DC
+                equal to the target's AC. On success, you learn the target's AC, and can
+                use your Sneak Attack against that target even if you don't have
+                advantage on the attack roll. Additionally, if you deal Sneak Attack
+                damage with a dagger against the target, you can reroll a number of
+                Sneak Attack damage dice up to your Intelligence or Wisdom modifier
+                (your choice, minimum 1). You must use the new rolls when rerolling
+                dice. This benefit lasts for 10 minutes against a target.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 3
+  Patch Up:
+    level: 9
+    actions:
+      - |
+        - name: Patch Up
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: -(1d8 + {proficiencyBonus})[healing]
+            - type: text
+              text: >-
+                As an action, you can bandage a creature, helping them recover. They gain
+                hit points equal to 1d8 + your proficiency bonus, and you can cure them of
+                the Blinded, Deafened, Paralyzed, or Poisoned condition. Once a creature
+                gains this benefit, they cannot gain it again until they complete a short
+                or long rest.
+
+
+                During a short rest, you can perform this action on up to six beasts or
+                humanoids that have not already gained its benefit.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 1
+  Medical Miracle:
+    level: 13
+    actions:
+      - |
+        - name: Patch Up
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: -(1d8 + {proficiencyBonus})[healing]
+            - type: text
+              text: >-
+                As an action, you can bandage a creature, helping them recover. They gain
+                hit points equal to 1d8 + your proficiency bonus, and you can cure them of
+                the Blinded, Deafened, Paralyzed, or Poisoned condition. Once a creature
+                gains this benefit, they cannot gain it again until they complete a short
+                or long rest.
+
+
+                During a short rest, you can perform this action on up to six beasts or
+                humanoids that have not already gained its benefit.
+
+
+                Your Patch Up feature can now cure the Stunned and Petrified conditions.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 1
+        - name: Medical Miracle
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: -(1 - {target.hp})[healing]
+                - type: temphp
+                  amount: "{proficiencyBonus * 2}"
+                - type: ieffect2
+                  name: Exhaustion
+                  stacking: true
+            - type: text
+              text: As an action, you can perform a medical miracle to bring back a recently
+                deceased creature that has died within the last minute. When you do, it is
+                returned to life with 1 hit point + twice your proficiency modifier in
+                temporary hit points. The creature gains 1 level of Exhaustion and cannot
+                be revived by this feature again until it completes a long rest.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 1
+  Carve Up:
+    level: 17
+    actions:
+      - |
+        - name: Hamstring
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Hamstring
+                  desc: movement halved
+                  buttons:
+                    - label: Cure Hamstring
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: con
+                              fail: []
+                              success:
+                                - type: remove_ieffect
+                      style: "1"
+                      defaultDC: 8 + max(wisdomMod, intelligenceMod) + proficiencyBonus
+          _v: 2
+          proper: false
+          verb: attacks
+          activation_type: 2
+        - name: Artery
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Artery
+                  desc: movement halved
+                  buttons:
+                    - label: Cure Artery
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: con
+                              fail: []
+                              success:
+                                - type: remove_ieffect
+                      style: "1"
+                      defaultDC: 8 + max(wisdomMod, intelligenceMod) + proficiencyBonus
+                    - label: Hemmorage
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: 4d4[piercing]
+                      style: "4"
+          _v: 2
+          proper: false
+          verb: attacks
+          activation_type: 2
+        - name: Larynx
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Larynx
+                  desc: muted
+                  buttons:
+                    - label: Cure Larynx
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: con
+                              fail: []
+                              success:
+                                - type: remove_ieffect
+                      style: "1"
+                      defaultDC: 8 + max(wisdomMod, intelligenceMod) + proficiencyBonus
+          _v: 2
+          proper: false
+          verb: attacks
+          activation_type: 2
+        - name: Eyes
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Eyes
+                  desc: blinded
+                  buttons:
+                    - label: Cure Eyes
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: save
+                              stat: con
+                              fail: []
+                              success:
+                                - type: remove_ieffect
+                      style: "1"
+                      defaultDC: 8 + max(wisdomMod, intelligenceMod) + proficiencyBonus
+                  effects:
+                    attack_advantage: "-1"
+          _v: 2
+          proper: true
+          verb: attacks the
+          activation_type: 2

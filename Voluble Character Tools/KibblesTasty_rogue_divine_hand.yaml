@@ -1,0 +1,129 @@
+# '753ee5f1-038a-4a94-a782-6ef26a9aeb8b'
+# KibblesTasty: Rogue - Divine Hand
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Divine Hand
+parent: Rogue
+counters:
+  3:
+    - name: Holy Water
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+      desc: Divine Hand Sanctification creates Holy Water
+automations:
+  Sanctification:
+    level: 3
+    actions:
+      - |
+        - name: Sanctified Weapon
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Sanctified Weapon
+                  duration: "10"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Sanctified Sneak Attack
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: "{ceil(caster.levels.get('Rogue')/2)}d6 [radiant]"
+            - type: counter
+              counter: Holy Water
+              amount: "1"
+              errorBehaviour: raise
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 3
+        - name: Holy Water
+          automation:
+            - type: counter
+              counter: Holy Water
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: condition
+                      condition: target.creature_type and ('fiend' in target.creature_type or 'undead'
+                        in target.creature_type)
+                      onTrue:
+                        - type: damage
+                          damage: 2d6[radiant]
+                      onFalse:
+                        - type: damage
+                          damage: "0"
+                          fixedValue: true
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: >-
+                As an action, you can splash the contents of this flask onto a creature
+                within 5 feet of you or throw it up to 20 feet, shattering it on impact.
+                In either case, make a ranged attack against a target creature, treating
+                the holy water as an improvised weapon. If the target is a fiend or
+                undead, it takes 2d6 radiant damage.
+
+
+                You can throw or splash holy water using the bonus action granted by your
+                Cunning Action. When you do so, you can add your proficiency to attacks
+                made using holy water as an improvised weapon.
+          _v: 2
+          proper: true
+          verb: throws
+          activation_type: 3
+  Divine Guidance:
+    level: 9
+    actions:
+      - |
+        - name: Holy Water
+          automation:
+            - type: counter
+              counter: Holy Water
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: condition
+                      condition: target.creature_type and ('fiend' in target.creature_type or 'undead'
+                        in target.creature_type)
+                      onTrue:
+                        - type: damage
+                          damage: 3d6[radiant]
+                      onFalse:
+                        - type: damage
+                          damage: "0"
+                          fixedValue: true
+                  miss: []
+                  attackBonus: dexterityMod + proficiencyBonus
+            - type: text
+              text: >-
+                As an action, you can splash the contents of this flask onto a creature
+                within 5 feet of you or throw it up to 20 feet, shattering it on impact.
+                In either case, make a ranged attack against a target creature, treating
+                the holy water as an improvised weapon. If the target is a fiend or
+                undead, it takes 2d6 radiant damage.
+
+
+                You can throw or splash holy water using the bonus action granted by your
+                Cunning Action. When you do so, you can add your proficiency to attacks
+                made using holy water as an improvised weapon.
+
+                Holy water you create becomes more potent, dealing 3d6 radiant damage to fiends and undead.
+          _v: 2
+          proper: true
+          verb: throws
+          activation_type: 3

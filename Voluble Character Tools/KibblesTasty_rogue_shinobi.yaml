@@ -1,0 +1,158 @@
+# '9f2b38b3-5b1c-49fd-a340-02f1a7829652'
+# KibblesTasty: Rogue - Shinobi
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Shinobi
+parent: Rogue
+features:
+  ninja_tricks: { title: "Ninja Tricks", type: list, level: 3 }
+counters:
+  5:
+    - name: Shadow Decoy
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  13:
+    - name: Shadow Decoy
+      minVal: 0
+      maxVal: 2
+      reset: short
+      reset_to: 2
+automations:
+  Ninja Tricks:
+    level: 3
+    actions:
+      - |
+        - name: Hide In Plain Sight
+          automation:
+            - type: text
+              text: You can use your Cunning Action to cast minor illusion targeting your own
+                space only. The effect ends if you attack, cast a spell, or move.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 3
+        - name: Infiltration Training
+          automation:
+            - type: text
+              text: You can climb across vertical or along the bottom of horizontal surfaces
+                with no handholds, and gain the ability to hold your breath five times
+                as long as normal.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+        - name: Shadow Shroud
+          automation:
+            - type: text
+              text: As long as you are wearing all black clothing or a black cloak, you can
+                hide in dim light or darkness, even when not heavily obscured by it.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+        - name: Shuriken Volley
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{ceil(caster.levels.get('Rogue')/2)}d6 / 2 [piercing]"
+            - type: text
+              text: When you attack with a thrown weapon, you can draw and throw up to three
+                darts, daggers, kunai, or shurikens, targeting different creatures
+                within range. Each attack makes a separate attack roll. If your Sneak
+                Attack damage would apply to a target, you apply to half your Sneak
+                Attack damage each target it would apply to.
+          _v: 2
+          proper: false
+          verb: throws
+          activation_type: 2
+        - name: Smoke Bomb
+          automation:
+            - type: text
+              text: As an action, you create a burst of smoke heavily obscuring an area within
+                a 5 foot radius of where you use the ability until the start of your
+                next turn.
+          _v: 2
+          proper: false
+          verb: throws
+          activation_type: 1
+  Shadow Decoy:
+    level: 5
+    actions:
+      - |
+        - name: Shadow Decoy
+          automation:
+            - type: counter
+              counter: Shadow Decoy
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                When you use Uncanny Dodge against an attack, you can instead teleport up
+                to 30 feet leaving a shadow decoy behind that becomes the target of the
+                attack, completely negating the damage and any effects from the attack.
+
+
+                Once you do this, you cannot do it again until you complete a short or
+                long rest.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 4
+  Shadow Counter:
+    level: 13
+    actions:
+      - |
+        - name: Shadow Decoy
+          automation:
+            - type: counter
+              counter: Shadow Decoy
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                When you use Uncanny Dodge against an attack, you can instead teleport up
+                to 30 feet leaving a shadow decoy behind that becomes the target of the
+                attack, completely negating the damage and any effects from the attack.
+
+
+                Once you do this, you cannot do it again until you complete a short or
+                long rest.
+
+
+                After you teleport using Shadow Decoy, you can make one attack with advantage
+                using a melee weapon or a ranged weapon with the thrown property against the
+                attacker as part of the same reaction.
+
+
+                Additionally, you can use Shadow Decoy an additional time before resting.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 4
+  Cloning Technique:
+    level: 17
+    actions:
+      - |
+        - name: Cloning Technique
+          automation:
+            - type: text
+              text: >-
+                You gain the ability to use your Cunning Action to make a shadow duplicate
+                of yourself in an empty space within 5 feet. This duplicate lasts for 1
+                minute, until it gets more than 60 feet from you, or takes any damage. It
+                uses all of your attributes and stats otherwise. It cannot take an action
+                you don't direct it to take.
+
+
+                When you create it and while it exists, you can use your Cunning Action to
+                control it, move up to your movement speed and to take any action you can
+                take. It counts as you for the purpose of dealing Sneak Attack damage once
+                per turn, and any magical item or limited use feature it uses are used
+                from your charges or uses of the item used.
+          _v: 2
+          proper: false
+          activation_type: 3

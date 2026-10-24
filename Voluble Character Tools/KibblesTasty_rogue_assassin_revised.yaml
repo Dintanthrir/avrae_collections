@@ -1,0 +1,88 @@
+# 'be864d25-89d7-4650-8d32-0accf6501b51'
+# KibblesTasty: Rogue - Assassin (Revised)
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Assassin (Revised)
+parent: Rogue
+features:
+  killers_method: { title: "Killer's Method", type: text, level: 9 }
+  favored_approach: { title: 'Favored Approach', type: text, level: 13 }
+automations:
+  Killer's Method:
+    level: 9
+    actions:
+      - |
+        - name: Poisoner's Path
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{ceil(caster.levels.get('Rogue')/2)}d6 [poison]"
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Poisoned
+                      duration: "10"
+                      effects:
+                        attack_advantage: "-1"
+                        check_dis:
+                          - all
+                      buttons:
+                        - label: Resist Poison
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: con
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                                    - type: ieffect2
+                                      name: Poison Immunity
+                                      desc: Immune to the Poisoned condition from Sneak Attack
+                          style: "3"
+                          defaultDC: 8 + proficiencyBonus + dexterityMod
+                  success: []
+                  dc: 8 + proficiencyBonus + dexterityMod
+            - type: text
+              text: You gain expertise with the poisoner's kit. During a long rest, you can
+                create a long lasting poison for one or more weapons for free. Until the
+                end of your next long rest your Sneak Attack damage with that weapon
+                becomes Poison damage and creatures struck with it must make a
+                Constitution saving throw with a DC of 8 + your Proficiency modifier +
+                your Dexterity modifier or become Poisoned for one minute. Creatures
+                poisoned this way make a new save at the end of each of their turns ending
+                the condition on success. Once a creature passes the save against this
+                effect, it cannot suffer the Poisoned condition from it again for 24
+                hours.
+          _v: 2
+          proper: false
+          verb: sneak attacks using
+          activation_type: 2
+  Lethal Blows:
+    level: 17
+    actions:
+      - |
+        - name: Lethal Blow
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: target.hp < caster.levels.get('Rogue')
+                  onTrue:
+                    - type: damage
+                      damage: target.hp + target.temp_hp
+                  onFalse:
+                    - type: text
+                      text: "{target} survives the blow!"
+            - type: text
+              text: After you deal sneak attack damage to a creature, if the target’s
+                remaining hit points is less than your Rogue level, the target dies. You
+                can forgo this when intentionally making nonlethal attacks.
+          _v: 2
+          proper: false
+          activation_type: 2
