@@ -1,0 +1,204 @@
+# 'a4c4ed60-bfc1-4f26-9cc4-d9ec79551876'
+# KibblesTasty: Sorcerer - Fey Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Fey Origin
+parent: Sorcerer
+counters:
+  3:
+    - name: Fey Trickery
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+  18:
+    - name: Illusory Doppelgangers
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Fey Trickery:
+    level: 3
+    actions:
+      - |
+        - name: "Fey Trickery: Minor Illusion"
+          automation:
+            - type: counter
+              counter: Fey Trickery
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2191
+            - type: text
+              text: >-
+                You are adept at illusory tricks, gaining the ability to befuddle, trick
+                and baffle people with your magic. As a bonus action, you can do any of
+                the following:
+
+
+                - Cast minor illusion.
+
+                - Make a creature of your choice (including yourself) within 30 feet
+                invisible or heavily obscured by an illusion until the start of its next
+                turn.
+
+                - Gain advantage on a Deception, Intimidation, Performance, or Persuasion
+                check.
+
+
+                You can do this a number of times equal to your proficiency bonus,
+                regaining all uses when you complete a long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: "Fey Trickery: Invisibility"
+          automation:
+            - type: counter
+              counter: Fey Trickery
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Fey Trickery
+                  duration: "1"
+            - type: text
+              text: >-
+                You are adept at illusory tricks, gaining the ability to befuddle, trick
+                and baffle people with your magic. As a bonus action, you can do any of
+                the following:
+
+
+                - Cast minor illusion.
+
+                - Make a creature of your choice (including yourself) within 30 feet
+                invisible or heavily obscured by an illusion until the start of its next
+                turn.
+
+                - Gain advantage on a Deception, Intimidation, Performance, or Persuasion
+                check.
+
+
+                You can do this a number of times equal to your proficiency bonus,
+                regaining all uses when you complete a long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: "Fey Trickery: Advantage"
+          automation:
+            - type: counter
+              counter: Fey Trickery
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You are adept at illusory tricks, gaining the ability to befuddle, trick
+                and baffle people with your magic. As a bonus action, you can do any of
+                the following:
+
+
+                - Cast minor illusion.
+
+                - Make a creature of your choice (including yourself) within 30 feet
+                invisible or heavily obscured by an illusion until the start of its next
+                turn.
+
+                - Gain advantage on a Deception, Intimidation, Performance, or Persuasion
+                check.
+
+
+                You can do this a number of times equal to your proficiency bonus,
+                regaining all uses when you complete a long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Biting Illusions:
+    level: 6
+    actions:
+      - |
+        - name: Biting Illusions
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{charismaMod}[{choice if choice else 'psychic'}]"
+            - type: text
+              text: >-
+                Once per turn on your turn when you roll damage with an illusion spell,
+                you can add your Charisma modifier to the damage roll.
+
+
+                Additionally, once per turn when a creature interacts with one of your
+                illusions you can choose deal damage psychic equal to your charisma
+                modifier to them (such as destroying a mirror image, inspecting an a major
+                image, or being bit by vicious hound). If they make a check or save to
+                determine the reality of the illusion that has damaged them that turn, it
+                is made with disadvantage.
+          _v: 2
+          proper: true
+          activation_type: 2
+          list_display_override: use `-choice` to specify damage type
+  Fey Steps:
+    level: 14
+    actions:
+      - |
+        - name: Fey Steps
+          automation:
+            - type: text
+              text: When you spend sorcery points to empower a spell with metamagic, before or
+                after you cast the spell, you can teleport up to 5 feet per sorcery point
+                spent.
+          _v: 2
+          proper: true
+          verb: takes
+          activation_type: 2
+  Illusory Doppelgangers:
+    level: 18
+    actions:
+      - |
+        - name: Illusory Doppelgängers
+          automation:
+            - type: counter
+              counter: Illusory Dopplegangers Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: counter
+              counter: Sorcery Points
+              amount: 2 * max(0, lastCounterRequestedAmount - 1)
+            - type: text
+              text: >-
+                As a bonus action you can create an illusory duplicate of yourself at a
+                point within 30 feet. The duplicate's AC equals 10 + your Dexterity
+                modifier, and if targeted with an effect that forces a save, it uses your
+                saving throws. If an attack hits a duplicate or it fails a saving throw
+                that would cause it to take damage the duplicate is destroyed. It ignores
+                all other damage and effects, but an effect that would otherwise cause it
+                to take damage reveals it to be a duplicate. The duplicate mimics your
+                action and is indistinguishable from you until you attack, cast a spell,
+                or take damage. The duplicate looks real even to creatures with blindsight
+                or truesight.
+
+
+                When you create the duplicate, you can expend 2 sorcery points to create
+                an additional duplicate, creating up to 3 duplicates.
+
+
+                At the end of each of your turns while a duplicate exists, you can switch
+                places with any active duplicate within 120 feet, leaving no trace of
+                which one is real until you attack, cast a spell, or take damage.
+
+
+                Once you use this feature, you cannot use it again until you complete a
+                short or long rest. You can use it again early by expending 2 sorcery
+                points.
+          _v: 2
+          proper: true
+          verb: creates
+          activation_type: 3
+          list_display_override: Use `-amt` to specify number of duplicates

@@ -1,0 +1,305 @@
+# 'a4150044-68a2-4158-8dd9-e05a47fed338'
+# KibblesTasty: Sorcerer - Fiend Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Fiend Origin
+parent: Sorcerer
+counters:
+  1:
+    - name: Touch of Damnation
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Touch of Damnation:
+    level: 1
+    actions:
+      - |
+        - name: Touch of Damnation
+          automation:
+            - type: roll
+              dice: 1d6
+              name: touch_of_damnation
+              displayName: Touch of Damnation
+            - type: text
+              text: >-
+                Your power carries a corrupting influence you can focus to weaken those
+                that stand against you. As a reaction to a creature you can see within 30
+                feet making an attack roll or saving throw, you can bestow misfortune on
+                them, rolling 1d6 and subtracting it from the total, possibly changing the
+                outcome.
+
+
+                Once you use this feature, you can’t use it again until you finish a short
+                or long rest.
+          _v: 2
+          proper: false
+          activation_type: 4
+  Embraced Heritage:
+    level: 6
+    actions:
+      - |
+        - name: Embraced Blood of the Fiend
+          automation:
+            - type: counter
+              counter: Embraced Heritage Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Blood of the Fiend
+                  duration: lastCounterRequestedAmount + 1
+            - type: text
+              text: >-
+                Once on each of your turns when you spend one or more sorcery points, you
+                can gain one of the following benefits for a number of rounds equal to 1 +
+                the number of sorcery points spent (ending at the start of your turn after
+                the number of rounds).
+
+
+                - **Blood of the Fiend.** The power in your blood courses, granting you
+                advantage on saving throws against spells and other magical effects.
+
+                - **Eyes of the Fiend.** Your eyes glow with an infernal gleam, you can
+                see normally in darkness, both magical and nonmagical, to a distance of
+                120 feet.
+
+                - **Skin of the Fiend.** Your skin takes on an exotic hue, and you gain
+                resistance to your choice of poison, fire, lightning, or cold damage.
+
+
+                Alternatively, you can spend 1 or more sorcery points to activate one of
+                these effects as a bonus action, lasting a number of rounds equal to 1 +
+                the number of sorcery points spent.
+          _v: 2
+          proper: true
+          verb: embraces
+          activation_type: 2
+          list_display_override: use `-amt` to specify sorcery points spent
+        - name: Embraced Eyes of the Fiend
+          automation:
+            - type: counter
+              counter: Embraced Heritage Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Eyes of the Fiend
+                  duration: lastCounterRequestedAmount + 1
+            - type: text
+              text: >-
+                Once on each of your turns when you spend one or more sorcery points, you
+                can gain one of the following benefits for a number of rounds equal to 1 +
+                the number of sorcery points spent (ending at the start of your turn after
+                the number of rounds).
+
+
+                - **Blood of the Fiend.** The power in your blood courses, granting you
+                advantage on saving throws against spells and other magical effects.
+
+                - **Eyes of the Fiend.** Your eyes glow with an infernal gleam, you can
+                see normally in darkness, both magical and nonmagical, to a distance of
+                120 feet.
+
+                - **Skin of the Fiend.** Your skin takes on an exotic hue, and you gain
+                resistance to your choice of poison, fire, lightning, or cold damage.
+
+
+                Alternatively, you can spend 1 or more sorcery points to activate one of
+                these effects as a bonus action, lasting a number of rounds equal to 1 +
+                the number of sorcery points spent.
+          _v: 2
+          proper: true
+          verb: embraces
+          activation_type: 2
+          list_display_override: use `-amt` to specify sorcery points spent
+        - name: Embraced Skin of the Fiend
+          automation:
+            - type: counter
+              counter: Embraced Heritage Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Skin of the Fiend
+                  duration: lastCounterRequestedAmount + 1
+                  effects:
+                    resistances:
+                      - "{choice if choice else 'poison'}"
+            - type: text
+              text: >-
+                Once on each of your turns when you spend one or more sorcery points, you
+                can gain one of the following benefits for a number of rounds equal to 1 +
+                the number of sorcery points spent (ending at the start of your turn after
+                the number of rounds).
+
+
+                - **Blood of the Fiend.** The power in your blood courses, granting you
+                advantage on saving throws against spells and other magical effects.
+
+                - **Eyes of the Fiend.** Your eyes glow with an infernal gleam, you can
+                see normally in darkness, both magical and nonmagical, to a distance of
+                120 feet.
+
+                - **Skin of the Fiend.** Your skin takes on an exotic hue, and you gain
+                resistance to your choice of poison, fire, lightning, or cold damage.
+
+
+                Alternatively, you can spend 1 or more sorcery points to activate one of
+                these effects as a bonus action, lasting a number of rounds equal to 1 +
+                the number of sorcery points spent.
+          _v: 2
+          proper: true
+          verb: embraces
+          activation_type: 2
+          list_display_override: use `-amt` to specify sorcery points spent, `-choice` to choose resistance
+
+  Unleashed Heritage:
+    level: 18
+    actions:
+      - |
+        - name: Unleashed Blood of the Fiend
+          automation:
+            - type: counter
+              counter: Sorcery Points
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: counter
+              counter: Embraced Heritage Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Blood of the Fiend
+                  duration: (lastCounterRequestedAmount + 1)*10
+            - type: text
+              text: >-
+                When you gain a feature through Embraced Heritage, you can expend an
+                additional sorcery point to ascend that aspect. It lasts for 1 minute
+                per sorcery point instead, and gains an additional effect:
+
+
+                - **Blood of the Fiend.** The power in your blood courses, granting you
+                advantage on saving throws against spells and other magical effects.
+                You additionally are immune to spells of 2nd level or below.
+
+                - **Eyes of the Fiend.** Your eyes glow with an infernal gleam, you can
+                see normally in darkness, both magical and nonmagical, to a distance of
+                120 feet. You additionally gain truesight of 120 feet.
+
+                - **Skin of the Fiend.** Your skin takes on an exotic hue, and you gain
+                resistance to poison, fire, lightning, and cold damage.
+
+
+                Alternatively, you can spend 1 or more sorcery points to activate one of
+                these effects as a bonus action, lasting a number of rounds equal to 1 +
+                the number of sorcery points spent.
+          _v: 2
+          proper: true
+          verb: embraces
+          activation_type: 2
+          list_display_override: use `-amt` to specify sorcery points spent
+        - name: Unleashed Eyes of the Fiend
+          automation:
+            - type: counter
+              counter: Sorcery Points
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: counter
+              counter: Embraced Heritage Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Eyes of the Fiend
+                  duration: (lastCounterRequestedAmount + 1)*10
+            - type: text
+              text: >-
+                When you gain a feature through Embraced Heritage, you can expend an
+                additional sorcery point to ascend that aspect. It lasts for 1 minute
+                per sorcery point instead, and gains an additional effect:
+
+
+                - **Blood of the Fiend.** The power in your blood courses, granting you
+                advantage on saving throws against spells and other magical effects.
+                You additionally are immune to spells of 2nd level or below.
+
+                - **Eyes of the Fiend.** Your eyes glow with an infernal gleam, you can
+                see normally in darkness, both magical and nonmagical, to a distance of
+                120 feet. You additionally gain truesight of 120 feet.
+
+                - **Skin of the Fiend.** Your skin takes on an exotic hue, and you gain
+                resistance to poison, fire, lightning, and cold damage.
+
+
+                Alternatively, you can spend 1 or more sorcery points to activate one of
+                these effects as a bonus action, lasting a number of rounds equal to 1 +
+                the number of sorcery points spent.
+          _v: 2
+          proper: true
+          verb: embraces
+          activation_type: 2
+          list_display_override: use `-amt` to specify sorcery points spent
+        - name: Unleashed Skin of the Fiend
+          automation:
+            - type: counter
+              counter: Sorcery Points
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: counter
+              counter: Embraced Heritage Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Skin of the Fiend
+                  duration: (lastCounterRequestedAmount + 1)*10
+                  effects:
+                    resistances:
+                      - poison
+                      - fire
+                      - lightning
+                      - cold
+            - type: text
+              text: >-
+                When you gain a feature through Embraced Heritage, you can expend an
+                additional sorcery point to ascend that aspect. It lasts for 1 minute
+                per sorcery point instead, and gains an additional effect:
+
+
+                - **Blood of the Fiend.** The power in your blood courses, granting you
+                advantage on saving throws against spells and other magical effects.
+                You additionally are immune to spells of 2nd level or below.
+
+                - **Eyes of the Fiend.** Your eyes glow with an infernal gleam, you can
+                see normally in darkness, both magical and nonmagical, to a distance of
+                120 feet. You additionally gain truesight of 120 feet.
+
+                - **Skin of the Fiend.** Your skin takes on an exotic hue, and you gain
+                resistance to poison, fire, lightning, and cold damage.
+
+
+                Alternatively, you can spend 1 or more sorcery points to activate one of
+                these effects as a bonus action, lasting a number of rounds equal to 1 +
+                the number of sorcery points spent.
+          _v: 2
+          proper: true
+          verb: embraces
+          activation_type: 2
+          list_display_override: use `-amt` to specify sorcery points spent

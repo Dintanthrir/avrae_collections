@@ -1,0 +1,138 @@
+# 'b17312be-4429-4370-a4c2-062df019853a'
+# KibblesTasty: Sorcerer - Aether Heart Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Aether Heart Origin
+parent: Sorcerer
+counters:
+  3:
+    - name: Aetherborn
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+      desc: Empowered Spell metamagic
+  14:
+    - name: Arcane Fuel
+      minVal: 0
+      maxVal: SorcererLevel
+      reset: short
+      reset_to: SorcererLevel
+      desc: HP gained from absorbing Force damage
+  18:
+    - name: Tap Power
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+      desc: Expend a Hit Die to regain Sorcery Points
+automations:
+  Aetherborn:
+    level: 3
+    actions:
+      - |
+        - name: Aetherborn
+          automation:
+            - type: counter
+              counter: Aetherborn
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You automatically gain the Empowered Spell metamagic option, and can use
+                it without spending sorcery points a number of times equal to your
+                proficiency bonus, regaining all uses on a long rest.
+            - type: text
+              text: >-
+                When you roll damage for a spell, you can spend 1 sorcery point to reroll
+                a number of the damage dice up to your Charisma modifier ({max(1,
+                charismaMod)}). You must use the new rolls.
+
+
+                You can use Empowered Spell even if you have already used a different
+                Metamagic option during the casting of the spell.
+              title: Empowered Spell
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Overcharged Metamagic:
+    level: 6
+    actions:
+      - |
+        - name: "Overcharged Metamagic "
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{charismaMod}[{choice if choice else 'spell'}]"
+            - type: text
+              text: When you modify a spell that deals damage with your Metamagic options, you
+                can add your Charisma modifier to one damage roll of that spell.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+          list_display_override: Use `-choice` to specify damage type
+  Arcane Fuel:
+    level: 14
+    actions:
+      - |
+        - name: "Arcane Fuel: Force Damage"
+          automation:
+            - type: counter
+              counter: Arcane Fuel
+              amount: "0"
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: -({lastCounterUsedAmount})[healing]
+            - type: text
+              text: When you would take force damage, you regain health equal to half the
+                damage you would have taken. You can gain a maximum amount of hit points
+                this way equal to your sorcerer level, after which you no longer gain
+                additional hit points until you finish a short or long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+          list_display_override: Use `-amt` to specify amount to heal
+        - name: "Arcane Fuel: Broken Magic"
+          automation:
+            - type: counter
+              counter: Sorcery Points
+              amount: "-1"
+            - type: text
+              text: When you successfully cast _dispel magic_ or _counterspell_, you regain an
+                expanded sorcery point (if you are not currently at your maximum) as you
+                draw in the remnants of the broken magic.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Tap Power:
+    level: 18
+    actions:
+      - |
+        - name: Tap Power
+          automation:
+            - type: counter
+              counter: Tap Power
+              amount: "1"
+              errorBehaviour: raise
+            - type: counter
+              counter: Hit Dice (d6)
+              amount: "1"
+              errorBehaviour: raise
+            - type: counter
+              counter: Sorcery Points
+              amount: 1d6 + charismaMod
+            - type: text
+              text: As a bonus action, you can expend one Hit Die and regain sorcery points
+                equal to the number rolled + your Charisma modifier. Once you do this, you
+                can’t do so again until you finish a short or long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
