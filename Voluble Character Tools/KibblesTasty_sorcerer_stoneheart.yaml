@@ -1,0 +1,239 @@
+# '8c8d19d9-2b5d-4806-97f3-f18ef3805c37'
+# KibblesTasty: Sorcerer - Stoneheart
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Stoneheart
+parent: Sorcerer
+counters:
+  1:
+    - name: Strength of Stone
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+automations:
+  Strength of Stone:
+    level: 1
+    actions:
+      - |
+        - name: Strength of Stone
+          automation:
+            - type: counter
+              counter: Strength of Stone
+              amount: "1"
+            - type: condition
+              condition: lastCounterUsedAmount < 1
+              onTrue:
+                - type: counter
+                  counter: Sorcery Points
+                  amount: "1"
+                  errorBehaviour: raise
+              onFalse: []
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Strength of Stone
+                  duration: "10"
+                  effects:
+                    to_hit_bonus: "{charismaMod - strengthMod}"
+                    damage_bonus: "{charismaMod - strengthMod}"
+                    ac_value: max(ac, 13 + {charismaMod})
+            - type: text
+              text: >-
+                As a bonus action, you can bolster your strength, gaining the following
+                benefits for 1 minute, ending early if you become incapacitated or you end
+                it as a bonus action.
+
+
+                - You can use your Charisma modifier in place of your Strength modifier
+                for attack rolls, damage rolls, and ability checks.
+
+                - Your skin assumes a stony appearance. If you are not wearing armor, your
+                AC equals 13 + your Charisma modifier.
+
+                - You form a stone aegis around yourself reducing bludgeoning, piercing,
+                and slashing damage taken by your proficiency bonus.
+
+
+                You can cast stone forming as part of the same bonus action used to
+                activate this ability. You can use this ability a number of times equal to
+                your proficiency bonus. If you have no uses remaining, you can use it
+                again by a sorcery point. You regain all expended uses of this ability
+                when you complete a long rest.
+          _v: 2
+          proper: true
+          verb: gains
+          activation_type: 3
+  Earthen Endurance:
+    level: 6
+    actions:
+      - |
+        - name: Strength of Stone
+          automation:
+            - type: counter
+              counter: Strength of Stone
+              amount: "1"
+            - type: condition
+              condition: lastCounterUsedAmount < 1
+              onTrue:
+                - type: counter
+                  counter: Sorcery Points
+                  amount: "1"
+                  errorBehaviour: raise
+              onFalse: []
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Strength of Stone
+                  duration: "10"
+                  effects:
+                    to_hit_bonus: "{charismaMod - strengthMod}"
+                    damage_bonus: "{charismaMod - strengthMod}"
+                    ac_value: max(ac, 13 + {charismaMod})
+                  save_as: strength_of_stone
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Stone Aegis
+                  parent: strength_of_stone
+                  desc: bludgeoning, piercing, and slashing damage reduced by {proficiencyBonus}
+            - type: text
+              text: >-
+                As a bonus action, you can bolster your strength, gaining the following
+                benefits for 1 minute, ending early if you become incapacitated or you end
+                it as a bonus action.
+
+
+                - You can use your Charisma modifier in place of your Strength modifier
+                for attack rolls, damage rolls, and ability checks.
+
+                - Your skin assumes a stony appearance. If you are not wearing armor, your
+                AC equals 13 + your Charisma modifier.
+
+                - You form a stone aegis around yourself reducing bludgeoning, piercing,
+                and slashing damage taken by your proficiency bonus.
+
+
+                You can cast stone forming as part of the same bonus action used to
+                activate this ability. You can use this ability a number of times equal to
+                your proficiency bonus. If you have no uses remaining, you can use it
+                again by a sorcery point. You regain all expended uses of this ability
+                when you complete a long rest.
+
+
+                When you activate Strength of Stone, you can confer the benefits of the
+                stone aegis to another creature of your choice within 30 feet, reducing
+                bludgeoning, piercing, and slashing damage taken by that creature equal to
+                your proficiency bonus.
+
+
+                When a creature under the effect of your protection takes damage (of any
+                damage type), as a reaction you can expend one or more sorcery points to
+                reduce the damage taken 1d8 per sorcery points spent. When you absorb
+                damage in this way, the next time you hit a melee attack before the end of
+                your next turn, you can add 1d8 per sorcery points to the damage roll.
+
+
+                While empowered by your Strength of Stone, you can attack twice, instead
+                of once, whenever you take the Attack action.
+
+
+                Additionally, when you cast a spell using your action, you can expend 1
+                sorcery point to make a single melee weapon attack as a bonus action.
+          _v: 2
+          proper: true
+          verb: gains
+          activation_type: 3
+  Skin of Stone:
+    level: 18
+    actions:
+      - |
+        - name: Strength of Stone
+          automation:
+            - type: counter
+              counter: Strength of Stone
+              amount: "1"
+            - type: condition
+              condition: lastCounterUsedAmount < 1
+              onTrue:
+                - type: counter
+                  counter: Sorcery Points
+                  amount: "1"
+                  errorBehaviour: raise
+              onFalse: []
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Strength of Stone
+                  duration: "10"
+                  effects:
+                    to_hit_bonus: "{charismaMod - strengthMod}"
+                    damage_bonus: "{charismaMod - strengthMod}"
+                    ac_value: max(ac, 13 + {charismaMod})
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                  save_as: strength_of_stone
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Stone Aegis
+                  parent: strength_of_stone
+                  desc: bludgeoning, piercing, and slashing damage reduced by {proficiencyBonus}
+            - type: text
+              text: >-
+                As a bonus action, you can bolster your strength, gaining the following
+                benefits for 1 minute, ending early if you become incapacitated or you end
+                it as a bonus action.
+
+
+                - You can use your Charisma modifier in place of your Strength modifier
+                for attack rolls, damage rolls, and ability checks.
+
+                - Your skin assumes a stony appearance. If you are not wearing armor, your
+                AC equals 13 + your Charisma modifier.
+
+                - You form a stone aegis around yourself reducing bludgeoning, piercing,
+                and slashing damage taken by your proficiency bonus.
+
+
+                You can cast stone forming as part of the same bonus action used to
+                activate this ability. You can use this ability a number of times equal to
+                your proficiency bonus. If you have no uses remaining, you can use it
+                again by a sorcery point. You regain all expended uses of this ability
+                when you complete a long rest.
+
+
+                When you activate Strength of Stone, you can confer the benefits of the
+                stone aegis to another creature of your choice within 30 feet, reducing
+                bludgeoning, piercing, and slashing damage taken by that creature equal to
+                your proficiency bonus.
+
+
+                When a creature under the effect of your protection takes damage (of any
+                damage type), as a reaction you can expend one or more sorcery points to
+                reduce the damage taken 1d8 per sorcery points spent. When you absorb
+                damage in this way, the next time you hit a melee attack before the end of
+                your next turn, you can add 1d8 per sorcery points to the damage roll.
+
+
+                While empowered by your Strength of Stone, you can attack twice, instead
+                of once, whenever you take the Attack action.
+
+
+                Additionally, when you cast a spell using your action, you can expend 1
+                sorcery point to make a single melee weapon attack as a bonus action.
+
+
+                While you are empowered by Strength of Stone, you have resistance to
+                bludgeoning, piercing, and slashing damage.
+          _v: 2
+          proper: true
+          verb: gains
+          activation_type: 3

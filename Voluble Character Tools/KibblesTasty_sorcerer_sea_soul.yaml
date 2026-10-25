@@ -1,0 +1,66 @@
+# 'cb576f81-eefa-4b7e-b13a-7f2c3dc4955f'
+# KibblesTasty: Sorcerer - Sea Soul
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Sea Soul
+parent: Sorcerer
+counters:
+  1:
+    - name: Touch of Damnation
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Turmoil of the Sea:
+    level: 6
+    actions:
+      - |
+        - name: Turmoil of the Sea
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{charismaMod}[bludgeoning]"
+            - type: text
+              text: Whenever you move, knock prone, or reduce the movement speed of a creature
+                with a spell, you can deal bludgeoning damage to them equal to your
+                Charisma modifier. You can deal this damage to a creature once per turn.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Misty Shroud:
+    level: 14
+    actions:
+      - |
+        - name: Misty Shroud
+          automation:
+            - type: counter
+              counter: Misty Shroud Placeholder Counter
+              amount: "1"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Misty Shroud
+                  duration: lastCounterRequestedAmount
+            - type: text
+              text: >-
+                You are followed by a perpetual whispy fog. When you cast a spell of 1st
+                level or higher, the fog thickens, lightly obscuring the area within a 10
+                foot radius of you for a number of rounds equal to the level of the spell
+                cast. This fog leaves a sodden rime on creatures of your choice within it,
+                leaving them vulnerable to your magic. This rime fades as soon as they
+                leave the area of the fog.
+
+
+                You have advantage on spell attack rolls against creatures effected by
+                this rime, and effected by this rime within the fog are under the effect
+                of bane when saving against your spells.
+          _v: 2
+          proper: true
+          verb: strengthens their
+          activation_type: 2
+          list_display_override: use `-amt` to specify spell level

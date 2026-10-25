@@ -1,0 +1,241 @@
+# '791479bd-2b26-4cea-a46e-a9e380e68554'
+# KibblesTasty: Sorcerer - Phoenix Spark
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Phoenix Spark
+parent: Sorcerer
+counters:
+  1:
+    - name: Phoenix Spark
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+  6:
+    - name: Rejuvenating Flames
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  18:
+    - name: In Flames Reborn
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Phoenix Spark:
+    level: 1
+    actions:
+      - |
+        - name: Phoenix Spark
+          automation:
+            - type: counter
+              counter: Phoenix Spark
+              amount: "1"
+              fixedValue: true
+            - type: condition
+              condition: lastCounterUsedAmount < 1
+              onTrue:
+                - type: counter
+                  counter: Sorcery Points
+                  amount: "1"
+                  errorBehaviour: raise
+                  fixedValue: true
+              onFalse: []
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Phoenix Spark
+                  duration: "1"
+                  effects:
+                    resistances:
+                      - fire
+                - type: damage
+                  damage: -1d6[healing]
+            - type: text
+              text: >-
+                As a bonus action, you can rekindle that spark which ignites, burning
+                until the start of your next turn. You regain 1d6 hit points, and gain the
+                following benefits while the spark is burning:
+
+
+                - You form immaterial wings for fire, allowing you to use your Charisma to
+                calculate jumping distance instead of your Strength, and reducing any fall
+                damage you take by your Charisma ability score. If you reduce fall damage
+                to 0, you don't fall prone. These wings shed bright light for 10 feet and
+                dim light for an additional 10 feet.
+
+                - When you roll to deal fire damage or restore hit points with a spell you
+                cast, you can add your Charisma modifier to one roll.
+
+                - You have resistance to fire damage.
+
+
+                You can use this feature a number of times equal to your proficiency
+                bonus, regaining all uses when you complete a long rest. While you have no
+                uses remaining, you can use one sorcery point to activate this ability
+                instead of a use of the feature.
+          _v: 2
+          proper: false
+          verb: ignites
+          activation_type: 3
+  Rejuvenating Flames:
+    level: 6
+    actions:
+      - |
+        - name: Rejuvenating Flames
+          automation:
+            - type: counter
+              counter: Sorcery Points
+              amount: "1"
+              errorBehaviour: raise
+              fixedValue: true
+            - type: counter
+              counter: Rejuvenating Flames
+              amount: "1"
+              errorBehaviour: raise
+              fixedValue: true
+            - type: text
+              text: >-
+                When you cast a spell that deals fire damage to creatures that you can
+                see, you can expend one sorcery point per creature to protect creatures of
+                your choice that would be affected from the flames. The chosen creatures
+                automatically succeed any saving throws against the spell, and instead of
+                taking fire damage regain hit points equal to half the fire damage they
+                would have taken from the spell a failed save or hit.
+
+
+                Once you do so, you cannot do so again until you complete a short or long
+                rest.
+          _v: 2
+          proper: true
+          verb: creates
+          activation_type: 2
+  Blazing Soul:
+    level: 14
+    actions:
+      - |
+        - name: Blazing Soul
+          automation:
+            - type: counter
+              counter: Phoenix Spark
+              amount: "2"
+              fixedValue: true
+            - type: condition
+              condition: lastCounterUsedAmount < 2
+              onTrue:
+                - type: counter
+                  counter: Sorcery Points
+                  amount: 2 - lastCounterUsedAmount
+                  fixedValue: true
+                  errorBehaviour: raise
+              onFalse: []
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: -1d6[healing]
+                - type: ieffect2
+                  name: Blazing Soul
+                  duration: "10"
+                  effects:
+                    resistances:
+                      - fire
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: "Blazing Soul: Retaliation"
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: 2d6[fire]
+                        activation_type: 4
+                  buttons:
+                    - label: "Blazing Soul: Heal"
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: -1d6[healing]
+                      style: "1"
+            - type: text
+              text: >-
+                When you activate a Phoenix Spark you can expend a second use of the
+                feature (or one sorcery point) to enhance the power of the spark for that
+                activation. When you do so it lasts for 1 minute. Additionally, the spark
+                intensifies, giving you the additional effects for the duration:
+
+
+                - Your immaterial wings of fire solidify, and you gain a flying speed of
+                30 feet during the duration of the spark.
+
+                - You regain 1d6 hit points at the start of each of your turns while under
+                the effect.
+
+                - If a creature hits you with an attack while within 5 feet of you, you
+                can use your reaction to burn them with the flames, dealing 2d6 fire
+                damage to them.
+
+                - You shed bright light in a 20 foot radius, and dim light for an
+                additional 20 feet.
+          _v: 2
+          proper: true
+          verb: ignites their
+          activation_type: 3
+  In Flames Reborn:
+    level: 18
+    actions:
+      - |
+        - name: In Flames Reborn
+          automation:
+            - type: counter
+              counter: In Flames Reborn
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 8d6[fire]
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: In Flames Reborn
+                  duration: "600"
+                  buttons:
+                    - label: Revert Form
+                      automation:
+                        - type: remove_ieffect
+                      style: "2"
+            - type: text
+              text: >-
+                When you are reduced to 0 hit points, or as an action at any time, you can
+                explode into fire, dealing 8d6 fire damage to all creatures within a 30
+                foot radius of you and being temporarily reborn as a phoenix. You can
+                apply Rejuvenating Flames to this fire damage without expending a use of
+                the feature or sorcery points.
+
+
+                You assume the form of a fire elemental as if by the shapechange spell.
+                This form has the following modification: you gain a flying speed of 60
+                feet, gain the Flyby feature (meaning your movement does not provoke
+                attacks of opportunity when you fly out of an enemy's reach), you add your
+                Charisma modifier (minimum +1) to all attack and damage rolls with your
+                Touch attack, and can understand and speak any languages you can normally
+                speak. It does not require concentration, and you cannot change your form
+                as an action. You return to your normal form after 1 hour, or you can end
+                the effect early as an action.
+
+
+                Once you have assumed this form, you cannot assume it again until you
+                complete a long rest.
+          _v: 2
+          proper: true
+          verb: is
+          activation_type: 1
