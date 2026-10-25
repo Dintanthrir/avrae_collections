@@ -1,0 +1,356 @@
+# 'f8886a7c-ede2-436e-9305-1090c5ce25bb'
+# KibblesTasty: Warlock - The Dragon
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: The Dragon
+parent: Warlock
+features:
+  draconic_blast: { title: "Draconic Blast", type: text, level: 1 }
+counters:
+  6:
+    - name: Elemental Devastation
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+  14:
+    - name: Dragon Form
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Draconic Blast:
+    level: 1
+    actions:
+      - |
+        - name: Draconic Blast
+          automation:
+            - type: roll
+              dice: "{1 + int(caster.levels.get('Warlock') >= 5) +
+                int(caster.levels.get('Warlock') >= 11) + int(caster.levels.get('Warlock')
+                >= 17)}d8[fire]"
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                      cantripScale: false
+                  success:
+          _v: 2
+          proper: false
+          activation_type: 1
+          list_display_override: edit to set damage type
+        - name: Empowered Draconic Blast
+          automation:
+            - type: counter
+              counter:
+                slot: min(5, ceil(caster.levels.get('Warlock')/2))
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: "{1 + int(caster.levels.get('Warlock') >= 5) +
+                int(caster.levels.get('Warlock') >= 11) + int(caster.levels.get('Warlock')
+                >= 17)}d8 + {min(5, ceil(caster.levels.get('Warlock')/2))}d8[fire]"
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                      cantripScale: false
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+          _v: 2
+          proper: false
+          activation_type: 1
+          list_display_override: edit to set damage type
+  Elemental Devastation:
+    level: 6
+    actions:
+      - |
+        - name: Elemental Devastation - Acid
+          automation:
+            - type: counter
+              counter: Elemental Devastation
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Elemental Devastation - Acid
+                  desc: next incoming attack has advantage
+                  buttons:
+                    - label: Remove Elemental Devastation
+                      automation:
+                        - type: remove_ieffect
+                      style: "2"
+            - type: text
+              text: You can erode the creature's defenses, giving the next attack roll against
+                them advantage.
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Elemental Devastation - Cold
+          automation:
+            - type: counter
+              counter: Elemental Devastation
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: str
+                  fail:
+                    - type: ieffect2
+                      name: Restrained
+                      duration: "1"
+                      tick_on_caster: true
+                      effects:
+                        attack_advantage: "-1"
+                        save_dis:
+                          - dex
+                  success: []
+            - type: text
+              text: You can freeze the creature, forcing them to make a Strength saving throw.
+                On failure, they are restrained until the start of your next turn.
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Elemental Devastation - Fire
+          automation:
+            - type: counter
+              counter: Elemental Devastation
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Elemental Devastation - Fire
+                  buttons:
+                    - label: Burn
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: 1d6[fire]
+                      style: "4"
+                    - label: Douse
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+            - type: text
+              text: You can ignite the creature, causing them to take 1d6 fire damage at the
+                start of each of their turns, until a creature spends an action to douse
+                the flames.
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Elemental Devastation - Lightning
+          automation:
+            - type: counter
+              counter: Elemental Devastation
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Stunned
+                      duration: "1"
+                  success: []
+            - type: text
+              text: You can shock the creature, forcing them to make a Constitution saving
+                throw. On failure they are stunned until the start of their next turn.
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Elemental Devastation - Poison
+          automation:
+            - type: counter
+              counter: Elemental Devastation
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Poisoned
+                      duration: "10"
+                      buttons:
+                        - label: Resist Poison
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: con
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          style: "3"
+                          defaultDC: spell_dc
+                  success: []
+            - type: text
+              text: You can poison the creature, forcing them to make a Constitution saving
+                throw. On failure, they are poisoned for 1 minute. They can repeat their
+                saving throw at the end of each of their turns.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Dragon Form:
+    level: 14
+    actions:
+      - |
+        name: Dragon Form
+        automation:
+          - type: target
+            target: all
+            effects:
+              - type: save
+                stat: wis
+                fail:
+                  - type: ieffect2
+                    name: Frightened
+                    duration: "1"
+                    tick_on_caster: true
+                success: []
+          - type: target
+            target: self
+            effects:
+              - type: ieffect2
+                name: Dragon Form
+                duration: "10"
+                effects:
+                  ac_value: "17"
+                  immunities:
+                    - fire
+                attacks:
+                  - attack:
+                      _v: 2
+                      name: Natural Weapons
+                      automation:
+                        - type: target
+                          target: each
+                          effects:
+                            - type: attack
+                              hit:
+                                - type: damage
+                                  damage: 1d10[piercing]
+                              miss: []
+                              attackBonus: charismaMod + proficiencyBonus
+                  - attack:
+                      _v: 2
+                      name: Claws
+                      automation:
+                        - type: target
+                          target: each
+                          effects:
+                            - type: attack
+                              hit:
+                                - type: damage
+                                  damage: 1d6[slashing]
+                              miss: []
+                              attackBonus: charismaMod + proficiencyBonus
+                      activation_type: 3
+                  - attack:
+                      name: Draconic Blast
+                      automation:
+                        - type: roll
+                          dice: "{1 + int(caster.levels.get('Warlock') >= 5) +
+                            int(caster.levels.get('Warlock') >= 11) + int(caster.levels.get('Warlock')
+                            >= 17)}d10[fire]"
+                          name: damage
+                        - type: target
+                          target: all
+                          effects:
+                            - type: save
+                              stat: dex
+                              fail:
+                                - type: damage
+                                  damage: "{damage}"
+                                  cantripScale: false
+                              success:
+                      _v: 2
+                  - attack:
+                      name: Empowered Draconic Blast
+                      automation:
+                        - type: counter
+                          counter:
+                            slot: min(5, ceil(caster.levels.get('Warlock')/2))
+                          amount: "1"
+                          errorBehaviour: raise
+                        - type: roll
+                          dice: "{1 + int(caster.levels.get('Warlock') >= 5) +
+                            int(caster.levels.get('Warlock') >= 11) + int(caster.levels.get('Warlock')
+                            >= 17)}d10 + {min(5, ceil(caster.levels.get('Warlock')/2))}d10[fire]"
+                          name: damage
+                        - type: target
+                          target: all
+                          effects:
+                            - type: save
+                              stat: dex
+                              fail:
+                                - type: damage
+                                  damage: "{damage}"
+                                  cantripScale: false
+                              success:
+                                - type: damage
+                                  damage: ({damage})/2
+                      _v: 2
+          - type: text
+            text: >-
+              As an action you can take a form reminiscent of your patron, becoming a
+              dragon for 1 minute. You grow mighty horns, thick scales, wings, wicked
+              claws, fangs, and a lashing tail. Any creatures of your choice within 30
+              feet that witnesses the transformation must make a Wisdom saving throw
+              against your spell save DC, or become frightened until the start of your
+              next turn. While in this form, you gain the following benefits:
+
+
+              - You are a large sized creature. Any gear you cannot use as a large
+              draconic creature merges with your form and is unavailable until the
+              transformation ends.
+
+              - Your Strength becomes equal to your Charisma.
+
+              - Your scales provide a base AC of 17. You do not add your Dexterity
+              modifier to this.
+
+              - Your horns, fangs, and a tail that serve as natural weapons that deal
+              1d10 piercing damage on hit. You also grow claws that deal 1d6 slashing
+              damage on hit. If you attack with any natural weapon, you can attack with
+              your claws as a bonus action.
+
+              - The damage of your Draconic Blasts increases by 1 die, and it's range is
+              doubled.
+
+              - You have a flying speed of 40 feet per turn.
+
+              - You gain immunity to the damage type selected for your Dragon Blast.
+
+
+              Once you have used this ability, you may not use it again until you
+              complete a long rest.
+        _v: 2
+        proper: false
+        verb: transforms into
+        activation_type: 1

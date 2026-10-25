@@ -1,0 +1,235 @@
+# '666fd5e0-0c71-4a9f-97df-8f85ce37a195'
+# KibblesTasty: Warlock - The Fey
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: The Fey
+parent: Warlock
+counters:
+  1:
+    - name: Fey Burst
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+  6:
+    - name: Fey Trickery
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  10:
+    - name: Beguiling Defenses
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Fey Burst:
+    level: 1
+    actions:
+      - |
+        - name: Fey Burst - Faerie Fire
+          automation:
+            - type: counter
+              counter: Fey Burst
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Illuminated
+                  duration: "1"
+                  tick_on_caster: true
+            - type: text
+              text: When you hit a creature with an attack roll, you can expend one use to
+                cause it glow with colorful lights with the effect of _faerie fire_ until
+                the start of your next turn.
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Fey Burst - Aura
+          automation:
+            - type: counter
+              counter: Fey Burst
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You can project a supernatural aura bolstering your presence and
+                presentation to give yourself advantage on Persuasion, Intimidation, or
+                Performance ability check.
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Fey Burst - Charm
+          automation:
+            - type: counter
+              counter: Fey Burst
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Charmed
+                      duration: "2"
+                      end: true
+                      tick_on_caster: true
+                  success: []
+            - type: text
+              text: As an action, you can cause each creature in a 10-foot cube originating
+                from you to make a Wisdom saving throw against your warlock spell save DC.
+                The creatures that fail their saving throws are all charmed by you until
+                the end of your next turn.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Fey Burst - Frighten
+          automation:
+            - type: counter
+              counter: Fey Burst
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Frightened
+                      duration: "2"
+                      end: true
+                      tick_on_caster: true
+                  success: []
+            - type: text
+              text: As an action, you can cause each creature in a 10-foot cube originating
+                from you to make a Wisdom saving throw against your warlock spell save DC.
+                The creatures that fail their saving throws are all frightened of you until
+                the end of your next turn.
+          _v: 2
+          proper: false
+          activation_type: 1
+        - name: Fey Burst - Glamour
+          automation:
+            - type: counter
+              counter: Fey Burst
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2069
+            - type: text
+              text: Create a glamour, casting _disguise self_ without expending a spell slot.
+          _v: 2
+          proper: false
+          activation_type: 1
+  Fey Trickery:
+    level: 6
+    actions:
+      - |
+        - name: Fey Trickery
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Invisible
+                  duration: "1"
+            - type: text
+              text: >-
+                As an action, or as a reaction when you take damage, you can turn
+                invisible and teleport up to 60 feet to an unoccupied space you can see.
+                You remain invisible until the start of your next turn or when you cast a
+                spell. When you do so, you can choose to leave behind a mirror image
+                yourself. If this mirror takes any damage, it vanishes into a puff of
+                mist.
+
+
+                Once you use this feature, you can’t use it again until you finish a short
+                or long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  Beguiling Defenses:
+    level: 10
+    actions:
+      - |
+        - name: Beguiling Defenses
+          automation:
+            - type: counter
+              counter: Beguiling Defenses
+              amount: "1"
+            - type: condition
+              condition: lastCounterAmountUsed < 1
+              onTrue:
+                - type: counter
+                  counter: Fey Burst
+                  amount: "1"
+                  errorBehaviour: raise
+              onFalse: []
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Charmed
+                      duration: "10"
+                      buttons:
+                        - label: Resist Charm
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: wis
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          style: "3"
+                          defaultDC: spell_dc
+                  success: []
+            - type: text
+              text: >-
+                When a creature attempts to charm you or attack you, as a reaction you can
+                force them to make a Wisdom saving throw against your Warlock spell save
+                DC, or become charmed by you instead for 1 minute. A creature that is
+                charmed this way by you can repeat their saving throw at the end of each
+                of their turns, and the charm effect ends if they take damage.
+
+
+                Once you charm a target with this feature, you cannot use it again until
+                you complete a long rest. You can use it again early by expending a use of
+                Fey Burst.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 4
+  Hypnotic Charms:
+    level: 14
+    actions:
+      - |
+        - name: Hypnotic Charms
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail: []
+                  success: []
+            - type: text
+              text: When a creature starts their turn charmed by you, you can force them to
+                make a Wisdom saving throw against your Warlock spell save DC, or move up
+                to their movement speed where you direct. This cannot make them move into
+                hazardous terrain, and if they take damage during the movement, the
+                movement ends and they regain control.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2

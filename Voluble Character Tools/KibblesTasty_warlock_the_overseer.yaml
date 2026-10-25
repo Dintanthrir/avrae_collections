@@ -1,0 +1,262 @@
+# 'fa472d43-05cc-470d-89e5-06d16b627f78'
+# KibblesTasty: Warlock - The Overseer
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: The Overseer
+parent: Warlock
+counters:
+  1:
+    - name: Overseer's Gaze
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+  14:
+    - name: Suppressor's Sight
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Overseer's Gaze:
+    level: 1
+    actions:
+      - |
+        - name: Overseer's Gaze
+          automation:
+            - type: counter
+              counter: Overseer's Gaze
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d6
+              name: eye_ray
+              displayName: Eye Ray
+              fixedValue: true
+            - type: condition
+              condition: (choice and 'fear' in choice) or (not choice and eye_ray == 1)
+              onTrue:
+                - type: target
+                  target: all
+                  effects:
+                    - type: save
+                      stat: wis
+                      fail:
+                        - type: ieffect2
+                          name: Frightened
+                          duration: "1"
+                          tick_on_caster: true
+                      success: []
+              onFalse: []
+            - type: condition
+              condition: (choice and 'telekinetic' in choice) or (not choice and eye_ray == 2)
+              onTrue:
+                - type: target
+                  target: all
+                  effects:
+                    - type: save
+                      stat: str
+                      fail:
+                        - type: text
+                          text: Moved 10 feet in a direction of your choice.
+                      success: []
+              onFalse: []
+            - type: condition
+              condition: (choice and 'slow' in choice) or (not choice and eye_ray == 3)
+              onTrue:
+                - type: target
+                  target: all
+                  effects:
+                    - type: ieffect2
+                      name: Movement Slowed
+                      duration: "1"
+                      tick_on_caster: true
+                      desc: Movement halved
+              onFalse: []
+            - type: condition
+              condition: (choice and 'petrification' in choice) or (not choice and eye_ray == 4)
+              onTrue:
+                - type: target
+                  target: all
+                  effects:
+                    - type: save
+                      stat: con
+                      fail:
+                        - type: ieffect2
+                          name: Slowed
+                          duration: "1"
+                          tick_on_caster: true
+                      success: []
+              onFalse: []
+            - type: condition
+              condition: (choice and 'enervation' in choice) or (not choice and eye_ray == 5)
+              onTrue:
+                - type: target
+                  target: all
+                  effects:
+                    - type: save
+                      stat: con
+                      fail:
+                        - type: damage
+                          damage: 1d8 + {charismaMod} [necrotic]
+                      success: []
+              onFalse: []
+            - type: condition
+              condition: (choice and 'disintegration' in choice) or (not choice and eye_ray == 6)
+              onTrue:
+                - type: target
+                  target: all
+                  effects:
+                    - type: save
+                      stat: con
+                      fail:
+                        - type: damage
+                          damage: 1d10 + {charismaMod} [force]
+                      success: []
+              onFalse: []
+          _v: 2
+          proper: false
+          activation_type: 3
+          list_display_override: "`-choice
+            fear|telekinetic|slow|petrification|enervation|disintegration` to pick an eye
+            ray"
+  Lingering Gaze:
+    level: 6
+    actions:
+      - |
+        - name: Overseer's Gaze
+          automation:
+            - type: counter
+              counter: Overseer's Gaze
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Overseer's Gaze
+                  duration: "10"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Patron's Gaze
+                        automation:
+                          - type: roll
+                            dice: 1d6
+                            name: eye_ray
+                            displayName: Eye Ray
+                            fixedValue: true
+                          - type: condition
+                            condition: (choice and 'fear' in choice) or (not choice and eye_ray == 1)
+                            onTrue:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: wis
+                                    fail:
+                                      - type: ieffect2
+                                        name: Frightened
+                                        duration: "1"
+                                        tick_on_caster: true
+                                    success: []
+                            onFalse: []
+                          - type: condition
+                            condition: (choice and 'telekinetic' in choice) or (not choice and eye_ray == 2)
+                            onTrue:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: str
+                                    fail:
+                                      - type: text
+                                        text: Moved 10 feet in a direction of your choice.
+                                    success: []
+                            onFalse: []
+                          - type: condition
+                            condition: (choice and 'slow' in choice) or (not choice and eye_ray == 3)
+                            onTrue:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: ieffect2
+                                    name: Movement Slowed
+                                    duration: "1"
+                                    tick_on_caster: true
+                                    desc: Movement halved
+                            onFalse: []
+                          - type: condition
+                            condition: (choice and 'petrification' in choice) or (not choice and eye_ray == 4)
+                            onTrue:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: con
+                                    fail:
+                                      - type: ieffect2
+                                        name: Slowed
+                                        duration: "1"
+                                        tick_on_caster: true
+                                    success: []
+                            onFalse: []
+                          - type: condition
+                            condition: (choice and 'enervation' in choice) or (not choice and eye_ray == 5)
+                            onTrue:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: con
+                                    fail:
+                                      - type: damage
+                                        damage: 1d8 + {charismaMod} [necrotic]
+                                    success: []
+                            onFalse: []
+                          - type: condition
+                            condition: (choice and 'disintegration' in choice) or (not choice and eye_ray == 6)
+                            onTrue:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: save
+                                    stat: con
+                                    fail:
+                                      - type: damage
+                                        damage: 1d10 + {charismaMod} [force]
+                                    success: []
+                            onFalse: []
+                        activation_type: 3
+                  effects:
+                    check_adv:
+                      - perception
+          _v: 2
+          proper: false
+          activation_type: 3
+          list_display_override: "`-choice
+            fear|telekinetic|slow|petrification|enervation|disintegration` to pick an eye
+            ray"
+  Suppressor's Sight:
+    level: 14
+    actions:
+      - |
+        - name: Suppressor's Sight
+          automation:
+            - type: counter
+              counter: Suppressor's Sight
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As an action, you manifest a giant spectral eye which creates an antimagic
+                field (as per the spell) in a 150 foot cone until the start of your next
+                turn.
+
+
+                Once you use this feature, you can’t use it again until you finish a long
+                rest.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 1

@@ -1,0 +1,89 @@
+# 'feb07f13-9337-4a8e-a5c6-97c5d392ce3e'
+# KibblesTasty: Warlock - The Knowledge Keeper
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: The Knowledge Keeper
+parent: Warlock
+counters:
+  1:
+    - name: Ancient Secrets
+      minVal: 0
+      maxVal: charismaMod
+      reset: long
+      reset_to: charismaMod
+  14:
+    - name: Fleeting Omniscience
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Ancient Secrets:
+    level: 1
+    actions:
+      - |
+        - name: Ancient Secrets
+          automation:
+            - type: counter
+              counter: Ancient Secrets
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                By expending a pact magic spell slot of at least one level higher than the
+                spell you want to cast (or a first level spell slot for a cantrip), you
+                can cast an Abjuration, Divination, or Transmutation spell that does not
+                appear on your spell list. This spell can be from any class’s spell list,
+                but counts as a Warlock spell for you when you cast it this way. Spells
+                cast this way are cast at one level lower than the spell slot used.
+
+
+                You can do this a number of times equal to your spellcasting modifier, and
+                regain all uses of this feature at the end of a long rest.
+          _v: 2
+          proper: true
+          verb: knows
+          activation_type: 2
+  Magical Mechanics:
+    level: 6
+    actions:
+      - |
+        - name: Magical Mechanics
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: check
+                  ability: arcana
+            - type: text
+              text: If you see a spell being cast, you can use your reaction to make an arcana
+                check to know what the spell is. If the spell you identify with this check
+                would force you to make a saving throw, you can make that saving throw
+                with advantage.
+          _v: 2
+          proper: true
+          verb: understands
+          activation_type: 4
+  Fleeting Omniscience:
+    level: 14
+    actions:
+      - |
+        - name: Fleeting Omniscience
+          automation:
+            - type: counter
+              counter: Fleeting Omniscience
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As a bonus action, you can replace your spellcasting ability modifier with
+                the sum of your Intelligence, Wisdom, and Charisma modifiers until the end
+                of your turn. You can't use this feature again until you finish a long
+                rest.
+
+
+                When using `!cast` add `-mod {intelligenceMod + wisdomMod + charismaMod}`
+          _v: 2
+          proper: true
+          verb: experiences
+          activation_type: 3

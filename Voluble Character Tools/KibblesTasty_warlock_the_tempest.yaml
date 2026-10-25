@@ -1,0 +1,142 @@
+# 'd8640cc3-16dc-4848-9f0f-62d0c4b84975'
+# KibblesTasty: Warlock - The Tempest
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: The Tempest
+parent: Warlock
+counters:
+  1:
+    - name: Storm Level
+      minVal: 0
+      maxVal: charismaMod
+      reset: short
+      reset_to: 0
+  10:
+    - name: Whispering Winds
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Building Storm:
+    level: 1
+    actions:
+      - |
+        - name: Storm 1 - gust
+          automation:
+            - type: spell
+              id: 2383
+          _v: 2
+          proper: false
+          activation_type: 3
+        - name: Storm 2 - deflect
+          automation:
+            - type: text
+              text: You can use your reaction to impose disadvantage on a ranged weapon attack
+                made against a target within 15 feet of you.
+          _v: 2
+          proper: false
+          activation_type: 4
+        - name: Storm 3 - levitate
+          automation:
+            - type: spell
+              id: 2165
+          _v: 2
+          proper: false
+          activation_type: 2
+        - name: Storm 4 - lightning
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 1d8[lightning]
+            - type: text
+              text: If a creature ends their turn within 10 feet of you or strikes you with a
+                melee attack, you can use your reaction to deal 1d8 lightning damage to
+                them.
+          _v: 2
+          proper: false
+          activation_type: 4
+        - name: Storm 5 - flight
+          automation:
+            - type: text
+              text: You gain flying speed equal to your movement speed.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Rolling Thunder:
+    level: 6
+    actions:
+      - |
+        - name: Rolling Thunder
+          automation:
+            - type: spell
+              id: 2022
+          _v: 2
+          proper: true
+          activation_type: 2
+  Whispering Winds:
+    level: 10
+    actions:
+      - |
+        - name: Whispering Winds
+          automation:
+            - type: counter
+              counter: Whispering Winds
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2239
+            - type: text
+              text: >-
+                You can cast _scrying_ without expending a spell slot or requiring any
+                verbal or material components, but when cast in this way, your sensor can
+                only hear and not see. A target gets a -5 to the save if they are in a
+                place open to the wind (such as outdoors), and a +5 to a place that the
+                wind could not reach (such as the Underdark).
+
+
+                Once you cast _scrying_ in this way, you cannot cast it again until you
+                complete a long rest.
+          _v: 2
+          proper: true
+          verb: listens to the
+          activation_type: 1
+  Everstorm:
+    level: 14
+    actions:
+      - |
+        - name: Everstorm
+          automation:
+            - type: text
+              text: >-
+                The Storm Level of your Building Storm no longer decreases at the end of
+                your turn. You can end the effect of your storm as an action. You can
+                spend an action to start building a storm around you, or increase the
+                storm level by one if you already have a storm.
+
+
+                While the Storm Level is 1 or more, you can cast spells _feather fall_ and
+                _levitate_ without expending spell slots as long as they are targeting
+                creatures that are within 15 feet of you within the effect of the storm.
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 1
+        - name: Everstorm - feather fall
+          automation:
+            - type: spell
+              id: 2095
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 4
+        - name: Everstorm - levitate
+          automation:
+            - type: spell
+              id: 2165
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 4
