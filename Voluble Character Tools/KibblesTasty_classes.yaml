@@ -91,10 +91,10 @@
     The Overseer: 'fa472d43-05cc-470d-89e5-06d16b627f78'
     The Tempest: 'd8640cc3-16dc-4848-9f0f-62d0c4b84975'
     # Wizard
-    Order of Chronomancy: ''
-    School of Innovation: ''
-    School of Pathology: ''
-    Theurge: ''
+    Order of Chronomancy: '4914ea1d-83c5-4216-8ab6-bbb99221f915'
+    School of Innovation: '848065f7-0534-40bf-8229-fc6ee0246315'
+    School of Pathology: 'aac981f7-94d6-4918-b0cf-649d403b26fc'
+    Theurge: 'ef477b11-ae16-417d-8bf2-9c6aebba347e'
 
     # Homebrew Classes
     # Inventor

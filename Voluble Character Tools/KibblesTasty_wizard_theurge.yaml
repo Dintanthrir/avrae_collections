@@ -1,0 +1,111 @@
+# 'ef477b11-ae16-417d-8bf2-9c6aebba347e'
+# KibblesTasty: Wizard - Theurge
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Theurge
+parent: Wizard
+features:
+  invented_spells: { title: "Invented Spells", type: list, level: 2 }
+counters:
+  2:
+    - name: Study of the Divine
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+automations:
+  Study of the Divine:
+    level: 2
+    actions:
+      - |
+        - name: Study of the Divine
+          automation:
+            - type: counter
+              counter: Study of the Divine
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                Whenever you gain a wizard level, you can replace one of the wizard spells
+                you add to your spellbook with a spell from the cleric spell list. Any
+                cleric spell you gain from this feature is considered a wizard spell for
+                you and is recorded in your spellbook, but other wizards are unable to
+                copy these spells into their own spellbooks. The spell must be of a level
+                for which you have spell slots, and can never be a spell level higher than
+                your proficiency bonus (meaning you will be unable to learn cleric spells
+                of 7th level or higher).
+
+
+                Your ability to recreate divine magic using arcane magicis is limited. You
+                can cast a number of spells gained from this feature equal to your
+                proficiency bonus. You regain all uses when you complete a long rest. When
+                you use your Arcane Recovery feature, you can choose to reset this limit
+                instead of regain spell slots.
+
+
+                Using divine magic that restores life strains your body, causing you to
+                gain 2 levels of exhaustion when you cast a spell learned through this
+                feature that restores a creature to life.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Celestial Conduit:
+    level: 6
+    actions:
+      - |
+        - name: Celestial Conduit
+          automation:
+            - type: counter
+              counter: Celestial Conduit Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: "{intelligenceMod} + {lastCounterRequestedAmount}"
+            - type: text
+              text: When you cast a spell from the cleric spell list, you gain temporary hit
+                points equal to your Intelligence modifier + the level of the spell.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+          list_display_override: Use `-amt` to specify spell level
+  Divine Revelation:
+    level: 10
+    actions:
+      - |
+        - name: Divine Revelation
+          automation:
+            - type: text
+              text: When you deal fire or lightning damage, you can replace half the damage
+                dealt with radiant damage. When you deal cold or poison damage, you can
+                replace half the damage dealt with necrotic damage.
+          _v: 2
+          proper: false
+          verb: reveals
+          activation_type: 2
+  Divine Synthesis:
+    level: 14
+    actions:
+      - |
+        - name: Divine Synthesis
+          automation:
+            - type: text
+              text: >-
+                Your research into the synthesis of divine and arcane reveals to you a
+                greater harmony of power. When you cast a 1st level or higher spell from
+                the wizard spell list or a spell from the cleric spell list as your
+                action, you can cast a 1st level or higher spell from the other list with
+                a casting time of an action or bonus action as a bonus action (regardless
+                of its casting time).
+
+
+                The total level of the two spells combined cannot exceed your half your
+                Wizard level (rounded down).
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 2

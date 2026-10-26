@@ -1,0 +1,39 @@
+# 'aac981f7-94d6-4918-b0cf-649d403b26fc'
+# KibblesTasty: Wizard - School of Pathology
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: School of Pathology
+parent: Wizard
+counters:
+  2:
+    - name: Malignant Magic
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+automations:
+  Malignant Magic:
+    level: 6
+    actions:
+      - |
+        - name: Malignant Magic
+          automation:
+            - type: counter
+              counter: Malignant Magic
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can weave leave a lingering touch behind. When you cast a spell of 1st
+                level or higher that causes one or more creatures to make a saving throw,
+                you can apply the effect of _malaise_ to one or more creature that failed
+                their saving throw.
+
+
+                You can apply this effect a number of times equal to your proficiency
+                bonus, and you regain all expended uses when you finish a long rest. Each
+                creature you apply this to counts as an application of this effect.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2

@@ -1,0 +1,46 @@
+# '848065f7-0534-40bf-8229-fc6ee0246315'
+# KibblesTasty: Wizard - School of Innovation
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: School of Innovation
+parent: Wizard
+features:
+  invented_spells: { title: "Invented Spells", type: list, level: 2 }
+counters:
+  6:
+    - name: Innovator's Improvisation
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Innovator's Improvisation:
+    level: 6
+    actions:
+      - |
+        - name: Innovator's Improvisation
+          automation:
+            - type: counter
+              counter: Innovator's Improvisation
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can attempt to modify a spell you cast on the fly, adding any effects
+                from the Spell Creation Table. You must make an Arcana check equal to the
+                number of Creation Points added times six to cast the spell. You cannot
+                change the Spells Concentration (or lack thereof), or change its Saving
+                Throw.
+
+
+                If you fail the Arcana check, the spell is cast without modifiers. If you
+                fail the Arcana check by 5 or more, the Spell fails to cast entirely, and
+                the spell slot is lost.
+
+
+                Once you use this ability you cannot use it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2

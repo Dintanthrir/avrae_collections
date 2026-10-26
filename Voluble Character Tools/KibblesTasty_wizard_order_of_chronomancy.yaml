@@ -1,0 +1,203 @@
+# '4914ea1d-83c5-4216-8ab6-bbb99221f915'
+# KibblesTasty: Wizard - Order of Chronomancy
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Order of Chronomancy
+parent: Wizard
+counters:
+  2:
+    - name: Accelerate Self
+      minVal: 0
+      maxVal: intelligenceMod
+      reset: long
+      reset_to: intelligenceMod
+  6:
+    - name: Frozen Moment
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  10:
+    - name: Delayed Effect
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  14:
+    - name: Minor Time Stop
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Accelerate Self:
+    level: 2
+    actions:
+      - |
+        - name: Accelerate Self
+          automation:
+            - type: counter
+              counter: Accelerate Self
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain the ability to collect extra time when you complete a long rest.
+                You can spend this collected time to act in accelerated bursts of
+                activity. You can expend one of these to stretch out a bonus action,
+                allowing you to Dash, Dodge, Disengage, Help, Hide, Search, Use an Object,
+                or cast a spell with a casting time of 1 action that does not target or
+                effect any creature other than yourself. The level of spell you can cast
+                this way starts at 0 (a cantrip), and increases to 1st at 5th level, 2nd
+                at 11th level, and 3rd at 17th level.
+
+                You can store a number of these collected pieces of extra time that allow
+                you to use this feature equal to your Intelligence modifier, regaining all
+                of them when you complete a long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Stretched Time:
+    level: 2
+    actions:
+      - |
+        - name: Stretched Time
+          automation:
+            - type: text
+              text: Any spell you cast with a duration other than instantaneous, you can
+                choose to double the duration of that spell, but if you extend the effect
+                of a spell that does damage this way, the damage of the spell is halved.
+          _v: 2
+          proper: true
+          verb: creates
+          activation_type: 2
+  Frozen Moment:
+    level: 6
+    actions:
+      - |
+        - name: Frozen Moment
+          automation:
+            - type: counter
+              counter: Frozen Moment
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Frozen Moment
+                  duration: "1"
+                  save_as: frozen_moment
+                  buttons:
+                    - label: Unfreeze Time
+                      automation:
+                        - type: remove_ieffect
+                      style: "2"
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Paralyzed
+                      parent: frozen_moment
+                      duration: "1"
+                      tick_on_caster: true
+                  success: []
+            - type: text
+              text: >-
+                As an action, you can attempt to stop all time in a 10 foot radius you can
+                see. All creatures within the area make a Wisdom saving throw. If they all
+                fail, they become paralyzed until the start of your turn, any of them take
+                damage, or until another creature enters the area of frozen time. Time is
+                otherwise frozen for all objects that were in the area when it was paused
+                (fire does not burn, objects do not fall, etc).
+
+                Once you use this effect, you cannot use it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 1
+  Delayed Effect:
+    level: 10
+    actions:
+      - |
+        - name: Delayed Effect
+          automation:
+            - type: counter
+              counter: Delayed Effect
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As a reaction to the use of an effect that targets a cube, cone, cylinder,
+                line or radius around a point (such as a fireball spell) within 60 feet of
+                you, you can attempt to freeze the effect in time before it takes place.
+                When you do so, make a spellcasting ability check equal to the saving
+                throw DC of the ability, or 10 + half the creature's CR or character level
+                (rounded up) if the ability has no saving throw DC. On success, the effect
+                is delayed, taking place exactly as it would have when originally used at
+                the end of your next turn, instead of immediately.
+
+                Once you use this effect, you cannot use it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: false
+          verb: causes
+          activation_type: 4
+  Temporal Force:
+    level: 14
+    actions:
+      - |
+        - name: Complete Preservation
+          automation:
+            - type: text
+              text: When you cast the preservation cantrip, you can expend a 1st level or
+                higher spell slot to completely stop the time for the object instead.
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 2
+        - name: Expanded Moment
+          automation:
+            - type: text
+              text: When you use Frozen Moment, you can use a 1st level or higher spell slot
+                to expand the radius of the effect by 5 feet for every other level of
+                spell slot spent, up to a maximum of 25 feet with 5th level or higher
+                spell (for example, a 1st or 2nd level spell expends to a 15 foot radius,
+                a 3rd or 4th level spell slot expends it to a 20 foot radius). If you
+                spend a spell slot to empower the effect, rather than the entire effect
+                failing if any creature passes, creatures that pass are simply unaffected.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 2
+        - name: Suspended Effect
+          automation:
+            - type: text
+              text: When you use Delayed Effect, you can expend a spell slot of 1st level or
+                higher to delay the effect by an additional round per spell level spent.
+                If you spend a spell to empower the effect, you also gain advantage on
+                spellcasting ability check.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 2
+        - name: Minor Time Stop
+          automation:
+            - type: counter
+              counter: Minor Time Stop
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You can cast _time stop_ expending a 5th level spell slot in place of its
+                normal spell slot. When you do so, it lasts for only 1 round, instead of
+                rolling for the number of rounds. Once you cast time stop in this way, you
+                cannot do so again until you complete a long rest.
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 2
