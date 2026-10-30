@@ -379,7 +379,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
   hit_dice = None
   added_counters = {}
   added_vars = {}
-  added_automations = []
+  automations_to_add = []
 
   gvar_content = load_yaml(get_gvar(source))
   levels = current_levels()
@@ -423,13 +423,13 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
 
   hit_dice = {'count': level, 'size': class_config.hit_die}
 
-  added_automations = [action for (automation_name, automation) in class_config.get('automations', {}).items() for action in automation.get('actions', '') if automation.get('level', 1) <= level and automation.get('level', 1) > previous_level]
+  automations_to_add = [action for (automation_name, automation) in class_config.get('automations', {}).items() for action in automation.get('actions', '') if automation.get('level', 1) <= level and automation.get('level', 1) > previous_level]
 
   last_update = {
     'updated_at': time(),
     'level': level,
     'rules_version': rules_version,
-    'automations': [action.name for automation in added_automations for action in load_yaml(automation)],
+    'automations': [action.name for automation in automations_to_add for action in load_yaml(automation)],
     'counters': added_counters,
     'features': added_vars,
   }
@@ -477,7 +477,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
       'features': added_vars | subclass_vars_to_add,
     },
     'add': {
-      'automations': added_automations + subclass_automations_to_add,
+      'automations': automations_to_add + subclass_automations_to_add,
     },
     'hit_dice': hit_dice
   }
@@ -840,7 +840,7 @@ def apply_levels() -> dict:
           results.added.counters.extend(class_results.get('added', {}).get('counters', []))
           results.added.features.update(class_results.get('added', {}).get('features', {}))
           results.added.class_levels[sheet_class_name] = sheet_level
-          results.add.automations.update(class_results.get('added', {}).get('automations', {}))
+          results.add.automations.update(class_results.get('add', {}).get('automations', {}))
         else:
           results.failed.class_levels[sheet_class_name] = sheet_level
           if message := class_results.get('message'):
