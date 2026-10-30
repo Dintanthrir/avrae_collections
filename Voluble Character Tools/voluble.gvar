@@ -386,6 +386,8 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
 
   if (class_config := gvar_content.get(int(rules_version), {}).get('classes', {}).get(class_name, None)) == None:
     return {'success': False, 'message': f'{rules_version} class `{class_name}` was not found in `{source}`'}
+  if typeof(class_config) == 'str':
+    class_config = load_yaml(get_gvar(class_config))
 
   # check for and validate a subclass before making any edits
   existing_subclass = None
