@@ -377,7 +377,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
     return {'success': False, 'message': f'Cannot override levels defined on a character sheet to set level to {level}. Avrae manages this level {_sheet_levels.get(class_name, 0)} {class_name}.'}
 
   hit_dice = None
-  added_counters = {}
+  added_counters = []
   added_vars = {}
   added_automations = []
 
