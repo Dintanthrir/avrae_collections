@@ -1,0 +1,485 @@
+# '858f6de7-c205-4583-9e11-f02e66de98bf'
+# KibblesTasty: Warlord
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+hit_die: 8
+sub_level: 1
+counters:
+  2:
+    - name: Leadership Dice
+      minVal: 0
+      maxVal: WarlordLevel
+      reset: short
+      reset_to: WarlordLevel
+  13:
+    - name: Warlord's Intuition
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Battlefield Presence:
+    level: 1
+    actions:
+      - |
+        - name: Battlefield Presence
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Battlefield Presence
+                  duration: "1"
+                  tick_on_caster: true
+                  desc: 1 extra attack on next Attack action
+            - type: text
+              text: >-
+                Starting at 1st level, when you take the Attack action, in place of making
+                an attack, you can use your Battlefield Presence to grant a friendly
+                creature that can see or hear you an additional attack the next time they
+                take the Attack action during their turn.
+
+                Any additional attacks granted that are unused at the start of your next
+                turn are lost. A friendly creature can only gain one additional attack
+                from this feature per round from this feature.
+          _v: 2
+          proper: true
+          verb: uses
+  Leadership Dice:
+    level: 2
+    actions:
+      - |
+        - name: Rallying Mark
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Rallying Mark
+                  duration: "1"
+                  tick_on_caster: true
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Rallying Mark
+                        automation:
+                          - type: roll
+                            dice: "{spell}d{spell_attack_bonus}"
+                            name: leadership_dice
+                            displayName: Leadership Dice
+                          - type: target
+                            target: self
+                            effects:
+                              - type: damage
+                                damage: "{leadership_dice}[weapon]"
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: -({leadership_dice})[healing]
+                          - type: remove_ieffect
+                        verb: suffers from a
+                        activation_type: 2
+                      defaultAttackBonus: 6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13) +
+                        int(WarlordLevel >= 17))
+                      defaultCastingMod: "lastCounterUsedAmount "
+                  desc: Extra damage and heals attacker.
+            - type: text
+              text: >-
+                As a bonus action, you can expend a number of Leadership Dice (up to your
+                per turn limit) to rally your allies to attack a hostile creature within
+                60 feet of you.
+
+                The next time damage is rolled against that target by an allied creature
+                before the start of your next turn, they can add the Leadership Dice to
+                the damage roll, and the attacking creature regains hit points equal to
+                the amount rolled on the Leadership Dice.
+
+
+                Target a creature to apply Rallying Mark. That creature targets their
+                attacker to apply damage and healing:
+
+                ```
+
+                !a "Rallying Mark" -amt 1 -t <creature>
+
+                !i oa <creature> "Rallying Mark" -t <target> -dtype <weapon damage>
+
+                ```
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Urgent Orders
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{lastCounterUsedAmount}d{6 + 2*(int(WarlordLevel >= 9) +
+                    int(WarlordLevel >=13) + int(WarlordLevel >= 17))}"
+            - type: text
+              text: >-
+                As a bonus action, you can expend a number of Leadership Dice (up to your
+                per turn limit) to guide your allies in expeditious action.
+
+                Target an allied creature within 60 feet of you that can see or hear you,
+                that creature can immediately use its reaction to move up to its movement
+                speed (up to a maximum of 30 feet) without provoking opportunity attacks.
+                Roll the leadership dice expended, the target gains temporary hit points
+                equal to the value rolled.
+
+
+                ```
+
+                !a "Urgent Orders" -amt 1 -t <ally>
+
+                ```
+          _v: 2
+          proper: true
+          verb: issues
+          activation_type: 3
+        - name: Helpful Word
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: As a bonus action, you can spend a Leadership Die to take the Help action.
+                When you use the Help action to aid an ally in attacking a creature, the
+                target of that attack can be within 30 feet of you, rather than within 5
+                feet of you, if your ally can see or hear you.
+          _v: 2
+          proper: false
+          verb: speaks
+          activation_type: 3
+  Prepare for Battle:
+    level: 6
+    actions:
+      - |
+        - name: Prepare for Battle
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: "{lastCounterUsedAmount}d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel
+                >=13) + int(WarlordLevel >= 17))}"
+              name: leadership_roll
+              displayName: Temp HP
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{leadership_roll}"
+            - type: text
+              text: Starting at 6th level, you can spend a minute preparing creatures for
+                combat. You can expend a number of Leadership Dice up to your per turn
+                limit, rolling them and causing five your creatures of your choice
+                (potentially including yourself) to gain temporary hit points equal to the
+                number rolled. Allies that have benefited from this ability can expend a
+                number of hit dice equal to the number of Leadership Dice you expended,
+                using them as they would during a short rest. Any temporary hit points
+                gained from this last until you complete a short or long rest.
+
+
+                ```
+
+                !a "Prepare for Battle" -amt <dice>
+
+                ```
+          _v: 2
+          proper: true
+          verb: spends time to
+          activation_type: 6
+  Press the Attack:
+    level: 9
+    actions:
+      - |
+        - name: Boost Morale
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+              fixedValue: true
+            - type: counter
+              counter: Boost Morale Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: -{lastCounterRequestedAmount}[healing]
+            - type: text
+              text: >-
+                When a creature gains hit points from Rallying Mark, you can use your
+                reaction to expend one Leadership die to cause another creature within 60
+                feet of the attacker to regain the same number of hit points.
+
+
+                ```
+
+                !a "Boost Morale" -t <ally> -amt <healing>
+
+                ```
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 4
+        - name: Coordinated Movements
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                When you use Urgent Orders, you can expend additional Leadership dice to
+                target additional creatures (targeting one additional creature for each
+                extra die spent).
+
+
+                ```
+
+                !a "Coordinated Movement" -amt <count>
+
+                !a "Urgent Orders" -amt <dice> -t <ally1> -t <ally2> ...
+
+                ```
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Expert Instructions
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13) +
+                int(WarlordLevel >= 17))}
+              name: leadership
+              displayName: Leadership Die
+            - type: text
+              text: When a creature benefits from your Help action, you can use your reaction
+                to expend a Leadership Die and add it to their roll. You can use this
+                ability after the original roll, but before the outcome is revealed.
+          _v: 2
+          proper: true
+          verb: gives
+          activation_type: 4
+  Warlord's Intuition:
+    level: 13
+    actions:
+      - |
+        - name: Warlord's Intuition
+          automation:
+            - type: counter
+              counter: Warlord's Intuition
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: Before rolling an ability check you are proficient in, you can exercise
+                this ability, choosing for the d20 to be equal to your Warlord level
+                ({WarlordLevel}) rather than rolling. Once you do this, you cannot do this
+                until you complete a long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+          list_display_override: Replace a proficient ability check roll.
+  Shift the Field:
+    level: 14
+    actions:
+      - |
+        - name: Shift the Field
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: As an action, you can expend one Leadership Die to move up to 5 friendly
+                creatures that can see or hear you up to half their movement speed without
+                provoking attacks of opportunity.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+          list_display_override: Move allied creatures.
+  Tireless Leader:
+    level: 20
+    actions:
+      - |
+        - name: Rallying Mark (d4)
+          automation:
+            - type: counter
+              counter: Leadership Dice Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Rallying Mark
+                  duration: "1"
+                  tick_on_caster: true
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Rallying Mark
+                        automation:
+                          - type: roll
+                            dice: "{spell}d4"
+                            name: leadership_dice
+                            displayName: Leadership Dice
+                          - type: target
+                            target: self
+                            effects:
+                              - type: damage
+                                damage: "{leadership_dice}[weapon]"
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: -({leadership_dice})[healing]
+                          - type: remove_ieffect
+                        verb: suffers from a
+                        activation_type: 2
+                      defaultCastingMod: "lastCounterRequestedAmount "
+                  desc: Extra damage and heals attacker.
+            - type: text
+              text: >-
+                As a bonus action, you can expend a number of Leadership Dice (up to your
+                per turn limit) to rally your allies to attack a hostile creature within
+                60 feet of you.
+
+                The next time damage is rolled against that target by an allied creature
+                before the start of your next turn, they can add the Leadership Dice to
+                the damage roll, and the attacking creature regains hit points equal to
+                the amount rolled on the Leadership Dice.
+
+
+                You roll d4s and use them instead of expending Leadership Dice.
+
+
+                Target a creature to apply Rallying Mark. That creature targets their
+                attacker to apply damage and healing:
+
+                ```
+
+                !a "Rallying Mark (d4)" -amt 1 -t <creature>
+
+                !i oa <creature> "Rallying Mark" -t <target> -dtype <weapon damage>
+
+                ```
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+        - name: Urgent Orders (d4)
+          automation:
+            - type: counter
+              counter: Leadership Dice Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{lastCounterRequestedAmount}d4"
+            - type: text
+              text: >-
+                As a bonus action, you can expend a number of Leadership Dice (up to your
+                per turn limit) to guide your allies in expeditious action.
+
+                Target an allied creature within 60 feet of you that can see or hear you,
+                that creature can immediately use its reaction to move up to its movement
+                speed (up to a maximum of 30 feet) without provoking opportunity attacks.
+                Roll the leadership dice expended, the target gains temporary hit points
+                equal to the value rolled.
+
+
+                You roll d4s and use them instead of expending Leadership Dice.
+
+
+                ```
+
+                !a "Urgent Orders (d4)" -amt 1 -t <ally>
+
+                ```
+          _v: 2
+          proper: true
+          verb: issues
+          activation_type: 3
+        - name: Helpful Word (d4)
+          automation:
+            - type: counter
+              counter: Leadership Dice Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: text
+              text: >-
+                As a bonus action, you can spend a Leadership Die to take the Help action.
+                When you use the Help action to aid an ally in attacking a creature, the
+                target of that attack can be within 30 feet of you, rather than within 5
+                feet of you, if your ally can see or hear you.
+
+
+                You roll d4s and use them instead of expending Leadership Dice.
+          _v: 2
+          proper: false
+          verb: speaks
+          activation_type: 3
+        - name: Prepare for Battle (d4)
+          automation:
+            - type: counter
+              counter: Leadership Dice Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: roll
+              dice: "{lastCounterRequestedAmount}d4"
+              name: leadership_roll
+              displayName: Temp HP
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{leadership_roll}"
+            - type: text
+              text: >-
+                Starting at 6th level, you can spend a minute preparing creatures for
+                combat. You can expend a number of Leadership Dice up to your per turn
+                limit, rolling them and causing five your creatures of your choice
+                (potentially including yourself) to gain temporary hit points equal to the
+                number rolled. Allies that have benefited from this ability can expend a
+                number of hit dice equal to the number of Leadership Dice you expended,
+                using them as they would during a short rest. Any temporary hit points
+                gained from this last until you complete a short or long rest.
+
+
+                You roll d4s and use them instead of expending Leadership Dice.
+
+
+                ```
+
+                !a "Prepare for Battle (d4)" -amt <dice>
+
+                ```
+          _v: 2
+          proper: true
+          verb: spends time to
+          activation_type: 6

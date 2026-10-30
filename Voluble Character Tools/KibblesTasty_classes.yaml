@@ -25,14 +25,7 @@
     Warden:
       hit_die: 12
       sub_level: 1
-    Warlord:
-      hit_die: 8
-      sub_level: 1
-      counters:
-        Leadership Dice:
-          minVal: 0
-          maxVal: WarlordLevel
-          reset: short
+    Warlord: '858f6de7-c205-4583-9e11-f02e66de98bf'
   subclasses:
     # Base Classes
     # Barbarian
