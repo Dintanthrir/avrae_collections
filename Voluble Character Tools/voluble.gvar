@@ -850,7 +850,7 @@ def apply_levels() -> dict:
     else:
       results.skipped.class_levels[sheet_class_name] = sheet_level
   hd_results = _update_hit_die_counters()
-  results.added.counters.extend(hd_results.added)
-  results.removed.counters.extend(hd_results.removed)
+  results.added.counters.extend([counter for counter in hd_results.added if not counter in results.added.counters])
+  results.removed.counters.extend([counter for counter in hd_results.removed if not counter in results.removed.counters])
   _save(levels)
   return results
