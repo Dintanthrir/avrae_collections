@@ -377,7 +377,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
     return {'success': False, 'message': f'Cannot override levels defined on a character sheet to set level to {level}. Avrae manages this level {_sheet_levels.get(class_name, 0)} {class_name}.'}
 
   hit_dice = None
-  added_counters = []
+  added_counters = {}
   added_vars = {}
   added_automations = []
 
@@ -413,7 +413,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
     for counter in counters:
       if counter_level <= level and counter_level > previous_level and not _character.cc_exists(counter.name): # TODO: support `-cc` to force (re)creation
         _character.create_cc(**counter)
-        added_counters.append(counter)
+        added_counters[counter.name] = counter
 
   for (cvar_name, cvar) in class_config.get('features', {}).items():
     feature_level = cvar.get('level', 0)
