@@ -409,11 +409,11 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
 
   previous_level = levels.get('classes', {}).get(class_name, {}).get('level', 0)
 
-  for (counter_name, counter) in class_config.get('counters', {}).items():
-    counter_level = counter.get('level', 1)
-    if counter_level <= level and counter_level > previous_level and not _character.cc_exists(counter_name): # TODO: support `-cc` to force (re)creation
-      _character.create_cc(**counter)
-      added_counters[counter_name] = counter
+  for (counter_level, counters) in class_config.get('counters', {}).items():
+    for counter in counters:
+      if counter_level <= level and counter_level > previous_level and not _character.cc_exists(counter_name): # TODO: support `-cc` to force (re)creation
+        _character.create_cc(**counter)
+        added_counters[counter_name] = counter
 
   for (cvar_name, cvar) in class_config.get('features', {}).items():
     feature_level = cvar.get('level', 0)
