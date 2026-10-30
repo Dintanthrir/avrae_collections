@@ -820,11 +820,11 @@ def apply_levels() -> dict:
       class_levels: dict[str:int]
     }
     add: {
-      automations: dict(str:list(str)),
+      automations: list(str),
     }
   }
   """
-  results = {'success': True, 'added': {'counters': [], 'features': {}, 'class_levels': {}}, 'skipped': {'class_levels': {}}, 'failed': {'class_levels': {}}, 'add': {'automations': {}}, 'removed': {'counters': [], 'features': {}}, 'remove': {}}
+  results = {'success': True, 'added': {'counters': [], 'features': {}, 'class_levels': {}}, 'skipped': {'class_levels': {}}, 'failed': {'class_levels': {}}, 'add': {'automations': []}, 'removed': {'counters': [], 'features': {}}, 'remove': {}}
   for (sheet_class_name, sheet_level) in _sheet_levels.items():
     levels = current_levels()
     class_data = levels.get('classes', {}).get(sheet_class_name, {})
@@ -840,7 +840,7 @@ def apply_levels() -> dict:
           results.added.counters.extend(class_results.get('added', {}).get('counters', []))
           results.added.features.update(class_results.get('added', {}).get('features', {}))
           results.added.class_levels[sheet_class_name] = sheet_level
-          results.add.automations.update(class_results.get('add', {}).get('automations', {}))
+          results.add.automations.extend(class_results.get('add', {}).get('automations', []))
         else:
           results.failed.class_levels[sheet_class_name] = sheet_level
           if message := class_results.get('message'):
