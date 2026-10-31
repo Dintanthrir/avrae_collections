@@ -1,0 +1,154 @@
+# '1a2fb318-e298-4f44-a03a-b787b8833d7a'
+# KibblesTasty: Warlord - Dancer's Presence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Dancer's Presence
+parent: Warlord
+automations:
+  Graceful Entrance:
+    level: 1
+    actions:
+      - |
+        - name: Graceful Entrance
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: "{charismaMod}"
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{charismaMod}"
+            - type: text
+              text: You can give yourself a bonus to your initiative rolls equal to your
+                Charisma modifier. Additionally when you roll initiative and are not
+                surprised, you can move up to your half movement speed, and you and any
+                creature you end this movement within 5 feet of gains temporary hit points
+                equal to your Charisma modifier.
+          _v: 2
+          proper: false
+          verb: makes
+          activation_type: 2
+  Bewildering Steps:
+    level: 3
+    actions:
+      - |
+        - name: Distract
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Distracted
+                  duration: "1"
+            - type: text
+              text: As a bonus action, you attempt to distract a creature within 30 feet.
+                Until the start of its next turn, if that creature attacks a creature
+                other than you while you are within range of its attack, you can roll your
+                leadership die and subtract it from their attack.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Dancer's Dodge:
+    level: 3
+    actions:
+      - |
+        - name: Dancer's Dodge
+          automation:
+            - type: text
+              text: >-
+                When you take the Dodge action while you are not wearing armor or carrying
+                a shield, you can use Distract, Helpful Word, Urgent Orders, or Rallying
+                Mark without expending a leadership die. When you do so, it applies as if
+                you had spent 1 leadership die on it for its effect.
+
+                Additionally, when you take the Dodge action, you can expend leadership
+                dice to grant attacks through Battlefield Presence. You can grant a number
+                of attacks equal to the leadership dice spent, up to your per turn limit.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 1
+  Battlefield Grace:
+    level: 7
+    actions:
+      - |
+        - name: Battlefield Grace
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "-1"
+            - type: text
+              text: Whenever a creature misses you with an attack, you regain 1 spent
+                leadership die and can move 5 feet. You cannot regain a leadership die
+                this way again until the start of your next turn.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Whirling Thorns:
+    level: 7
+    actions:
+      - |
+        - name: Whirling Thorns
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "0"
+              errorBehaviour: raise
+            - type: text
+              text: If you are carrying a melee weapon with the light property, you can make a
+                single attack with it as a bonus action. You can expend leadership dice to
+                make additional attacks as part of the same action, but each attack must
+                be against a different target within range.
+          _v: 2
+          proper: true
+          activation_type: 3
+  Furious Tempo:
+    level: 11
+    actions:
+      - |
+        - name: Furious Tempo
+          automation:
+            - type: text
+              text: You can add your Charisma modifier to the damage of attacks you make or
+                grant through Battlefield Presence.
+          _v: 2
+          proper: false
+  Evasion:
+    level: 15
+    actions:
+      - |
+        - name: Evasion
+          automation:
+            - type: text
+              text: You can nimbly dodge out of the way of certain area effects. When you are
+                subjected to an effect that allows you to make a Dexterity saving throw to
+                take only half damage, you instead take no damage if you succeed on the
+                saving throw, and only half damage if you fail.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Elegant Exchange:
+    level: 18
+    actions:
+      - |
+        - name: Elegant Exchange
+          automation:
+            - type: text
+              text: When an willing creature within 15 feet of you is the target of a spell,
+                attack, or targeted effect that would cause them to take damage, you can
+                move their position as a reaction, moving them 5 feet in any direction and
+                becoming the target of the attack.
+          _v: 2
+          proper: true
+          verb: makes an
+          activation_type: 4

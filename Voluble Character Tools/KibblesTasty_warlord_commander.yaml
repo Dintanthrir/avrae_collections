@@ -1,0 +1,162 @@
+# '953d2c7a-7260-4266-a6f0-5d69c0cb6397'
+# KibblesTasty: Warlord - Commander's Presence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Commander's Presence
+parent: Warlord
+automations:
+  Form Up!:
+    level: 1
+    actions:
+      - |
+        - name: Form Up!
+          automation:
+            - type: text
+              text: When you roll initiative and are not surprised, any number of friendly
+                creatures within 30 feet of you can move up to their speed a number of
+                feet equal to five times your Wisdom modifier ({max(5, 5*wisdomMod}).
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Keen Pointer:
+    level: 3
+    actions:
+      - |
+        - name: Keen Pointer
+          automation:
+            - type: text
+              text: >-
+                You can take the Helpful Word bonus action without expending a Leadership
+                Die if you are within 5 feet of the creature you are taking the Help
+                action against.
+
+                ```
+
+                !a "Helpful Word" -i
+
+                ```
+
+                When you do so, you can expend Leadership Dice to apply Rallying Mark to
+                the creature you are targeting with this Help action.
+          _v: 2
+          proper: false
+          verb: gives
+          activation_type: 3
+  On Your Feet!:
+    level: 7
+    actions:
+      - |
+        - name: On Your Feet!
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: target.hp <= 0
+                  onTrue:
+                    - type: damage
+                      damage: -(wisdomMod + 1d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13)
+                        + int(WarlordLevel >= 17))})[healing]
+                  onFalse:
+                    - type: damage
+                      damage: -(1d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13) +
+                        int(WarlordLevel >= 17))})[healing]
+            - type: text
+              text: >-
+                You can use a bonus action and expend one Leadership Die to restore the
+                will to fight in an allied creature. Choose a friendly creature within 5
+                feet of you. That creature regains hit points equal to your Leadership
+                die.
+
+                When you use this feature to restore hit points to a creature at 0 hit
+                points, you can add your Wisdom modifier to the amount of hit points
+                restored. If the creature is prone, it can choose to stand immediately.
+          _v: 2
+          proper: true
+          activation_type: 3
+  Martial Advantage:
+    level: 11
+    actions:
+      - |
+        - name: Martial Advantage
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 2d6[weapon]
+            - type: text
+              text: >-
+                You've learned to leverage fighting alongside an ally. Once per turn, you
+                can deal an extra 2d6 damage to a creature you hit with a weapon attack if
+                that creature is within 5 feet of an ally that isn't incapacitated.
+
+                ```
+
+                !a "Martial Advantage" -dtype <weapon> -t <target>
+
+                ```
+          _v: 2
+          proper: true
+          activation_type: 2
+  Bulwark:
+    level: 15
+    actions:
+      - |
+        - name: Bulwark
+          automation:
+            - type: text
+              text: When you and any number of friendly creatures within 30 feet of you make a
+                Saving Throw against the same effect, your allies gain Advantage on their
+                Saving Throw if you succeed on the saving throw.
+          _v: 2
+          proper: false
+          verb: forms
+          activation_type: 2
+  No One Left Behind!:
+    level: 18
+    actions:
+      - |
+        - name: On Your Feet!
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: target.hp <= 0
+                  onTrue:
+                    - type: damage
+                      damage: -(wisdomMod + 1d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13)
+                        + int(WarlordLevel >= 17))})[healing]
+                  onFalse:
+                    - type: damage
+                      damage: -(1d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13) +
+                        int(WarlordLevel >= 17))})[healing]
+            - type: text
+              text: >
+                You can use a bonus action and expend one Leadership Die to restore the
+                will to fight in an allied creature. Choose a friendly creature within 5
+                feet of you. That creature regains hit points equal to your Leadership
+                die.
+
+                When you use this feature to restore hit points to a creature at 0 hit
+                points, you can add your Wisdom modifier to the amount of hit points
+                restored. If the creature is prone, it can choose to stand immediately.
+
+
+                You can move up to your speed to get within 5 feet of a creature while
+                using your On Your Feet feature. During this movement you gain resistance
+                to all damage and the target regains an additional 1d8 hit points for each
+                attack of opportunity made against you during this movement.
+          _v: 2
+          proper: true
+          activation_type: 3

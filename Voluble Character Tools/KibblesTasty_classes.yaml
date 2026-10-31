@@ -147,10 +147,10 @@
     Astral Guardian: { parent: Warden }
     Bone Binder: { parent: Warden }
     # Warlord
-    Commander's Presence: { parent: Warlord }
-    Chieftain's Presence: { parent: Warlord }
-    Noble's Presence: { parent: Warlord }
-    Packleader's Presence: { parent: Warlord }
-    Paragon's Presence: { parent: Warlord }
-    Tactician's Presence: { parent: Warlord }
-    Dancer's Presence: { parent: Warlord }
+    Chieftain's Presence: '381adcb4-18b8-446a-868a-62c1b564e088'
+    Commander's Presence: '953d2c7a-7260-4266-a6f0-5d69c0cb6397'
+    Noble's Presence: '7fa99f24-56e6-471a-b0ee-5c026bf1bdd7'
+    Packleader's Presence: '97dc7b06-68af-4573-8c26-4410bfd6dd99'
+    Paragon's Presence: '61ee19c0-bd18-4a32-a078-b48ceeeebad4'
+    Tactician's Presence: 'e19bf1bf-94d3-497e-8e5d-394078cff407'
+    Dancer's Presence: '1a2fb318-e298-4f44-a03a-b787b8833d7a'

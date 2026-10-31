@@ -1,0 +1,182 @@
+# '7fa99f24-56e6-471a-b0ee-5c026bf1bdd7'
+# KibblesTasty: Warlord - Noble's Presence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Noble's Presence
+parent: Warlord
+counters:
+  3:
+    - name: Leadership Dice
+      minVal: 0
+      maxVal: WarlordLevel + 1
+      reset: short
+      reset_to: WarlordLevel + 1
+  9:
+    - name: Leadership Dice
+      minVal: 0
+      maxVal: WarlordLevel + 2
+      reset: short
+      reset_to: WarlordLevel + 2
+  15:
+    - name: Leadership Dice
+      minVal: 0
+      maxVal: WarlordLevel + 3
+      reset: short
+      reset_to: WarlordLevel + 3
+  18:
+    - name: Grand Decree
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Call to Arms:
+    level: 1
+    actions:
+      - |
+        - name: Call to Arms
+          automation:
+            - type: text
+              text: When you roll initiative you can call out to friendly creatures within 60
+                feet of you, providing them with a surge of inspiration. Creatures of your
+                choice equal to your Charisma modifier ({max(1, charismaMod}) gain
+                advantage on their first attack roll.
+          _v: 2
+          proper: false
+          verb: makes
+          activation_type: 2
+  Inspiring Leader:
+    level: 1
+    actions:
+      - |
+        - name: Inspiring Leader
+          automation:
+            - type: text
+              text: An allied creature with a CR of less than half your Warlord level (or with
+                fewer class levels than you have Warlord levels if the creature does not
+                have a CR) can choose to use your proficiency bonus + Charisma modifier
+                ({proficiencyBonus + charismaMod}) for the attack roll modifier on the
+                first Attack they make in a turn where they have been granted an attack by
+                Battlefield Presence.
+          _v: 2
+          proper: true
+          verb: is an
+          activation_type: 2
+  Words of Conviction:
+    level: 7
+    actions:
+      - |
+        - name: Bless
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2016
+              level: null
+            - type: text
+              text: You can use Leadership Dice (Up to your per turn limit) to cast bless or
+                heroism without providing material components. The level of the spell is
+                equal to the number of Leadership Dice spent.
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 1
+        - name: Heroism
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2144
+              level: null
+            - type: text
+              text: You can use Leadership Dice (Up to your per turn limit) to cast bless or
+                heroism without providing material components. The level of the spell is
+                equal to the number of Leadership Dice spent.
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 1
+  Imperative Order:
+    level: 7
+    actions:
+      - |
+        - name: Imperative Order
+          automation:
+            - type: text
+              text: When you spend 2 or more Leadership Dice on a target with Urgent Orders,
+                you can allow the target creature to make a single weapon attack with
+                their reaction instead of moving. If you spend 3 or more Leadership Dice
+                on a target, the target creature can both move and make a single weapon
+                attack with their reaction.
+          _v: 2
+          proper: true
+          verb: gives an
+          activation_type: 2
+  Inspired Zeal:
+    level: 11
+    actions:
+      - |
+        - name: Inspired Zeal
+          automation:
+            - type: text
+              text: >-
+                All creatures of your choice within 30 feet of you deal an extra 1d4
+                radiant damage when they hit with a weapon attack.
+
+
+                ```
+
+                -d 1d4[radiant]
+
+                ```
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Untouchable Presence:
+    level: 15
+    actions:
+      - |
+        - name: Untouchable Presence
+          automation:
+            - type: text
+              text: >-
+                You are under the effect of sanctuary spell. This effect ends as normal if
+                you take an action that would break it, but returns at the start of your
+                next turn.
+
+                The spell save DC for this spell is 8 + your Charisma modifier + your
+                Proficiency bonus.
+            - type: spell
+              id: 2237
+              dc: 8 + charismaMod + proficiencyBonus
+          _v: 2
+          proper: true
+          verb: has an
+  Grand Decree:
+    level: 18
+    actions:
+      - |
+        - name: Grand Decree
+          automation:
+            - type: counter
+              counter: Grand Decree
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can use this ability to cast command without expending a spell slot or
+                Leadership Dice. When you do so, the spell affects all creatures of your
+                choice within range that could be affected by the spell.
+
+                Once you cast command using this ability, you cannot cast it using this
+                ability again until you complete a long rest.
+            - type: spell
+              id: 2032
+          _v: 2
+          proper: false
+          verb: issues

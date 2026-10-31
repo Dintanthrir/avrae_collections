@@ -1,0 +1,152 @@
+# '61ee19c0-bd18-4a32-a078-b48ceeeebad4'
+# KibblesTasty: Warlord - Paragon's Presence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Paragon's Presence
+parent: Warlord
+features:
+  fighting_styles: { title: 'Fighting Styles', type: list, level: 3 }
+counters:
+  7:
+    - name: Stand Defiant
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 0
+  15:
+    - name: Dauntless Resolve
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 0
+automations:
+  Lead the Charge:
+    level: 1
+    actions:
+      - |
+        - name: Lead the Charge
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: "{charismaMod} + {proficiencyBonus}"
+            - type: text
+              text: You can give yourself a bonus to your initiative rolls equal to your
+                Charisma modifier. Additionally, when you roll initiative you gain
+                temporary hit points equal to your Charisma modifier + your proficiency
+                bonus.
+          _v: 2
+          proper: true
+          verb: will
+          activation_type: 2
+  Heroic Strike:
+    level: 3
+    actions:
+      - |
+        - name: Heroic Strike
+          automation:
+            - type: text
+              text: >-
+                When you take the Attack action, once per turn you can expend Leadership
+                Dice (up to your per turn limit) to apply Rallying Mark as part of a melee
+                weapon attack.
+
+                Whenever you expend Leadership Dice as part of making an attack, you can
+                add the expended Leadership Dice to the damage roll of the attack.
+          _v: 2
+          proper: false
+  Stand Defiant:
+    level: 7
+    actions:
+      - |
+        - name: Stand Defiant
+          automation:
+            - type: counter
+              counter: Stand Defiant
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: counter
+              counter: Leadership Dice
+              amount: "0"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: -({max(1, charismaMod)} + {lastCounterUsedAmount}d{6 +
+                    2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13) + int(WarlordLevel
+                    >= 17))})[healing]
+            - type: text
+              text: When you are reduced to zero hit points, you instantly regain a number of
+                hit points equal to your Charisma modifier (minimum 1). Additionally, you
+                can expend a number of Leadership Dice equal to the number of friendly
+                creatures within 60 feet of you, regaining additional hit points equal to
+                the value rolled this way. Once you use this feature, you cannot use it
+                again until you complete a short or long rest.
+          _v: 2
+          proper: true
+          verb: will
+          activation_type: 2
+  Inspired Warrior:
+    level: 11
+    actions:
+      - |
+        - name: Inspired Warrior
+          automation:
+            - type: text
+              text: >-
+                Once per turn, when one of your allies within 30 feet takes or deals
+                damage, you gain one d4 die, adding it to a pool of dice. You can have a
+                maximum number of d4 dice in this pool equal to your Charisma modifier
+                (minimum 1).
+
+                Until the end of your next turn, when you deal damage you can expend any
+                number of dice from this pool rolling them and dealing additional damage
+                equal to the value rolled.
+
+
+                ```
+
+                -d <number>d4
+
+                ```
+          _v: 2
+          proper: true
+          verb: is an
+  Dauntless Resolve:
+    level: 15
+    actions:
+      - |
+        - name: Dauntless Resolve
+          automation:
+            - type: counter
+              counter: Dauntless Resolve
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: When you fail a saving throw, you can choose to succeed instead. Once you
+                do this, you cannot do this again until you complete a long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Invincible Legion:
+    level: 18
+    actions:
+      - |
+        - name: Invincible Legion
+          automation:
+            - type: text
+              text: >-
+                Your allies will never fall so long as their symbol of hope remains. When
+                a friendly creature within 60 feet of you is reduced to 0 hit points, but
+                not killed outright, they can drop to 1 hit point instead so long as they
+                can see or hear you.
+
+                Once a creature benefits from this effect, they cannot benefit from it
+                again until they complete a long rest.
+          _v: 2
+          proper: true
+          verb: leads an

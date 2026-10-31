@@ -1,0 +1,192 @@
+# 'e19bf1bf-94d3-497e-8e5d-394078cff407'
+# KibblesTasty: Warlord - Tactician's Presence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Tactician's Presence
+parent: Warlord
+automations:
+  Tactician's Cunning:
+    level: 1
+    actions:
+      - |
+        - name: Tactician's Cunning
+          automation:
+            - type: text
+              text: >-
+                If you can take a minute or more making a skill check, you can treat a d20
+                roll of 4 or lower as a 5.
+
+
+                ```
+
+                !check <skill> -mc 5
+
+                ```
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 6
+  Battle Plans:
+    level: 1
+    actions:
+      - |
+        - name: Battle Plans
+          automation:
+            - type: text
+              text: >-
+                You can give yourself a bonus to your initiative rolls equal to your
+                Intelligence modifier.
+
+                Additionally, you can exchange your initiative roll with a willing
+                friendly creature within 60 feet.
+          _v: 2
+          proper: true
+          verb: makes
+          activation_type: 2
+  Tactical Insight:
+    level: 3
+    actions:
+      - |
+        - name: Tactical Insight
+          automation:
+            - type: text
+              text: >-
+                You can tactically assess a creature's options. As a bonus action, make an
+                Intelligence (Investigation) check contested by a Charisma (Deception)
+                check against any creature you can see within 60 feet.
+
+                On a success, you can see through their tactics, granting one of the
+                following effects:
+
+                - **Determine Attack:** You can cause them to have disadvantage on their
+                next attack against a creature that can see or hear you.
+
+                - **Predict Movement:** You deduce where they are planning to move on
+                their next turn. They can choose to change their plans, but if they move
+                anywhere else, their movement speed is reduced by 10 feet as they scramble
+                to adapt.
+
+                - **Outwit Response:** You can find their openings, negating their ability
+                to use their reaction until the end of their next turn.
+
+                - **Expose Weakness:** You can use Helpful Word to grant advantage against
+                that target as part of the bonus action without expending a Leadership
+                Die.
+          _v: 2
+          proper: false
+          verb: makes
+          activation_type: 3
+  Inscrutable Mind:
+    level: 7
+    actions:
+      - |
+        - name: Inscrutable Mind
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel >=13) +
+                int(WarlordLevel >= 17))}
+              name: leadership
+              displayName: Leadership Die
+            - type: text
+              text: As a reaction when being forced to make a Wisdom, Intelligence, or
+                Charisma Saving Throw, you can expend one Leadership Die and add the die
+                result to the saving throw.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 4
+  Control the Field:
+    level: 7
+    actions:
+      - |
+        - name: Control the Field
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: int
+                  fail: []
+                  success: []
+                  dc: 8 + intelligenceMod + proficiencyBonus
+            - type: text
+              text: >-
+                When you use an ability that moves allied creatures (such as Urgent Orders
+                or Shift the Field), it gains the following properties:
+
+                - **Deceptive Movement:** You can attempt to move creatures that are not
+                allies up to 5 feet (or half their movement speed, whichever is less). The
+                creature must make an Intelligence Saving Throw with a DC of 8 + your
+                Intelligence modifier + your Proficiency bonus, or feel compelled to move
+                to the new position immediately. Targets moved this way do not gain
+                temporary hit points.
+
+                - **Flanking Maneuvers:** If two allies you move are on opposite sides of
+                a creature after the movement you grant, the first one to attack that
+                enemy has advantage on their first attack if they attack before the
+                creature moves.
+
+                - **Coordinated Transitions:** Allies can move through each other's spaces
+                during the movement you grant without it being difficult terrain.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 2
+  Tactical Strike:
+    level: 11
+    actions:
+      - |
+        - name: Tactical Strike
+          automation:
+            - type: text
+              text: When you succeed on a Tactical Insight check against a creature, the next
+                time you or a friendly creature deal damage against it before the start of
+                your next turn it is increased by 2d6 damage.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Advanced Orders:
+    level: 15
+    actions:
+      - |
+        - name: Advanced Orders
+          automation:
+            - type: text
+              text: When you expend Leadership Die on Urgent Orders, you can allow the
+                creature to take one of the Use an Object, Search, Hide, or Dodge actions
+                as their reaction instead of moving.
+          _v: 2
+          proper: true
+          verb: gives
+          activation_type: 2
+  Unstoppable Schemes:
+    level: 18
+    actions:
+      - |
+        - name: Unstoppable Schemes
+          automation:
+            - type: text
+              text: Standing in your way becomes a pointless endeavor. When you move your
+                allies with Urgent Orders or Shift the Field, they can move through spaces
+                occupied by hostile creatures so long as they do not end their movement in
+                an occupied space.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Multilayered Tactics:
+    level: 18
+    actions:
+      - |
+        - name: Multilayered Tactics
+          automation:
+            - type: text
+              text: When you succeed on a Tactical Insight check against a creature, you can
+                choose two of the listed effects.
+          _v: 2
+          proper: true
+          activation_type: 2

@@ -1,0 +1,180 @@
+# '97dc7b06-68af-4573-8c26-4410bfd6dd99'
+# KibblesTasty: Warlord - Packleader's Presence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Packleader's Presence
+parent: Warlord
+automations:
+  Concealed Approach:
+    level: 1
+    actions:
+      - |
+        - name: Concealed Approach
+          automation:
+            - type: text
+              text: If you have at least a minute to prepare, you can add your Wisdom modifier
+                ({wisdomMod}) to a Dexterity (Stealth) check for you and up five friendly
+                creatures. You and friendly creatures within 30 feet of you that roll for
+                initiative while hidden can add your Wisdom modifier to the initiative
+                result.
+          _v: 2
+          proper: false
+          verb: makes
+          activation_type: 6
+  Nature's Gift:
+    level: 3
+    actions:
+      - |
+        - name: Fog Cloud
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2112
+            - type: text
+              text: >-
+                You can expend one Leadership Die to cast fog cloud or snare as 1st level
+                spells. The casting time of snare is one action when you cast it this way.
+                You can pick one additional 1st level spell from the Druid spell list with
+                a casting time of one action to cast this way.
+
+                Your spell casting modifier for these spells is Wisdom, and your spell
+                Save DC for these spells is 8 + your Proficiency modifier + your Wisdom
+                Modifier.
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 1
+        - name: Snare
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 14600
+            - type: text
+              text: >-
+                You can expend one Leadership Die to cast fog cloud or snare as 1st level
+                spells. The casting time of snare is one action when you cast it this way.
+                You can pick one additional 1st level spell from the Druid spell list with
+                a casting time of one action to cast this way.
+
+                Your spell casting modifier for these spells is Wisdom, and your spell
+                Save DC for these spells is 8 + your Proficiency modifier + your Wisdom
+                Modifier.
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 1
+  Shroud of Nature:
+    level: 7
+    actions:
+      - |
+        - name: Shroud of Nature
+          automation:
+            - type: text
+              text: You and your allies can fade away behind natural shrouds. Whenever you
+                cast a spell that results in you or a friendly creature becoming obscured
+                (such as being within the radius of a fog cloud or behind earth moved by
+                mold earth), the obscured creature can use their reaction to take the Hide
+                action.
+          _v: 2
+          proper: false
+          verb: provides
+          activation_type: 2
+  Trackless Trails:
+    level: 7
+    actions:
+      - |
+        - name: Pass Without Trace
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "2"
+              errorBehaviour: raise
+            - type: spell
+              id: 2201
+            - type: text
+              text: You can spend 2 Leadership Dice to cast pass without trace without
+                providing material components.
+          _v: 2
+          proper: true
+          verb: casts
+          activation_type: 1
+  Fleeting Strikers:
+    level: 11
+    actions:
+      - |
+        - name: Fleeting Strikers
+          automation:
+            - type: text
+              text: >-
+                If you are not in the same spot you were at the end of your last turn or
+                are obscured from your target, the first attack you make during your turn
+                deals an additional 1d10 damage.
+
+
+                ```
+
+                -d 1d10
+
+                ```
+
+
+                Additionally, a creature that you grant an Attack with Battlefield
+                Presence can take the Dash action instead of making the attack you
+                granted.
+          _v: 2
+          proper: true
+          verb: leads
+          activation_type: 2
+  Ghosts of the Wild:
+    level: 15
+    actions:
+      - |
+        - name: Ghosts of the Wild
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                While under the effect of pass without trace, you can expend one
+                Leadership Die to take the Hide action at the end of your turn without
+                expending an action.
+
+                If you use Battlefield Presence to grant an attack to a creature, you can
+                expend one Leadership Die to shroud them with shadows or natural
+                phenomena, granting them advantage on the first attack they make before
+                the start of your next turn. If they are under the effect of pass without
+                trace, you can do this without expending a Leadership Die.
+          _v: 2
+          proper: true
+          verb: leads
+          activation_type: 2
+  Warlord of the Wilds:
+    level: 18
+    actions:
+      - |
+        - name: Warlord of the Wilds
+          automation:
+            - type: text
+              text: >-
+                You can pick five additional spells from the Druid spell list of 4th level
+                or lower. You can cast these spells using Leadership Dice equal to the
+                level of the spell. You can change the list of spells you have selected
+                when you complete a long rest.
+
+                The spell Save DC for these spells is 8 + your Proficiency modifier + your
+                Wisdom Modifier.
+
+                Any time you use Leadership Dice to cast a spell, you can take the Attack
+                action (one weapon attack only) as a bonus action.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2

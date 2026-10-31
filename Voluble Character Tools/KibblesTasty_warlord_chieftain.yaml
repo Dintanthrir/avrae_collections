@@ -1,0 +1,203 @@
+# '381adcb4-18b8-446a-868a-62c1b564e088'
+# KibblesTasty: Warlord - Chieftain's Presence
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Chieftain's Presence
+parent: Warlord
+counters:
+  15:
+    - name: Booming Shout
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 0
+  18:
+    - name: Bloody Victory
+      minVal: 0
+      maxVal: charismaMod
+      reset: long
+      reset_to: charismaMod
+automations:
+  Wolfpack Movement:
+    level: 1
+    actions:
+      - |
+        - name: Wolfpack Movement
+          automation:
+            - type: text
+              text: The first time an allied creature moves, it can bring a number of willing
+                creatures equal to your Charisma modifier ({max(1, charismaMod)}) within
+                20 feet of you along with it in the same distance and direction that they
+                move, but cannot move more than half of their movement speed and cannot
+                move more than 20 feet from you. Creatures can stop this movement at any
+                point along the path.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Warcry:
+    level: 3
+    actions:
+      - |
+        - name: Warcry
+          automation:
+            - type: counter
+              counter: Leadership Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: "{lastCounterUsedAmount}d{6 + 2*(int(WarlordLevel >= 9) + int(WarlordLevel
+                >=13) + int(WarlordLevel >= 17))} + {max(1, charismaMod)}"
+              name: temp_hp
+              displayName: Temp HP
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{temp_hp}"
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: "{temp_hp}"
+            - type: text
+              text: >-
+                As an action or in place of an attack as part of the Attack action, you
+                can expend a number of Leadership Dice (up to your per turn limit) to
+                inspire your allies with a mighty Warcry. You and friendly creatures
+                within 20 feet of you gain temporary hit points equal to the Leadership
+                Dice roll + your Charisma modifier (minimum 1). This can affect a number
+                of creatures up to your 1 + Charisma modifier ({max(1, 1+charismaMod}).
+
+                You can make a single weapon attack as a bonus action after unleashing a
+                War Cry, but the attack roll has disadvantage unless made with a weapon
+                with light property.
+          _v: 2
+          proper: false
+  Savage Momentum:
+    level: 3
+    actions:
+      - |
+        - name: Savage Momentum
+          automation:
+            - type: text
+              text: Whenever you spend a Leadership Die, you gain advantage on the next attack
+                roll you make before the end of your turn.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Reckless Assault:
+    level: 7
+    actions:
+      - |
+        - name: Reckless Assault
+          automation:
+            - type: text
+              text: When a creature with temporary hit points from one of your abilities deals
+                damage, they can expend those temporary hit points to add damage equal to
+                half the temporary hit points sacrificed to their damage dealt.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Wolfpack Tactics:
+    level: 11
+    actions:
+      - |
+        - name: Wolfpack Tactics
+          automation:
+            - type: text
+              text: >-
+                You excel at taking down prey in coordination with your allies. The first
+                creature you hit that has taken damage from one of your allies since the
+                end of your last turn suffers an additional 1d12 damage.
+
+                The first time a creature you grant an attack with Battlefield Presence
+                deals damage to a creature you had dealt damage to during your turn, that
+                attack deals an additional 1d4 damage.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Booming Shout:
+    level: 15
+    actions:
+      - |
+        - name: Booming Shout
+          automation:
+            - type: counter
+              counter: Booming Shout
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: wis
+                  fail:
+                    - type: ieffect2
+                      name: Frightened
+                      duration: "1"
+                      end: true
+                  success: []
+                  dc: 8 + charismaMod + proficiencyBonus
+            - type: text
+              text: >-
+                When you unleash your Warcry you can attempt to frighten enemies. Any
+                number of creatures of your choice within range of your Warcry must make a
+                Wisdom saving throw (DC of 8 + Charisma modifier + your proficiency bonus)
+                or become frightened of you until the end of their turn. Once you have
+                used Booming Shout, you cannot use it again until you complete a short or
+                long rest.
+
+                Additionally, the range of your Rallying Mark, Urgent Orders, Helpful
+                Word, and Warcry is doubled.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Bloody Victory:
+    level: 18
+    actions:
+      - |
+        - name: Bloody Victory
+          automation:
+            - type: counter
+              counter: Bloody Victory
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: "{lastCounterUsedAmount}d12 + {max(1, charismaMod)}"
+              name: temp_hp
+              displayName: Temp HP
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{temp_hp}"
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: "{temp_hp}"
+            - type: text
+              text: >-
+                When you or an ally reduces a hostile creature that has dealt damage to
+                you to 0 hit points, you can unleash a Warcry as a reaction. When you
+                unleash your Warcry in this way, you do not expend any Leadership Dice
+                and you use a d12 in place of your Leadership Die.
+
+                You can use this reaction a number of times equal to your Charisma
+                modifier, regaining all uses on a long rest.
+
+
+                As an action or in place of an attack as part of the Attack action, you
+                can expend a number of Leadership Dice (up to your per turn limit) to
+                inspire your allies with a mighty Warcry. You and friendly creatures
+                within 20 feet of you gain temporary hit points equal to the Leadership
+                Dice roll + your Charisma modifier (minimum 1). This can affect a number
+                of creatures up to your 1 + Charisma modifier ({max(1, 1+charismaMod}).
+
+                You can make a single weapon attack as a bonus action after unleashing a
+                War Cry, but the attack roll has disadvantage unless made with a weapon
+                with light property.
+          _v: 2
+          proper: false
