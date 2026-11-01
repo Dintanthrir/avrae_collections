@@ -1,0 +1,339 @@
+# 'b41d29d8-e8fe-4d40-8b19-db838fe2a592'
+# KibblesTasty: Warden - Elderheart
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Elderheart
+parent: Warden
+counters:
+  1:
+    - name: "Innate Magic: Grasping Roots"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Entangle"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Speak With Plants"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Plant Growth"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Summon Plant"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Carnivorous Garden"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: New Growth
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+features: {}
+automations:
+  Lashing Vines:
+    level: 1
+    actions:
+      - |
+        - name: Grow Lashing Vines
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Lashing Vines
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Lashing Vines
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)} + {strengthMod}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                        criton: 19
+                    - attack:
+                        _v: 2
+                        name: Offhand Lashing Vines
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                        criton: 19
+                    - attack:
+                        _v: 2
+                        name: Lashing Vines - Grapple
+                        automation:
+                          - type: target
+                            target: 1
+                            effects:
+                              - type: check
+                                ability:
+                                  - acrobatics
+                                  - athletics
+                                contestAbility:
+                                  - athletics
+                                success: []
+                                fail:
+                                  - type: ieffect2
+                                    name: Grappled
+                                    desc: Grappled by {{caster.name}}
+                                    buttons:
+                                      - label: Escape Grapple
+                                        verb: attempts to break out of the grapple
+                                        style: "3"
+                                        automation:
+                                          - type: target
+                                            target: children
+                                            effects:
+                                              - type: check
+                                                ability:
+                                                  - athletics
+                                                contestAbility:
+                                                  - acrobatics
+                                                  - athletics
+                                                success: []
+                                                fail:
+                                                  - type: remove_ieffect
+                                                contestTie: fail
+                                    save_as: grapple
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[slashing]
+                                contestTie: neither
+                          - type: condition
+                            condition: not lastCheckDidPass
+                            onTrue:
+                              - type: target
+                                target: self
+                                effects:
+                                  - type: ieffect2
+                                    name: Grappling
+                                    desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                                      targets[0]}}
+                                    buttons:
+                                      - label: Release Grapple
+                                        automation:
+                                          - type: remove_ieffect
+                                            removeParent: always
+                                        verb: lets go of their target
+                                        style: "1"
+                                      - label: Restrain
+                                        automation:
+                                          - type: target
+                                            target: parent
+                                            effects:
+                                              - type: check
+                                                ability:
+                                                  - athletics
+                                                  - acrobatics
+                                                contestAbility: athletics
+                                                contestTie: success
+                                                success: []
+                                                fail:
+                                                  - type: ieffect2
+                                                    name: Restrained
+                                                    effects:
+                                                      attack_advantage: "-1"
+                                                      save_dis:
+                                                        - dex
+                                                    parent: grapple
+                                        style: "3"
+                                    parent: grapple
+                            onFalse: []
+                            errorBehaviour: "false"
+            - type: text
+              text: >-
+                A natural one handed melee weapon. Deals 1d6 slashing damage on hit, and
+                has the Light, Reach, and Special Properties.
+
+
+                **Special:** This weapon has the following benefits:
+
+                - **Grappling Weapon.** When you hit a creature with this weapon, you can
+                attempt to initiate a grapple against that creature as a bonus action. If
+                you are grappling a creature with it, you can only use it to attack the
+                creature it is grappling.
+
+                - **Restraining Vines.** You can make a grapple check with this weapon
+                targeting a Large or smaller creature you are currently grappling with it.
+                On success, the creature is restrained while grappled this way.
+
+                - **Reaching Grapples.** You can grapple creatures with this weapon with a
+                reach equal to the weapon’s reach. If a creature more than 5 feet away
+                from you is grappled or restrained by you with this weapon their movement
+                is not reduced to zero, but they can only move toward you. Once they are
+                within 5 feet of you, their movement speed becomes zero.
+
+                - **Grappling Larger Creatures.** You can attempt to grapple creatures up
+                to two sizes larger than you when initiating a grapple with this weapon,
+                but creatures two sizes larger than you have their movement speed reduced
+                by half, rather than reduced to zero. If they move out of range of your
+                grapple, you can choose to release them, or be pulled along with their
+                movement.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 3
+  Body of Thorns:
+    level: 3
+    actions:
+      - |
+        - name: Body of Thorns
+          automation:
+            - type: counter
+              counter: Body of Thorns Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{lastCounterRequestedAmount}[piercing]"
+            - type: text
+              text: >-
+                When you are hit by a melee attack, the attacker takes piercing damage
+                equal to the damage reduction of Mystic Bulwark.
+
+
+                ```
+
+                -amt <damage> -t <attacker>
+
+                ```
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Spiked Interdiction:
+    level: 3
+    actions:
+      - |
+        - name: Spiked Interdiction
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{1 + int(WardenLevel >= 11)}d4[piercing]"
+            - type: text
+              text: >-
+                The difficult terrain caused by your Primal Interdiction becomes overgrown
+                with spiky thorns. Creatures of your choice take 1d4 piercing damage for
+                each 5 feet of travel within your Primal Interdiction. When you move this
+                effect is suspended until the end of your turn.
+
+                This damage increases to 2d4 piercing damage at 11th level.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Primeval Guardian:
+    level: 14
+    actions:
+      - |
+        - name: Primeval Guardian
+          automation:
+            - type: text
+              text: >-
+                As a bonus action you can take root, merging with the ground, transforming
+                into a wrathful treant. While rooted, your movement speed is reduced to
+                zero. When you do so, you can choose to grow one size larger (up to a
+                maximum of Large), your reach increases by 5 feet, you are immune to
+                effects that would move you, the prone condition, and have advantage on
+                Strength ability checks and saving throws.
+
+
+                Creatures two sizes larger than you that you are grappling can no longer
+                drag you, meaning they cannot leave your reach without breaking the
+                grapple. You can end your tree form at any time as an action.
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Primeval Guardian
+                  buttons:
+                    - label: End Primeval Guardian
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+          _v: 2
+          proper: false
+          verb: becomes
+          activation_type: 3
+  Arboreal Shelter:
+    level: 14
+    actions:
+      - |
+        - name: Arboreal Shelter
+          automation:
+            - type: text
+              text: You no longer need to be in range of an attack to impose disadvantage on
+                it with Primal Interdiction, as long as the target of the attack is within
+                range of Primal Interdiction.
+          _v: 2
+          proper: true
+          verb: provides
+          activation_type: 2
+  New Growth:
+    level: 17
+    actions:
+      - |
+        - name: New Growth
+          automation:
+            - type: counter
+              counter: New Growth
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As an action, you can cause a tree to sprout from the ground at a point
+                within 30 feet of you that morphs into a tree-like-clone of you. It copies
+                all of your statistics and abilities, besides any that recharge on long
+                rest (such as this one) which it does not have access to, and is under
+                your control, but has its own actions and acts immediately after you in
+                initiative.
+
+                It has hit points equal to half your maximum hit points. It is in your
+                Primeval Guardian form, and cannot end the effect of that ability. It
+                lasts for 1 minute, or until it is reduced to 0 hit points. If you die
+                while it exists, you become the clone, after which you can end the
+                Primeval Guardian as normal.
+
+                Once you use this feature, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: true
+          verb: sprouts
+          activation_type: 1
