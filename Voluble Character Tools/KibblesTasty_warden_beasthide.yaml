@@ -1,0 +1,411 @@
+# '94a1125d-6198-4c07-a880-ccf6676e6369'
+# KibblesTasty: Warden - Beasthide
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Beasthide
+parent: Warden
+counters:
+  1:
+    - name: "Innate Magic: Speak With Animals"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Animal Messenger"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Alter Self"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Enlarge/Reduce"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Mutate"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Polymorph"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Gigantification
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Bestial Claws:
+    level: 1
+    actions:
+      - |
+        - name: Grow Bestial Claws
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Bestial Claws
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Bestial Claws
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{8 + 2*int(WardenLevel >= 11)} + {strengthMod}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Bestial Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{8 + 2*int(WardenLevel >= 11)}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Bestial Claws - Grapple
+                        automation:
+                          - type: target
+                            target: 1
+                            effects:
+                              - type: check
+                                ability:
+                                  - acrobatics
+                                  - athletics
+                                contestAbility:
+                                  - athletics
+                                success: []
+                                fail:
+                                  - type: ieffect2
+                                    name: Grappled
+                                    desc: Grappled by {{caster.name}}
+                                    buttons:
+                                      - label: Escape Grapple
+                                        verb: attempts to break out of the grapple
+                                        style: "3"
+                                        automation:
+                                          - type: target
+                                            target: children
+                                            effects:
+                                              - type: check
+                                                ability:
+                                                  - athletics
+                                                contestAbility:
+                                                  - acrobatics
+                                                  - athletics
+                                                success: []
+                                                fail:
+                                                  - type: remove_ieffect
+                                                contestTie: fail
+                                    save_as: grapple
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[slashing]
+                                contestTie: neither
+                          - type: condition
+                            condition: not lastCheckDidPass
+                            onTrue:
+                              - type: target
+                                target: self
+                                effects:
+                                  - type: ieffect2
+                                    name: Grappling
+                                    desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                                      targets[0]}}
+                                    buttons:
+                                      - label: Release Grapple
+                                        verb: lets go of their target
+                                        style: "1"
+                                        automation:
+                                          - type: remove_ieffect
+                                            removeParent: always
+                                    parent: grapple
+                            onFalse: []
+                            errorBehaviour: "false"
+            - type: text
+              text: >-
+                A vicious set of claws extending from one of your hands. This becomes a
+                natural one handed melee weapon that deals 1d8 slashing damage on hit, and
+                has the Light and Special properties.
+
+                **Special:** This weapon counts as a free hand for the purposes of
+                grappling. When you successfully initiate a grapple with it, the target
+                takes 1d6 slashing damage.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 3
+  Ruthless Interdiction:
+    level: 3
+    actions:
+      - |
+        - name: Ruthless Interdiction
+          automation:
+            - type: text
+              text: You have advantage on the first attack roll or grapple check you make
+                against a creature that attacked anyone that was inside the range of your
+                Primal Interdiction (including yourself) since the end of your last turn.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 2
+  Enduring Ferocity:
+    level: 3
+    actions:
+      - |
+        - name: Enduring Ferocity
+          automation:
+            - type: text
+              text: When you roll an Endurance Die, you can also add the die to the next
+                damage roll or Strength (Athletics) check you make before the end of your
+                next turn.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Vicious Endurance:
+    level: 14
+    actions:
+      - |
+        - name: Grow Bestial Claws
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Bestial Claws
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Bestial Claws
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{8 + 2*int(WardenLevel >= 11)} + {strengthMod}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                              - type: condition
+                                condition: lastAttackDidCrit
+                                onTrue:
+                                  - type: counter
+                                    counter: Endurance Dice
+                                    amount: "-1"
+                                onFalse: []
+                        criton: 19
+                    - attack:
+                        _v: 2
+                        name: Offhand Bestial Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{8 + 2*int(WardenLevel >= 11)}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                              - type: condition
+                                condition: lastAttackDidCrit
+                                onTrue:
+                                  - type: counter
+                                    counter: Endurance Dice
+                                    amount: "-1"
+                                onFalse: []
+                        criton: 19
+                    - attack:
+                        _v: 2
+                        name: Bestial Claws - Grapple
+                        automation:
+                          - type: target
+                            target: 1
+                            effects:
+                              - type: check
+                                ability:
+                                  - acrobatics
+                                  - athletics
+                                contestAbility:
+                                  - athletics
+                                success: []
+                                fail:
+                                  - type: ieffect2
+                                    name: Grappled
+                                    desc: Grappled by {{caster.name}}
+                                    buttons:
+                                      - label: Escape Grapple
+                                        verb: attempts to break out of the grapple
+                                        style: "3"
+                                        automation:
+                                          - type: target
+                                            target: children
+                                            effects:
+                                              - type: check
+                                                ability:
+                                                  - athletics
+                                                contestAbility:
+                                                  - acrobatics
+                                                  - athletics
+                                                success: []
+                                                fail:
+                                                  - type: remove_ieffect
+                                                contestTie: fail
+                                    save_as: grapple
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[slashing]
+                                contestTie: neither
+                          - type: condition
+                            condition: not lastCheckDidPass
+                            onTrue:
+                              - type: target
+                                target: self
+                                effects:
+                                  - type: ieffect2
+                                    name: Grappling
+                                    desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                                      targets[0]}}
+                                    buttons:
+                                      - label: Release Grapple
+                                        verb: lets go of their target
+                                        style: "1"
+                                        automation:
+                                          - type: remove_ieffect
+                                            removeParent: always
+                                    parent: grapple
+                            onFalse: []
+                            errorBehaviour: "false"
+            - type: text
+              text: >-
+                A vicious set of claws extending from one of your hands. This becomes a
+                natural one handed melee weapon that deals 1d8 slashing damage on hit, and
+                has the Light and Special properties.
+
+                **Special:** This weapon counts as a free hand for the purposes of
+                grappling. When you successfully initiate a grapple with it, the target
+                takes 1d6 slashing damage.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 3
+  Focused Transformation:
+    level: 14
+    actions:
+      - |
+        - name: Focused Transformation
+          automation:
+            - type: text
+              text: While you are concentrating on an innate spell granted by this subclass,
+                your concentration can’t be broken as a result of taking damage.
+          _v: 2
+          proper: false
+          verb: experiences
+          activation_type: 2
+  Gigantification:
+    level: 17
+    actions:
+      - |
+        - name: Gigantification
+          automation:
+            - type: counter
+              counter: Gigantification
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Gigantification
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                      - con
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Throwing Things
+                        automation:
+                          - type: roll
+                            dice: 4d6+{strengthMod}[bludgeoning]
+                            name: damage
+                          - type: target
+                            target: 1
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: "{damage}"
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                          - type: target
+                            target: 2
+                            effects:
+                              - type: damage
+                                damage: "{damage}"
+            - type: text
+              text: >-
+                As a bonus action or when you manifest your bestial claws, you can unleash
+                the bestial power within, swelling to massive size. You become Large or
+                Huge (your choice) for 1 minute. Upon transforming, you gain temporary hit
+                points equal to half of your maximum hit points. For the duration of your
+                transformation, you gain the following benefits:
+
+
+                - **Bonus Damage.** Your natural weapons deal an additional die of damage.
+                Add with `-d <die>`.
+
+                - **Grappling Advantage.** You have advantage on all checks to grapple
+                creatures smaller than you.
+
+                - **Reach.** Your reach increases by 5 feet with all weapons.
+
+                - **Faster Movement.** Your movement speed increases by 20 feet.
+
+                - **Jumping Distance.** The distance you can long or high jump with a
+                running start is doubled.
+
+                - **Saving Throws.** You have advantage on Strength and Constitution
+                saving throws.
+
+                - **Throwing Things.** While in this form, when you make an attack, you
+                can throw Medium or Small objects or creatures you are holding with a
+                range of 50/100 feet. You have proficiency with this attack, regardless of
+                what you are throwing. On hit, both the target and the thrown creature or
+                object takes 4d6 + your Strength modifier damage. On miss, only the thrown
+                creature or object takes the damage (this damage is taken in place of any
+                falling damage, unless they also fall vertical distance as part of this
+                movement, such as being thrown off a wall or cliff).
+
+
+                Once you use this feature, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: true
+          verb: experiences
+          activation_type: 3
+          list_display_override: List targets as `-t <target creature> [-t <thrown creature/object>]`
