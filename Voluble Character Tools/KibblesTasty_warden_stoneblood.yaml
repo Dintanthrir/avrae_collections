@@ -1,0 +1,351 @@
+# 'c8e02bb1-b87f-4da5-8660-a17bcb96ba09'
+# KibblesTasty: Warden - Stoneblood
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Stoneblood
+parent: Warden
+features: {}
+counters:
+  1:
+    - name: "Innate Magic: Create Pit"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Earth Ripple"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Become Stone"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Quicksand"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Stone Coffin"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  14:
+    - name: World Breaker
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Orbital Stones"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Primordial Avatar"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Stone Fists:
+    level: 1
+    actions:
+      - |
+        - name: Summon Stone Fists
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Stone Fists
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Stone Fist
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)} + {strengthMod}[bludgeoning]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Stone Fist
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[bludgeoning
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                  effects:
+                    ac_bonus: int(choice and 'dual' in choice)
+            - type: text
+              text: >-
+                A hardened limb of stone. This becomes a natural one handed melee weapon
+                that deals 1d6 bludgeoning damage on hit, and has the Light and Special
+                properties.
+
+
+                **Special:** You gain +1 to your AC while wielding one of these weapons in
+                each hand (two or more of these if you have more than 2 hands, you cannot
+                benefit from this bonus and the bonus AC of a shield).
+
+
+                Use
+
+                ```
+
+                -choice dual
+
+                ```
+
+                to add +1 AC
+          _v: 2
+          proper: false
+  Seismic Backlash:
+    level: 3
+    actions:
+      - |
+        - name: Seismic Backlash
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Seismic Backlash
+                  duration: "10"
+                  stacking: true
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Seismic Tremor
+                        automation:
+                          - type: roll
+                            dice: "{min(len(ieffect.children) + 1, proficiencyBonus)}d{8 +
+                              2*(int(WardenLevel >= 5) + int(WardenLevel >=
+                              11))}[bludgeoning]"
+                            name: damage
+                          - type: target
+                            target: all
+                            effects:
+                              - type: save
+                                stat: str
+                                fail:
+                                  - type: damage
+                                    damage: "{damage}"
+                                  - type: ieffect2
+                                    name: Prone
+                                    effects:
+                                      attack_advantage: "-1"
+                                    desc: A prone creature's only movement option is to crawl, unless it stands up
+                                      and thereby ends the condition
+                                    buttons:
+                                      - label: Stand Up
+                                        verb: stands up
+                                        automation:
+                                          - type: remove_ieffect
+                                success:
+                                  - type: damage
+                                    damage: ({damage})/2
+                                dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+                          - type: remove_ieffect
+                            removeParent: always
+                          - type: text
+                            text: >-
+                              As a bonus action on your turn, you can unleash all of this
+                              stored power in an explosive tremor, rolling all the stored
+                              dice and expending them from the pool.
+
+                              All creatures of your choice within the radius of your
+                              Primal Interdiction feature must make a Strength saving
+                              throw with a DC of 8 + your Strength or Wisdom modifier
+                              (your choice) + your Proficiency bonus. On a failed save,
+                              they take damage equal to the amount rolled and fall prone.
+                              On a successful save, they take half as much damage and do
+                              not fall prone.
+                        activation_type: 3
+            - type: text
+              text: "Each time you expend an Endurance Die, you store the die in a special
+                pool of charged power for 1 minute. You can have a number of charges
+                stored equal to your proficiency bonus. "
+          _v: 2
+          proper: false
+          verb: collects
+          activation_type: 2
+  Gravitational Pull:
+    level: 3
+    actions:
+      - |
+        - name: Gravitational Pull
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: str
+                  fail:
+                    - type: condition
+                      condition: choice and 'prone' in choice
+                      onTrue:
+                        - type: ieffect2
+                          name: Prone
+                          effects:
+                            attack_advantage: "-1"
+                          desc: A prone creature's only movement option is to crawl, unless it stands up
+                            and thereby ends the condition
+                          buttons:
+                            - label: Stand Up
+                              verb: stands up
+                              automation:
+                                - type: remove_ieffect
+                      onFalse: []
+                  success: []
+                  dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+            - type: text
+              text: >-
+                When you take the Attack action on your turn, you can replace one of your
+                attacks with a surge of gravitational force. A Large or smaller creature
+                of your choice within 60 feet of you must make a Strength saving throw
+                with a DC of 8 + your Strength or Wisdom modifier (your choice) + your
+                proficiency bonus. On a failure, they are pulled up to 15 feet toward you
+                or knocked prone (your choice). The distance they are pulled toward is
+                doubled if the target creature is flying.
+
+
+                ```
+
+                -choice <prone|pull>
+
+                ```
+          _v: 2
+          proper: false
+  World Breaker:
+    level: 14
+    actions:
+      - |
+        - name: World Breaker
+          automation:
+            - type: counter
+              counter: World Breaker
+              amount: "1"
+              fixedValue: true
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can cast _fissure_ without expending a spell slot. Once you do so, you
+                cannot do so again until you complete a long rest.
+
+                You can use it again early by expending 5 or more charges of Seismic
+                Backlash, casting _fissure_ in place of unleashing the normal effect.
+                Spending additional charges increases the level of it is cast by 1 level
+                per additional charge spent.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 1
+  Primordial Avatar:
+    level: 17
+    actions:
+      - |
+        - name: Primordial Avatar
+          automation:
+            - type: counter
+              counter: Primordial Avatar
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Primordial Avatar
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+                  buttons:
+                    - label: Primordial Avatar
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: -({WardenLevel/2})[healing]
+                            - type: ieffect2
+                              name: Seismic Backlash
+                              duration: "10"
+                              stacking: true
+                      style: "3"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Reflective Carapace
+                        automation:
+                          - type: roll
+                            dice: 1d6
+                            name: carapace
+                            displayName: Reflective Carapace
+                          - type: condition
+                            condition: carapace <= 3
+                            onTrue:
+                              - type: text
+                                text: The spell applies normally.
+                            onFalse:
+                              - type: condition
+                                condition: carapace < 6
+                                onTrue:
+                                  - type: text
+                                    text: The spell has no effect.
+                                onFalse:
+                                  - type: text
+                                    text: The spell is reflected back at the caster as though it originated from
+                                      you, turning the caster into the target.
+                        verb: has a
+            - type: text
+              text: >-
+                As an action you can draw on the strength of the world beneath your feet
+                to become an embodiment of its power for 1 minute. If you start your turn
+                in contact with the ground you gain the following benefits:
+
+
+                - **Strength Advantage.** You have advantage on Strength checks and saving
+                throws.
+
+                - **Endless Vitality.** You regain hit points equal to half your Warden
+                level (rounded down).
+
+                - **Call of the Earth.** Creatures lose their flying speed in range of
+                your Primal Interdiction.
+
+                - **Reflective Carapace.** If you are targeted by a magic missile, a line
+                spell, or a spell that requires a ranged attack roll, roll a d6. On a 4–5
+                you are unaffected. On a 6, you are unaffected and the effect is reflected
+                back at the caster as though it originated from you, turning the cast into
+                the target.
+
+                - **Empowered Backlash.** You add a bonus die to your Seismic Backlash
+                pool.
+
+
+                Once you use this feature, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: false
+          verb: becomes
+          activation_type: 1

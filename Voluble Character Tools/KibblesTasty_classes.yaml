@@ -137,7 +137,7 @@
     Elemental Soul: 'ccb00323-7668-4f66-ab18-7ab118763929'
     Beasthide: '94a1125d-6198-4c07-a880-ccf6676e6369'
     Elderheart: 'b41d29d8-e8fe-4d40-8b19-db838fe2a592'
-    Stoneblood: { parent: Warden }
+    Stoneblood: 'c8e02bb1-b87f-4da5-8660-a17bcb96ba09'
     Sunwatcher: { parent: Warden }
     Ironbound: { parent: Warden }
     Dreadwing: { parent: Warden }
