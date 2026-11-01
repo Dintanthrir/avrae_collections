@@ -138,7 +138,7 @@
     Beasthide: '94a1125d-6198-4c07-a880-ccf6676e6369'
     Elderheart: 'b41d29d8-e8fe-4d40-8b19-db838fe2a592'
     Stoneblood: 'c8e02bb1-b87f-4da5-8660-a17bcb96ba09'
-    Sunwatcher: { parent: Warden }
+    Sunwatcher: 'a85d2e4c-810c-4c3b-b884-8672085092d4'
     Ironbound: { parent: Warden }
     Dreadwing: { parent: Warden }
     Timetwister: { parent: Warden }

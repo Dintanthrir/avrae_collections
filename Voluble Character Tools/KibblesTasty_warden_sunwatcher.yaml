@@ -1,0 +1,310 @@
+# 'a85d2e4c-810c-4c3b-b884-8672085092d4'
+# KibblesTasty: Warden - Sunwatcher
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Sunwatcher
+parent: Warden
+features: {}
+counters:
+  1:
+    - name: "Innate Magic: Heroism"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Guiding Bolt"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Blazing Beacon"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Daylight"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Brilliant Blade"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  14:
+    - name: Transcendent Passage
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Heavenly Ray"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Solar Avatar
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Radiant Blast:
+    level: 1
+    actions:
+      - |
+        - name: Radiant Blast
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: condition
+                      condition: WardenLevel < 11
+                      onTrue:
+                        - type: damage
+                          damage: 1d6 +{max(strengthMod, dexterityMod, wisdomMod)}[radiant]
+                      onFalse:
+                        - type: damage
+                          damage: 1d4[fire] + 1d4 +{max(strengthMod, dexterityMod, wisdomMod)}[radiant]
+                  miss: []
+                  attackBonus: max(strengthMod, dexterityMod, wisdomMod) + proficiencyBonus
+            - type: text
+              text: You gain the ability to gather and release fiery radiant power from your
+                hands or a weapon you are wielding. Radiant Blasts are a ranged natural
+                weapon attack with a normal range of 60 feet, and a long range of 120
+                feet, that deal 1d6 fire or radiant damage (your choice). If the damage
+                die increases to 1d8 (through Warden features that increase the damage of
+                your natural weapons), the damage becomes 1d4 fire damage and 1d4 radiant
+                damage. You choose which damage type to add your modifier to when you deal
+                damage. You can use your Strength or Wisdom (your choice) in place of your
+                Dexterity for the attack and damage rolls of this ability.
+          _v: 2
+          proper: false
+  Solar Flare:
+    level: 3
+    actions:
+      - |
+        - name: Solar Flare
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: con
+                  fail:
+                    - type: ieffect2
+                      name: Blinded
+                      duration: "1"
+                      effects:
+                        attack_advantage: "-1"
+                  success: []
+                  dc: 8 + constitutionMod + proficiencyBonus
+            - type: text
+              text: When you expend an Endurance Die to block damage, you can cause a
+                brilliant flare of blinding light. The attacker must make a Constitution
+                saving throw with a DC of 8 + your Constitution modifier + your
+                proficiency bonus, or become blinded until the start of their next turn.
+                Pass or fail, if the target is invisible, it is revealed until the start
+                of their next turn.
+          _v: 2
+          proper: false
+          verb: releases
+          activation_type: 2
+  Radiant Aura:
+    level: 3
+    actions:
+      - |
+        - name: Radiant Aura
+          automation:
+            - type: text
+              text: >-
+                Your Primal Interdiction is filled with bright light, and it casts dim
+                light for an additional radius equal to the radius of your Primal
+                Interdiction. This light is difficult to quench, and counts as a spell
+                equal to half your Warden level (rounded down) for the purposes of
+                countering magical darkness. You can dim, extinguish, or relight this
+                light at any time, no action required.
+
+                Creatures inside your Primal Interdiction remain comfortably warm,
+                ignoring the effects of cold weather, or heat caused by the sun (though
+                other sources of heat may still cause discomfort, such as lava). You and
+                all friendly creatures within range of Primal Interdiction can apply the
+                damage reduction of your Mystic Bulwark to cold and necrotic damage.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Empowering Presence:
+    level: 7
+    actions:
+      - |
+        - name: Empowering Presence
+          automation:
+            - type: text
+              text: When you expend an Endurance Die to boost a saving throw against a spell,
+                all allies within your Primal Interdiction that make a saving throw
+                against the same spell before the start of your next turn can add the same
+                Endurance Die to their saving throw.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2
+  Transcendent Passage:
+    level: 14
+    actions:
+      - |
+        - name: Transcendent Passage
+          automation:
+            - type: counter
+              counter: Transcendent Passage
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 2d6[fire] + 2d6[radiant]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Blinded
+                      duration: "1"
+                      tick_on_caster: true
+                      effects:
+                        attack_advantage: "-1"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + max(stengthMod, wisdomMod) + proficiencyBonus
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Transcendent Passage
+                  duration: "1"
+                  end: true
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Transcendent Passage - Healing
+                        automation:
+                          - type: roll
+                            dice: 4d6
+                            name: healing
+                          - type: target
+                            target: all
+                            effects:
+                              - type: temphp
+                                amount: "{healing}"
+                        verb: applies
+            - type: text
+              text: >-
+                As a bonus action, you can transform into a swirling burst of radiant
+                sunlight, traveling up to 60 feet in a straight line. You can pass through
+                creatures and objects, but are blocked by obstructions that completely
+                block light (such as solid opaque walls). This movement does not provoke
+                attacks of opportunity.
+
+                Hostile creatures of your choice in your path must make a Dexterity saving
+                throw against 8 + your Strength or Wisdom modifier (your choice) + your
+                proficiency bonus. On failure, they take 2d6 fire damage, 2d6 radiant
+                damage, and are blinded until the start of your next turn. On a success,
+                they take half as much damage and are not blinded. Allied creatures of
+                your choice in your path gain 4d6 temporary hit points. Once you use this
+                ability, you cannot use it again until you complete a short or long rest.
+
+
+                ```
+
+                !a "Transcendent Passage" -t <hostile>
+
+                !a "Transcendent Passage - Healing" -t <ally>
+
+                ```
+          _v: 2
+          proper: false
+          verb: makes
+          activation_type: 3
+  Solar Avatar:
+    level: 17
+    actions:
+      - |
+        - name: Solar Avatar
+          automation:
+            - type: counter
+              counter: Solar Avatar
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Solar Avatar
+                  duration: "10"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Empowered Radiance
+                        automation:
+                          - type: condition
+                            condition: WardenLevel < 11
+                            onTrue:
+                              - type: roll
+                                dice: 1d6 +{max(strengthMod, dexterityMod, wisdomMod)}[radiant]
+                                name: damage
+                            onFalse:
+                              - type: roll
+                                dice: 1d4[fire] + 1d4 +{max(strengthMod, dexterityMod, wisdomMod)}[radiant]
+                                name: damage
+                          - type: target
+                            target: all
+                            effects:
+                              - type: save
+                                stat: dex
+                                fail:
+                                  - type: damage
+                                    damage: "{damage}"
+                                success:
+                                  - type: damage
+                                    damage: ({damage})/2
+                                dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+            - type: text
+              text: >-
+                As a bonus action you can call upon the power of the sun to embody its
+                power for 1 minute. For the duration, you gain the following benefits:
+
+
+                - **Sun Light.** You shed bright light for 60 feet, and dim light for
+                additional 60 feet. The bright light is sunlight.
+
+                - **Harsh Light.** Creatures in the bright light you shed have
+                disadvantage on saving throws against your Warden abilities and spells.
+
+                - **Empowered Radiance.** When you make a Radiant Blast, you can shoot a
+                beam of energy instead of an attack, forcing all creatures in a 60 foot
+                line to make a Dexterity saving throw against 8 + your Strength or Wisdom
+                modifier (your choice) + your proficiency bonus, taking damage equal to
+                your Radiant Blast damage on failure, or half as much on a success.
+
+                - **Lingering Light.** When you deal radiant damage against a target, you
+                imbue the target with a radiant illumination, granting advantage to the
+                next attack made against that target before the start of your next turn.
+
+
+                Once you use this ability, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: false
+          verb: becomes
+          activation_type: 3
