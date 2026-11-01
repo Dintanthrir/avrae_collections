@@ -22,9 +22,7 @@
     Summoner:
       hit_die: 6
       sub_level: 3
-    Warden:
-      hit_die: 12
-      sub_level: 1
+    Warden: 'c53629c8-2c31-4fec-a1dd-fa6d212c9dfe'
     Warlord: '858f6de7-c205-4583-9e11-f02e66de98bf'
   subclasses:
     # Base Classes
@@ -136,7 +134,7 @@
     Swarm Controller: { parent: Summoner }
     World Sculptor: { parent: Summoner }
     # Warden:
-    Elemental Soul: { parent: Warden }
+    Elemental Soul: 'ccb00323-7668-4f66-ab18-7ab118763929'
     Beasthide: { parent: Warden }
     Elderheart: { parent: Warden }
     Stoneblood: { parent: Warden }

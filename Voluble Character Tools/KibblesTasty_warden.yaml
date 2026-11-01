@@ -1,0 +1,214 @@
+# 'c53629c8-2c31-4fec-a1dd-fa6d212c9dfe'
+# KibblesTasty: Warden
+# https://www.kthomebrew.com/thelist
+# class definition for Voluble Character Tools
+hit_die: 12
+sub_level: 1
+counters:
+  2:
+    - name: Endurance Dice
+      minVal: 0
+      maxVal: 3
+      reset: short
+      reset_to: 3
+  5:
+    - name: Endurance Dice
+      minVal: 0
+      maxVal: 4
+      reset: short
+      reset_to: 4
+  9:
+    - name: Endurance Dice
+      minVal: 0
+      maxVal: 5
+      reset: short
+      reset_to: 5
+  13:
+    - name: Endurance Dice
+      minVal: 0
+      maxVal: 6
+      reset: short
+      reset_to: 6
+  15:
+    - name: Second Life
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: Endurance Dice
+      minVal: 0
+      maxVal: 7
+      reset: short
+      reset_to: 7
+  20:
+    - name: Primal Decree
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+features:
+  primal_manifestations: { title: 'Primal Manifestation', type: list, level: 3 }
+automations:
+  Primal Interdiction:
+    level: 2
+    actions:
+      - |
+        - name: Primal Interdiction
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Primal Interdiction ({5 + 5*(int(WardenLevel >= 5) + int(WardenLevel >=
+                    11) + int(WardenLevel >= 17))} feet)
+                  duration: "1"
+                  desc: Incoming attacks have advantage. Attacks on allies in the area have
+                    disadvantage if they could have targeted you instead.
+            - type: text
+              text: >-
+                At the end of your turn, you can choose to recklessly defend your allies
+                within this area at the cost of your own safety, giving attacks against
+                you advantage, and giving attacks against allies within the effect
+                disadvantage if you are also in range of the attack being made (or have
+                been at any point since the start of the attacker’s turn) and not behind
+                total cover.
+
+                The range of this effect increases by 5 feet at 5th level (to 10 feet),
+                and again at 11th level (to 15 feet), and 17th level (to 20 feet).
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Endurance Dice:
+    level: 2
+    actions:
+      - |
+        - name: Endurance Dice
+          automation:
+            - type: counter
+              counter: Endurance Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: condition
+              condition: WardenLevel < 18
+              onTrue:
+                - type: roll
+                  dice: 1d{8 + 2*(int(WardenLevel >= 5) + int(WardenLevel >= 11))} +
+                    {constitutionMod if WardenLevel >= 6 else 0}
+                  name: endurance
+                  displayName: Endurance Die
+              onFalse:
+                - type: roll
+                  dice: 2d12kh1 + {constitutionMod}
+                  name: endurance
+                  displayName: Endurance Die
+            - type: text
+              text: >-
+                You have two ways to use these dice, though other features may grant
+                additional ways to use them:
+
+
+                - Once per turn, when you take damage, you can roll an Endurance Die to
+                reduce the damage taken by the amount rolled (no action required).
+
+                - When you make a saving throw, you can roll an Endurance Die and add it
+                to the saving throw (no action required). You can do this after you roll
+                the save, but before you know the outcome of the save.
+
+
+                You regain all expended Endurance Dice when you complete a short or long
+                rest.
+          _v: 2
+          proper: true
+          verb: spends
+          activation_type: 2
+          list_display_override: Roll and Endurance Die
+  Empowered Endurance:
+    level: 6
+    actions:
+      - |
+        - name: Empowered Endurance
+          automation:
+            - type: counter
+              counter: Endurance Dice
+              amount: "0"
+              errorBehaviour: ignore
+            - type: text
+              text: If you roll for initiative with no Endurance Dice remaining, you regain
+                one Endurance Die.
+            - type: condition
+              condition: lastCounterRemaining == 0
+              onTrue:
+                - type: counter
+                  counter: Endurance Dice
+                  amount: "-1"
+                  errorBehaviour: raise
+              onFalse:
+                - type: text
+                  text: Already have {lastCounterRemaining} Endurance Dice!
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Second Life:
+    level: 15
+    actions:
+      - |
+        - name: Second Life
+          automation:
+            - type: counter
+              counter: Second Life
+              amount: "1"
+              errorBehaviour: raise
+            - type: condition
+              condition: caster.hp <= 0
+              onTrue:
+                - type: target
+                  target: self
+                  effects:
+                    - type: damage
+                      damage: -({caster.hp + caster.max_hp / 2 + 1})[healing]
+              onFalse:
+                - type: text
+                  text: Only usable at 0 health!
+            - type: text
+              text: When you would be reduced to 0 hit points, you are instead reduced to 1
+                hit point, and regain hit points equal to half your maximum hit points.
+                Once this is triggered, it cannot be used again until you complete a long
+                rest.
+          _v: 2
+          proper: false
+          verb: gains
+          activation_type: 2
+  Primal Decree:
+    level: 20
+    actions:
+      - |
+        - name: Primal Decree
+          automation:
+            - type: counter
+              counter: Primal Decree
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can use your primal connection with the natural powers of the world to
+                reshape the land around you on a large scale. This can take the form of
+                effects like earthquake, control weather, or a transmutation or
+                conjuration spell from the Druid spell list that modifies the terrain
+                (such as wall of stone).
+
+                At the DM’s discretion, this might be used to accomplish other large scale
+                feats not listed by a spell, such as changing the course of a river,
+                quenching a forest fire, or causing an active volcano to have a small
+                eruption. Its range of effect should generally be contained with a 1 mile
+                radius area when not replicating the spells listed above. When used in
+                this way it takes 1 minute to invoke the effect (which may take longer to
+                fully manifest depending on its nature).
+
+                Once you do so, you cannot do so again until you complete a long rest.
+          _v: 2
+          proper: false
+          verb: issues
+          activation_type: 1

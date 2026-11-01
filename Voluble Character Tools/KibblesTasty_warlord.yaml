@@ -1,7 +1,7 @@
 # '858f6de7-c205-4583-9e11-f02e66de98bf'
 # KibblesTasty: Warlord
 # https://www.kthomebrew.com/thelist
-# subclass definition for Voluble Character Tools
+# class definition for Voluble Character Tools
 hit_die: 8
 sub_level: 1
 counters:

@@ -1,0 +1,482 @@
+# 'ccb00323-7668-4f66-ab18-7ab118763929'
+# KibblesTasty: Warden - Elemental Soul
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Elemental Soul
+parent: Warden
+features:
+  draconic_blast: { title: "Draconic Blast", type: text, level: 1 }
+counters:
+  1:
+    - name: "Innate Magic: Aldricor’s Elemental Rebuke"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Entomb"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Cold Snap"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Sleet Storm"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Fire Cyclone"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  14:
+    - name: Elemental Form
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Fire Shield"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Cataclysm Unleashed
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Elemental Armaments:
+    level: 1
+    actions:
+      - |
+        - name: "Elemental Armaments: Primal Flames"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Primal Flames
+                  buttons:
+                    - label: Dismiss Primal Flames
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Primal Flames
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)} + {strengthMod}[fire]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Primal Flames
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)} + {min(strengthMod, 0)}[fire]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+            - type: text
+              text: >-
+                You conjure flames around one of your hands. These become a natural
+                one-handed melee weapon that deals 1d6 fire damage on hit, and has the
+                Light, Thrown (30/90), and Special properties. It sheds 20 feet of bright
+                light and an additional 20 feet of dim light while manifested. When you
+                throw it, the flames reignite in your hand immediately.
+
+                **Special:** This weapon counts as a free hand for the purposes of
+                grappling. When you successfully initiate a grapple with it, the target
+                takes 1d6 fire damage.
+          _v: 2
+          proper: true
+          verb: summons
+          activation_type: 3
+        - name: "Elemental Armaments: Frost Shield"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Frost Shield
+                  buttons:
+                    - label: Dismiss Frost Shield
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+                  effects:
+                    ac_bonus: "2"
+            - type: text
+              text: You conjure a slab of ice. This becomes a shield you can wield in that
+                hand. Summoning the shield in this way equips it. Wielding a shield
+                increases your Armor Class by 2. You can benefit from only one shield at a
+                time.
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 3
+        - name: "Elemental Armaments: Icy Claws"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Icy Claws
+                  buttons:
+                    - label: Dismiss Icy Claws
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Icy Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: condition
+                                    condition: WardenLevel >= 11
+                                    onTrue:
+                                      - type: damage
+                                        damage: 1d4 + {strengthMod}[slashing] + 1d4[cold]
+                                    onFalse:
+                                      - type: damage
+                                        damage: 1d6 + {strengthMod}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Icy Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: condition
+                                    condition: WardenLevel >= 11
+                                    onTrue:
+                                      - type: damage
+                                        damage: 1d4[slashing] + 1d4[cold]
+                                    onFalse:
+                                      - type: damage
+                                        damage: 1d6[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+            - type: text
+              text: >-
+                You conjure icy claws that grow forth from one of your hands. This becomes
+                a one handed natural melee weapon that deals 1d6 slashing or cold damage
+                on hit (your choice), and has the Light and Special properties. If the
+                damage die is increased to a d8, it instead becomes 1d4 slashing and 1d4
+                cold damage. You choose which damage type to add your modifier to when you
+                deal damage.
+
+                **Special:** This weapon counts as a free hand for the purposes of
+                grappling. When you successfully initiate a grapple with it, the target
+                takes 1d6 cold damage.
+          _v: 2
+          proper: true
+          verb: summons
+          activation_type: 3
+        - name: "Elemental Armaments: Lightning Lash"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Lightning Lash
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Lightning Lash
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)} + {strengthMod}[lightning]
+                                miss: []
+                                attackBonus: "strengthMod + proficiencyBonus"
+                    - attack:
+                        _v: 2
+                        name: Offhand Lightning Lash
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[lightning]
+                                miss: []
+                                attackBonus: "strengthMod + proficiencyBonus"
+                  buttons:
+                    - label: Dismiss Lightning Lash
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+            - type: text
+              text: >-
+                You conjure a whip of lightning, tethered to one of your hands. This
+                becomes a one handed natural melee weapon that deals 1d6 lightning damage
+                on hit, and has the Light, Reach, and Special properties. It sheds 10 feet
+                of bright light and an additional 10 feet of dim light while manifested.
+
+                **Special:** If you hit a creature with this weapon you can pull the
+                creature up to 5 feet towards you.
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 3
+  Elemental Interdiction:
+    level: 3
+    actions:
+      - |
+        - name: "Elemental Interdiction: Creeping Frost"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Creeping Frost
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Creeping Frost
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: ieffect2
+                                name: Slowed
+                                duration: "1"
+                                desc: Speed -10 feet
+                        activation_type: 2
+            - type: text
+              text: Creatures that start their turn within the area of your Primal
+                Interdiction have their movement speed reduced by 10 feet.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 2
+        - name: "Elemental Interdiction: Blazing Pyre"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Blazing Pyre
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Blazing Pyre
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: "{1 + int(WardenLevel >= 11)}d6[fire]"
+                        activation_type: 2
+            - type: text
+              text: >-
+                Fire burns fiercely around you, creatures of your choice that end their
+                turn within the area of your Primal Interdiction take 1d6 fire damage.
+
+
+                The damage of the Blazing Pyre effect increases by one additional die of
+                damage at 11th level.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 2
+        - name: "Elemental Interdiction: Static Field"
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Static Field
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Static Field
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: damage
+                                damage: "{1 + int(WardenLevel >= 11)}d8[lightning]"
+                        activation_type: 2
+            - type: text
+              text: >-
+                The first time a hostile creatures moves 5 feet or more within your
+                Primal Interdiction, they take 1d8 lightning damage. Once this damage
+                occurs, it cannot occur again until the start of your turn.
+
+
+                The damage of the Static Field effect increases by one additional die of
+                damage at 11th level.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 2
+  Elemental Reflection:
+    level: 3
+    actions:
+      - |
+        - name: Elemental Reflection
+          automation:
+            - type: counter
+              counter: Elemental Reflection Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: variable
+              name: damage
+              value: lastCounterRequestedAmount
+            - type: counter
+              counter: Endurance Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: condition
+              condition: WardenLevel < 18
+              onTrue:
+                - type: roll
+                  dice: 1d{8 + 2*(int(WardenLevel >= 5) + int(WardenLevel >= 11))} +
+                    {constitutionMod if WardenLevel >= 6 else 0}
+                  name: endurance
+                  displayName: Endurance Die
+              onFalse:
+                - type: roll
+                  dice: 2d12kh1 + {constitutionMod}
+                  name: endurance
+                  displayName: Endurance Die
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: -({min(damage, endurance)})[restored]
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{min(damage, endurance)}[elemental]"
+            - type: text
+              text: >-
+                When you expend an Endurance Die to block the damage against a melee
+                attack, the attacker takes cold, fire or lightning damage (your choice)
+                equal to the amount of damage blocked.
+
+
+                ```
+
+                -amt <damage> -dtype "elemental>fire -t <attacker>"
+
+                ```
+          _v: 2
+          proper: true
+          verb: defends with an
+          activation_type: 2
+  Primal State:
+    level: 7
+    actions:
+      - |
+        - name: Primal State
+          automation:
+            - type: counter
+              counter: Endurance Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You can expend one Endurance Die to cast _become fire_, _become water_, or
+                _become wind_.
+          _v: 2
+          proper: false
+          verb: assumes
+          activation_type: 2
+  Elemental Form:
+    level: 14
+    actions:
+      - |
+        - name: Elemental Form
+          automation:
+            - type: counter
+              counter: Elemental Form
+              amount: "1"
+              errorBehaviour: ignore
+            - type: condition
+              condition: lastCounterUsedAmount == 0
+              onTrue:
+                - type: counter
+                  counter: Endurance Dice
+                  amount: "6"
+                  errorBehaviour: raise
+              onFalse: []
+            - type: text
+              text: >-
+                You can cast _form of fire_, _form of ice_, or _form of wind_ without
+                expending a spell slot. When you cast the spell this way, you can cast the
+                spell as a bonus action, and it does not require concentration. Once per
+                turn during the transformation, you can use the action it grants in place
+                of an attack made as part of the Attack action.
+
+                Once you cast the spell in this way, you cannot do so again until you
+                complete a long rest. You can use it again before completing a long rest
+                by expending 6 Endurance Dice.
+          _v: 2
+          proper: true
+          verb: assumes an
+          activation_type: 2
+  Cataclysm Unleashed:
+    level: 17
+    actions:
+      - |
+        - name: Cataclysm Unleashed
+          automation:
+            - type: counter
+              counter: Cataclysm Unleashed
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                Starting at 17th level, when you use your Elemental Form ability, you can
+                instead cast form of the elementsK, and are no longer limited to using the
+                action they grant in place of an attack once per turn, as long as you use
+                two different actions granted by the different forms. When you cast form
+                of the elementsK this way, you can choose to become a Large sized creature
+                for the duration of the spell.
+
+                While in this form, the damage dice of your Elemental Armaments and
+                Elemental Interdiction effects are doubled.
+
+                Once you do this, you cannot do so until you complete a long rest.
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 2
