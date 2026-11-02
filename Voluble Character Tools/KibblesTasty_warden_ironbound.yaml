@@ -1,0 +1,455 @@
+# '81cdce0f-7a04-4453-b3d1-2779debafb82'
+# KibblesTasty: Warden - Ironbound
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Ironbound
+parent: Warden
+counters:
+  1:
+    - name: "Innate Magic: Unburden"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Armor Bond
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Arcane Ablation"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Clay Touch"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Protection From Energy"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Iron Garden"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Repair"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Metallic Monolith
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Armor Bond:
+    level: 1
+    actions:
+      - |
+        - name: Armor Bond
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: 1d8 + {WardenLevel}
+            - type: text
+              text: As an action, you can touch a set of metal armor worn by a creature of
+                your choice (including yourself) and fortify it. The creature gains
+                temporary hit points equal to 1d8 + your Warden level. Once you use this
+                ability, you cannot use it again until you complete a short or long rest.
+                Any temporary hit points remaining from this feature fade when you use it
+                again.
+          _v: 2
+          proper: true
+          verb: forms an
+          activation_type: 1
+  Unbreakable Endurance:
+    level: 3
+    actions:
+      - |
+        - name: Unbreakable Endurance
+          automation:
+            - type: text
+              text: When you use an Endurance Die to block damage, if it does not completely
+                block the damage taken, you gain resistance to the remaining damage.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Binding Interdiction:
+    level: 3
+    actions:
+      - |
+        - name: Binding Interdiction
+          automation:
+            - type: target
+              target: 1
+              effects:
+                - type: check
+                  ability:
+                    - acrobatics
+                    - athletics
+                  contestAbility:
+                    - athletics
+                  success: []
+                  fail:
+                    - type: ieffect2
+                      name: Grappled
+                      desc: Grappled by {{caster.name}}
+                      buttons:
+                        - label: Escape Grapple
+                          verb: attempts to break out of the grapple
+                          style: "3"
+                          automation:
+                            - type: target
+                              target: children
+                              effects:
+                                - type: check
+                                  ability:
+                                    - athletics
+                                  contestAbility:
+                                    - acrobatics
+                                    - athletics
+                                  success: []
+                                  fail:
+                                    - type: remove_ieffect
+                                  contestTie: fail
+                      save_as: grapple
+                  contestTie: neither
+            - type: condition
+              condition: not lastCheckDidPass
+              onTrue:
+                - type: target
+                  target: self
+                  effects:
+                    - type: ieffect2
+                      name: Grappling
+                      desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                        targets[0]}}
+                      buttons:
+                        - label: Release Grapple
+                          automation:
+                            - type: remove_ieffect
+                              removeParent: always
+                          verb: lets go of their target
+                          style: "1"
+                        - label: Restrain
+                          automation:
+                            - type: target
+                              target: parent
+                              effects:
+                                - type: check
+                                  ability:
+                                    - athletics
+                                    - acrobatics
+                                  contestAbility: athletics
+                                  contestTie: success
+                                  success: []
+                                  fail:
+                                    - type: ieffect2
+                                      name: Restrained
+                                      save_as: restraint
+                                      parent: grapple
+                                      effects:
+                                        attack_advantage: "-1"
+                                        save_dis:
+                                          - dex
+                                      buttons:
+                                        - label: Escape Restraints
+                                          automation:
+                                            - type: target
+                                              target: parent
+                                              effects:
+                                                - type: check
+                                                  ability: athletics
+                                                  contestAbility:
+                                                    - athletics
+                                                    - acrobatics
+                                                  contestTie: success
+                                                  success: []
+                                                  fail:
+                                                    - type: remove_ieffect
+                                          style: "3"
+                            - type: condition
+                              condition: not lastCheckDidPass
+                              onTrue:
+                                - type: target
+                                  target: self
+                                  effects:
+                                    - type: ieffect2
+                                      name: Restraining
+                                      buttons:
+                                        - label: Release Restraints
+                                          automation:
+                                            - type: remove_ieffect
+                                              removeParent: always
+                                          style: "3"
+                                      parent: restraint
+                              onFalse: []
+                          style: "3"
+                      parent: grapple
+              onFalse: []
+              errorBehaviour: "false"
+            - type: text
+              text: >-
+                You gain the ability to manifest chains within the range of your Primal
+                Interdiction.
+
+                As a reaction to a creature attempting to leave your Primal Interdiction
+                or as an attack as part of the Attack action, you can manifest a chain and
+                attempt to bind a Large or smaller creature with it, making a grapple
+                check against the target. On a success, they are grappled by the chain
+                until they escape (contesting your grapple check), the chain is destroyed,
+                or they are no longer within your primal interdiction.
+
+                The chain can be destroyed. It has an AC of 18 and number of hit points
+                equal to your Warden level, but you take no damage when the chain is
+                destroyed. If a target escapes the chains, the chains fall to the ground
+                and turn to dust.
+
+                You can manifest one chain at a time. If you manifest an additional chain
+                while you already have your maximum number of chains manifested, the first
+                created one vanishes, releasing the target. The number of chains you can
+                manifest this way increases by one each time you gain an effect that would
+                increase the damage die of your Warden natural weapons (such as Evolving
+                Power or Savage Weapons). Once you can manifest more than one chain, you
+                can target the same creature with multiple chains. A creature is
+                restrained while grappled by more than one chain.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 4
+  Iron Carapace:
+    level: 7
+    actions:
+      - |
+        - name: Iron Carapace
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: condition
+                  condition: choice and 'reinforced' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Iron Carapace
+                      effects:
+                        ac_bonus: "1"
+                  onFalse: []
+                - type: condition
+                  condition: choice and 'spiked' in choice
+                  onTrue:
+                    - type: ieffect2
+                      name: Iron Carapace
+                      attacks:
+                        - attack:
+                            _v: 2
+                            name: Spiked Carapace
+                            automation:
+                              - type: target
+                                target: all
+                                effects:
+                                  - type: damage
+                                    damage: "{1 + int(WardenLevel >= 14)}d4[piercing]"
+                            activation_type: 2
+                  onFalse: []
+            - type: text
+              text: >-
+                You can use your power to morph and adapt heavy armor you are wearing. As
+                an action, you can reconfigure your armor, selecting one of the following
+                options.
+
+
+                - **Reinforced Carapace.** Your AC while wearing heavy armor increases by
+                1.
+
+                - **Regenerating Carapace.** At the end of each of your turns, you restore
+                any damage it has taken, restoring its original AC value. Any pieces that
+                have been removed before regeneration rust away to nothing. If you are
+                wearing no armor, you can use this feature to create a set of mundane
+                heavy armor of your choice (which is automatically equipped). Armor
+                created this way rusts away to nothing when removed.
+
+                - **Spiked Carapace.** When a creature hits you with a melee weapon attack
+                while within 5 feet of you or attempts to grapple you, they take 1d4
+                piercing damage. The damage increases to 2d4 when you reach 14th level.
+
+
+                The effect lasts until you select another effect, or end the effect as a
+                bonus action.
+
+
+                ```
+
+                !a "Iron Carapace" -choice <reinforced|regenerating|spiked>
+
+                ```
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 1
+  Iron Incarceration:
+    level: 14
+    actions:
+      - |
+        - name: Iron Incarceration
+          automation:
+            - type: counter
+              counter: Iron Incarceration
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: 1
+              effects:
+                - type: check
+                  ability:
+                    - acrobatics
+                    - athletics
+                  contestAbility:
+                    - athletics
+                  success: []
+                  fail:
+                    - type: ieffect2
+                      name: Grappled
+                      desc: Grappled by {{caster.name}}
+                      buttons:
+                        - label: Escape Grapple
+                          verb: attempts to break out of the grapple
+                          style: "3"
+                          automation:
+                            - type: target
+                              target: children
+                              effects:
+                                - type: check
+                                  ability:
+                                    - athletics
+                                  contestAbility:
+                                    - acrobatics
+                                    - athletics
+                                  success: []
+                                  fail:
+                                    - type: remove_ieffect
+                                  contestTie: fail
+                      save_as: grapple
+                  contestTie: neither
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: ieffect2
+                      name: Grappled
+                      desc: Grappled by {{caster.name}}
+                      save_as: grapple
+                      buttons:
+                        - label: Escape Grapple
+                          automation:
+                            - type: target
+                              target: children
+                              effects:
+                                - type: check
+                                  ability: athletics
+                                  contestAbility:
+                                    - athletics
+                                    - acrobatics
+                                  contestTie: success
+                                  success: []
+                                  fail:
+                                    - type: remove_ieffect
+                          verb: attempts to break out of the grapple
+                          style: "3"
+                  success: []
+                  dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+            - type: condition
+              condition: not lastCheckDidPass
+              onTrue:
+                - type: target
+                  target: self
+                  effects:
+                    - type: ieffect2
+                      name: Grappling
+                      desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                        targets[0]}}
+                      buttons:
+                        - label: Release Grapple
+                          verb: lets go of their target
+                          style: "1"
+                          automation:
+                            - type: remove_ieffect
+                              removeParent: always
+                      parent: grapple
+              onFalse: []
+              errorBehaviour: "false"
+            - type: text
+              text: >-
+                As bonus action, you can force all Large or smaller creatures of your
+                choice within range of your primal Interdiction to make a Dexterity saving
+                throw against 8 + your Strength or Wisdom modifier (your choice) + your
+                Proficiency bonus. On failure, they are grappled by chains as per your
+                Binding Interdiction feature. Chains created by this feature do not count
+                against your maximum number of chains. You can choose to pull creatures
+                that fail their saving throw to the closest available space to you when
+                they fail their save.
+
+                Once you use this feature, you cannot use it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: true
+          activation_type: 3
+  Metallic Monolith:
+    level: 17
+    actions:
+      - |
+        - name: Metallic Monolith
+          automation:
+            - type: counter
+              counter: Metallic Monolith
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Metallic Monolith
+                  duration: "10"
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+            - type: text
+              text: >-
+                As an action you can empower yourself for 1 minute. You gain the following
+                benefits:
+
+
+                - **Enlarged Weapons.** Metal weapons you are carrying grow larger and
+                more powerful, increasing their damage by 1d8 while you wield them. Use
+                `-d 1d8` on metal weapon attacks.
+
+                - **Unlimited Chains.** You can generate an unlimited number of chains
+                with Binding Interdiction, and they no longer have any size limit on what
+                they can restrain.
+
+                - **Implacable Monolith.** You are immune to any effect that would move
+                you against your will or knock you prone.
+
+                - **Damage Resistance.** You gain resistance to bludgeoning, piercing, and
+                slashing damage.
+
+
+                Once you use this ability, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: false
+          verb: becomes
+          activation_type: 1

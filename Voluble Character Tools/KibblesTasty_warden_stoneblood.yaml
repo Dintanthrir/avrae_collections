@@ -4,7 +4,6 @@
 # subclass definition for Voluble Character Tools
 name: Stoneblood
 parent: Warden
-features: {}
 counters:
   1:
     - name: "Innate Magic: Create Pit"

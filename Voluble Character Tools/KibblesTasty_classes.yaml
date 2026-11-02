@@ -139,8 +139,8 @@
     Elderheart: 'b41d29d8-e8fe-4d40-8b19-db838fe2a592'
     Stoneblood: 'c8e02bb1-b87f-4da5-8660-a17bcb96ba09'
     Sunwatcher: 'a85d2e4c-810c-4c3b-b884-8672085092d4'
-    Ironbound: { parent: Warden }
-    Dreadwing: { parent: Warden }
+    Ironbound: '81cdce0f-7a04-4453-b3d1-2779debafb82'
+    Dreadwing: '91008d01-d8cc-40d1-8aea-5d59e1478e0c'
     Timetwister: { parent: Warden }
     Astral Guardian: { parent: Warden }
     Bone Binder: { parent: Warden }

@@ -1,0 +1,659 @@
+# '91008d01-d8cc-40d1-8aea-5d59e1478e0c'
+# KibblesTasty: Warden - Dreadwing
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Dreadwing
+parent: Warden
+counters:
+  1:
+    - name: "Innate Magic: Elemental Orb"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Dragon Surge"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Elemental Exhalation"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Fly"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Fear"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Secret Chest"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Dragon Form
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Draconic Talons:
+    level: 1
+    actions:
+      - |
+        - name: Grow Draconic Talons
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Draconic Talons
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Draconic Talons
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)} + {strengthMod}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Draconic Talons
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[slashing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Draconic Talons - Grapple
+                        automation:
+                          - type: target
+                            target: 1
+                            effects:
+                              - type: check
+                                ability:
+                                  - acrobatics
+                                  - athletics
+                                contestAbility:
+                                  - athletics
+                                success: []
+                                fail:
+                                  - type: ieffect2
+                                    name: Grappled
+                                    desc: Grappled by {{caster.name}}
+                                    buttons:
+                                      - label: Escape Grapple
+                                        verb: attempts to break out of the grapple
+                                        style: "3"
+                                        automation:
+                                          - type: target
+                                            target: children
+                                            effects:
+                                              - type: check
+                                                ability:
+                                                  - athletics
+                                                contestAbility:
+                                                  - acrobatics
+                                                  - athletics
+                                                success: []
+                                                fail:
+                                                  - type: remove_ieffect
+                                                contestTie: fail
+                                    save_as: grapple
+                                  - type: damage
+                                    damage: 1d{6 + 2*int(WardenLevel >= 11)}[slashing]
+                                contestTie: neither
+                          - type: condition
+                            condition: not lastCheckDidPass
+                            onTrue:
+                              - type: target
+                                target: self
+                                effects:
+                                  - type: ieffect2
+                                    name: Grappling
+                                    desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                                      targets[0]}}
+                                    buttons:
+                                      - label: Release Grapple
+                                        verb: lets go of their target
+                                        style: "1"
+                                        automation:
+                                          - type: remove_ieffect
+                                            removeParent: always
+                                    parent: grapple
+                            onFalse: []
+                            errorBehaviour: "false"
+            - type: text
+              text: >-
+                A vicious set of claws extending from one of your hands. This becomes a
+                natural one handed melee weapon that deals 1d8 slashing damage on hit, and
+                has the Light and Special properties.
+
+                **Special:** This weapon counts as a free hand for the purposes of
+                grappling. When you successfully initiate a grapple with it, the target
+                takes 1d6 slashing damage.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 3
+  Intimidating Interdiction:
+    level: 3
+    actions:
+      - |
+        - name: Intimidating Interdiction
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: condition
+                  condition: target.resistances.is_immune('Intimidating Interdiction')
+                  onTrue:
+                    - type: text
+                      text: "{target} is immune to Intimidating Interdiction!"
+                  onFalse:
+                    - type: save
+                      stat: wis
+                      fail:
+                        - type: ieffect2
+                          name: Frightened
+                          duration: "1"
+                          tick_on_caster: true
+                          desc: Frightened of {caster}.
+                      success:
+                        - type: ieffect2
+                          name: Intimidated
+                          duration: "1"
+                          tick_on_caster: true
+                          desc: Cannot gain advantage on attacks against {caster}.
+                        - type: ieffect2
+                          name: "Immune: Intimidating Interdiction"
+                          duration: "10"
+                          hidden: true
+                          effects:
+                            immunities:
+                              - Intimidating Interdiction
+                      dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+            - type: text
+              text: >-
+                Your Primal Interdiction sparks the primordial fear which dragons invoke
+                in lesser creatures. As a bonus action, you can unleash a wave of
+                supernatural dread, forcing all creatures of your choice within range of
+                your Primal Interdiction to make a Wisdom saving throw with a DC of 8 +
+                your Strength or Wisdom modifier (your choice) + your proficiency bonus.
+
+                On failure, a creature becomes Frightened of you until the start of your
+                next turn. On success, a creature does not become Frightened of you, but
+                cannot gain advantage on attack rolls against you until the start of your
+                next turn. Once a creature passes their saving throw against this ability,
+                they automatically pass all saving throws against it for the next minute.
+          _v: 2
+          proper: true
+          verb: performs an
+          activation_type: 3
+  Dragon Breath:
+    level: 3
+    actions:
+      - |
+        - name: Charge Dragon Breath
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Dragon Breath
+                  duration: "10"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Dragon Breath
+                        automation:
+                          - type: roll
+                            dice: "{min(len(ieffect.children) + 1, proficiencyBonus)}d{8 +
+                              2*(int(WardenLevel >= 5) + int(WardenLevel >= 11))}[fire]"
+                            name: damage
+                          - type: target
+                            target: all
+                            effects:
+                              - type: save
+                                stat: dex
+                                fail:
+                                  - type: damage
+                                    damage: "{damage}"
+                                success:
+                                  - type: damage
+                                    damage: ({damage})/2
+                                dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+                        activation_type: 3
+                  stacking: true
+            - type: text
+              text: >-
+                Each time you expend an Endurance Die you build up elemental energy,
+                storing the expended die in a special pool of charged power for 1 minute.
+                You can have a number of stored dice equal to your proficiency bonus. As a
+                bonus action on your turn, you can unleash all of this stored power in a
+                blast of elemental breath. You expend all dice stored with this feature
+                when you do so. When you gain this feature, select the elemental type of
+                power stored from acid, cold, fire, lightning, or poison.
+
+                All creatures of your choice within a 15-foot cone must make a Dexterity
+                saving throw with a DC of 8 + your Strength or Wisdom modifier (your
+                choice) + your proficiency bonus. On a failed save, they take elemental
+                damage of the type selected equal to the amount rolled on the stored dice.
+                On a successful save, they take half as much damage. The size of the cone
+                increases by 15 feet each time your Primal Interdiction range increases by
+                5 feet.
+          _v: 2
+          proper: true
+          verb: begins to
+          activation_type: 2
+  Dragon Wings:
+    level: 7
+    actions:
+      - |
+        - name: Dragon Wings
+          automation:
+            - type: text
+              text: >-
+                When you manifest your Draconic Talons, you can further channel your power
+                to manifest a pair of draconic wings. Though they cannot lift you to
+                flight, they provide a host of benefits:
+
+
+                - You can jump twice as far and change direction mid-jump by beating your
+                wings.
+
+                - You can slow your descent when falling (no action required), falling at
+                60 feet per round and taking no damage when you land.
+
+                - As a reaction, you can expend an endurance die to block damage against a
+                creature within 5 feet of you as if you were blocking damage against
+                yourself.
+          _v: 2
+          proper: true
+          verb: manifests
+          activation_type: 2
+  Empowered Wings:
+    level: 14
+    actions:
+      - |
+        - name: Dragon Wings
+          automation:
+            - type: text
+              text: >-
+                When you manifest your Draconic Talons, you can further channel your power
+                to manifest a pair of draconic wings. They provide a host of benefits:
+
+
+                - You can jump twice as far and change direction mid-jump by beating your
+                wings.
+
+                - You can slow your descent when falling (no action required), falling at
+                60 feet per round and taking no damage when you land.
+
+                - As a reaction, you can expend an endurance die to block damage against a
+                creature within 5 feet of you as if you were blocking damage against
+                yourself.
+
+                - You can use your Dragon Wings to fly, gaining a flying speed of 30 feet.
+          _v: 2
+          proper: true
+          verb: manifests
+          activation_type: 2
+  Dragon Form:
+    level: 17
+    actions:
+      - |
+        - name: Dragon Form
+          automation:
+            - type: counter
+              counter: Dragon Form
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Dragon Form
+                  duration: "100"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Dragon Form Bite
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 2d8 + {strengthMod}[piercing] + 1d8[fire]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Dragon Form Bite
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 2d8[piercing] + 1d8[fire]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Dragon Form Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 2d8 + {strengthMod}[piercing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Dragon Form Claws
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 2d8[piercing]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Dragon Form Claws - Grapple
+                        automation:
+                          - type: target
+                            target: 1
+                            effects:
+                              - type: check
+                                ability:
+                                  - acrobatics
+                                  - athletics
+                                contestAbility:
+                                  - athletics
+                                success: []
+                                fail:
+                                  - type: ieffect2
+                                    name: Grappled
+                                    desc: Grappled by {{caster.name}}
+                                    buttons:
+                                      - label: Escape Grapple
+                                        verb: attempts to break out of the grapple
+                                        style: "3"
+                                        automation:
+                                          - type: target
+                                            target: children
+                                            effects:
+                                              - type: check
+                                                ability:
+                                                  - athletics
+                                                contestAbility:
+                                                  - acrobatics
+                                                  - athletics
+                                                success: []
+                                                fail:
+                                                  - type: remove_ieffect
+                                                contestTie: fail
+                                    save_as: grapple
+                                  - type: damage
+                                    damage: 2d8[slashing]
+                                contestTie: neither
+                          - type: condition
+                            condition: not lastCheckDidPass
+                            onTrue:
+                              - type: target
+                                target: self
+                                effects:
+                                  - type: ieffect2
+                                    name: Grappling
+                                    desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                                      targets[0]}}
+                                    buttons:
+                                      - label: Release Grapple
+                                        verb: lets go of their target
+                                        style: "1"
+                                        automation:
+                                          - type: remove_ieffect
+                                            removeParent: always
+                                    parent: grapple
+                            onFalse: []
+                            errorBehaviour: "false"
+                    - attack:
+                        _v: 2
+                        name: Dragon Form Tail
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 2d8 + {strengthMod}[bludgeoning]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Dragon Form Tail
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 2d8[bludgeoning]
+                                miss: []
+                                attackBonus: strengthMod + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Charge Empowered Dragon Breath
+                        automation:
+                          - type: target
+                            target: self
+                            effects:
+                              - type: ieffect2
+                                name: Dragon Breath
+                                duration: "10"
+                                attacks:
+                                  - attack:
+                                      _v: 2
+                                      name: Empowered Dragon Breath
+                                      automation:
+                                        - type: roll
+                                          dice: "{2 * min(len(ieffect.children) + 1, proficiencyBonus)}d{8 +
+                                            2*(int(WardenLevel >= 5) + int(WardenLevel >=
+                                            11))}[fire]"
+                                          name: damage
+                                        - type: target
+                                          target: all
+                                          effects:
+                                            - type: save
+                                              stat: dex
+                                              fail:
+                                                - type: damage
+                                                  damage: "{damage}"
+                                              success:
+                                                - type: damage
+                                                  damage: ({damage})/2
+                                              dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+                                      activation_type: 3
+                                stacking: true
+                          - type: text
+                            text: >-
+                              Each time you expend an Endurance Die you build up elemental
+                              energy, storing the expended die in a special pool of
+                              charged power for 1 minute. You can have a number of stored
+                              dice equal to your proficiency bonus. As a bonus action on
+                              your turn, you can unleash all of this stored power in a
+                              blast of elemental breath. You expend all dice stored with
+                              this feature when you do so. When you gain this feature,
+                              select the elemental type of power stored from acid, cold,
+                              fire, lightning, or poison.
+
+                              All creatures of your choice within a 15-foot cone must make
+                              a Dexterity saving throw with a DC of 8 + your Strength or
+                              Wisdom modifier (your choice) + your proficiency bonus. On a
+                              failed save, they take elemental damage of the type selected
+                              equal to the amount rolled on the stored dice. On a
+                              successful save, they take half as much damage. The size of
+                              the cone increases by 15 feet each time your Primal
+                              Interdiction range increases by 5 feet.
+
+
+                              **Dragon Form:** When you use your Dragon Breath, you roll
+                              twice the number of stored dice for damage.
+                        verb: begins to
+                        activation_type: 2
+                    - attack:
+                        _v: 2
+                        name: Dragon Dread
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: condition
+                                condition: target.resistances.is_immune('Intimidating Interdiction')
+                                onTrue:
+                                  - type: text
+                                    text: "{target} is immune to Intimidating Interdiction!"
+                                onFalse:
+                                  - type: save
+                                    stat: wis
+                                    fail:
+                                      - type: ieffect2
+                                        name: Frightened
+                                        duration: "10"
+                                        tick_on_caster: true
+                                        desc: Frightened of {caster}.
+                                        buttons:
+                                          - label: Resist Fear
+                                            automation:
+                                              - type: target
+                                                target: self
+                                                effects:
+                                                  - type: save
+                                                    stat: wis
+                                                    fail: []
+                                                    success:
+                                                      - type: remove_ieffect
+                                                      - type: ieffect2
+                                                        name: "Immune: Intimidating Interdiction"
+                                                        duration: "10"
+                                                        hidden: true
+                                                        effects:
+                                                          immunities:
+                                                            - Intimidating Interdiction
+                                            style: "3"
+                                            defaultDC: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+                                    success:
+                                      - type: ieffect2
+                                        name: Intimidated
+                                        duration: "1"
+                                        tick_on_caster: true
+                                        desc: Cannot gain advantage on attacks against {caster}.
+                                      - type: ieffect2
+                                        name: "Immune: Intimidating Interdiction"
+                                        duration: "10"
+                                        hidden: true
+                                        effects:
+                                          immunities:
+                                            - Intimidating Interdiction
+                                    dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+                          - type: text
+                            text: >-
+                              Your Primal Interdiction sparks the primordial fear which
+                              dragons invoke in lesser creatures. As a bonus action, you
+                              can unleash a wave of supernatural dread, forcing all
+                              creatures of your choice within range of your Primal
+                              Interdiction to make a Wisdom saving throw with a DC of 8 +
+                              your Strength or Wisdom modifier (your choice) + your
+                              proficiency bonus.
+
+                              On failure, a creature becomes Frightened of you until the
+                              start of your next turn. On success, a creature does not
+                              become Frightened of you, but cannot gain advantage on
+                              attack rolls against you until the start of your next turn.
+                              Once a creature passes their saving throw against this
+                              ability, they automatically pass all saving throws against
+                              it for the next minute.
+
+
+                              **Dragon Form:** Creatures frightened by your Intimidating
+                              Interdiction become frightened for 1 minute instead.
+                              Frightened creatures can repeat the saving throw against the
+                              frightened condition at the end of each of their turns,
+                              ending the effect on success.
+                        verb: imposes
+                        activation_type: 2
+            - type: text
+              text: >-
+                When you would manifest your Draconic Talons, you can instead completely
+                turn into a dragon. You gain the benefits of your Draconic Talons and
+                Dragon Wings, but with the following properties:
+
+
+                - **Large Size.** Your size becomes Large, and you gain advantage on
+                Strength (Athletics) checks to grapple creatures smaller than you.
+
+                - **Empowered Dragon Breath.** When you use your Dragon Breath, you roll
+                twice the number of stored dice for damage.
+
+                - **Extra Natural Weapons.** You gain a Bite and Tail attack, which are
+                natural weapons like your Draconic Claws and deal the same amount of
+                damage, but change their damage type and replace their special property.
+                The Bite deals piercing damage instead of slashing damage and gains an
+                additional 1d8 elemental damage (matching your Dragon Breath damage type)
+                in place of the special property, and the Tail deals bludgeoning damage
+                instead of piercing damage and gains the reach property in place of the
+                special property.
+
+                - **Empowered Weapons.** Your natural weapons deal one additional die of
+                damage while transformed this way.
+
+                - **Dragon Dread.** Creatures frightened by your Intimidating Interdiction
+                become frightened for 1 minute instead. Frightened creatures can repeat
+                the saving throw against the frightened condition at the end of each of
+                their turns, ending the effect on success.
+
+
+                You can maintain this form for up to 10 minutes, after which you must
+                return to your normal form. You return to your original form early if you
+                fall unconscious, or you can end the form early as an action. Once you
+                assume this form, you cannot assume it again until you complete a long
+                rest.
+          _v: 2
+          proper: false
+          verb: reveals
+          activation_type: 1
