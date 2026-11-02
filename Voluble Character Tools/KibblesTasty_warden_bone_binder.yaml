@@ -1,0 +1,283 @@
+# '1ba3453e-29a2-4c38-8dc6-d92719ca3cf5'
+# KibblesTasty: Warden - Bone Binder
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Bone Binder
+parent: Warden
+counters:
+  1:
+    - name: "Innate Magic: Grip of the Dead"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: False Life"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Augury"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Speak With Dead"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Animate Dead"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  14:
+    - name: Grave Grip
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Ribcage"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Death’s Domain
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Bone Construct:
+    level: 1
+    actions:
+      - |
+        - name: Bone Construct
+          automation:
+            - type: text
+              text: >-
+                As an action you can call forth a grim construct of bones that bursts from
+                the ground in an empty space within 10 feet of you. It has the following
+                stat block. It shares your turn, but cannot take any actions unless you
+                use your action to direct it to take the Dodge action, Dash action, or
+                take an action listed in its stat block. In addition to the actions in a
+                stat block, it can follow simple instructions and perform simple tasks out
+                of combat, but cannot communicate or execute complicated directions on its
+                own. If you give it no directions, it stands still or follows you if you
+                are more than 30 feet from it. When you gain the Extra Attack feature, you
+                can replace one attack you can make with directing your Bone Construct to
+                take an action.
+
+                Its Strength (indicated in its stat block as a *) is equal to your
+                Strength or Wisdom ability score (your choice).
+
+                If it is more than 120 feet from you or reduced to zero hit points, it
+                crumbles to dust. You can dismiss your Construct at any time as a bonus
+                action, causing crumble to dust and await your call again.
+
+                Your Bone Construct’s hit points are maintained between summons, but if it
+                has less than your Warden level in hit points (such as if it was
+                previously destroyed by being reduced to 0 hit points), it gains hit
+                points equal to your Warden level when you spend your action calling it,
+                and regains all of its hit points when you complete a long rest.
+
+                Your Bone Constructs Slam damage die is increased in size by any effect
+                that increases the size of your natural weapon damage dice.
+            - type: text
+              text: >-
+                ```
+
+                !multiline
+
+                !i opt {name} -group "{name} summons"
+
+                !i add 0 "Bone Construct" -group "{name} summons" -hp {WardenLevel * 5}
+                -ac {12 + proficiencyBonus} -pb {proficiencyBonus} -strength
+                {max(strength, wisdom)} -dexterity 8 -constitution 16 -intelligence 1
+                -wisdom 1 -charisma 1 -prof Athletics -resist piercing -resist necrotic
+                -immune poison -immune psychic -vuln bludgeoning -type undead
+
+                !i effect "Bone Construct" "Slam" -attack "{max(strengthMod, wisdomMod) +
+                proficiencyBonus}|1d{8 + 2*int(WardenLevel >= 11)} + {max(strengthMod,
+                wisdomMod)}[{'magical ' if WardenLevel >= 7 else ''}bludgeoning]|"
+
+                ```
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 1
+  Bone Emissary:
+    level: 3
+    actions:
+      - |
+        - name: Bone Emissary
+          automation:
+            - type: text
+              text: Your Bone Construct gains its own Primal Interdiction extending to a range
+                of 5 feet around it.. When you recklessly defend your allies within range
+                of your Primal Interdiction, your Bone Construct does the same for any
+                creatures within the range of the Primal Interdiction emitting from it.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Bonded Endurance:
+    level: 3
+    actions:
+      - |
+        - name: Bonded Endurance
+          automation:
+            - type: text
+              text: You can use Endurance Dice to reduce damage taken by your Bone Construct.
+                When you do so, you gain temporary hit points equal to the value rolled on
+                the die. When you block damage with an Endurance Die against yourself,
+                your Bone Construct gains temporary hit points equal to value rolled on
+                the die.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Unearthed Titan:
+    level: 7
+    actions:
+      - |
+        - name: Unearthed Titan
+          automation:
+            - type: text
+              text: >-
+                Your Bone Construct gain the following features:
+
+
+                - **Large Size.** When you summon it, you can summon it as a Large sized
+                creature.
+
+                - **Immediate Commands.** When you use your action to summon it, you can
+                use your bonus action to command it to take one of its actions.
+
+                - **Magical Attacks.** Its attacks become magical for the purposes of
+                overcoming resistance to nonmagical attacks.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 2
+  Unliving Resilience:
+    level: 7
+    actions:
+      - |
+        - name: Unliving Resilience
+          automation:
+            - type: text
+              text: >-
+                You gain resistance to one damage type of your choice from cold, necrotic,
+                or poison damage.
+
+                Additionally, you gain advantage on saving throws against poison or
+                disease, and you can go twice as long without breathing, eating, and
+                sleeping without suffering negative consequences.
+          _v: 2
+          proper: true
+          verb: has
+  Grave Grip:
+    level: 14
+    actions:
+      - |
+        - name: Grave Grip
+          automation:
+            - type: counter
+              counter: Grave Grip
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: ieffect2
+                      name: Restrained
+                      buttons:
+                        - label: Break Free
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: dex
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          verb: attempts to break free
+                          style: "3"
+                          defaultDC: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+                        - label: Grave Grip
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: damage
+                                  damage: 3d6[necrotic]
+                          verb: is crushed by skeletal hands
+                          style: "4"
+                  success: []
+                  dc: 8 + max(strengthMod, wisdomMod) + proficiencyBonus
+            - type: text
+              text: >-
+                As an action, you can call for skeletal grasping hands to raise from the
+                ground and bind your foes. All Large or smaller creatures of your choice
+                within range of your Primal Interdiction (or the Primal Interdiction of
+                your Bone Construct) must make a Dexterity saving throw with a DC of 8 +
+                your Strength or Wisdom modifier (your choice) + your proficiency bonus.
+
+                On failure, the creature becomes Restrained by a skeletal hand rising from
+                the earth. The creature can break free as an action by making a Strength
+                saving throw with the same DC as the original save, or can be freed if the
+                skeletal hand is destroyed. It has an AC of 13 and 13 hit points, with a
+                vulnerability to bludgeoning damage.
+
+                If a creature ends its turn while restrained by a skeletal hand from this
+                ability, it takes 3d6 necrotic damage.
+
+                Once you use this ability, you cannot use it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: false
+          activation_type: 1
+  Death’s Domain:
+    level: 17
+    actions:
+      - |
+        - name: Death’s Domain
+          automation:
+            - type: counter
+              counter: Death’s Domain
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As a bonus action you can project your domain around you for 1 minute,
+                with the following effects:
+
+
+                - **Expanded Domain.** The range of your Primal Interdiction is doubled.
+
+                - **Spare the Dying.** If an allied creature falls to 0 hit points within
+                range of your Primal Interdiction, you can cast spare the dying on them as
+                a reaction (without needing to be able to touch them).
+
+                - **Boneyard.** Skeletal constructs you create (including your Bone
+                Construct, skeletal hands from Grave Grip, objects created by spells such
+                as ribcage, or skeletons created by spells such as animate dead) gain
+                resistance to all damage while within range of your Primal Interdiction.
+
+
+                Once you use this ability, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: true
+          verb: projects
+          activation_type: 3

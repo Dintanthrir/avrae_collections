@@ -1,0 +1,332 @@
+# 'b09b7e48-1823-49b8-a9fe-15a1425642d8'
+# KibblesTasty: Warden - Astral Guardian
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Astral Guardian
+parent: Warden
+counters:
+  1:
+    - name: "Innate Magic: Detect Magic"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Arcane Conduit"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Misty Step"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  7:
+    - name: Astral Beacon
+      minVal: 0
+      maxVal: proficiencyBonus
+      reset: long
+      reset_to: proficiencyBonus
+  9:
+    - name: "Innate Magic: Ghost Step"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Dimension Cutter"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  14:
+    - name: Astral Rift
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Dimension Door"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Astral Arms:
+    level: 1
+    actions:
+      - |
+        - name: Summon Astral Arms
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Astral Arms
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Astral Arms
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{4 + 2*int(WardenLevel >= 11)} + {max(strengthMod, wisdomMod)}[force]
+                                miss: []
+                                attackBonus: max(strengthMod, wisdomMod) + proficiencyBonus
+                    - attack:
+                        _v: 2
+                        name: Offhand Astral Arms
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d{4 + 2*int(WardenLevel >= 11)}[force]
+                                miss: []
+                                attackBonus: max(strengthMod, wisdomMod) + proficiencyBonus
+            - type: text
+              text: >-
+                You gain the ability to form up to two astral arms as a bonus action.
+                These are natural melee weapons with the Light property which deal 1d4
+                force damage on hit. You can additionally use them to grapple creatures
+                and make unarmed strikes with them. You can use your Wisdom modifier in
+                place of your Strength or Dexterity modifier for attack and damage rolls
+                made with these weapons.
+
+                These arms last until you fall unconscious or you dismiss them as a bonus
+                action. The maximum number of arms you can form increases to 4 at 9th
+                level, and 6 at 17th level. The number of arms do not affect the number of
+                attacks you can make, but the arms can be used to grapple creatures.
+
+                When you take the Attack action on your turn, you can make a single
+                unarmed strike or grapple check with one of your Astral Arms as a bonus
+                action.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Sixth Sense:
+    level: 1
+    actions:
+      - |
+        - name: Sixth Sense
+          automation:
+            - type: text
+              text: You gain a special sense allowing you to sense extraplanar energies. You
+                can detect if you are being watched through magic or by creatures within
+                30 feet of you in the ethereal plane if your passive Perception is equal
+                to or higher than 10 + their CR (or their spell save DC if they are using
+                a spell to observe you).
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Dimensional Interdiction:
+    level: 3
+    actions:
+      - |
+        - name: Dimensional Interdiction
+          automation:
+            - type: text
+              text: "The difficult terrain of your Primal Interdiction affects flying
+                creatures within range as well. Additionally, any creature that attempts
+                to teleport into or out of the radius of your Primal Interdiction must
+                succeed a Charisma saving throw with a DC equal to 8 + your Wisdom
+                modifier + your proficiency bonus (DC: {8 + wisdomMod +
+                proficiencyBonus}). On a failed save, the teleport is wasted and they are
+                not transported. You can choose to allow a creature to teleport in or out
+                of Primal Interdiction without making a save."
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 2
+  Astral Strike:
+    level: 3
+    actions:
+      - |
+        - name: Astral Strike
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Empowered Astral Arms
+                  duration: "2"
+                  end: true
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Empowered Astral Arms
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: condition
+                                    condition: WardenLevel < 18
+                                    onTrue:
+                                      - type: damage
+                                        damage: 1d4 + {max(strengthMod, wisdomMod)} + 1d{8 + 2*(int(WardenLevel >= 5) +
+                                          int(WardenLevel >= 11))} + {constitutionMod if
+                                          WardenLevel >= 6 else 0}[force]
+                                    onFalse:
+                                      - type: damage
+                                        damage: 1d4 + {max(strengthMod, wisdomMod)} + 2d12kh1 + {constitutionMod}[force]
+                                  - type: save
+                                    stat: cha
+                                    fail: []
+                                    success: []
+                                    dc: 8 + wisdomMod + proficiencyBonus
+                                miss: []
+                                attackBonus: max(strengthMod, wisdomMod) + proficiencyBonus
+            - type: text
+              text: >-
+                When you expend an Endurance Die, you can empower your next attack with
+                your Astral Arms before the end of your next turn. The attack gains a
+                reach equal to the range of your Primal Interdiction, and if it hits,
+                deals additional damage equal to one of your Endurance Dice.
+
+                Additionally, you can force the target to make a Charisma saving throw
+                with a DC of 8 + your Wisdom modifier + your Proficiency bonus. On a
+                failure, you can teleport them to an empty space within range of your
+                Primal Interdiction.
+          _v: 2
+          proper: true
+          verb: performs an
+          activation_type: 2
+  Astral Beacon:
+    level: 7
+    actions:
+      - |
+        - name: Astral Beacon
+          automation:
+            - type: counter
+              counter: Astral Beacon
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As bonus action, you can teleport a willing creature within 60 feet into
+                any empty space within range of your Primal Interdiction. You can do this
+                a number of times equal to your proficiency bonus, regaining all uses when
+                you complete a long rest.
+
+                Additionally, your Primal Interdiction is always considered as in range of
+                allied creature’s teleport abilities, even if it would normally be out of
+                range of the teleport, as long as they are within 300 feet of you.
+          _v: 2
+          proper: true
+          verb: creates an
+          activation_type: 3
+  Dimensional Guardian:
+    level: 7
+    actions:
+      - |
+        - name: Dimensional Guardian
+          automation:
+            - type: text
+              text: You gain resistance to force damage, and advantage on any saving throw
+                against being teleported or moved between planes against your will.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Astral Rift:
+    level: 14
+    actions:
+      - |
+        - name: Astral Rift
+          automation:
+            - type: counter
+              counter: Astral Rift
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Astral Rift
+                  duration: "10"
+            - type: text
+              text: >-
+                As an action, you can open an Astral Rift connecting two places with a
+                tear in reality. One rift appears in an empty space within 5 feet of you
+                of your choice, and the other appears in an empty space at a point you are
+                familiar with within a number of miles equal to your Warden level. The
+                tear takes the shape of a swirling opaque roughly circular portal with a 5
+                foot radius. A willing creature that passes through it is teleported to an
+                empty space within 5 feet of the other portal
+
+                The rift remains open for 1 minute once opened, or until you close it as
+                an action. Once you create an astral rift, you cannot do so again until
+                you complete a long rest.
+          _v: 2
+          proper: true
+          verb: opens an
+          activation_type: 1
+  Astral Projection:
+    level: 17
+    actions:
+      - |
+        - name: Astral Projection
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Astral Form
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                  buttons:
+                    - label: End Astral Form
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+            - type: text
+              text: >-
+                You can astrally project your soul out of your body as an action. When you
+                do so, your body becomes stunned and incapacitated, but you can act in
+                your astral form. While in your astral form, you have the following
+                benefits:
+
+
+                - **Astral Form.** Your astral form is resistant to bludgeoning, piercing,
+                and slashing damage.
+
+                - **Flying Speed.** You gain a flying speed equal to your movement speed,
+                and can hover.
+
+                - **Ethereal.** You can pass through physical objects and creatures as if
+                they are difficult terrain, but cannot end your turn inside another
+                creatures or objects’ space, being moved to the last unoccupied space you
+                occupied if you try.
+
+                - **Planar Shift.** You can move between your current plane and the
+                ethereal plane as an action. While on the ethereal plane, you can see and
+                hear the plane you originated from, which is cast in shades of gray, and
+                you can’t see anything there more than 60 feet away.
+
+
+                Otherwise, your astral form shares all abilities and statistics with your
+                normal form. While you use this ability, your Primal Interdiction projects
+                from your astral form instead of your body. When you use this ability, you
+                can project yourself to any plane or location you are familiar with. If
+                your astral form is reduced to 0 hit points, you are returned to your body
+                and regain 1 hit point. You can end the project at any time as a bonus
+                action, returning to your body.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1

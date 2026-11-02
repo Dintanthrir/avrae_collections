@@ -1,0 +1,247 @@
+# '3fed11c9-e4a2-4a08-9ab4-8352ef43cf0a'
+# KibblesTasty: Warden - Timetwister
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Timetwister
+parent: Warden
+counters:
+  1:
+    - name: "Innate Magic: Longstrider"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  3:
+    - name: "Innate Magic: Hold Person"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  5:
+    - name: "Innate Magic: Alacrity"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  9:
+    - name: "Innate Magic: Slow"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Innate Magic: Haste"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Innate Magic: Hold Monster"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Time Lock
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Time Dilation:
+    level: 1
+    actions:
+      - |
+        - name: Accelerate
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Accelerated
+                  duration: "1"
+                  tick_on_caster: true
+                  desc: Speed + 10 feet. 1 extra attack.
+            - type: text
+              text: >-
+                You gain the ability to manipulate the flow of time for a creature. As an
+                action, you can accelerate the movement through time for a creature within
+                60 feet of you, allowing them to move more rapidly. That creature’s
+                movement speed is increased by 10 feet, and when they take the Attack
+                action, they can make a single additional weapon attack as part of the
+                same action until the start of your next turn.
+
+                When you reach 5th level in this subclass, you can accelerate a creature
+                as an attack as part of attack action, but you can only do each once per
+                turn.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+        - name: Decelerate
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Decelerated
+                  desc: speed -10 feet
+                  effects:
+                    to_hit_bonus: -1d{4 + 2*int(WardenLevel >= 11)}
+                    save_bonus: -1d{4 + 2*int(WardenLevel >= 11)}|dex
+            - type: text
+              text: >-
+                You gain the ability to manipulate the flow of time for a creature. As an
+                action, you can decelerate down the movement through time of a creature
+                within 60 feet of you. That creature’s speed is reduced by 10 feet and it
+                subtracts a d4 from its attack rolls and Dexterity saving throws until the
+                start of your next turn. When you gain a feature that increases the size
+                of the die for natural weapons you gain from the Warden class, the size of
+                the die increases by one step.
+
+                When you reach 5th level in this subclass, you can decelerate a creature
+                as an attack as part of attack action, but you can only do each once per
+                turn.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  Foreshadowing:
+    level: 1
+    actions:
+      - |
+        - name: Foreshadowing
+          automation:
+            - type: text
+              text: >-
+                You can glimpse future possibilities. When you roll initiative, record the
+                result on the d20. Within the next minute, you can replace one of your
+                attack rolls, ability checks, or saving throws with the roll.
+
+                Alternatively, you can replace one attack roll or contested ability check
+                of an enemy within 5 feet of you with the roll. This range extends to the
+                range of your Primal Interdiction when you gain that feature.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Time Distortion:
+    level: 3
+    actions:
+      - |
+        - name: Time Distortion
+          automation:
+            - type: text
+              text: Your Primal Interdiction begins to distort time. The difficult terrain
+                created by your Primal Interdiction affects the movement of flying
+                creatures as well, and when you recklessly defend your allies with your
+                Primal Interdiction you can grant them advantage on Dexterity saving
+                throws as well.
+          _v: 2
+          proper: false
+          verb: is surrounded by
+          activation_type: 2
+  Timely Intervention:
+    level: 3
+    actions:
+      - |
+        - name: Missed Beat
+          automation:
+            - type: counter
+              counter: Endurance Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: As a reaction to a creature within your Primal Interdiction being
+                attacked, you can expend an Endurance Die to slow the creature's
+                reactions, giving the triggering attack against them advantage.
+          _v: 2
+          proper: false
+          verb: forces
+          activation_type: 4
+        - name: Minor Adjustment
+          automation:
+            - type: counter
+              counter: Endurance Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: As a reaction to a creature within your Primal Interdiction being affected
+                by an area of effect, you stop time long enough for them to move up to 5
+                feet before the effect applies, potentially moving out of the area of
+                effect.
+          _v: 2
+          proper: false
+          verb: makes
+          activation_type: 4
+        - name: Arrow Time
+          automation:
+            - type: counter
+              counter: Endurance Dice
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: As a reaction to a creature within your Primal Interdiction being attacked
+                by a ranged weapon projectile attack, you can stop the projectile in time,
+                rolling the Endurance Die and subtracting the roll from the weapon’s
+                attack roll.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 4
+  Time Zone:
+    level: 7
+    actions:
+      - |
+        - name: Time Zone
+          automation:
+            - type: text
+              text: As a bonus action you can project your Primal Interdiction to be centered
+                on a point within 60 feet instead of you. When you do so, the effects of
+                difficult terrain and your abilities that take place inside your Primal
+                Interdiction cover the area within range of the point rather than you. The
+                aura returns to surrounding you if you move more than 60 feet from the
+                point, or if you return it to you as a bonus action. You cannot recklessly
+                defend your allies with your Primal Interdiction while it is projected at
+                a point that does not also contain you within its radius.
+          _v: 2
+          proper: true
+          verb: changes their
+          activation_type: 3
+  Chrono Controller:
+    level: 14
+    actions:
+      - |
+        - name: Chrono Controller
+          automation:
+            - type: text
+              text: Your mastery of time becomes more extensive and intuitive. You can no
+                longer lose concentration on spells granted by your Innate Magic feature
+                from this subclass by taking damage, and when you cast them, you can cast
+                them as if they were cast with a spell slot one level higher than their
+                default spell level when they have an applicable effect.
+          _v: 2
+          proper: false
+          verb: is
+  Time Lock:
+    level: 17
+    actions:
+      - |
+        - name: Time Lock
+          automation:
+            - type: counter
+              counter: Time Lock
+              amount: "1"
+              errorBehaviour: raise
+            - type: spell
+              id: 2279
+            - type: text
+              text: >-
+                You can cast time stop without expending a spell slot. When you cast time
+                stop, you always stop time for maximum amount of time rather than rolling.
+
+                Once you use this ability, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 1

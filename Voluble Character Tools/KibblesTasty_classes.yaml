@@ -141,9 +141,9 @@
     Sunwatcher: 'a85d2e4c-810c-4c3b-b884-8672085092d4'
     Ironbound: '81cdce0f-7a04-4453-b3d1-2779debafb82'
     Dreadwing: '91008d01-d8cc-40d1-8aea-5d59e1478e0c'
-    Timetwister: { parent: Warden }
-    Astral Guardian: { parent: Warden }
-    Bone Binder: { parent: Warden }
+    Timetwister: '3fed11c9-e4a2-4a08-9ab4-8352ef43cf0a'
+    Astral Guardian: 'b09b7e48-1823-49b8-a9fe-15a1425642d8'
+    Bone Binder: '1ba3453e-29a2-4c38-8dc6-d92719ca3cf5'
     # Warlord
     Chieftain's Presence: '381adcb4-18b8-446a-868a-62c1b564e088'
     Commander's Presence: '953d2c7a-7260-4266-a6f0-5d69c0cb6397'
