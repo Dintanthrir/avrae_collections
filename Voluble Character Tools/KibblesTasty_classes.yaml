@@ -19,9 +19,7 @@
     Spellblade:
       hit_die: 8
       sub_level: 3
-    Summoner:
-      hit_die: 6
-      sub_level: 3
+    Summoner: 'c8c87146-ef8a-47f1-b0e0-d015e74e0d21'
     Warden: 'c53629c8-2c31-4fec-a1dd-fa6d212c9dfe'
     Warlord: '858f6de7-c205-4583-9e11-f02e66de98bf'
   subclasses:
@@ -128,11 +126,13 @@
     Swiftblade: { parent: Spellblade }
     Spellshot: { parent: Spellblade }
     # Summoner:
-    Legion Caller: { parent: Summoner }
-    Contractor: { parent: Summoner }
-    Invoker: { parent: Summoner }
-    Swarm Controller: { parent: Summoner }
-    World Sculptor: { parent: Summoner }
+    Legion Caller: '78476f49-9ffd-441e-83d7-6cb98d58a60c'
+    Contractor: '63013364-2d99-4ae7-8032-6e591138847a'
+    Invoker: '69de8fa6-c54e-4ebb-8324-39b616a37b1d'
+    Spirit Converger: '41857f9a-7f10-4d62-be7f-649bd3bc13cc'
+    Swarm Controller: 'ac9f5c42-b30d-44fe-bbf5-4d4761169d51'
+    Titan Striker: 'f5cf07f2-be12-44c4-b8f0-1bde4b571cbc'
+    World Sculptor: '5ce53a3d-4676-47a6-98c1-078435fe115d'
     # Warden:
     Elemental Soul: 'ccb00323-7668-4f66-ab18-7ab118763929'
     Beasthide: '94a1125d-6198-4c07-a880-ccf6676e6369'

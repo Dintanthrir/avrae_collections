@@ -1,0 +1,123 @@
+# '78476f49-9ffd-441e-83d7-6cb98d58a60c'
+# KibblesTasty: Summoner - Legion Caller
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Legion Caller
+parent: Summoner
+counters:
+  - name: Overlord's Command
+    minVal: 0
+    maxVal: 1
+    reset: short
+    reset_to: 1
+automations:
+  Sturdy Summons:
+    level: 3
+    actions:
+      - |
+        - name: Sturdy Summons
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Sturdy Summon
+                  effects:
+                    max_hp_bonus: SummonerLevel / 2
+            - type: text
+              text: Any time you call forth an entity with Summon Entity, it gains additional
+                hit points equal to half your Summoner level (rounded down).
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Empowered Advance:
+    level: 3
+    actions:
+      - |
+        - name: Empowered Advance
+          automation:
+            - type: counter
+              counter:
+                slot: 1
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You gain the ability to empower your Legion. As a bonus action, you can
+                expend a spell slot of 1st level or higher. When you do so, all of your
+                Summoned Entities gain Temporary Hit Points equal to your Intelligence
+                modifier × the level of the spell slot spent, and you can immediately use
+                Direct Control as part of the same bonus action.
+          _v: 2
+          proper: true
+          verb: leads an
+          activation_type: 3
+  Legion Commander:
+    level: 5
+    actions:
+      - |
+        - name: Legion Commander
+          automation:
+            - type: text
+              text: >-
+                You gain several additional powers to more command your summons:
+
+
+                - **Legion March.** When you use Direct Control, you can move all the
+                Summoned Entities you currently have summoned. You can replace moving with
+                attack for one of them (but not all of them).
+
+                - **Legion Call.** When you use Summon Entity, you can summon two entities
+                instead of one.
+
+                - **Legion Relay.** When you cast a spell you learned from a Plane of
+                Study that does not have a range of self, you can use any Summoned Entity
+                from that Plane of Study as a conduit, casting it as if you were in its
+                space.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Planar Legion:
+    level: 7
+    actions:
+      - |
+        - name: Planar Legion
+          automation:
+            - type: text
+              text: "Your Summoned Entities gain a cooperative legion bonus based on their
+                Plane of Origin:"
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 2
+  Overlord's Command:
+    level: 14
+    actions:
+      - |
+        - name: Overlord's Command
+          automation:
+            - type: counter
+              counter: Overlord's Command
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "5"
+            - type: text
+              text: >-
+                You can push your summons to the extreme. When you use Direct Control, you
+                can cause all of your Summoned Entities to move and attack, but they all
+                lose 5 hit points. If this damage would destroy them, it instead reduces
+                them to 1 hit point until the end of their turn (which occurs immediately
+                after yours), after which they are dismissed as normal due to lack of hit
+                points.
+
+                Once you take this action, you cannot take it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: true
+          verb: issues an
+          activation_type: 1

@@ -1,0 +1,83 @@
+# 'ac9f5c42-b30d-44fe-bbf5-4d4761169d51'
+# KibblesTasty: Summoner - Swarm Controller
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Swarm Controller
+parent: Summoner
+automations:
+  Conjure Swarm:
+    level: 3
+    actions:
+      - |
+        - name: Conjure Swarm
+          automation:
+            - type: text
+              text: You gain a new summon option for Summon Entity, the
+                Conjured Swarm. This entity inherits its creature type, any
+                languages, senses, and additional resistances from one of
+                your available Summoned Entities, but otherwise uses the
+                Conjured Swarm stat block.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Swarm Empowerment:
+    level: 3
+    actions:
+      - |
+        - name: Swarm Empowerment
+          automation:
+            - type: text
+              text: When you use Summon Entity to call forth a Conjured
+                Swarm, you can expend a spell slot to further empower the
+                swarm. The swarm gains hit points equal to 2 × the level of
+                the spell slot spent, an additional effect based on the level of
+                the spell slot (shown on the table below). You can gain the
+                effect of a lower level spell slot instead of the slot level spent.
+                The added effect ends when the Swarm is dismissed,
+                reduced to 0 hit points, or after 1 minute.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Responsive Swarm:
+    level: 5
+    actions:
+      - |
+        - name: Responsive Swarm
+          automation:
+            - type: text
+              text: When you use Direct Control to move your Conjured Swarm, you
+                can also cause it to take a Swarm Action.
+          _v: 2
+          verb: has
+          activation_type: 2
+  Planar Manifestation:
+    level: 7
+    actions:
+      - |
+        - name: Planar Manifestation
+          automation:
+            - type: text
+              text: Your Swarm gains a new effect based on the Plane of
+                Study it was called from. If the swarm is dispersed, effects
+                that apply to its space or within 5 feet of it apply to the area
+                covered by the aura it provides instead.
+          _v: 2
+          verb: creates
+          activation_type: 2
+  Endless Tide:
+    level: 14
+    actions:
+      - |
+        - name: Endless Tide
+          automation:
+            - type: text
+              text: When you expend a spell slot to use Swarm
+                Empowerment, the Swarm gains the bonus hit points from
+                the expended spell slot again at the start of each of your
+                subsequent turns for the duration of the empowered effect.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 2

@@ -1,0 +1,85 @@
+# '41857f9a-7f10-4d62-be7f-649bd3bc13cc'
+# KibblesTasty: Summoner - Spirit Converger
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Spirit Converger
+parent: Summoner
+counters:
+  7:
+    - name: Planar Enhancement
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Spirit Mantle:
+    level: 3
+    actions:
+      - |
+        - name: Spirit Mantle
+          automation:
+            - type: text
+              text: As a bonus action you can use Summon Entity in a special
+                way, wrapping yourself in the conjured power and merging
+                with it. When you do so, you expend Essence as normal, but
+                you don't create a separate Summoned Entity, but instead
+                gain a set of powers
+          _v: 2
+          verb: has
+          activation_type: 2
+  Planar Burst:
+    level: 3
+    actions:
+      - |
+        - name: Planar Burst
+          automation:
+            - type: text
+              text: While you are under the effect of Spirit Mantle, when you
+                cast a spell you know through the Plane of Study the
+                Summoned Entity you are merged with comes from, you can
+                make a single weapon attack as a bonus action using a
+                natural weapon you gain from the Summoned Entity.
+          _v: 2
+          verb: releases
+          activation_type: 2
+  Planar Enhancement:
+    level: 7
+    actions:
+      - |
+        - name: Planar Enhancement
+          automation:
+            - type: counter
+              counter: Planar Enhancement
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: While you have your Spirit Mantle active, you gain a special ability based
+                on its plane of origin. This ability can only be activated once, after
+                which you need to complete a short or long rest before you can activate it
+                again.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 3
+  Empyrean Ascension:
+    level: 14
+    actions:
+      - |
+        - name: Empyrean Ascension
+          automation:
+            - type: text
+              text: When you assume your Spirit Mantle, you can expend a
+                spell slot to empower it. When you empower it this way, you
+                can become a Large sized creature.
+
+                The temporary hit points you gain from Spirit Mantle
+                increase by 2 × the spell slot level (or 4 × the spell slot level if
+                you become a Large sized creature), and a series of escalating
+                benefits based on the level of the spell slot expended. You
+                gain the effects of the spell slot level, and all lower level spell
+                slot effects. The benefits persist for as long as the form
+                persists.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2

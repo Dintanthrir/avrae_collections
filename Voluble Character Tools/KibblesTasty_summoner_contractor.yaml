@@ -1,0 +1,145 @@
+# '63013364-2d99-4ae7-8032-6e591138847a'
+# KibblesTasty: Summoner - Contractor
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Contractor
+parent: Summoner
+counters:
+  3:
+    - name: Channeled Power
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Contract Entity:
+    level: 3
+    actions:
+      - |
+        - name: Contract Entity
+          automation:
+            - type: text
+              text: >-
+                Whenever you complete a long rest, you can perform a special contract with
+                one entity that you can conjure with Summon Entity, making it easier to
+                call forth and empowering it. Until the end of your next long rest, when
+                you call forth that Entity, you do not need to expend Essence, but it has
+                its own hit point equal to 5 × your Summoner level (+ 2 × any bonus its
+                hit points normally have). Whenever you summon it or as an action at any
+                time, you can expend your Essence or spell slots to heal it. When you do
+                so, it gains hit points equal to 2 × the Essence expended, or 5 × the
+                spell level expended. You do not regain any Essence when dismissing it.
+
+
+                **Improved Persistence.** The bound entity is no longer dismissed after 1
+                minute, and can remain indefinitely until you send it back or it is
+                reduced to 0 hit points. The range it can be from you before its hit
+                points decay is doubled to 100 × your Summoner Level feet.
+
+                **Improved Autonomy.** Moving no longer replaces the Summons ability to
+                take an action, it instead gains the ability to take the Dash action.
+
+                **Improved Attributes.** You can replace any two of its attributes that
+                are lower than your Intelligence ability score with your Intelligence
+                ability score.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 8
+  Customized Summons:
+    level: 3
+    actions:
+      - |
+        - name: Customized Summons
+          automation:
+            - type: text
+              text: >-
+                When you select this subclass and again whenever you would normally
+                increase the number of Summoned Entities you can call forth at once, you
+                can instead select an additional customization on binding (replacing the
+                ability to call forth multiple entities with empowering this one).
+
+                You can change which Summon Customizations are active any time you perform
+                the contract in Contract Entity.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Channeled Power:
+    level: 3
+    actions:
+      - |
+        - name: Channeled Power
+          automation:
+            - type: counter
+              counter: Channeled Power
+              amount: "1"
+            - type: text
+              text: >-
+                When you use Direct Control on a Summoned Entity, you can instead direct
+                it to to cast a spell from the related planar spell table of the plane it
+                was summoned from (the spells you learn from that Plane of Study) in place
+                of one attack. Casting a spell this way does not have any spell components
+                and does not expend a spell slot, but you can only cast each spell from
+                the related Planar Spell Table this way once, after which you must
+                complete a long rest to cast that spell this way again.
+
+                The spell uses your spell casting modifier, but otherwise behaves as if
+                the Summon cast the spell. If the spell requires Concentration, you must
+                maintain the concentration for the spell.
+
+                You can have it cast a spell this way again early by expending one of your
+                spell slots of equal or higher level to the spell you direct it to cast,
+                casting the spell at the level of the spell slot expended.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Increased Control:
+    level: 5
+    actions:
+      - |
+        - name: Increased Control
+          automation:
+            - type: text
+              text: >-
+                When you use Summon Entity to call forth your Contracted Entity, you can
+                direct it to make a single weapon attack with your bonus action.
+
+                Additionally, when you use Direct Control on the entity bound by Contract
+                Entity, you can direct it both Move and take an action (Attack, Dodge, or
+                another action available from its stat block).
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Planar Influence:
+    level: 7
+    actions:
+      - |
+        - name: Planar Influence
+          automation:
+            - type: text
+              text: The contractual bond you've formed influences you. While you have the
+                summon from Contractual Entity manifested, you gain a power based on the
+                Plane of Study it was called from.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Second Binding:
+    level: 14
+    actions:
+      - |
+        - name: Second Binding
+          automation:
+            - type: text
+              text: When completing a long rest, you can select a second creature you can
+                summon to use Contract Entity on, with it gaining the same benefits and
+                its own hit point pool. You can only have one of the bound entities called
+                forth at a time, but when you dismiss one with an action, you can summon
+                the other with the same action.
+          _v: 2
+          proper: false
+          verb: completes
+          activation_type: 2

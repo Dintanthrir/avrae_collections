@@ -1,0 +1,299 @@
+# 'c8c87146-ef8a-47f1-b0e0-d015e74e0d21'
+# KibblesTasty: Summoner
+# https://www.kthomebrew.com/thelist
+# class definition for Voluble Character Tools
+hit_die: 6
+sub_level: 3
+counters:
+  1:
+    - name: Essence
+      minVal: 0
+      maxVal: 2 * SummonerLevel
+      reset: long
+      reset_to: 2 * SummonerLevel
+  6:
+    - name: Free Labor
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: Channeled Recovery
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  9:
+    - name: Recall Ally
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  15:
+    - name: Planeswalker
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Conjure Calamity
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+features:
+  esoteric_secrets: { title: 'Esoteric Secrets', type: list, level: 3 }
+automations:
+  Direct Control:
+    level: 1
+    actions:
+      - |
+        - name: "Direct Control "
+          automation:
+            - type: text
+              text: >-
+                As an action, you can direct one of your Summoned Entities to make an
+                additional movement immediately, up to its movement speed.
+
+                When you reach 5th level, you can command the entity to attack using one
+                of its actions instead of moving it when controlling it this way.
+          _v: 2
+          proper: true
+          verb: assumes
+          activation_type: 1
+  Astral Inventory:
+    level: 1
+    actions:
+      - |
+        - name: Astral Inventory
+          automation:
+            - type: text
+              text: >-
+                You gain access to a small private subspace that can be used to store and
+                summon items. Placing an item into or removing an item from this special
+                subspace requires an action. You can only store items that you can touch
+                and that are not being worn or carried by other creatures. When an item is
+                summoned, it is summoned either into your hand, or immediately adjacent to
+                you.
+
+                When you gain this feature, you can only store Tiny items (such as a
+                potion or dagger) in your inventory. This increases to Small sized items
+                (such swords or breastplates) at 5th level, Medium sized items (such
+                polearm or set of plate armor) at 9th level, and Large sized items (such
+                as rafts or wagons) at 13th level.
+
+                You can store a number of items in your Inventory equal to your Summoner
+                level (counting each individual item), and they can have a total maximum
+                weight of 50 × your Summoner level pounds.
+          _v: 2
+          proper: true
+          verb: opens their
+          activation_type: 1
+  Free Labor:
+    level: 6
+    actions:
+      - |
+        - name: Free Labor
+          automation:
+            - type: text
+              text: >-
+                With a special ritual taking 1 minute, you can call forth one or more (up
+                to your Summoner level) menial summons that assist with basic tasks.
+
+                They cannot attack, but have the properties of a servant created by the
+                unseen servant spell, though they are visible and of a creature type
+                related to your Plane of Study, with a generally related appearance of
+                your choice. You can dismiss them at any time as an action.
+
+                You can gain a total number of hours of labor equal to your Summoner level
+                (for example, at 6 level you can summon 6 for 1 hour, 2 for 3 hours, or 1
+                for 6 hours). This work can be all at once or divided into smaller
+                segments.
+
+                After the total hours they can work is complete, they vanish and you
+                cannot summon them again until you complete a long rest.
+          _v: 2
+          proper: true
+          verb: demands
+          activation_type: 6
+  Channeled Recovery:
+    level: 6
+    actions:
+      - |
+        - name: Channeled Recovery
+          automation:
+            - type: counter
+              counter: Essence Points
+              amount: SummonerLevel
+            - type: text
+              text: When you complete a short rest, you recover half of your maximum essence
+                points.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 8
+  Recall Ally:
+    level: 9
+    actions:
+      - |
+        - name: Recall Ally
+          automation:
+            - type: counter
+              counter: Recall Ally
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can summon a willing creature you are familiar with that is within 500
+                feet of you to an empty space within 5 feet of you. The number of allies
+                you can summon and the range you can summon them from increases at 13th
+                level to up to 3 willing creatures from up to 1 mile, and again at 17th
+                level to up to 6 willing creatures from up to 100 miles, or back to their
+                home plane at your location irrespective of distance if they are not
+                currently on it and you are.
+
+                Once you do this, you cannot do so again until you complete a short or
+                long rest.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  Otherworldly Power:
+    level: 11
+    actions:
+      - |
+        - name: Otherworldly Power
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: 1d6[force]
+            - type: text
+              text: Your Summoned Entity's attacks deal an additional 1d6 force damage on hit.
+                This bonus damage applies to attacks and abilities that replace an attack
+                as long as it has an attack roll or saving throw (such as a Swarm
+                Controller's Swarm Attack, even if it can automatically hit).
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2
+  Planeswalker:
+    level: 15
+    actions:
+      - |
+        - name: Planeswalker
+          automation:
+            - type: counter
+              counter: Planeswalker
+              amount: "1"
+              errorBehaviour: raise
+              fixedValue: true
+            - type: counter
+              counter: Planeswalker Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: self
+              effects:
+                - type: variable
+                  name: temp_hp
+                  value: caster.temp_hp
+                - type: damage
+                  damage: "{lastCounterRequestedAmount} + {temp_hp}"
+                - type: condition
+                  condition: temp_hp > 0
+                  onTrue:
+                    - type: temphp
+                      amount: "{temp_hp}"
+                  onFalse: []
+            - type: text
+              text: >-
+                You gain the ability reverse your summoning process to cast plane shift
+                without expending a spell slot, though you must expend hit points equal to
+                the level or CR of any hostile creature transported this way.
+
+                Once you use this ability, you cannot do so again until you complete a
+                long rest.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 1
+  Conjure Calamity:
+    level: 20
+    actions:
+      - |
+        - name: Conjure Calamity
+          automation:
+            - type: roll
+              dice: 20d6[fire]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Conjure Calamity
+                  duration: "10"
+                  conc: true
+                  buttons:
+                    - label: Control Calamity
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: check
+                              ability: intelligence
+                              dc: "15"
+                              success: []
+                              fail: []
+                      style: "3"
+            - type: text
+              text: >-
+                As an action you can tear open a planar breach at a point within 300 feet,
+                selecting from a plane that will deal acid, cold, fire, lightning,
+                necrotic, psychic, or radiant damage when breached. All creatures within
+                20 feet of the point must make a Dexterity saving throw, taking 20d6
+                damage of the selected type on failure, or half as much on success.
+
+
+                **Gargantuan Summon.** A gargantuan creature then appears through the
+                breach. It has a creature type related to one of your selected Planes of
+                Study. It has 200 hit points, has 18 AC, and uses +12 for all saving
+                throws and ability checks. It takes its turn immediately after you, on
+                which it moves up to 30 feet and causes all creatures within a 30 foot
+                cone to make a DC 20 Dexterity saving throw with great cleaving attacks as
+                its actions. Creatures, structures, and objects take 10d6 damage of the
+                selected damage type on a failed save, and half as much on a successful
+                save. It deals twice as much damage to buildings and structures.
+
+
+                **Duration.** It acts once before fading away unless you keep the creature
+                from fading away by concentrating on maintaining its presence (as if
+                concentrating on a spell). You can maintain it for up to 1 minute, until
+                it is reduced to 0 hit points, or you lose concentration.
+
+
+                **Controlling the Calamity.** When you call it forth, and as an action on
+                your subsequent turns while it is present, you can attempt to guide it,
+                making a spellcasting check with a DC of 15. On success, you can direct
+                what direction it moves and attacks on its turn. On failure, or if you do
+                not attempt to control it, it moves and attacks toward the creature
+                closest to it.
+
+
+                Once you have used this ability, you cannot use it again until you
+                complete a long rest.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 1

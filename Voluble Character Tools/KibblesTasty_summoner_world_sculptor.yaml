@@ -1,0 +1,114 @@
+# '5ce53a3d-4676-47a6-98c1-078435fe115d'
+# KibblesTasty: Summoner - World Sculptor
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: World Sculptor
+parent: Summoner
+automations:
+  Manifest Plane:
+    level: 3
+    actions:
+      - |
+        - name: Manifest Plane
+          automation:
+            - type: text
+              text: As an action you can call manifest parts of your Plane of
+                Study into your current plane, causing a localized anomaly of
+                extraplanar terrain. The extraplanar terrain fills a 5-foot-
+                radius, 10-foot-high cylinder around a point you can see
+                within 60 feet. The nature of this terrain varies greatly based
+                on what plane it comes from—a chunk of the plane of fire
+                might be scorching obsidian ground, a chunk of the abyss
+                might be writhing, grasping hands growing like weeds. When
+                you manifest it, you can control some of its properties.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 1
+  Translocate Entity:
+    level: 3
+    actions:
+      - |
+        - name: Translocate Entity
+          automation:
+            - type: text
+              text: You gain the ability to use your Manifest Plane at the same
+                time as your Summon Entity, to pull both a creature and part
+                of its plane over at the same time. When you cast Summon
+                Entity, you can use Manifest Plane as part of the same action,
+                though Summoned Entity manifests within the extraplanar
+                terrain, and must be from the same plane. If you are
+                manifesting Impassable terrain, the entity manifests within 5
+                feet of the extraplanar terrain.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Hazardous Manifestation:
+    level: 5
+    actions:
+      - |
+        - name: Hazardous Manifestation
+          automation:
+            - type: roll
+              dice: 2d6 + {intelligenceMod}[fire]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success: []
+            - type: text
+              text: |-
+                When you use Planar Manifestation, you can manifest it
+                with a special hazard based on that plane (for example, a
+                burst of fire if manifesting the elemental plane or a swarm of
+                biting insects if pulling from nature planes). Creatures not
+                native to the plane that is being manifested are within the
+                area must make a Dexterity saving throw. On failure,
+                creatures take 2d6 + your Intelligence modifier damage of a
+                related damage type from the plane. After which the hazard
+                fades away regardless of its nature.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 2
+  Exotic Properties:
+    level: 7
+    actions:
+      - |
+        - name: Exotic Properties
+          automation:
+            - type: text
+              text: You can select an additional modifier for your Manifest
+                Plane, and you gain a new option that depends on your Plane
+                of Study. You can select the new option whenever you use
+                Manifest Plane.
+          _v: 2
+          proper: true
+          verb: creates
+          activation_type: 2
+  Realm Warper:
+    level: 14
+    actions:
+      - |
+        - name: Realm Warper
+          automation:
+            - type: text
+              text: You get the ability to radically increase your extraplanar
+                manifestations, substituting a 50-foot radius, 50 foot high
+                cylinder of your current plane with an extraplanar landscape.
+                When you do this, you and all creatures within range are
+                pulled into a quasi-plane that overlays reality—this
+                substitution does not harm or damage the original plane, but
+                temporarily overwrites it for all creatures within the radius.
+                Its expansion is stopped by solid walls 5 feet thick,
+                conforming to the available area in such cases.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 2

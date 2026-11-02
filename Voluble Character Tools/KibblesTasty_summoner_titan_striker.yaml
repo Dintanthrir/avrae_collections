@@ -1,0 +1,151 @@
+# 'f5cf07f2-be12-44c4-b8f0-1bde4b571cbc'
+# KibblesTasty: Summoner - Titan Striker
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Titan Striker
+parent: Summoner
+counters:
+  14:
+    - name: Titan Caller
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Planar Strike:
+    level: 3
+    actions:
+      - |
+        - name: Planar Strike
+          automation:
+            - type: text
+              text: When you use Summon Entity, you can expend 1 Essence
+                to instead open a planar rift through which a larger entity can
+                briefly manifest and make a single strike or use a single
+                ability. This strike can target within the range of your
+                Summon Entity ability + twice the normal reach of the attack
+                if is is melee, or the normal range of the attack if it is ranged.
+
+                When you use it this way, no new Summoned Entity is
+                created, but instead briefly manifested in towering form to
+                perform a single ability. This ability strikes through the rift at
+                magnified power. Any damage this ability would normally do
+                is increased by 1d6 of the abilities normal damage type.
+
+                After making the strike, the manifestation and the rift and
+                the attack fades away. If the attack has any lingering effects,
+                they last as normal unless they require the summoned
+                creature's continued presence (such as a grapple, which
+                would immediately end).
+          _v: 2
+          activation_type: 2
+  Planar Casting:
+    level: 3
+    actions:
+      - |
+        - name: Planar Casting
+          automation:
+            - type: text
+              text: Whenever cast a spell, you can cast it through the same
+                type of planar rift used for Planar Strike, casting it as if you
+                were in the spot you manifest the rift. When you do so, you
+                can expend Essence to enhance the spell in the following
+                ways:
+
+
+                **Expanded (1 Essence):** If the spell targets an area of
+                effect, the area is increased by 5 feet if the spell has a
+                radius, 10 feet if the spell targets a cone, and 20 feet if the
+                spell targets a line.
+
+                **Empowered (1+ Essence):** If the spell deals damage, you
+                can expend Essence to reroll any number of the damage
+                dice, expending 1 essence per die rerolled (you can only
+                reroll each die once, you must use the new roll).
+          _v: 2
+          verb: performs
+          activation_type: 2
+  Titanic Strike:
+    level: 5
+    actions:
+      - |
+        - name: Titanic Strike
+          automation:
+            - type: text
+              text: The bonus damage from your Planar Strike increases by
+                an additional 1d6 (to 2d6 bonus damage). Additionally, when
+                you make a regular attack using Planar Strike (one that does
+                not have a per rest limit) you can expend additional Essence
+                empower your attack in one of the following ways:
+
+
+                - **Impact Zone (3 Essence).** The attack becomes a 15 foot
+                cone, 30 foot line, or 5-foot radius circle based on the
+                primary damage of the attack (cold, fire, poison, and
+                slashing become a cone; acid, lightning, piercing, and
+                radiant become a line; bludgeoning, force, necrotic,
+                psychic, and thunder become a radius). The area extends
+                from the rift used to summon the attack. Creatures in the
+                area must make a Dexterity saving throw. On failure, they
+                take damage equal to the attack's damage.
+
+                - **Power Strike (1+ Essence).** If you hit the attack, you can
+                spend 1 or more Essence (up to your maximum Essence)
+                and add Essence spent to the damage roll of the attack.
+          _v: 2
+          activation_type: 3
+  Planar Specializations:
+    level: 7
+    actions:
+      - |
+        - name: Planar Specializations
+          automation:
+            - type: text
+              text: Depends on your Plane of Study
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 3
+  Titan Caller:
+    level: 14
+    actions:
+      - |
+        - name: Titan Caller
+          automation:
+            - type: counter
+              counter: Titan Caller
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain the ability to fully manifest one of your titanic summons
+                briefly. When you use Planar Strike, you can expend 20 or more Essence to
+                allow the creature can step through the rift, manifesting as a Summoned
+                Entity using its normal statblock with the following changes:
+
+
+                - **Size.** The creature size is Huge.
+
+                - **Planar Strikes.** Every attack is considered a Planar Strike (applying
+                bonuses it normally gets), and can be modified by Titanic Strike.
+
+                - **Enhanced Attributes.** Its Strength and Constitution are increased by
+                10 to a maximum of 24 (+7). This does not affect its attack or damage
+                rolls (as those use your spell attack modifier and intelligence)
+
+                - **Planar Powers.** If its active ability is modified by Planar
+                Specialization, it can use either the normal version of the ability or the
+                modified version.
+
+
+                The entity has hit points equal to 2 × the Essence spent (as normal, with
+                any bonus it would normally get from its stat block), and persists under
+                the rules of Summon Entity, or until it is destroyed, however at the end
+                of each turn you must expend 1 Essence to maintain it, or its hit points
+                are decreased by 10.
+
+                Once it is dismissed, you cannot call forth an entity like this again
+                until you complete a short or long rest.
+          _v: 2
+          verb: is
+          activation_type: 2

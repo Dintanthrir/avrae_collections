@@ -1,0 +1,106 @@
+# '69de8fa6-c54e-4ebb-8324-39b616a37b1d'
+# KibblesTasty: Summoner - Invoker
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Invoker
+parent: Summoner
+automations:
+  Unstable Summons:
+    level: 3
+    actions:
+      - |
+        - name: Unstable Summons
+          automation:
+            - type: text
+              text: You gain the ability to detonate your Summoned Entities, releasing their
+                planar power in a burst of aetheric energy. While you have a Summoned
+                Entity summoned, you can use your bonus action to expend all of its hit
+                points (reducing it to 0 hit points) and cause it to return to its plane
+                of origin in an explosion of planar power related to its origin. Creatures
+                within 5 feet of the summoned entity must make a saving throw (which
+                varies in type based on the Plane of Study) against your spell save DC. On
+                failure, they take damage equal to half the current hit points of the
+                Summoned Entity (before the detonation was triggered, minimum 1), plus a
+                bonus base damage.
+          _v: 2
+          proper: true
+          verb: creates
+          activation_type: 2
+  Parting Gift:
+    level: 3
+    actions:
+      - |
+        - name: Parting Gift
+          automation:
+            - type: text
+              text: You gain the ability to use your power to enhance the
+                detonation of your Unstable Summons. As a reaction to one
+                detonating, you can expend a spell slot to empower the
+                parting detonation of energy.
+
+                The damage increases by 1d8 for each level of the spell
+                slot spent, and the creatures take half damage against the
+                effect even if they pass their saving throw.
+          _v: 2
+          verb: leaves
+          activation_type: 2
+  Overdrive Commands:
+    level: 5
+    actions:
+      - |
+        - name: Overdrive Commands
+          automation:
+            - type: text
+              text: You can use Direct Control as a bonus action. When you do
+                so, after completing the directed action, the Summoned Entity
+                detonates as per Unstable Summons.
+          _v: 2
+          proper: true
+          verb: issues
+          activation_type: 2
+  Growing Devastation:
+    level: 5
+    actions:
+      - |
+        - name: Growing Devastation
+          automation:
+            - type: text
+              text: The damage caused by the Unstable Summons explosion
+                increases by one damage die of the same type (for example,
+                from 1d8 to 2d8).
+
+                At 11th level, you can increase the range of the explosion to
+                a 10 foot radius, and at 17th the damage increases by an
+                additional die again (for example to 3d8).
+          _v: 2
+          proper: true
+          verb: causes
+          activation_type: 2
+  Planar Remnants:
+    level: 7
+    actions:
+      - |
+        - name: Planar Remnants
+          automation:
+            - type: text
+              text: The parting burst of power your summons now can leave
+                behind a fragmentary piece of planar power based on the
+                Plane of Study it was called forth from.
+          _v: 2
+          proper: true
+          verb: leaves
+          activation_type: 2
+  Cataclysm Cycle:
+    level: 7
+    actions:
+      - |
+        - name: Cataclysm Cycle
+          automation:
+            - type: text
+              text: When you detonate a Summoned Entity, you regain
+                Essence equal to half its current hit points. This cannot
+                exceed the Essence originally invested into summoning the
+                Summoned Entity.
+          _v: 2
+          verb: causes
+          activation_type: 2
