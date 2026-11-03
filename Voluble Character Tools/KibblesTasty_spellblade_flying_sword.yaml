@@ -1,0 +1,177 @@
+# '0de84189-a912-49b6-acf4-006057e4fb14'
+# KibblesTasty: Spellblade - Flying Sword
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Flying Sword
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Jump"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Dancing Object"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Fly"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Quicksilver Step"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Animate Objects"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Ultimate Move
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Flying Sword:
+    level: 3
+    actions:
+      - |
+        - name: Flying Sword
+          automation:
+            - type: text
+              text: >-
+                During a long rest you can touch a melee weapon, infusing it magical
+                power. This Flying Sword can be carried or stowed like a normal weapon, or
+                you can ready it, causing it to float beside you. While a Flying Sword is
+                readied, you can make attacks with it as part the Attack action, sending
+                it out to strike a target.
+
+                Attacks made with your Flying Sword are considered melee weapon attacks
+                with the weapon, but you can use your Intelligence modifier in place of
+                your Strength or Dexterity modifier for attack and damage rolls, and you
+                can make this attack against a target out to a range of 30 feet away from
+                you. If the weapon has the heavy or special property, this range is halved
+                to 15 feet; and if the weapon has the light property, this range is
+                doubled to 60 feet.
+
+                Spells infused into the flying weapon affect the target of the attack, but
+                only have a range equal to the range of the spell. If you attack a target
+                beyond the range of the spell, the spell fails and is lost.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Phantom Sword Surge:
+    level: 3
+    actions:
+      - |
+        - name: Phantom Sword Surge
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge:
+
+
+                - **Phantom Swords.** When you make an attack with your flying sword, you
+                can spend an Arcane Surge to make two phantom copies of it that strike
+                other targets within range. The phantom swords use their own attack rolls.
+                On hit, the target takes damage equal to your Flying Sword’s weapon damage
+                (including modifier) as force damage.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Sword Flight:
+    level: 7
+    actions:
+      - |
+        - name: Sword Flight
+          automation:
+            - type: text
+              text: >-
+                Your mastery of telekinetic manipulation of your blade is so complete you
+                can command it remotely and even use it as a mode of transport. You can
+                stand on your sword to treat it as a Broom of Flying, though only you can
+                ride it, and anything being carried by it is dropped if you attack with
+                it.
+
+                Additionally, the range of your Flying Sword attacks are doubled.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Phantom Sword Barrage:
+    level: 15
+    actions:
+      - |
+        - name: Phantom Sword Barrage
+          automation:
+            - type: text
+              text: >-
+                When you use your Phantom Sword Surge ability, you can create 2 additional
+                copies of your sword (up to 4 total), each of which can strike a different
+                targets within range.
+
+                Additionally, if you use any other use of your Arcane Surge, you can
+                create a single phantom sword copy on your next attack before the end of
+                your turn.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Ultimate Move:
+    level: 20
+    actions:
+      - |
+        - name: Ultimate Move
+          automation:
+            - type: counter
+              counter: Ultimate Move
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 6d6[slashing] + 6d6[force]
+              name: damage
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: dex
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + proficiencyBonus + intelligenceMod
+            - type: text
+              text: >-
+                Master the ultimate move of your style unleashing massive power in an
+                unstoppable strike. As an attack as part of the Attack action, you charge
+                your with sword mystical power before sending it forward in a burst of
+                power. All creatures in 120-foot long, 15-foot wide line must make a
+                Dexterity saving throw. On failure, they take 6d6 slashing damage and 6d6
+                force damage. On success, they take half as much damage. You can exclude a
+                number of creatures from the area of effect equal to your Intelligence
+                modifier.
+
+                If the sword was infused with spell that has an area of effect through
+                Spellstrike when you made this attack (for example fireball), the spells
+                area of effect becomes the area of effect of this ability (otherwise the
+                spell is discharged against the first target, treating a failed save as a
+                Spellstrike hit).
+
+                Once you use this ability, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: true
+          verb: uses their

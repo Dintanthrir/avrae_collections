@@ -1,0 +1,122 @@
+# 'dada8898-dc99-4ca7-bb56-4ffd49ecfd4c'
+# KibblesTasty: Spellblade - Swiftblade
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Swiftblade
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Inflict Wounds"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Poison Dart"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Spider Bite"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Blight"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Mislead"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Infinite Strikes
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Rapid Surge:
+    level: 3
+    actions:
+      - |
+        - name: Rapid Surge
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge feature.
+
+
+                - You can expend a use of Arcane Surge to make a single weapon attack (no
+                action required).
+          _v: 2
+          proper: false
+          activation_type: 2
+  Relentless Spellstrike:
+    level: 7
+    actions:
+      - |
+        - name: Relentless Spellstrike
+          automation:
+            - type: text
+              text: If you miss an attack empowered by a Spellstrike, you can choose to not
+                trigger the effect. When you do so, your next attack before the end of
+                your turn will trigger it instead.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Vanishing Surge:
+    level: 15
+    actions:
+      - |
+        - name: Vanishing Surge
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Invisible
+                  duration: "1"
+                  buttons:
+                    - label: End Invisibility
+                      automation: []
+                      style: "3"
+            - type: text
+              text: When you expend an Arcane Surge, you become invisible until the start of
+                your next turn.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Infinite Strikes:
+    level: 20
+    actions:
+      - |
+        - name: Infinite Strikes
+          automation:
+            - type: counter
+              counter: Infinite Strikes
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Infinite Strikes
+                  duration: "10"
+            - type: text
+              text: You draw on your magic to hasten yourself to blinding speeds (no action
+                required). For one minute, any time you make a weapon attack with an
+                action or bonus action, you can immediately make another attack with the
+                same weapon. Once you use this feature, you cannot use it again until you
+                complete a long rest.
+          _v: 2
+          proper: true
+          activation_type: 2

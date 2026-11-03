@@ -1,0 +1,212 @@
+# '87e0b3ec-5527-400b-999b-9c63ed39900e'
+# KibblesTasty: Spellblade - Rimeblade
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Rimeblade
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Arctic Breath"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Cold Snap"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Slow"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Ice Spikes"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Cone of Cold"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Ice Age
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Ice Blade:
+    level: 3
+    actions:
+      - |
+        - name: Ice Blade
+          automation:
+            - type: text
+              text: Whenever you finish a long rest, you can touch one
+                weapon that you are proficient with and that lacks the
+                two-handed property. That weapon is imbued with
+                frost energy. You can change its damage to cold
+                damage, and when you attack with that weapon, you
+                can use your Intelligence modifier, instead of
+                Strength or Dexterity, for the attack and damage
+                rolls.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Arctic Armory:
+    level: 3
+    actions:
+      - |
+        - name: Arctic Armory
+          automation:
+            - type: text
+              text: You learn the _ice weapon_ cantrip can
+                cast it once per turn without requiring a bonus action.
+                Any weapon created by that spell is considered under
+                the effect of your Ice Blade feature (even if it has the
+                two-handed property).
+          _v: 2
+          proper: true
+          activation_type: 2
+  Frostbite:
+    level: 3
+    actions:
+      - |
+        - name: Frostbite
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Frostbite
+                  duration: "2"
+                  tick_on_caster: true
+                  end: true
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge feature.
+
+
+                - **Frostbite.** When you hit a creature with a melee weapon attack, you
+                can expend an Arcane Surge to remove any immunity or resistance to cold
+                damage they have and give them disadvantage on saving throws against
+                spells that deal cold damage (including the triggering spell if used with
+                Spellstrike on a spell that triggers a saving throw for additional
+                effects). These effects last until the end of your next turn.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Frozen Heart:
+    level: 7
+    actions:
+      - |
+        - name: Frozen Heart
+          automation:
+            - type: text
+              text: You gain resistance to cold damage, and gain advantage on saving throws
+                against being charmed or frightened.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Winter’s Grip:
+    level: 15
+    actions:
+      - |
+        - name: Winter’s Grip - Frostbite
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Frostbite
+                  duration: "2"
+                  end: true
+                  tick_on_caster: true
+            - type: text
+              text: The effect of Frostbite is prolonged each time a creature takes cold
+                damage by an additional round (ending at the end of your next turn).
+                Additionally, when a creature under the effect of Frostbite fails a saving
+                throw against one of your spells that deal cold damage, they become
+                restrained until start of their next turn.
+          _v: 2
+          proper: true
+          activation_type: 2
+        - name: Winter’s Grip - Restrain
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Restrained
+                  duration: "1"
+                  end: false
+                  tick_on_caster: false
+                  effects:
+                    attack_advantage: "-1"
+                    save_dis:
+                      - dex
+            - type: text
+              text: The effect of Frostbite is prolonged each time a creature takes cold
+                damage by an additional round (ending at the end of your next turn).
+                Additionally, when a creature under the effect of Frostbite fails a saving
+                throw against one of your spells that deal cold damage, they become
+                restrained until start of their next turn.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Ice Age:
+    level: 20
+    actions:
+      - |
+        - name: Ice Age
+          automation:
+            - type: counter
+              counter: Ice Age
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Ice Age
+                  duration: "10"
+            - type: text
+              text: >-
+                You can release a blast of freezing energy that plunges an 30-foot radius
+                centered on you into a state of everfrost for 1 minute (no action
+                required). It has the following effects:
+
+
+                - **Difficult Terrain.** The area becomes difficult terrain for creatures
+                other than you.
+
+                - **Cold Resistance.** Allied creatures in the area gain resistance to
+                cold damage, while hostile creatures lose any resistance than may have to
+                cold damage.
+
+                - **Slowed.** Creatures in the area when you use the ability become under
+                the effect of the slow spell as they start to freeze. Creatures slowed in
+                this way must make a Constitution saving throw at the end of each of their
+                turns. On success the effect ends. On failure, they become restrained
+                while under the effect. Creatures automatically pass the save if they are
+                outside of the area of effect. You can exclude a number of creatures from
+                becoming slowed equal to your Intelligence modifier.
+
+
+                You can end the effect letting the area thaw earlier at any time on your
+                turn. Once you use this ability, you cannot use it again until you
+                complete a long rest.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 2

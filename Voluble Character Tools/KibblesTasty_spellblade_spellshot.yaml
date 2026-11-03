@@ -1,0 +1,159 @@
+# '6841e0a7-9f7d-4ed0-8ef4-49321f0cd41a'
+# KibblesTasty: Spellblade - Spellshot
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Spellshot
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Multishot"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Elemental Barrage"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Lightning Bolt"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Greater Invisibility"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Pressure Cutter"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Complete Control
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Ranged Spellstrike:
+    level: 3
+    actions:
+      - |
+        - name: Ranged Spellstrike
+          automation:
+            - type: text
+              text: >-
+                You gain the ability to apply your Spellstrike to pieces of ammunition as
+                well as melee weapons, and can trigger the spell strike on a ranged weapon
+                attack made with the infused piece of ammunition.
+
+                Spells infused into a ranged weapon affect the target of the ranged weapon
+                when fired, but only have a range equal to the range of the spell or the
+                normal range of the weapon (whichever is shorter range). If you attack a
+                target beyond that range, the spell fails and is lost. For spells that
+                create a cone or line area, the effect originates from you as normal.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Distant Surge:
+    level: 3
+    actions:
+      - |
+        - name: Distant Surge
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge feature.
+
+
+                - **Distant Strike.** When you infuse a spell that targets a creature or
+                line into a piece of ammunition with Spellstrike, you can expend an Arcane
+                Surge to increase that spell’s range to the range of weapon used to fire
+                that piece of ammunition, and remove disadvantage from firing at max range
+                with a ranged weapon.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Transmuted Ammunition:
+    level: 7
+    actions:
+      - |
+        - name: Transmuted Ammunition
+          automation:
+            - type: text
+              text: When you infuse a spell that targets a line, you can transmute your
+                ammunition into the spell effect, releasing the spell in a line from you
+                as if you had cast it, but using your Strength or Dexterity modifier (your
+                choice) in place of your Intelligence modifier for the spell save DC. When
+                you do this, you add your weapon damage (including modifier) to the
+                spell’s damage roll.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Seeking Surges:
+    level: 15
+    actions:
+      - |
+        - name: Seeking Surges
+          automation:
+            - type: text
+              text: When you expend an Arcane Surge, you can add your Intelligence modifier to
+                your next attack roll.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Arcane Bolts:
+    level: 15
+    actions:
+      - |
+        - name: Arcane Bolts
+          automation:
+            - type: text
+              text: You can always generate ammunition out of arcane force energy when you fire
+                a ranged weapon. When you do so, you consume no ammunition when firing an
+                ranged weapon with the ammunition property, and your weapon damage becomes force
+                damage.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Complete Control:
+    level: 20
+    actions:
+      - |
+        - name: Complete Control
+          automation:
+            - type: counter
+              counter: Complete Control
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Complete Control
+                  duration: "10"
+            - type: text
+              text: You can enter a state of perfect focus granting you the ability to bend
+                and guide your shots. For 1 minute, your ranged weapon attacks ignore
+                cover (including total cover) as long as there is a path to the target the
+                projectile can travel. While you are in this state, you can use Distant
+                Surge without expending a use of Arcane Surge and once per attack if you
+                miss a creature with a ranged weapon attack, you can redirect that attack
+                at another creature within range (making a new attack roll against the new
+                target). When you redirect the attack with a Spellstrike effect that
+                requires a save, you can choose if you want to discharge the spell against
+                the target (if it has any effect on miss), or redirect it to the new
+                target. Once you use this feature, you cannot use it again until you
+                complete a long rest.
+          _v: 2
+          proper: true
+          activation_type: 2

@@ -1,0 +1,142 @@
+# 'a9a48e36-759b-45c8-ae95-d38bc64b7825'
+# KibblesTasty: Spellblade - Guardian
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Guardian
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Arcane Ablation"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Warding Bond"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Haste"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Resilient Sphere"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Wall of Stone"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Resilient Aegis
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Projected Barrier:
+    level: 3
+    actions:
+      - |
+        - name: Projected Barrier
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge feature:
+
+
+                - As a reaction to an allied creature within 30 feet being hit by an
+                attack or targeted by the magic missile spell, you expend a use of Arcane
+                Surge to cast shield without expending a spell slot, granting that
+                creature the AC bonus instead of yourself.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 2
+  Fortifying Surge:
+    level: 7
+    action:
+      - |
+        - name: Fortifying Surge
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: temphp
+                  amount: 1d8 + {intelligenceMod}
+            - type: text
+              text: When you expend a use of Arcane Surge, you gain temporary hit points equal
+                to 1d8 + your Intelligence modifier.
+          _v: 2
+          proper: false
+          verb: uses
+          activation_type: 2
+  Swapping Surge:
+    level: 15
+    actions:
+      - |
+        - name: Swapping Surge
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: 1d8 + {intelligenceMod}
+            - type: text
+              text: When you use your Arcane Surge to teleport, you can instead swap positions
+                with a willing creature within range, teleporting to their space and
+                teleporting them to your space. When you do so, both you and them gain the
+                temporary hit points from Fortifying Surge.
+          _v: 2
+          proper: false
+          verb: uses
+          activation_type: 2
+  Resilient Aegis:
+    level: 20
+    actions:
+      - |
+        - name: Resilient Aegis
+          automation:
+            - type: counter
+              counter: Resilient Aegis
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Resilient Aegis
+                  duration: "10"
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - acid
+                      - cold
+                      - fire
+                      - force
+                      - lightning
+                      - necrotic
+                      - poison
+                      - psychic
+                      - radiant
+                      - thunder
+            - type: text
+              text: You can fortify yourself with magic for 1 minute (no action required). For
+                the duration, you have resistance to all damage. Once you use this
+                feature, you cannot use it again until you complete a long rest.
+          _v: 2
+          proper: false
+          verb: summons
+          activation_type: 2

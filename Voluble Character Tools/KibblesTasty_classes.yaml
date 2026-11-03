@@ -16,9 +16,7 @@
     Psion:
       hit_die: 6
       sub_level: 1
-    Spellblade:
-      hit_die: 8
-      sub_level: 3
+    Spellblade: '5cd05323-ec5a-41af-81af-0139331e729c'
     Summoner: 'c8c87146-ef8a-47f1-b0e0-d015e74e0d21'
     Warden: 'c53629c8-2c31-4fec-a1dd-fa6d212c9dfe'
     Warlord: '858f6de7-c205-4583-9e11-f02e66de98bf'
@@ -119,12 +117,15 @@
     Consuming Mind: { parent: Psion }
     Warped Mind: { parent: Psion }
     # Spellblade:
-    Battlemage: { parent: Spellblade }
-    Aether Blade: { parent: Spellblade }
-    Guardian: { parent: Spellblade }
-    Mage Hunter: { parent: Spellblade }
-    Swiftblade: { parent: Spellblade }
-    Spellshot: { parent: Spellblade }
+    Aether Blade: '0ab94989-2559-453c-b668-d480af9a1a30'
+    Battlemage: '95775893-857c-432b-b080-86f2cd8b792d'
+    Guardian: 'a9a48e36-759b-45c8-ae95-d38bc64b7825'
+    Swiftblade: 'dada8898-dc99-4ca7-bb56-4ffd49ecfd4c'
+    Mage Hunter: '85218d93-5169-490b-83a6-e01548e3d231'
+    Spellshot: '6841e0a7-9f7d-4ed0-8ef4-49321f0cd41a'
+    Rimeblade: '87e0b3ec-5527-400b-999b-9c63ed39900e'
+    Flying Sword: '0de84189-a912-49b6-acf4-006057e4fb14'
+    Spellfist: '0af3ab5a-513c-485f-bbc9-a762c6d0bd53'
     # Summoner:
     Legion Caller: '78476f49-9ffd-441e-83d7-6cb98d58a60c'
     Contractor: '63013364-2d99-4ae7-8032-6e591138847a'

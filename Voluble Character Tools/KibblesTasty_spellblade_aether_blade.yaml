@@ -1,0 +1,205 @@
+# '0ab94989-2559-453c-b668-d480af9a1a30'
+# KibblesTasty: Spellblade - Aether Blade
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Aether Blade
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Magic Missile"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Star Dust"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Aether Lance"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Dimension Cutter"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Aether Storm"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Massive Blade
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Aether Blade:
+    level: 3
+    actions:
+      - |
+        - name: Aether Blade
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d{10 + 2*int(SpellbladeLevel >= 7)} + {max(strengthMod,
+                        intelligenceMod}[force]
+                  miss: []
+                  attackBonus: max(strengthMod, intelligenceMod) + proficiencyBonus
+            - type: text
+              text: >-
+                When you roll initiative or as a bonus action at any time, you can
+                manifest an oversized melee weapon of pure force energy. This can take the
+                shape of any bladed melee weapon, but it is a one-handed weapon that deals
+                1d10 force damage with a range of 5 feet regardless of its form.
+
+                When you attack with this weapon, you can use your Intelligence modifier
+                (in place of your Strength) for attack and damage rolls. This weapon lasts
+                until you let go of it, become incapacitated, or dismiss it as a bonus
+                action.
+
+                While this weapon is temporary and magical, it counts as having a value of
+                1 sp for purposes of being treated as a material component in spells.
+            - type: condition
+              condition: SpellbladeLevel >= 7
+              onTrue:
+                - type: text
+                  text: The aether weapon manifested by Aethersword grows larger and more
+                    powerful. Its damage increases to 1d12, and it gains the reach
+                    property.
+              onFalse: []
+          _v: 2
+          proper: true
+          verb: attacks with an
+          activation_type: 2
+  Aether Enhancement:
+    level: 3
+    actions:
+      - |
+        - name: Aether Enhancement
+          automation:
+            - type: text
+              text: As a ritual taking 1 hour, you can absorb the power from a magical weapon
+                with a bonus to attack and damage rolls. This cannot target artifacts,
+                sentient weapons, or cursed items. At your DM’s discretion, this might not
+                work with other weapons depending on their origin and type. This drains
+                the power from the weapon, leaving it as a mundane weapon, but your
+                Aethersword gains the bonus to attack and damage rolls previously
+                possessed by the magical weapon.
+          _v: 2
+          proper: true
+          verb: creates an
+          activation_type: 7
+  Empowering Surge:
+    level: 3
+    actions:
+      - |
+        - name: Empowering Surge
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Empowering Surge
+                  duration: "2"
+                  end: true
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Empowered Aether Blade
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 2d{10 + 2*int(SpellbladeLevel >= 7)} + {max(strengthMod, intelligenceMod)}[force]
+                                miss: []
+                                attackBonus: max(strengthMod, intelligenceMod) + proficiencyBonus
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge feature:
+
+
+                - You empower your Aether Blade (no action required) causing it to deal an
+                additional die of damage until the end of your next turn. During the
+                effect, you can reroll any weapon damage dice from your Aether Blade once
+                (you must use the new roll after doing so).
+            - type: condition
+              condition: SpellbladeLevel >= 7
+              onTrue:
+                - type: text
+                  text: You gain the effects of Empowering Surge when you use any of your Arcane
+                    Surge effects.
+              onFalse: []
+          _v: 2
+          proper: true
+          verb: uses an
+          activation_type: 2
+  Massive Blade:
+    level: 20
+    actions:
+      - |
+        - name: Massive Blade
+          automation:
+            - type: counter
+              counter: Massive Blade
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Massive Blade
+                  duration: "10"
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Massive Blade
+                        automation:
+                          - type: target
+                            target: all
+                            effects:
+                              - type: roll
+                                dice: 1d20 + {max(strengthMod, intelligenceMod)} + {proficiencyBonus}
+                                name: attack
+                                displayName: Attack Roll
+                              - type: condition
+                                condition: attack > 10 + target.stats.get_mod('Dexterity')
+                                onTrue:
+                                  - type: damage
+                                    damage: 1d{10 + 2*int(SpellbladeLevel >= 7)} + {max(strengthMod,
+                                      intelligenceMod)}[force]
+                                onFalse: []
+            - type: text
+              text: >-
+                You can overcharge your Aether Blade for 1 minute (no action required).
+                For the duration, when you attack with your Aether Blade, you ignore all
+                non-magical armor and defenses to treat the target’s AC as 10 + their
+                Dexterity modifier for that attack (magical defenses like the mage armor
+                or shield are not bypassed). While attacking in this way with your Aether
+                Blade, your attacks can target up to 2 creatures as long as they are
+                within 10 feet of each other, though if an attack triggers a spell through
+                Spellstrike, it does not affect the second target unless the spell can
+                target multiple creatures.
+
+                Once you use this feature, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: false
+          activation_type: 2

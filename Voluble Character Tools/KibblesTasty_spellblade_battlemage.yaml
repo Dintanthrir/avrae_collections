@@ -1,0 +1,140 @@
+# '95775893-857c-432b-b080-86f2cd8b792d'
+# KibblesTasty: Spellblade - Battlemage
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Battlemage
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Burning Hands"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Mirror Image"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Lightning Bolt"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Dimension Door"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Hold Monster"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Unlimited Surges
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Arcane Warrior:
+    level: 3
+    actions:
+      - |
+        - name: Arcane Warrior
+          automation:
+            - type: text
+              text: Whenever you finish a long rest, you can touch one weapon that you are
+                proficient with and that lacks the two-handed property. When you attack
+                with that weapon, you can use your Intelligence modifier, instead of
+                Strength or Dexterity, for the attack and damage rolls. This benefit lasts
+                until you finish a long rest.
+          _v: 2
+          proper: true
+          verb: is an
+          activation_type: 2
+  Quickening Surge:
+    level: 3
+    actions:
+      - |
+        - name: Quickening Surge
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge feature:
+
+                You can cast a Spellblade spell with a casting time of one action as a
+                bonus action.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Twin Surge:
+    level: 7
+    action:
+      - |
+        - name: Twin Surge
+          automation:
+            - type: text
+              text: When you use Arcane Surge, you can select two of the available options.
+          _v: 2
+          proper: false
+          verb: casts with
+          activation_type: 2
+  Surge Mastery:
+    level: 15
+    actions:
+      - |
+        - name: Surge Mastery
+          automation:
+            - type: text
+              text: >-
+                When you use your Arcane Surge, you gain enhanced results:
+
+
+                - **Arcane Sight.** When you cast detect magic with your Arcane Surge, you
+                also gain the effects of darkvision and see invisibility.
+
+                - **Arcane Accuracy.** When you gain advantage on attack through Arcane
+                Surge, you can reroll one of the attack’s dice once.
+
+                - **Arcane Prowess.** When you add your Intelligence to a Strength or
+                Dexterity ability check, you gain advantage on the check.
+
+                - **Extended Teleportation.** When you teleport, the range you can
+                teleport is increased by 10 feet.
+          _v: 2
+          proper: true
+          verb: casts with
+          activation_type: 2
+  Unlimited Surges:
+    level: 20
+    actions:
+      - |
+        - name: Unlimited Surges
+          automation:
+            - type: counter
+              counter: Unlimited Surges
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Unlimited Surges
+                  duration: "10"
+            - type: text
+              text: You can enter a state of perfect arcane resonance for 1 minute (no action
+                required). During this state, using Arcane Surge does not consume a use of
+                Arcane Surge (you can still only use Arcane Surge once per turn). Once you
+                use this feature, you cannot use it again until you complete a long rest.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2

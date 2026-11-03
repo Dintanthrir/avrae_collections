@@ -1,0 +1,179 @@
+# '85218d93-5169-490b-83a6-e01548e3d231'
+# KibblesTasty: Spellblade - Mage Hunter
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Mage Hunter
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Aldricor’s Elemental Rebuke"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Silence"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Counterspell"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Suffocate"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Dispel Evil and Good"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Mana Void
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Disrupting Blows:
+    level: 3
+    actions:
+      - |
+        - name: Disrupting Blows
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{proficiencyBonus}[force]"
+            - type: text
+              text: >-
+                Once per turn when you hit a target with a melee weapon, you deal bonus
+                Force damage equal to your proficiency bonus. This bonus is doubled until
+                end of your turn when you cast an Abjuration or Mage Hunter spell.
+
+                Additionally, your weapon attack rolls bypass the effects of 1st level
+                spells (such as _mage armor_, _shield_, or _sanctuary_).
+          _v: 2
+          proper: true
+          activation_type: 2
+  Purging Surge:
+    level: 3
+    actions:
+      - |
+        - name: Purging Surge
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain a new option for your Arcane Surge feature.
+
+
+                - On your turn, you can expend a use of Arcane Surge to end a magical
+                effect or supernatural condition (such as being Charmed or Frightened) on
+                yourself (no action required). If the spell is of a level greater than
+                half your Spellblade level (rounded up) you must make an Intelligence
+                saving throw with a DC of 10 + the spell’s level to end it.
+            - type: condition
+              condition: SpellbladeLevel < 7
+              onTrue:
+                - type: text
+                  text: You cannot use this ability if you are incapacitated.
+              onFalse:
+                - type: text
+                  text: You can use Purging Surge even when incapacitated.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Nullifying Surge:
+    level: 7
+    actions:
+      - |
+        - name: Nullifying Surge - Counterspell
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "2"
+              errorBehaviour: raise
+            - type: spell
+              id: 2051
+            - type: text
+              text: You can use Purging Surge even when incapacitated. Additionally, you can
+                project the purging power outwards, expending two uses of Arcane Surge to
+                cast _counterspell_ or _dispel magic_ without expending a spell slot.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Nullifying Surge - Dispel Magic
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "2"
+              errorBehaviour: raise
+            - type: spell
+              id: 2072
+            - type: text
+              text: You can use Purging Surge even when incapacitated. Additionally, you can
+                project the purging power outwards, expending two uses of Arcane Surge to
+                cast _counterspell_ or _dispel magic_ without expending a spell slot.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Expert Abjuration:
+    level: 15
+    actions:
+      - |
+        - name: Expert Abjuration
+          automation:
+            - type: text
+              text: When you have to make a check with your spellcasting ability to dispel or
+                counter a magical effect with Purging Surge or Nullifying Surge, you can
+                add your proficiency bonus to the roll.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Mana Void:
+    level: 20
+    actions:
+      - |
+        - name: Mana Void
+          automation:
+            - type: counter
+              counter: Mana Void
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Mana Void
+                  duration: "10"
+            - type: text
+              text: >-
+                You can turn yourself into a magical void, devouring and nullifying magic
+                around you. For one minute, you project the effect of antimagic field
+                5-feet around yourself (no action required). You can still cast spells
+                while within this field, but are limited to Abjuration spells and
+                Cantrips. The field does not affect or remove your Aegis effects.
+
+                Once per turn for the duration, when you counter or end the effect of a
+                spell, you regain 1 use of Arcane Surge.
+
+                This effect ends early if you become unconscious, or you can end it at any
+                time (no action required). Once you use this ability, you cannot use it
+                again until you complete a long rest.
+          _v: 2
+          proper: false
+          verb: creates
+          activation_type: 2

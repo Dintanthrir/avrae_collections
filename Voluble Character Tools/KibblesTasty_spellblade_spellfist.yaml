@@ -1,0 +1,191 @@
+# '0af3ab5a-513c-485f-bbc9-a762c6d0bd53'
+# KibblesTasty: Spellblade - Spellfist
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Spellfist
+parent: Spellblade
+counters:
+  10:
+    - name: "Archetypal Magic: Thunder Punch"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Shatter"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+    - name: "Archetypal Magic: Vortex Blast"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  13:
+    - name: "Archetypal Magic: Aero Barrage"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  17:
+    - name: "Archetypal Magic: Shockwave"
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+  20:
+    - name: Unlimited Power
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Kinetic Magic:
+    level: 3
+    actions:
+      - |
+        - name: Kinetic Magic
+          automation:
+            - type: target
+              target: each
+              effects:
+                - type: attack
+                  hit:
+                    - type: damage
+                      damage: 1d8[magical bludgeoning]
+                  miss: []
+                  attackBonus: strengthMod + proficiencyBonus
+            - type: text
+              text: >-
+                You master the harmony of kinetic delivery of magic with your fists. Your
+                unarmed strike damage with your fist increases to 1d8 bludgeoning damage,
+                and it becomes a valid target for imbuing with magic with Spellstrike. Any
+                time you make an unarmed strike with a Spellstrike imbued, your unarmed
+                strike is considered magical for the purpose of uncovering resistance to
+                non-magical attacks, and you can convert the bludgeoning damage it deals
+                to the spell's damage type when dealing damage.
+
+                When you imbue a Spellblade spell that deals damage to an area into your
+                fist, you can use your Strength modifier to calculate the Spell Save DC
+                for that spell (instead of your Intelligence modifier).
+          _v: 2
+          proper: true
+  Impactful Magic:
+    level: 3
+    actions:
+      - |
+        - name: Impactful Magic
+          automation:
+            - type: counter
+              counter: Arcane Surge
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain two new options for your Arcane Surge:
+
+
+                - **Arcane Impact.** When you knock a target away from you, you can expend
+                a use of Arcane Surge to knock the target 10 feet further away.
+
+                - **Arcane Grab.** When you hit a melee weapon attack, you can spend a use
+                of Arcane Surge to attempt to grapple or shove the target (no action
+                required). You have advantage on the ability check.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Point Blank:
+    level: 7
+    actions:
+      - |
+        - name: Point Blank
+          automation:
+            - type: text
+              text: When you use Spellstrike while grappling a target, you can instead infuse
+                the target with the spell, treating the spell as if you’d automatically
+                hit an infused attack. The target can still save against effects beyond
+                damage, but any saving throw is made with disadvantage.
+          _v: 2
+          proper: true
+          verb: attacks
+          activation_type: 2
+  Brawler’s Resilience:
+    level: 15
+    actions:
+      - |
+        - name: Brawler’s Resilience
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Brawler’s Resilience
+                  duration: "1"
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - acid
+                      - cold
+                      - fire
+                      - force
+                      - lightning
+                      - necrotic
+                      - poison
+                      - psychic
+                      - radiant
+                      - thunder
+            - type: text
+              text: When you spend an Arcane Surge, you gain resistance to all damage until
+                the start of your next turn.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Unlimited Power:
+    level: 20
+    actions:
+      - |
+        - name: Unlimited Power
+          automation:
+            - type: counter
+              counter: Unlimited Power
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Unlimited Power
+                  duration: "10"
+                  effects:
+                    save_adv:
+                      - str
+                    check_adv:
+                      - strength
+            - type: text
+              text: >-
+                You can channel magic directly into your muscles, causing your strength to
+                surpass all common reason and granting you the following benefits for 1
+                minute:
+
+
+                - **Supernatural Strength.** Your Strength score and maximum strength
+                score increase by 2.
+
+                - **Splash Zone.** The damage from your Splash Damage feature becomes a 30
+                foot cone.
+
+                - **Bounding Leaps.** The distance you can jump becomes equal to your
+                movement speed.
+
+                - **Strength Advantage.** You have advantage on all Strength ability
+                checks and saving throws.
+
+
+                Once you use this ability, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: true
+          activation_type: 2
