@@ -1,0 +1,104 @@
+# 'c3fc0ef5-a730-4d4d-b8d9-be4e9f1b22e1'
+# KibblesTasty: Psion - Awakened Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Awakened Mind
+parent: Psion
+automations:
+  Mental Awareness:
+    level: 1
+    actions:
+      - |
+        - name: Mental Awareness
+          automation:
+            - type: text
+              text: >-
+                You can use Intelligence instead of Wisdom when making an Insight check
+                against a creature with an Intelligence ability score of 6 or higher.
+
+                Further, if you have telepathically communicated with a willing creature,
+                you know their general location (direction and rough estimate of distance)
+                for the next hour as long as you are on the same plane as them.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Mind Reader:
+    level: 3
+    actions:
+      - |
+        - name: Mind Reader
+          automation:
+            - type: text
+              text: >-
+                When you use Telepathic Intrusion, you can force the target to make an
+                Intelligence saving throw instead of a Wisdom saving throw against the
+                power (deciding when you use the ability).
+
+                When a creature fails a saving throw against your Telepathic Intrusion,
+                you gain a d4. Until the end of your next turn, if you make an attack roll
+                against the creature or the creature makes a saving throw against one of
+                your psionic powers other than Telepathic Intrusion, you can add or
+                subtract the d4 from the roll (deciding to roll before you roll the attack
+                or use the power).
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Empowered Psionics:
+    level: 6
+    actions:
+      - |
+        - name: Empowered Psionics
+          automation:
+            - type: text
+              text: When you deal damage with a psionic discipline power you can add your
+                Intelligence modifier to the damage dealt.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  All Seeing Eye:
+    level: 10
+    actions:
+      - |
+        - name: All Seeing Eye
+          automation:
+            - type: text
+              text: You can see a creature by its mind. You gain a mindsight of 60 feet,
+                allowing you to see creatures with an Intelligence of 6 or higher within
+                range as if by blindsight. A creature you are unaware of can still be
+                hidden from you, but you can use your Intelligence modifier instead of
+                your Wisdom modifier when making Perception checks to detect creatures.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2
+  Full Awakening:
+    level: 14
+    actions:
+      - |
+        - name: Full Awakening
+          automation:
+            - type: counter
+              counter: Psi Points
+              amount: "2"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Full Awakening
+                  duration: "1"
+                  effects:
+                    save_adv:
+                      - all
+                    attack_advantage: "1"
+            - type: text
+              text: You can briefly fully awaken your expanded mind to true comprehension. At
+                the start of your turn, you can expend 2 psi points to gain advantage on
+                all saving throws and attack rolls until the start of your next turn.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2

@@ -1,0 +1,97 @@
+# '8dbf16b9-0e50-4b7e-8c68-1355e6136ac1'
+# KibblesTasty: Psion - Unleashed Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Unleashed Mind
+parent: Psion
+automations:
+  Overwhelming Power:
+    level: 1
+    actions:
+      - |
+        - name: Overwhelming Power
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: save
+                  stat: str
+                  fail: []
+                  success: []
+                  dc: 8 + intelligenceMod + proficiencyBonus
+            - type: text
+              text: >-
+                You gain the ability to cast thaumaturgy with your psionic powers. When
+                you cast it in this way, you have an additional options:
+
+                - You cause up to 10 pounds of loose objects within 10 feet of you to
+                start floating for 1 minute.
+
+                - You can force all targets within 5 feet to make a Strength saving throw,
+                or be pushed 5 feet away from you.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 1
+  Rampaging Power:
+    level: 3
+    actions:
+      - |
+        - name: Rampaging Power
+          automation:
+            - type: text
+              text: >-
+                You gain a d4 rampage die. Once on each of your turns when making a damage
+                roll, you can add this rampage die to the damage roll. If you dealt damage
+                during your last turn, your rampage die becomes a d6, increasing with each
+                subsequent turn you deal damage by one step, up to a d12; if you did not
+                deal damage during your last turn or become incapacitated, it becomes a d4
+                once more. If you maintain a continuous d12 rampage die for more than one
+                minute, you gain one level of exhaustion.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Empowered Psionics:
+    level: 6
+    actions:
+      - |
+        - name: Empowered Psionics
+          automation:
+            - type: text
+              text: When you deal damage with a psionic discipline power you can add your
+                Intelligence modifier to the damage dealt.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Uncontrollable Mind:
+    level: 10
+    actions:
+      - |
+        - name: Uncontrollable Mind
+          automation:
+            - type: text
+              text: The strength of your rampaging mind is such that others’ attempts to
+                control it are futile. You gain immunity to the charmed and frightened
+                conditions, as well as effects that would control your mind while your
+                rampage die is a d8 or more.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2
+  Unstoppable Rampage:
+    level: 14
+    actions:
+      - |
+        - name: Unstoppable Rampage
+          automation:
+            - type: text
+              text: When an attack reduces you to zero hit points, you can roll your rampage
+                die. If your roll + your Constitution modifier is higher than the excess
+                damage you took, you are instead reduced to one hit point. You can expend
+                2 psi points to roll an additional rampage die, adding it to the result.
+          _v: 2
+          proper: true
+          verb: is on an
+          activation_type: 2

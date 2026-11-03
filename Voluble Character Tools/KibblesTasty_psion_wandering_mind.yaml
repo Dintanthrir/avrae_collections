@@ -1,0 +1,125 @@
+# '0ad73e5b-0268-4949-b514-b3769ecb8c99'
+# KibblesTasty: Psion - Wandering Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Wandering Mind
+parent: Psion
+automations:
+  Spatial Manipulation:
+    level: 1
+    actions:
+      - |
+        - name: Spatial Manipulation
+          automation:
+            - type: text
+              text: >-
+                Your connection to your transdimensional powers are such that you
+                can slide through the spaces you see in dimensions as another might
+                slip through a tight space, without conscious thought or effort.
+                You can use your Dexterity ability score in place of your
+                Intelligence ability score calculating the DC or attack roll
+                modifier of Transpositional powers, alternate effects, or talents
+                that require the Transpositional discipline.
+          _v: 2
+          proper: true
+          verb: performs
+          activation_type: 2
+  Cunning Strikes:
+    level: 3
+    actions:
+      - |
+        - name: Cunning Strikes
+          automation:
+            - type: text
+              text: >-
+                You gain the Rift Strike talent. If you already have the Rift Strike
+                talent, you can gain one other Psionic Talent of your choice. The
+                Rift Strike talent doesn’t count against your Psionic Talents known,
+                but can’t be switched out on leveling up.
+          _v: 2
+          proper: true
+          verb: makes
+          activation_type: 2
+  Curious Mind:
+    level: 3
+    actions:
+      - |
+        - name: Curious Mind
+          automation:
+            - type: text
+              text: >-
+                Your wandering mind adapts to new situations constantly. Whenever you
+                finish a long rest, you can select two skills you lack proficiency in.
+                Until the end of your next long rest, you can add half your
+                proficiency bonus, rounded down, to ability checks made with those
+                skills.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Phase Dancer:
+    level: 6
+    actions:
+      - |
+        - name: Phase Dancer
+          automation:
+            - type: text
+              text: Once per turn, you automatically gain one illusory duplicate as
+                per the blurring modifier when you use your Phase Rift power.
+                Additionally, your first attack roll before the end of your turn
+                after using Phase Rift gains advantage.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Flickering Presence:
+    level: 10
+    actions:
+      - |
+        - name: Flickering Presence
+          automation:
+            - type: text
+              text: Your unspent Psionic Mastery points are not lost until the start
+                of your next turn, but can only be used to cast flicker.
+                Additionally, when you roll for the effect of _flicker_ or _blink_
+                you can expend 1 psi point to reroll the result. You can select which
+                of the two results you would like to use.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Planeswalker:
+    level: 14
+    actions:
+      - |
+        - name: Planeswalker
+          automation:
+            - type: text
+              text: Your understanding of how to traverse space expands to a
+                previously incomprehensible scale. You gain the ability to cast plane
+                shift and teleport. You can cast one of these spells per day once
+                without expending a spell slot or use of Innate Psionics. Once you do
+                this, you must finish a long rest before you can use them again, or
+                use your 7th level or higher use of Innate Psionics instead of the
+                spell selected for that level to cast these spells again before
+                finishing a long rest. If you already have one of these spells selected
+                for your 7th level Innate psionic power, you can select a new 7th-level
+                spell from the psion list for that slot. Material components are still
+                required for casting plane shift this way.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Winding Paths:
+    level: 14
+    actions:
+      - |
+        - name: Winding Paths
+          automation:
+            - type: text
+              text: Your phase rift no longer has to go in a straight line, though it
+                can only pass through a creature’s space once.
+          _v: 2
+          proper: true
+          verb: knows
+          activation_type: 2

@@ -1,0 +1,112 @@
+# '5bbafbda-4d5d-4115-9252-f0610fa69f1a'
+# KibblesTasty: Psion - Shaper’s Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Shaper’s Mind
+parent: Psion
+counters:
+  14:
+    - name: Imaginary Army
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Boundless Imagination:
+    level: 1
+    actions:
+      - |
+        - name: Boundless Imagination
+          automation:
+            - type: text
+              text: >-
+                When you conjure your Astral Construct, you can apply one of the following
+                powers to it:
+
+
+                - **Devastating Weapons.** You imagine more deadly armaments—from a
+                greatsword to vicious fangs—causing your Astral Construct to grow more
+                deadly. The Astral Construct’s damage becomes 1d12.
+
+                - **Psionic Conduit.** You can use your psionic powers, spells, talents
+                through your Astral Construct, as if you were in its space.
+
+                - **Vivid Existence.** Your Astral Construct fully materializes and
+                automatically uses Solidify at the start of your turn without requiring a
+                command to do so.
+
+
+                You can change which benefit you grant it for the duration of the effect
+                as a bonus action.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Astral Metastability:
+    level: 3
+    actions:
+      - |
+        - name: Astral Metastability
+          automation:
+            - type: text
+              text: >-
+                When you use your psionic powers to create an Astral Construct, it
+                doesn’t require concentration to maintain, and lasts until dismissed,
+                but you can’t summon another one while you have one summoned.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Empowered Construct:
+    level: 6
+    actions:
+      - |
+        - name: Empowered Construct
+          automation:
+            - type: text
+              text: When you deal damage with an Astral Construct or a weapon created
+                by Project Item, you can add your Intelligence modifier to the damage
+                dealt.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2
+  Astral Guardian:
+    level: 10
+    actions:
+      - |
+        - name: Astral Guardian
+          automation:
+            - type: text
+              text: When you would take damage while you have an Astral Construct
+                within 30 feet of you, you can use your reaction to conjure it to you
+                (sharing your space) and expend 1 psi point to Solidify it,
+                transposing it between you and the source of damage. It takes the
+                damage instead of you. If the attack deals more damage than it has
+                hit points (from Solidify), you take the remainder of the damage.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2
+  Imaginary Army:
+    level: 14
+    actions:
+      - |
+        - name: Imaginary Army
+          automation:
+            - type: counter
+              counter: Imaginary Army
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: You can allow your mind to run wild, letting an astral army spring forth
+                into reality. When you use Replicate, you can create one additional Astral
+                Construct that can be controlled with the same action (commands still only
+                affect one Astral Construct of your choice). This additional construct
+                lasts until the start of your next turn and can’t be sustained. Once you
+                create an additional duplicate, you can’t do so again until you finish a
+                short or long rest.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2

@@ -13,9 +13,7 @@
     Paragon:
       hit_die: 10
       sub_level: 1
-    Psion:
-      hit_die: 6
-      sub_level: 1
+    Psion: '94decc8c-8ab9-4e6a-8f08-0acbc8ac0d36'
     Spellblade: '5cd05323-ec5a-41af-81af-0139331e729c'
     Summoner: 'c8c87146-ef8a-47f1-b0e0-d015e74e0d21'
     Warden: 'c53629c8-2c31-4fec-a1dd-fa6d212c9dfe'
@@ -109,13 +107,13 @@
     Augmented: { parent: Paragon }
     Vampiric: { parent: Paragon }
     # Psion:
-    Awakened Mind: { parent: Psion }
-    Unleashed Mind: { parent: Psion }
-    Transcended Mind: { parent: Psion }
-    Shaper’s Mind: { parent: Psion }
-    Wandering Mind: { parent: Psion }
-    Consuming Mind: { parent: Psion }
-    Warped Mind: { parent: Psion }
+    Awakened Mind: 'c3fc0ef5-a730-4d4d-b8d9-be4e9f1b22e1'
+    Unleashed Mind: '8dbf16b9-0e50-4b7e-8c68-1355e6136ac1'
+    Transcended Mind: '9b69f9ba-d307-474a-ba2b-8814ebf5ae98'
+    Shaper’s Mind: '5bbafbda-4d5d-4115-9252-f0610fa69f1a'
+    Wandering Mind: '0ad73e5b-0268-4949-b514-b3769ecb8c99'
+    Elemental Mind: '8770e00e-93f8-49e1-a991-b2a0bcbb7871'
+    Consuming Mind: '6cc68583-42c3-45dc-a539-25b3f6fe258e'
     # Spellblade:
     Aether Blade: '0ab94989-2559-453c-b668-d480af9a1a30'
     Battlemage: '95775893-857c-432b-b080-86f2cd8b792d'

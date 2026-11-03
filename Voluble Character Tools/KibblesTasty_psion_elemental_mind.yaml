@@ -1,0 +1,160 @@
+# '8770e00e-93f8-49e1-a991-b2a0bcbb7871'
+# KibblesTasty: Psion - Elemental Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Elemental Mind
+parent: Psion
+counters:
+  14:
+    - name: Elemental Form
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Primordial Aspect:
+    level: 1
+    actions:
+      - |
+        - name: Primordial Aspect
+          automation:
+            - type: text
+              text: >-
+                As an action or when you deal fire, cold, or lightning damage (no action
+                required), you take on an aspect of that element until the end of your
+                next turn or until you take a new primordial aspect.
+
+
+                - **Cold:** You gain an icy shell, reducing any nonmagical bludgeoning,
+                piercing or slashing damage taken by your proficiency bonus.
+
+                - **Fire:** You gain a fiery aura. Once per turn, a creature within 5 feet
+                that hits you with a melee attack takes fire damage equal to your
+                proficiency bonus.
+
+                - **Lightning:** You flicker with lightning. Your walking speed is
+                increased by 5 feet for the duration.
+
+
+                You can additionally spend 1 psi point to gain resistance to the element
+                to the start of your next turn. If you are specialized in an element, you
+                you can do this without spending a psi point for the element you are
+                specialized in.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 1
+  Living Power:
+    level: 3
+    actions:
+      - |
+        - name: Living Power
+          automation:
+            - type: text
+              text: >-
+                Your powers become a living extension of your mind, weaving an extension
+                of your will into reality, allowing you to manipulate your powers in more
+                advanced ways. When you use a power or alternate effect of Psychokinetics,
+                you can apply one of the following modifiers:
+
+
+                **Shaped Power**
+
+                When you use a power or spell that makes a ranged spell attack, you can
+                convert it to a melee spell attack (such as forming it into a weapon
+                shape), and when you would make an attack that would make a melee spell
+                attack, you can instead form it into a shape and hurl it at a target
+                within 15 feet making a ranged spell attack.
+
+
+                **Controlled Power**
+
+                When you use a spell or power that targets an area, you can select a
+                number of creatures equal to the psi points spent in the area of effect
+                for the spell or power to be ignored. The power passes harmlessly around
+                these creatures, they automatically succeed on their saving throw against
+                the effect, and they take no damage if they would normally take half
+                damage on a successful save against the effect.
+
+
+                **Raging Power**
+
+                When you use a spell or power, you can let it rage out of control. When
+                you roll damage for the power or spell, you can reroll a number of dice up
+                to 1 + the number of psi points spent. You must use the new roll.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Empowered Psionics:
+    level: 6
+    actions:
+      - |
+        - name: Empowered Psionics
+          automation:
+            - type: text
+              text: When you deal damage with a psionic discipline power you can add
+                your Intelligence modifier to the damage dealt.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Full Manifestation:
+    level: 10
+    actions:
+      - |
+        - name: Full Manifestation
+          automation:
+            - type: text
+              text: >-
+                When you enter a primordial aspect, you can expend 1 psi point to fully
+                manifest that element, replacing the primordial aspect with the following
+                effect. If you are specialized in that element, it doesn’t require a psi
+                point to fully manifest the power.
+
+
+                - **Cold:** Your speed becomes 0 until the end of your next turn, but you
+                have resistance to all damage types except fire and force.
+
+                - **Fire:** Fire fills a 10-foot radius around you. When a creature enters
+                the area for the first time on a turn or starts its turn there, it takes
+                fire damage equal to 1d4 + your proficiency bonus.
+
+                - **Lightning:** You can use your movement to teleport a distance up to
+                your speed for the duration.
+
+
+                If you are not in a primordial aspect, you can fully manifest a power as a
+                bonus action for 2 psi points (or 1 psi point if you are specialized in
+                that power).
+          _v: 2
+          proper: false
+          verb: enters
+          activation_type: 2
+  Elemental Form:
+    level: 14
+    actions:
+      - |
+        - name: Elemental Form
+          automation:
+            - type: counter
+              counter: Elemental Form
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can expend 5 psi points to cast _shapechange_ to assume elemental
+                forms. When you cast _shapechange_ in this way it has no verbal or
+                material components, but you can only assume the form of a Water
+                Elemental, Fire Elemental, or Air Elemental. If you are specialized in an
+                element, the cost is reduced to 3 psi points, but you can only assume the
+                form associated with your specialization (Water Elemental for cold, Fire
+                Elemental for fire, or Air Elemental for lightning). A Water Elemental
+                assumed with this form doesn’t have the Freeze property.
+
+                Once you cast _shapechange_ this way, you can’t do so until you finish a
+                short or long rest.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2

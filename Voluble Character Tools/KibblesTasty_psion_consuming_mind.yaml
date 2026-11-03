@@ -1,0 +1,102 @@
+# '6cc68583-42c3-45dc-a539-25b3f6fe258e'
+# KibblesTasty: Psion - Consuming Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Consuming Mind
+parent: Psion
+automations:
+  Dark Lurker:
+    level: 1
+    actions:
+      - |
+        - name: Dark Lurker
+          automation:
+            - type: text
+              text: >-
+                Your powers grant you intuition that allows you to better adapt
+                and survive as a mind hunter. You gain proficiency in Stealth
+                and Deception. If you are already proficient in either skill,
+                you instead become proficient in a skill of your choice.
+
+                When you use psionic abilities, you can make an Intelligence
+                (Deception) check contested by a target’s Wisdom (Insight) to
+                conceal your use of psionic powers from them, suppressing the
+                ability’s usual visible indicators. If you spend psi points on
+                the ability, you must subtract the psi points spent from your
+                Intelligence (Deception) roll result (concealing greater uses
+                of psionics being more difficult).
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 1
+  Ravenous Powers:
+    level: 3
+    actions:
+      - |
+        - name: Ravenous Powers
+          automation:
+            - type: text
+              text: >-
+                You gain the Psionic Talent Mind Devourer; this talent ignores
+                the normal level restriction, and doesn’t count against your
+                Psionic Talents known, but can’t be switched out on leveling up.
+
+                Additionally, you can gain the benefit of this Talent from a range
+                of 30 feet when the creature is killed by one of your psionic powers.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Empowered Psionics:
+    level: 6
+    actions:
+      - |
+        - name: Empowered Psionics
+          automation:
+            - type: text
+              text: When you deal damage with a psionic discipline power you can add
+                your Intelligence modifier to the damage dealt.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Mind Vampire:
+    level: 10
+    actions:
+      - |
+        - name: Mind Vampire
+          automation:
+            - type: text
+              text: >-
+                You can trigger Mind Devourer anytime you deal psychic damage to a target
+                within 30 feet, whether it kills the target or not.
+
+                Further, you can have additional psi points (over your normal limit) equal
+                to half your Intelligence modifier (rounded down) when gaining psi points
+                from Mind Devourer, but any additional psi points are lost when you finish
+                a short or long rest.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2
+  Shattered Husks:
+    level: 14
+    actions:
+      - |
+        - name: Shattered Husks
+          automation:
+            - type: text
+              text: >-
+                Your Mind Leech ability always gains the Shredding modifier, and it doesn’t
+                cost a psi point to add the modifier.
+
+                Further, you can use additional power to leave their mind further vulnerable.
+                You can spend additional psi points on the Shredding modifier to further
+                reduce their next Intelligence, Wisdom, or Charisma saving throw (up to 2
+                additional points to reduce it by a total of 3d4). Once this effect has been
+                applied to a creature, you can’t spend additional psi points on the Shredding
+                modifier against the creature until 1 hour has passed.
+          _v: 2
+          proper: true
+          verb: creates
+          activation_type: 2
