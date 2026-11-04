@@ -40,7 +40,9 @@ automations:
                 damage, or a ranged weapon that deals your choice of 1d6 of any damage
                 type (selected once when you gain this feature, and the same damage type
                 when subsequently manifested thereafter) with a range of 60/180 feet. You
-                can select this benefit twice, gaining both types of weapon.
+                can select this benefit twice, gaining both types of weapon. Your can use
+                your Active Ability modifier in place of your Strength or Dexterity
+                modifier for attack rolls made with either weapon.
 
 
                 You can gain a number of these benefits equal to your proficiency bonus at
@@ -183,8 +185,8 @@ automations:
 
 
                 Additionally, any time you generate a stack of Exertion while at your
-                maximum transformations, you can gain Temporary Hit Points equal to half
-                your Paragon level instead of replacing a transformation.
+                maximum transformations, you can gain Temporary Hit Points equal to your
+                Constitution modifier instead of replacing a transformation.
           _v: 2
           proper: true
           verb: experiences

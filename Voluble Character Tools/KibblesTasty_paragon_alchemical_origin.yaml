@@ -1,0 +1,367 @@
+# '0dbcc8e1-1e4d-42b3-9048-2d46daa34708'
+# KibblesTasty: Paragon - Alchemical Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Alchemical Origin
+parent: Paragon
+counters:
+  3:
+    - name: Expunge Toxins
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  13:
+    - name: Expunge Toxins
+      minVal: 0
+      maxVal: 2
+      reset: short
+      reset_to: 2
+  17:
+    - name: Unshackled Mutagen
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Alchemical Imbiber:
+    level: 1
+    actions:
+      - |
+        - name: Alchemical Imbiber
+          automation:
+            - type: text
+              text: Your extensive experience with mixing your alchemical concoctions grants
+                you proficiency with Alchemist's Supplies. Additionally, whenever you
+                would roll dice to determine the outcome of a potion effect on yourself
+                (such as how many hit points it would restore or how long it would last),
+                you can roll the dice twice, and pick the outcome between the two rolls.
+          _v: 2
+          proper: true
+          verb: is an
+          activation_type: 2
+  Blood Toxicity:
+    level: 1
+    actions:
+      - |
+        - name: Blood Toxicity
+          automation:
+            - type: text
+              text: >-
+                Your alchemical empowerment causes your blood to grow toxic as you exert
+                yourself. You gain a Blood Toxicity that is equal to your current stacks
+                of Exertion.
+
+
+                While your Blood Toxicity is 1 or higher, if you take damage from a melee
+                weapon attack, as a reaction you can force the attacker to make a
+                Dexterity saving throw. On a failed save, they take 1d4 + your Blood
+                Toxicity acid damage, or half as much on a successful save.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Performance Enhancement:
+    level: 3
+    actions:
+      - |
+        - name: Performance Enhancement
+          automation:
+            - type: text
+              text: >-
+                You develop beneficial side effects to your empowering mutagens. When you
+                gain the first level of Blood Toxicity, select one of the following
+                effects. The effect is lost if your Blood Toxicity becomes 0. Each time
+                you would gain your first level of Blood Toxicity (after resetting it 0),
+                you can select a different effect. Some effects require an indicated level
+                before they can be used.
+
+
+                - **Adrenaline Booster.** Your speed increases by 5 feet.
+
+                - **Bravery Booster.** You gain advantage on saving throws against the
+                Frightened condition.- **Vision Booster.** You gain 30 feet of darkvision.
+                If you already have darkvision, your darkvision range increases by 30
+                feet.
+
+                - **Toxicity Booster.** When calculating with your Blood Toxicity, you add
+                your Proficiency bonus.
+
+                - **Growth Booster (Prerequisite: 5th level).** You become Large sized.
+
+                - **Resistance Booster (Prerequisite: 13th level).** You gain resistance
+                to your choice of Acid, Cold, Fire, or Lightning damage.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Expunge Toxins:
+    level: 3
+    actions:
+      - |
+        - name: Expunge Toxins
+          automation:
+            - type: counter
+              counter: Expunge Toxins
+              amount: "1"
+              errorBehaviour: raise
+            - type: counter
+              counter: Exertion
+              amount: "0"
+              fixedValue: true
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: roll
+                  dice: "{proficiencyBonus}d6 + {lastCounterRemaining}[poison]"
+                  name: damage
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Poisoned
+                      duration: "10"
+                      effects:
+                        attack_advantage: "-1"
+                        check_dis:
+                          - all
+                      buttons:
+                        - label: Resist Poison
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: save
+                                  stat: con
+                                  fail: []
+                                  success:
+                                    - type: remove_ieffect
+                          style: "3"
+                          defaultDC: 8 + max(strengthMod, dexterityMod) + proficiencyBonus
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + max(strengthMod, dexterityMod) + proficiencyBonus
+            - type: counter
+              counter: Exertion
+              amount: "1"
+            - type: text
+              text: >-
+                While your Blood Toxicity is 1 or higher, when you take the Attack action
+                on your turn, you can replace one of your attacks with expunging some of
+                the toxins in your body, reducing your Exertion and Blood Toxicity by 1.
+
+
+                Creatures within a 5-foot radius of you must make a Constitution saving
+                throw. On a failed save, they take 2d6 + your current Blood Toxicity
+                poison damage, and become Poisoned for 1 minute. On a successful save,
+                they take half as much damage and are not poisoned. A Poisoned creature
+                can repeat its saving throw at the end of each of its turns, ending the
+                effect on a success. The number of d6 increases by one when your
+                proficiency bonus increases (with the total number of d6 equaling your
+                proficiency bonus).
+
+
+                The radius of the effect increases by 5 feet for additional 5 Blood
+                Toxicity (to a 10-foot radius at 6, to a 15-foot radius at 11, to a
+                20-foot radius at 16, etc).
+
+
+                Once you use this ability, you cannot use it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: true
+  Poison Conditioning:
+    level: 7
+    actions:
+      - |
+        - name: Poison Conditioning
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "-1"
+            - type: text
+              text: You gain resistance to Poison damage, and if you would gain the Poisoned
+                condition, you can instead generate 1 Exertion (increasing your Blood
+                Toxicity by 1) to not become Poisoned. If you already have resistance to
+                Poison damage, you gain resistance to Acid damage instead.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Purge Control:
+    level: 13
+    actions:
+      - |
+        - name: Endothermic Purge
+          automation:
+            - type: counter
+              counter: Expunge Toxins
+              amount: "1"
+              errorBehaviour: raise
+            - type: counter
+              counter: Exertion
+              amount: "0"
+              fixedValue: true
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: roll
+                  dice: "{proficiencyBonus}d6 + {lastCounterRemaining}[cold]"
+                  name: damage
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Restrained
+                      duration: "1"
+                      effects:
+                        attack_advantage: "-1"
+                        save_dis:
+                          - dex
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + max(strengthMod, dexterityMod) + proficiencyBonus
+            - type: counter
+              counter: Exertion
+              amount: "1"
+            - type: text
+              text: >-
+                While your Blood Toxicity is 1 or higher, when you take the Attack action
+                on your turn, you can replace one of your attacks with expunging some of
+                the toxins in your body, reducing your Exertion and Blood Toxicity by 1.
+
+
+                Creatures within a 5-foot radius of you must make a Constitution saving
+                throw. On a failed save, they take 2d6 + your current Blood Toxicity cold
+                damage, and become Restrained until the start of your next turn. On a
+                successful save, they take half as much damage and are not restrained. The
+                number of d6 increases by one when your proficiency bonus increases (with
+                the total number of d6 equaling your proficiency bonus).
+
+
+                The radius of the effect increases by 5 feet for additional 5 Blood
+                Toxicity (to a 10-foot radius at 6, to a 15-foot radius at 11, to a
+                20-foot radius at 16, etc).
+
+
+                **Purge Control.** When you use Expunge Toxins you can allow creatures of
+                your choice to automatically pass their saving throw against the ability
+                and take no damage on a successful save against it. You can use Expunge
+                Toxins an additional time before you complete a short or long rest.
+          _v: 2
+          proper: true
+        - name: Exothermic Purge
+          automation:
+            - type: counter
+              counter: Expunge Toxins
+              amount: "1"
+              errorBehaviour: raise
+            - type: counter
+              counter: Exertion
+              amount: "0"
+              fixedValue: true
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: roll
+                  dice: "{proficiencyBonus}d6 + {lastCounterRemaining}[fire]"
+                  name: damage
+                - type: save
+                  stat: con
+                  fail:
+                    - type: damage
+                      damage: "{damage}"
+                    - type: ieffect2
+                      name: Burning
+                      buttons:
+                        - label: Burn
+                          automation:
+                            - type: target
+                              target: self
+                              effects:
+                                - type: damage
+                                  damage: 1d6[fire]
+                          style: "4"
+                        - label: Extinguish
+                          automation:
+                            - type: remove_ieffect
+                          style: "3"
+                  success:
+                    - type: damage
+                      damage: ({damage})/2
+                  dc: 8 + max(strengthMod, dexterityMod) + proficiencyBonus
+            - type: counter
+              counter: Exertion
+              amount: "1"
+            - type: text
+              text: >-
+                While your Blood Toxicity is 1 or higher, when you take the Attack action
+                on your turn, you can replace one of your attacks with expunging some of
+                the toxins in your body, reducing your Exertion and Blood Toxicity by 1.
+
+
+                Creatures within a 5-foot radius of you must make a Constitution saving
+                throw. On a failed save, they take 2d6 + your current Blood Toxicity fire
+                damage, and start Burning (d6). On a successful save, they take half as
+                much damage and are not burning. The number of d6 increases by one when
+                your proficiency bonus increases (with the total number of d6 equaling
+                your proficiency bonus).
+
+
+                The radius of the effect increases by 5 feet for additional 5 Blood
+                Toxicity (to a 10-foot radius at 6, to a 15-foot radius at 11, to a
+                20-foot radius at 16, etc).
+
+
+                **Purge Control.** When you use Expunge Toxins you can allow creatures of
+                your choice to automatically pass their saving throw against the ability
+                and take no damage on a successful save against it. You can use Expunge
+                Toxins an additional time before you complete a short or long rest.
+          _v: 2
+          proper: true
+  Unshackled Mutagen:
+    level: 17
+    actions:
+      - |
+        - name: Unshackled Mutagen
+          automation:
+            - type: counter
+              counter: Unshackled Mutagen
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As a bonus action, you take your strongest mutagen, briefly becoming an
+                unstoppable monster. You gain the following benefits:
+
+
+                - Your Exertion Limit increases by 6.
+
+                - You immediately regain hit points equal to your Blood Toxicity, and
+                again at the start of each of your turns (before the effect would end)
+                while the effect persists.
+
+                - Any time you make an attack roll or saving throw, you can generate an
+                Exertion to gain advantage on it.
+
+
+                At the start of your next turn, you revert to normal unless you generate a
+                stack of Exertion to maintain it. When the effect ends, your current
+                stacks of Exertion are reduced to your normal Exertion Limit.
+
+
+                Once you use this ability, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: true
+          verb: experiences an
+          activation_type: 3

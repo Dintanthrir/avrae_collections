@@ -107,6 +107,9 @@ automations:
                 doesn’t grapple it). When moving yourself this movement provokes
                 opportunity attacks as normal movement would.
 
+                - **Iron Shell.** You gain proficiency with Heavy armor, but your speed
+                is reduced by 5 feet while wearing it.
+
                 - **Reinforced Limbs.** You count as one size larger when determining your
                 carrying weight and the weight you can push, drag, or lift.
 
