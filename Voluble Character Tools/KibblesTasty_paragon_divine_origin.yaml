@@ -1,0 +1,171 @@
+# '5456a62c-e847-4f18-8d0e-da95f20d4606'
+# KibblesTasty: Paragon - Divine Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Divine Origin
+parent: Paragon
+features:
+  manifested_power: { title: 'Manifested Power', type: text, level: 1 }
+  celestial_legacy: { title: 'Celestial Legacy', type: list, level: 3 }
+counters:
+  17:
+    - name: Divine Descent
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Divine Blood:
+    level: 1
+    actions:
+      - |
+        - name: Divine Blood
+          automation:
+            - type: text
+              text: Your divine blood courses through, constantly invigorating you. When you
+                generate a stack of Exertion, you regain 1d4 hit points.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Manifested Power:
+    level: 1
+    actions:
+      - |
+        - name: Manifested Power
+          automation:
+            - type: text
+              text: Your divine legacy makes itself apparent through supernatural powers. When
+                you gain this feature, choose a damage type from Fire, Cold, Lightning,
+                Radiant or Necrotic. Using your powers causes an aura of that type to
+                manifest around you. When you deal damage with unarmed strikes or Active
+                Abilities that deal blundgeoning, piercing or slashing damage, you can
+                choose for it deal that damage type instead.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Celestial Legacy:
+    level: 3
+    actions:
+      - |
+        - name: Celestial Legacy
+          automation:
+            - type: text
+              text: >-
+                Another part of your celestial legacy shines through, granting you one of
+                the following features of your choice:
+
+
+                - **Eyes.** Your eyes softly glow or reflect light. You gain 60 feet of
+                darkvision, and if you already have darkvision, the
+
+                range of your darkvision increases by 30 feet.
+
+                - **Voice.** You can cast speak with animals and command without expending
+                a spell slot by generating a stack of Exertion. Charisma is your
+                spellcasting modifier for these spells.
+
+                - **Wings.** Ethereal wings of radiant light form behind you when you are
+                airborne, granting you the effect of feather fall.
+
+                - **Skin.** Your skin becomes tougher and often strangely hued. While you
+                are not wearing any armor, your Armor Class equals 13 + your Constitution
+                modifier. You can use a shield and still gain this benefit.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Divine Judgement:
+    level: 3
+    actions:
+      - |
+        - name: Divine Judgement
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "-1"
+            - type: text
+              text: >-
+                When you take the Attack action on your turn, you can replace one of your
+                attacks to cast _divine judgment_ without a spell slot or components.
+
+                The level you cast the spell increases by 1 at 9th (to 3rd), 13th (to
+                4th), and 17th level (to 5th).
+          _v: 2
+          proper: true
+  Sacred Body:
+    level: 7
+    actions:
+      - |
+        - name: Sacred Body
+          automation:
+            - type: text
+              text: >-
+                When you roll to recover hit points with Divine Blood while you are
+                Bloodied, you can add your Constitution modifier to the hit points
+                recovered.
+
+                Additionally, you are immune to diseases.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Growing Divinity:
+    level: 13
+    actions:
+      - |
+        - name: Growing Divinity
+          automation:
+            - type: text
+              text: >-
+                Select an additional selection from Celestial Legacy, and then select one
+                of the following upgrades to one of your selections:
+
+
+                - **Eyes.** You gain blindsight with a range of 30 feet.
+
+                - **Voice.** You can understand and speak all languages.
+
+                - **Wings.** Your wings stay manifested at all times. You gain a flying
+                speed of 30 feet.
+
+                - **Skin.** You gain resistance to your choice of Cold, Fire, Lightning,
+                Radiant, or Necrotic damage.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Divine Descent:
+    level: 17
+    actions:
+      - |
+        - name: Divine Descent
+          automation:
+            - type: counter
+              counter: Divine Descent
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                As a bonus action, you fully express your divine legacy becoming a divine
+                avatar and gaining the following benefits:
+
+
+                - You gain resistance to all damage.
+
+                - You have advantage on all saving throws.
+
+                - You can become Large sized.
+
+                - Once during the effect, when you use Divine Judgement you can generate
+                two stacks of Exertion to instead cast _platinum lances_ without a spell
+                slot or components.
+
+
+                This form ends at the start of your next turn unless you generate a stack
+                of Exertion to maintain it. Once this ability ends, you cannot use it
+                again until you complete a long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 3

@@ -10,9 +10,7 @@
     Occultist:
       hit_die: 6
       sub_level: 1
-    Paragon:
-      hit_die: 10
-      sub_level: 1
+    Paragon: '02413038-f6a1-4234-bc27-4f7ad351fb97'
     Psion: '94decc8c-8ab9-4e6a-8f08-0acbc8ac0d36'
     Spellblade: '5cd05323-ec5a-41af-81af-0139331e729c'
     Summoner: 'c8c87146-ef8a-47f1-b0e0-d015e74e0d21'
@@ -101,11 +99,12 @@
     Tradition of the Oracle: { parent: Occultist }
     Tradition of the Shaman: { parent: Occultist }
     # Paragon:
-    Prodigy: { parent: Paragon }
-    Divine: { parent: Paragon }
-    Gifted: { parent: Paragon }
-    Augmented: { parent: Paragon }
-    Vampiric: { parent: Paragon }
+    Prodigy: '07d15e5a-afa4-4c34-8186-4e75d02c1655'
+    Divine: '5456a62c-e847-4f18-8d0e-da95f20d4606'
+    Gifted: 'e7b48238-9a73-45e6-a65d-da208f0932a8'
+    Augmented: '47cb8dcf-d729-4848-85f9-257ce1932050'
+    Vampiric: '87aefe2c-51dc-4863-8e2d-edd5d6f4ca41'
+    Symbiotic: '896bafd0-6a03-4bc5-9de2-06d9e9570d7c'
     # Psion:
     Awakened Mind: 'c3fc0ef5-a730-4d4d-b8d9-be4e9f1b22e1'
     Unleashed Mind: '8dbf16b9-0e50-4b7e-8c68-1355e6136ac1'

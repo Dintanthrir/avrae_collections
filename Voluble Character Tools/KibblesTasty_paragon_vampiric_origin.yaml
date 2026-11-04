@@ -1,0 +1,248 @@
+# '87aefe2c-51dc-4863-8e2d-edd5d6f4ca41'
+# KibblesTasty: Paragon - Vampiric Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Vampiric Origin
+parent: Paragon
+counters:
+  7:
+    - name: Into the Mist
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  17:
+    - name: Devouring Storm
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Draining Strike:
+    level: 1
+    actions:
+      - |
+        - name: Draining Strike
+          automation:
+            - type: text
+              text: Once per turn on your turn, when you take the Attack action, you can
+                replace one of your attacks with a draining strike. On hit, it deals 1d4 +
+                your Active Ability modifier + your current number of stacks of Exertion
+                necrotic damage and, if the target is not a Construct or Undead and its CR
+                is 1/8 or greater, your stacks of Exertion is reduced by 1 (to a minimum
+                of 0).
+          _v: 2
+          proper: false
+  Predator's Pounce:
+    level: 3
+    actions:
+      - |
+        - name: Predator's Pounce
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "-1"
+            - type: target
+              target: 1
+              effects:
+                - type: check
+                  ability:
+                    - acrobatics
+                    - athletics
+                  contestAbility:
+                    - athletics
+                  success: []
+                  fail:
+                    - type: ieffect2
+                      name: Grappled
+                      desc: Grappled by {{caster.name}}
+                      buttons:
+                        - label: Escape Grapple
+                          verb: attempts to break out of the grapple
+                          style: "3"
+                          automation:
+                            - type: target
+                              target: children
+                              effects:
+                                - type: check
+                                  ability:
+                                    - athletics
+                                  contestAbility:
+                                    - acrobatics
+                                    - athletics
+                                  success: []
+                                  fail:
+                                    - type: remove_ieffect
+                                  contestTie: fail
+                      save_as: grapple
+                    - type: damage
+                      damage: "{proficiencyBonus}d6[necrotic]"
+                  contestTie: neither
+                  adv: -1
+            - type: condition
+              condition: not lastCheckDidPass
+              onTrue:
+                - type: target
+                  target: self
+                  effects:
+                    - type: ieffect2
+                      name: Grappling
+                      desc: Grappling {{targets[0].name if str(targets[0])!=targets[0] else
+                        targets[0]}}
+                      buttons:
+                        - label: Release Grapple
+                          verb: lets go of their target
+                          style: "1"
+                          automation:
+                            - type: remove_ieffect
+                              removeParent: always
+                      parent: grapple
+                    - type: temphp
+                      amount: "{lastDamage}/2"
+              onFalse: []
+              errorBehaviour: "false"
+            - type: text
+              text: You dash forward up to 10 feet and initiate a Grapple attempt against a
+                creature with advantage. On success, the target takes 2d6 necrotic damage.
+                The number of d6 increases by one when your proficiency bonus increases
+                (with the total number of d6 equaling your proficiency bonus) and the
+                distance you can dash increases by 5 feet (with the total range being 5 ×
+                your proficiency bonus). You gain temporary hit points equal to half the
+                necrotic damage dealt.
+          _v: 2
+          proper: false
+  Growing Hunger:
+    level: 3
+    actions:
+      - |
+        - name: Growing Hunger
+          automation:
+            - type: text
+              text: If your stacks of Exertion are at their maximum, you gain advantage on
+                your attack rolls with Draining Strike.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Into the Mist:
+    level: 7
+    actions:
+      - |
+        - name: Into the Mist
+          automation:
+            - type: counter
+              counter: Into the Mist
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Mist Form
+                  duration: "1"
+                  buttons:
+                    - label: End Mist Form
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+                  effects:
+                    resistances:
+                      - bludgeoning
+                      - piercing
+                      - slashing
+                      - acid
+                      - cold
+                      - lightning
+                      - necrotic
+                      - poison
+                      - psychic
+                      - thunder
+            - type: text
+              text: >-
+                You can use your bonus action to become a cloud of mist. Until the start
+                of your next turn, you have resistance to all damage types besides force,
+                fire, and radiant and a flying speed of 30 feet.
+
+                This form ends early if you take any action or make an attack. You cannot
+                interact with other creatures or objects while mist, but ignore any
+                difficult terrain and can pass through small holes, narrow openings, and
+                even mere cracks.
+
+                Once you use this feature, you cannot use it again until you complete a
+                short rest.
+          _v: 2
+          proper: true
+          verb: fades
+          activation_type: 3
+  Night Rush:
+    level: 7
+    actions:
+      - |
+        - name: Night Rush
+          automation:
+            - type: text
+              text: While you are in dim light or darkness your Predatory Pounce feature turns
+                you into mist and teleports you to the target instead of moving like
+                normal.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Stolen Power:
+    level: 13
+    actions:
+      - |
+        - name: Stolen Power
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Stolen Power
+                  duration: "10"
+            - type: text
+              text: >-
+                You gain the ability to copy powers from creatures that you drain. You can
+                gain one of the following features of a creature you hit with a Draining
+                Strike. The copied ability lasts for 1 minute or until you steal another
+                ability this way:
+
+                - Any special sense it has (such as darkvision, blindsight, or Keen
+                Senses).
+
+                - Any skill, weapon, or tool proficiency it has.
+
+                - Any damage resistance it has (against a single type of damage).
+
+                - Any climbing, swimming, or flying speed it has, with a maximum of up to
+                your walking speed.
+          _v: 2
+          proper: false
+          verb: gains
+          activation_type: 2
+  Devouring Storm:
+    level: 17
+    actions:
+      - |
+        - name: Devouring Storm
+          automation:
+            - type: counter
+              counter: Devouring Storm
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain the ability to drain entire armies of their life. As an action,
+                you vanish, teleporting to and making a Draining Strike against a number
+                of creatures within 60 feet of you equal to your current number of
+                Exertion stacks (ignoring the normal once per limitation of the ability).
+                Each creature takes damage based on the number of Exertion stacks you have
+                when using this feature. Each successful hit can reduce your stacks of
+                Exertion by 1 as normal. After completing all of the attacks, you reappear
+                either where you started, or within 5 feet of any target attacked by the
+                ability.
+
+                Once you use this ability, you cannot use it again until you complete a
+                short or long rest.
+          _v: 2
+          proper: false
+          activation_type: 2

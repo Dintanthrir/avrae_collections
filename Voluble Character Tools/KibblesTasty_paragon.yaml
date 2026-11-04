@@ -1,0 +1,156 @@
+# '02413038-f6a1-4234-bc27-4f7ad351fb97'
+# KibblesTasty: Paragon
+# https://www.kthomebrew.com/thelist
+# class definition for Voluble Character Tools
+hit_die: 10
+sub_level: 1
+features:
+  origin_of_power: { title: 'Origin of Power', type: text, level: 1 }
+  active_abilities: { title: 'Active Abilities', type: list, level: 1 }
+  paragon_talents: { title: 'Paragon Talents', type: list, level: 2 }
+counters:
+  1:
+    - name: Exertion
+      minVal: 0
+      maxVal: 11
+      reset: short
+      reset_to: 0
+  6:
+    - name: Deep Breath
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  9:
+    - name: Warmed Up
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  18:
+    - name: Adrenaline Rush
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Exertion:
+    level: 1
+    actions:
+      - |
+        - name: Exerted Attack
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "-1"
+            - type: text
+              text: Once per turn when you take the Attack action, you can generate a stack of
+                Exertion to take the Attack action (one weapon attack only) again as bonus
+                action.
+          _v: 2
+          proper: true
+          verb: makes an
+          activation_type: 2
+  Try Harder:
+    level: 1
+    actions:
+      - |
+        - name: Try Harder
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "-1"
+            - type: text
+              text: When you make an ability check using a skill you are proficient in, after
+                rolling you can generate a stack of Exertion to reroll the die. You can
+                use either result.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 2
+  Indefatigable:
+    level: 5
+    actions:
+      - |
+        - name: Indefatigable
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "1"
+            - type: text
+              text: On each of your turns the first exertion you would generate from an Active
+                Ability or Exerted Attack is free and does not generate a stack of
+                Exertion.
+          _v: 2
+          proper: true
+          verb: is
+          activation_type: 2
+  Deep Breath:
+    level: 6
+    actions:
+      - |
+        - name: Deep Breath
+          automation:
+            - type: counter
+              counter: Deep Breath
+              amount: "1"
+              errorBehaviour: raise
+            - type: counter
+              counter: Exertion
+              amount: 1d4
+            - type: text
+              text: >-
+                You gain the ability to recuperate quickly. If you haven't generated any
+                stacks of exertion during your turn at the end of your turn, you can roll
+                a d4 and remove the rolled number stacks of exertion.
+
+                Once you do so, you cannot do so again until you complete a short or long
+                rest.
+          _v: 2
+          proper: false
+          verb: takes
+          activation_type: 2
+  Warmed Up:
+    level: 9
+    actions:
+      - |
+        - name: Warmed Up
+          automation:
+            - type: counter
+              counter: Warmed Up
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: "{ParagonLevel}[healing]"
+            - type: text
+              text: When you reach your maximum stacks of exertion for the first time, you
+                regain hit points equal to your Paragon level. This resets whenever you
+                complete a short or long rest.
+          _v: 2
+          proper: true
+          verb: is
+          activation_type: 2
+  Adrenaline Rush:
+    level: 18
+    actions:
+      - |
+        - name: Adrenaline Rush
+          automation:
+            - type: counter
+              counter: Adrenaline Rush
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can briefly ignore your limits and freely use exertion. On your turn,
+                you do not generate any stacks while using Exertion.
+
+                Once you use this feature, you cannot use it again until you complete a
+                long rest.
+          _v: 2
+          proper: true
+          verb: has an
+          activation_type: 2

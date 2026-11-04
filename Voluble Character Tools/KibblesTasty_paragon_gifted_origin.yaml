@@ -1,0 +1,141 @@
+# 'e7b48238-9a73-45e6-a65d-da208f0932a8'
+# KibblesTasty: Paragon - Giften Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Giften Origin
+parent: Paragon
+features:
+  psionic_disciplines: { title: 'Psionic Disciplines', type: list, level: 1 }
+counters:
+  1:
+    - name: Psi Points
+      minVal: 0
+      maxVal: 12
+      reset: long
+      reset_to: 0
+  7:
+    - name: Dangerous Mind
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  17:
+    - name: Ultimate Outburst
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Generated Energy:
+    level: 1
+    actions:
+      - |
+        - name: Generated Energy
+          automation:
+            - type: text
+              text: >-
+                Whenever you generate a stack of Exertion, you generate 1 psi point. You
+                can have a maximum number of this points equal to your Exertion Limit + 1.
+                Any psi points that remain unspent when you complete a long rest are lost.
+
+                When you use an ability that generates a stack of Exertion, you can expend
+                2 psi points to prevent it from causing a stack of Exertion. You can
+                additionally use these points to fuel some psionic features you gain.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Psionic Surge:
+    level: 3
+    actions:
+      - |
+        - name: Psionic Surge
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "-1"
+            - type: text
+              text: >-
+                You use the selected Power. When you use it, it is empowered as if you
+                expended 1 psi point on it. The number of psi points increases at 5th (to
+                2), 11th (to 3), and 17th (to 4) levels. You can expend psi points you
+                have to further empower it, though the maximum total psi points you can
+                spend on it is equal to your proficiency bonus. If the select power deals
+                damage on a failed save, it deals half damage on a successful save.
+
+                Regardless of the power selected, it gains the following potential
+                modifier you can select:
+
+                **Quickened (1 Psi Point):** The power can be used as a bonus action.
+          _v: 2
+          proper: false
+          verb: uses
+          activation_type: 2
+  Rampant Power:
+    level: 3
+    actions:
+      - |
+        - name: Rampant Power
+          automation:
+            - type: text
+              text: Your generated Psionic power wreathes you in an aura of power. While you
+                have 1 or more psi points, the first time during your turn you strike a
+                creature with a melee weapon attack or Active Ability, it deals an
+                additional psychic damage equal to the psi points you have.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Dangerous Mind:
+    level: 7
+    actions:
+      - |
+        - name: Dangerous Mind
+          automation:
+            - type: counter
+              counter: Dangerous Mind
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You can aggressively rebuff and rebound any effect that with their
+                situation. targets your mind. You can gain advantage on an Intelligence or
+                Wisdom saving throw.
+
+
+                **Rebound.** If you succeed and the save was triggered by the spell or
+                effect of another creature, you can expend 1 psi point to force the
+                creature to make a saving throw of the same type and DC. On failure it
+                takes 4d6 psionic damage and becomes Dazed until the start of your turn.
+                On success, it takes half as much damage and does not become Dazed.
+
+
+                Once you use this feature to succeed a saving throw, you cannot use it
+                again until you complete a short or long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Ultimate Outburst:
+    level: 17
+    actions:
+      - |
+        - name: Ultimate Outburst
+          automation:
+            - type: counter
+              counter: Ultimate Outburst
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                When you use Psionic Surge, you can instead cast _shockwave_. The
+                overwhelming psionic energy coursing through you empowers, granting you
+                temporary hit points equal to the damage roll of the spell and granting
+                you an additional action you can use before the end of your turn.
+
+                Once you use this ability, you cannot use it again until you complete a
+                short or long rest. If you die, you automatically cast _shockwave_ (no
+                action required), regardless if this ability is available or not.
+          _v: 2
+          proper: true
+          verb: releases an
+          activation_type: 2

@@ -1,0 +1,230 @@
+# '47cb8dcf-d729-4848-85f9-257ce1932050'
+# KibblesTasty: Paragon - Augmented Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Augmented Origin
+parent: Paragon
+features:
+  weapon_module: { title: 'Weapon Module', type: text, level: 3 }
+  mechanical_upgrades: { title: 'Mechanical Upgrade', type: list, level: 3 }
+  emergency_system: { title: 'Emergency System', type: text, level: 13 }
+counters:
+  1:
+    - name: Overheat
+      minVal: 1
+      maxVal: 128
+      reset: short
+      reset_to: 1
+  7:
+    - name: Machine Mode
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  17:
+    - name: Mega Module
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Overheat:
+    level: 1
+    actions:
+      - |
+        - name: Overheat
+          automation:
+            - type: counter
+              counter: Overheat
+              amount: "0"
+              fixedValue: true
+            - type: target
+              target: self
+              effects:
+                - type: damage
+                  damage: "{lastCounterRemaining}d6[fire]"
+            - type: counter
+              counter: Overheat
+              amount: -{lastCounterRemaining}
+            - type: text
+              text: >-
+                You gain the ability to push your mechanical enhancements beyond their
+                limits. Once per turn, when you generate a stack of Exertion while at your
+                maximum stacks, you can choose to take 1d6 fire damage instead of gaining
+                a level of Exhaustion.
+
+                You take this damage at the end of your turn. Each time you take fire
+                damage this way after the first, the fire damage is doubled (to 2d6, 4d6,
+                etc). This damage cannot be reduced by any means. This resets back to 1d6
+                when you complete a short rest or long rest.
+          _v: 2
+          proper: true
+          verb: chooses to
+          activation_type: 2
+  Weapon Module:
+    level: 3
+    actions:
+      - |
+        - name: Weapon Module
+          automation:
+            - type: text
+              text: >-
+                You can install a module that grants you a special Active Ability. Select
+                one of the following options:
+
+
+                - **Energy Cannon.** You gain the Fire Beam active ability.
+
+                - **Power Leap.** You gain the Meteor Leap active ability.
+
+                - **Blade Whip.** You gain the Whirlwind Slash active ability.
+
+
+                You can replace your selection of module when you gain a level in this
+                class, replacing the module over the course of a long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Mechanical Upgrade:
+    level: 3
+    actions:
+      - |
+        - name: Mechanical Upgrade
+          automation:
+            - type: text
+              text: >-
+                You gain the ability to upgrade your form in one of the following ways:
+
+
+                - **Boosted Jumps.** You double your jumping distance.
+
+                - **Grappling Reel.** As an attack or as an action, you may target a
+                surface, object or creature within 30 feet. If the target is Medium or
+                smaller, you can make a Strength (Athletics) check as if grappling
+                normally to pull it to you and grapple it on success. Alternatively, if
+                the target is Large or larger, you can choose to be pulled to it (this
+                doesn’t grapple it). When moving yourself this movement provokes
+                opportunity attacks as normal movement would.
+
+                - **Reinforced Limbs.** You count as one size larger when determining your
+                carrying weight and the weight you can push, drag, or lift.
+
+                - **Terrain Adaptation.** You gain a climbing or swimming speed equal to
+                your walking speed.
+
+                - **Integrated Weapon.** You integrate one one handed simple or martial
+                melee weapon into one of your arms. You are proficient with the integrated
+                weapon. It counts as  occupying your hand only while in use.
+
+
+                You can replace your selection of upgrade when you gain a level in this
+                class, replacing the upgrade over the course of a long rest.
+
+                You can select additional Upgrades by using Paragon Talents.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Machine Mode:
+    level: 7
+    actions:
+      - |
+        - name: Machine Mode
+          automation:
+            - type: counter
+              counter: Machine Mode
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                When you become Unconscious, Incapacitated, roll initiative while under
+                the effect of those conditions, or die, you can allow your augmentation to
+                override control of your body, suppressing the effect or death until the
+                end of your next turn. Doing so generates a stack of Exertion, and while
+                you are in this state you are considered Dazed and Silenced. These are
+                removed if the underlying condition is cured.
+
+                If you are unconscious due to being at 0 hit points, you gain a damage
+                threshold of 10 (meaning you do not suffer any effects from taking less
+                than 10 damage) while in this state, but if you are still damaged, you
+                suffer a failed Death Saving Throw as normal.
+
+                This effect cannot be triggered if you are Paralyzed, Petrified, or your
+                body is fully destroyed. Once triggered, this effect cannot be triggered
+                again until you complete a short or long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Emergency Systems:
+    level: 13
+    actions:
+      - |
+        - name: Emergency Systems
+          automation:
+            - type: text
+              text: >-
+                You gain one of the following features of your choice. You can replace
+                your selection of system when you gain a level in this class, replacing
+                the upgrade over the course of a long rest.
+
+
+                **Redundant Systems**
+
+                Machine Mode can be triggered an additional time before needing to
+                complete a short rest.
+
+                **Reboot.** When Machine Mode is triggered by dropping to 0 hit points,
+                you recover 1 hit point at the end of your turn. When Machine Mode is
+                triggered by death, roll a d20 and add your level to the result. If the
+                result is 30 or higher, you return to life with 1 hit point at the start
+                of your turn.
+
+
+                **Heat Vents**
+
+                When you take damage from Overheat, you can deal an equal amount of damage
+                to one creature within 5 feet of you (up to a maximum of 4d6 damage).
+
+                **Redline Protocol.** When you trigger Overheat, you can double your
+                movement speed and you gain an additional action. The action can be used
+                only to take the Attack (one weapon attack only), Dash, Disengage, Hide,
+                or Use an Object action. You can do this once, after which you cannot do
+                so again until you complete a short rest.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Mega Module:
+    level: 17
+    actions:
+      - |
+        - name: Mega Module
+          automation:
+            - type: counter
+              counter: Mega Module
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: When you use the Active Ability granted by your Weapon Module, you can
+                choose to double the area of effect and damage of it. Once you do so, you
+                cannot do so again until you complete a short or long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Hotswap:
+    level: 17
+    actions:
+      - |
+        - name: Hotswap
+          automation:
+            - type: text
+              text: You can replace any module, upgrade, or system that you can normally
+                replace during a long rest or after gaining a level during a short rest.
+                You can only change one selection during the course of a short rest.
+          _v: 2
+          proper: true
+          verb: can
+          activation_type: 2

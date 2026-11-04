@@ -1,0 +1,228 @@
+# '896bafd0-6a03-4bc5-9de2-06d9e9570d7c'
+# KibblesTasty: Paragon - Symbiotic Origin
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Symbiotic Origin
+parent: Paragon
+counters:
+  13:
+    - name: Symbiotic Sacrifice
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Battle Transformation:
+    level: 1
+    actions:
+      - |
+        - name: Battle Transformation
+          automation:
+            - type: text
+              text: >-
+                As you exert yourself, you and your empowering entity begin to merge,
+                transforming you. Any time you generate a stack of Exertion, you gain one
+                of the following features of your choice:
+
+
+                - **Enhanced Movement.** Your movement speed increases by 5 feet.
+
+                - **Extended Reach.** Your reach increases by 5 feet. You can gain this
+                benefit multiple times.
+
+                - **External Shell.** Your entity grants you a protective layer of
+                defenses. Your AC equals 10 + Active Ability modifier + your Constitution
+                modifier, unless it is already higher than that. You can use a shield and
+                still gain this benefit.
+
+                - **Natural Weapon.** You gain a natural weapon that is either a melee
+                weapon that deals your choice of 1d8 bludgeoning, slashing, or piercing
+                damage, or a ranged weapon that deals your choice of 1d6 of any damage
+                type (selected once when you gain this feature, and the same damage type
+                when subsequently manifested thereafter) with a range of 60/180 feet. You
+                can select this benefit twice, gaining both types of weapon.
+
+
+                You can gain a number of these benefits equal to your proficiency bonus at
+                a time. While you are at your maximum and generate a stack of Exertion,
+                you can replace one currently selected bonus with another bonus when
+                gaining a stack of exertion. These features last until you go 1 minute
+                without generating any Exertion.
+          _v: 2
+          proper: false
+          verb: experiences
+          activation_type: 2
+  Entity Form:
+    level: 1
+    actions:
+      - |
+        - name: Entity Form
+          automation:
+            - type: text
+              text: >-
+                Your empowering entity exists even when it isn't being used to empower
+                you, and it can assist you depending on its form
+
+
+                - **Internal Symbiote.** The entity resides within you, granting you a
+                supernatural healing factor. Whenever you complete a short rest, you
+                regain hit points equal to your Constitution modifier automatically.
+
+                - **Spirit Animal.** The entity takes the form of a tiny spiritual beast.
+                You gain a familiar, as per the find familiar spell, but this familiar is
+                automatically dismissed anytime you gain the benefit of Battle
+                Transformation. You can cause it to reappear as an action once the effects
+                of Battle Transformation have ended as normal.
+
+                - **Sentient Weapon.** The entity takes the form of a sentient weapon. You
+                gain a weapon that you can call forth as a bonus action at any time. This
+                weapon can be called forth intact even if it was previously destroyed. You
+                can communicate with the weapon while touching it, and you, and only you,
+                are proficient with the weapon.
+          _v: 2
+          proper: true
+          verb: gains an
+          activation_type: 2
+  Focused Transformation:
+    level: 3
+    actions:
+      - |
+        - name: Focused Transformation
+          automation:
+            - type: counter
+              counter: Exertion
+              amount: "-1"
+            - type: text
+              text: Focus your will on tapping into your empowering entity, transforming
+                intentionally instead of as a side effect of using your power. You can
+                select two options from Battle Transformation instead of one when
+                generating Exertion this way, and your maximum number of transformations
+                is increased by 1 until the Battle Transformation ends (this limit cannot
+                be increased again by using this effect multiple times).
+          _v: 2
+          proper: false
+          verb: experiences
+          activation_type: 2
+  Enhanced Transformation:
+    level: 7
+    actions:
+      - |
+        - name: Enhanced Transformation
+          automation:
+            - type: text
+              text: >-
+                The damage die Natural Weapons gained from Battle Transformation increase
+                by one size (to 1d10 and 1d8 respectively), and you gain empowered options
+                for your Battle Transformation feature. Your list of choices are extended
+                to include the following options:
+
+
+                - **Adaptive Resistance.** You gain resistance to your choice of Acid,
+                Cold, Fire, or Lightning damage. You can gain this benefit multiple times.
+
+                - **Climbing Proficiency.** You gain a climbing speed equal to your
+                movement speed.
+
+                - **Extra Limb.** You manifest an extra limb that serves as a normal
+                additional hand would for the purposes of holding items, weapons, and
+                grappling.
+
+                - **Maximized Weapons.** The damage dice of your Natural Weapons gained
+                from Battle Transformation increase by one size (+d2, to 1d12 and 1d10
+                respectively).
+          _v: 2
+          proper: true
+          verb: experiences an
+          activation_type: 2
+  Symbiotic Sacrifice:
+    level: 13
+    actions:
+      - |
+        - name: Symbiotic Sacrifice
+          automation:
+            - type: text
+              text: >
+                When you would take damage, your symbiotic entity can intercede to take
+                the damage itself, temporarily causing it to fall dormant. You gain
+                resistance to the damage, and if the damage would still reduce you to 0
+                hit points, you are instead reduced to 1 hit point. Any active Battle
+                Transformations you have ends, you cannot regain their effects (or the
+                effects of Entity Form), and you cannot use this feature again until you
+                complete a short rest.
+
+                While the entity is dormant, as a bonus action you can gain three stacks
+                of Exertion to immediately awaken your empowering entity from its dormant
+                status, ending the side effects and refreshing the ability immediately.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 2
+  Perfected Transformations:
+    level: 17
+    actions:
+      - |
+        - name: Perfected Transformations
+          automation:
+            - type: text
+              text: >-
+                You gain more powerful options for your Battle Transformation feature.
+                Your list of choices are extended to include the following options:
+
+
+                - **Counter Evolution.** You gain advantage on your choice of Strength,
+                Dexterity, Constitution, Intelligence, Wisdom, or Charisma saving throws.
+
+                - **Endless Regeneration.** At the start of your turn, if you have at
+                least 1 hit point but less than half of your maximum hit points, you
+                regain hit points equal to your Constitution modifier.
+
+                - **Resilient Body.** You gain resistance to Bludgeoning Piercing or
+                Slashing damage. You can gain this benefit multiple times.
+
+                - **Winged Form.** You gain a flying speed equal to your movement speed.
+
+
+                Additionally, any time you generate a stack of Exertion while at your
+                maximum transformations, you can gain Temporary Hit Points equal to half
+                your Paragon level instead of replacing a transformation.
+          _v: 2
+          proper: true
+          verb: experiences
+          activation_type: 2
+  Vengeful Entity:
+    level: 17
+    actions:
+      - |
+        - name: Vengeful Entity
+          automation:
+            - type: text
+              text: >-
+                If you are slain, your body rises under control of the empowering entity
+                with all of your stats and abilities and a number of hit points equal to
+                half of your maximum hit points. While under the control of the empowering
+                entity, it attacks whatever killed it with single minded determination
+                until it or the creature that killed you is slain.
+
+
+                **Reconstituion Check.** If the creature that killed you is slain, roll a
+                d20 + your Constitution modifier. On a 20 or greater, it manages to
+                reconstitute your body sufficiently you are restored to life and regain
+                control of your body, though with no memory of what has occurred since you
+                died. This check gains a -5 for each time it has occurred within the last
+                week. Time while under this effect does not otherwise count as the body
+                was dead for the purposes of resurrection, and you immediately regain
+                control if the body is resurrected.
+
+                If the cause of your death is not from another creature the target of
+                vengeance is otherwise unclear, the DM determines what the empowering
+                entity does, and may decide to simply immediately make the Reconstitution
+                check. It possible that creatures the empowering entity is deeply familiar
+                with (such as your long time companions) can persuade it to cooperate with
+                some difficulty.
+
+                This can occur even if your body was heavily damaged (such as in several
+                pieces), but not if it was entirely destroyed.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2

@@ -1,0 +1,103 @@
+# '07d15e5a-afa4-4c34-8186-4e75d02c1655'
+# KibblesTasty: Paragon - Prodigy
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Prodigy
+parent: Paragon
+counters:
+  7:
+    - name: Mortal Conviction
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+  17:
+    - name: Unlimited Willpower
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Mortal Conviction:
+    level: 7
+    actions:
+      - |
+        - name: Mortal Conviction
+          automation:
+            - type: condition
+              condition: caster.hp <= 0
+              onTrue:
+                - type: counter
+                  counter: Mortal Conviction
+                  amount: "1"
+                  errorBehaviour: raise
+                - type: target
+                  target: self
+                  effects:
+                    - type: damage
+                      damage: -({caster.hp} - 1)
+                    - type: temphp
+                      amount: "{ParagonLevel}*2"
+              onFalse:
+                - type: text
+                  text: Only usable at 0 hp!
+            - type: text
+              text: >-
+                Your willpower allows you to overcome the limits of their body. When you
+                drop to 0 hit points, you can instead drop to 1 hit point and gain
+                temporary hit points equal to twice your Paragon level.
+
+                Once you do this, you cannot do so again until you complete a short or
+                long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Momentum of Effort:
+    level: 13
+    actions:
+      - |
+        - name: Momentum of Effort
+          automation:
+            - type: text
+              text: Whenever you generate a stack of Exertion, you gain advantage on your next
+                weapon attack roll made before the end of your turn.
+          _v: 2
+          proper: false
+          activation_type: 2
+  Unlimited Willpower:
+    level: 17
+    actions:
+      - |
+        - name: Unlimited Willpower
+          automation:
+            - type: counter
+              counter: Unlimited Willpower
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                During your turn can push yourself beyond mortal limits until the start of
+                your next turn (no action required). You gain the following benefits:
+
+
+                - You ignore the effects of Exhaustion, even if it would otherwise kill
+                you.
+
+                - You can take an additional action on each of your turns. That action can
+                be used only to take the Attack (one weapon attack only), Dash, Disengage,
+                Hide, or Use an Object action.
+
+                - You are unaffected by difficult terrain, and spells and other magical
+                effects can neither reduce your speed nor cause you to be Paralyzed or
+                Restrained.
+
+
+                This state ends at the start of your next turn unless you generate a stack
+                of Exertion to maintain it. Doing so reduces your current hit points by
+                combined number of stacks of Exertion and Exhaustion. Once this ability
+                ends, you cannot use it again until you complete a long rest.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
