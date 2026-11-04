@@ -1,0 +1,46 @@
+# '6be06506-1b99-4329-a765-63b0aeee6bd2'
+# KibblesTasty: Inventor
+# https://www.kthomebrew.com/thelist
+# class definition for Voluble Character Tools
+hit_die: 8
+sub_level: 1
+features:
+  upgrades: { title: 'Upgrades', type: list, level: 3 }
+automations:
+  Wondrous Item Recharge:
+    level: 10
+    actions:
+      - |
+        - name: Wondrous Item Recharge
+          automation:
+            - type: text
+              text: >-
+                You can recharge a magic item that has charges or per rest uses, as long
+                as those charges or uses can only be used to cast spells. To restore
+                charges or uses, you perform a ritual that takes 1 minute and expend a
+                spell slot of a level equal to or greater than the spell slot level of a
+                spell cast by the item.
+
+                The number of charges or uses restored to the item is equal to the number
+                of charges or uses required to cast that spell using the item once.
+          _v: 2
+          proper: false
+          verb: performs
+          activation_type: 6
+  Peerless Inventor:
+    level: 20
+    actions:
+      - |
+        - name: Peerless Inventor
+          automation:
+            - type: text
+              text: Your mind is always thinking of new options and clever solutions. At the
+                end of a short or long rest, you can create a temporary version of an
+                Upgrade from your subclass that you meet the prerequisites for but don’t
+                already have. This upgrade must have a level requirement of 11th level or
+                lower, and it lasts until you finish a short or long rest, at which time
+                you can select a temporary Upgrade with this feature again.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 8

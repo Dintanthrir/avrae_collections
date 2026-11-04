@@ -1,0 +1,6 @@
+# '4af7eb52-3a34-4b93-9f5d-ff1e1f280b98'
+# KibblesTasty: Inventor - Potionsmith
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Potionsmith
+parent: Inventor

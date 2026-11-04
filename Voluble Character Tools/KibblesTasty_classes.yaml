@@ -4,9 +4,7 @@
 
 2014:
   classes:
-    Inventor:
-      hit_die: 8
-      sub_level: 1
+    Inventor: '6be06506-1b99-4329-a765-63b0aeee6bd2'
     Occultist: '4f62ac03-5b3b-4a39-9900-14bfc1ac4f14'
     Paragon: '02413038-f6a1-4234-bc27-4f7ad351fb97'
     Psion: '94decc8c-8ab9-4e6a-8f08-0acbc8ac0d36'
@@ -79,18 +77,18 @@
 
     # Homebrew Classes
     # Inventor
-    Gadgetsmith: { parent: Inventor }
-    Golemsmith: { parent: Inventor }
-    Infusionsmith: { parent: Inventor }
-    Potionsmith: { parent: Inventor }
-    Thundersmith: { parent: Inventor }
-    Warsmith: { parent: Inventor }
-    Fleshsmith: { parent: Inventor }
-    Cursesmith: { parent: Inventor }
-    Runesmith: { parent: Inventor }
-    Relicsmith: { parent: Inventor }
-    Plantsmith: { parent: Inventor }
-    Wingsmith: { parent: Inventor }
+    Gadgetsmith: 'a0381843-fd5e-43f4-834d-71f6b989d65d'
+    Golemsmith: 'b3d6d5a4-2a84-4262-bebc-dac92ee682a4'
+    Infusionsmith: 'c22059fe-449a-461e-9e66-741d0afdad7e'
+    Potionsmith: '4af7eb52-3a34-4b93-9f5d-ff1e1f280b98'
+    Thundersmith: '80b3546c-4631-4d73-9658-d80c379ada4d'
+    Warsmith: '50faf7d8-dbf2-43d6-b200-f38f25736010'
+    Fleshsmith: '80dd0c51-ee01-415a-a114-cb1129c310c4'
+    Cursesmith: 'b67242a9-8c94-4c3b-9f5b-d0bf18ff5af0'
+    Runesmith: '6ce86f89-789a-40c2-abd5-4c5eaea73df9'
+    Relicsmith: '74f72654-4f10-4f38-ace5-5d75a4f956be'
+    Plantsmith: 'c294aa77-5562-41cd-9933-f69a31e3e119'
+    Wingsmith: '947964bc-8121-48e5-bfe0-71bbcd27bec0'
     # Occultist
     Tradition of the Witch: '95d69b6a-b45b-41f0-9717-f49709132243'
     Tradition of the Hedge Mage: '8fa41cd7-bb5f-4c70-b636-b3d755dca608'
