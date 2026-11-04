@@ -1,0 +1,316 @@
+# '95d69b6a-b45b-41f0-9717-f49709132243'
+# KibblesTasty: Occultist - Tradition of the Witch
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Tradition of the Witch
+parent: Occultist
+features:
+  coven: { title: Coven, type: text, level: 1 }
+automations:
+  Familiar Bond:
+    level: 3
+    actions:
+      - |
+        - name: Familiar Bond
+          automation:
+            - type: counter
+              counter: Familiar Bond Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: -{lastCounterRequestedAmount}[restored]
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{lastCounterRequestedAmount}[transferred]"
+            - type: text
+              text: >-
+                When your familiar takes damage, you can choose to take that damage
+                yourself instead, transferring all damage to you.
+
+
+                ```
+
+                -t <familiar> -amt <damage>
+
+                ```
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+        - name: Familiar Bond - Black
+          automation:
+            - type: counter
+              counter: Familiar Bond - Black
+              amount: "1"
+              errorBehaviour: raise
+            - type: roll
+              dice: 1d4 + {OccultistLevel}/2
+              name: reduction
+              displayName: Attack Modifier
+            - type: text
+              text: As a reaction to a creature within 30 feet of your familiar hitting with
+                an attack, you can have your familiar subtract 1d4 + half your Occultist
+                level (rounded down) from the attack roll (no action required from the
+                familiar). It can do this a number of times equal to your Wisdom modifier,
+                regaining all uses after you complete a long rest.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 4
+        - name: Familiar Bond - White
+          automation:
+            - type: counter
+              counter: Familiar Bond Placeholder Counter
+              amount: "0"
+              errorBehaviour: ignore
+            - type: target
+              target: 1
+              effects:
+                - type: condition
+                  condition: target.thp >= lastCounterRequestedAmount
+                  onTrue:
+                    - type: damage
+                      damage: "{lastCounterRequestedAmount}[transfer]"
+                  onFalse:
+                    - type: text
+                      text: "{target} does not have {lastCounterRequestedAmount} temporary hit
+                        points!"
+            - type: target
+              target: 2
+              effects:
+                - type: condition
+                  condition: lastDamage and lastDamage > 0
+                  onTrue:
+                    - type: temphp
+                      amount: "{lastDamage}"
+                  onFalse: []
+            - type: text
+              text: >-
+                When you complete a long rest, your familiar gains temporary hit points
+                equal to your Wisdom modifier + twice your Occultist level. While it has
+                temporary hit points, as an action your familiar can teleport to a
+                creature within 30 feet of it and grant that creature one or more of its
+                temporary hit points. You can direct it to do this immediately using your
+                reaction when a creature within 30 feet of it takes damage (no action
+                required by the familiar).
+
+
+                ```
+
+                !init thp <familiar> {WisdomMod + 2 * OccultistLevel}
+
+                ```
+
+
+                ```
+
+                -t <familiar> -t <ally> -amt <thp to transfer>
+
+                ```
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 4
+        - name: Familiar Bond - Green
+          automation:
+            - type: text
+              text: >-
+                When you complete a long rest, your familiar gains a number of illusory
+                duplicates equal to your Wisdom modifier (a minimum of one). These persist
+                until destroyed by taking damage or you complete a long rest. The illusory
+                duplicates cannot take any actions, but move and act like your familiar
+                during your turn, staying within 30 feet of you or it.
+
+                At the end of your familiar's turn or when it takes damage, it can swap
+                places with an illusory familiar (no action required by the familiar). If
+                it does this as a result of taking damage, the illusory familiar is
+                destroyed but the familiar takes no damage. Illusory duplicates are immune
+                to damage while within 5 feet of you.
+
+                Unless otherwise specified, illusory familiars occupy the Witch's space
+                and move with them.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Witch's Touch:
+    level: 6
+    actions:
+      - |
+        - name: Witch's Touch - thp
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: temphp
+                  amount: "{wisdomMod}"
+            - type: text
+              text: >-
+                Whenever you cast a spell with a range of touch (including through your
+                familiar), you can add one of the following modifiers to the spell:
+
+
+                - It grants one affected target temporary hit points equal to your Wisdom
+                modifier. Only one creature can have these temporary hit points at a time.
+
+                - It deals additional damage equal to your Wisdom modifier to one affected
+                creature.
+
+                - It adds or subtracts 1d4 from the target's next attack roll or saving
+                throw before the start of your next turn.
+
+
+                You can also confer these effects to another spell with a range longer
+                than touch by making its range touch, or confer these effects as an action
+                without casting a spell by touching a target (making a melee spell attack
+                to do if the target is an unwilling creature). If you make the range of a
+                curse spell touch, you no longer need the material component for the
+                spell.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Witch's Touch - damage
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{wisdomMod}[spell]"
+            - type: text
+              text: >-
+                Whenever you cast a spell with a range of touch (including through your
+                familiar), you can add one of the following modifiers to the spell:
+
+
+                - It grants one affected target temporary hit points equal to your Wisdom
+                modifier. Only one creature can have these temporary hit points at a time.
+
+                - It deals additional damage equal to your Wisdom modifier to one affected
+                creature.
+
+                - It adds or subtracts 1d4 from the target's next attack roll or saving
+                throw before the start of your next turn.
+
+
+                You can also confer these effects to another spell with a range longer
+                than touch by making its range touch, or confer these effects as an action
+                without casting a spell by touching a target (making a melee spell attack
+                to do if the target is an unwilling creature). If you make the range of a
+                curse spell touch, you no longer need the material component for the
+                spell.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Witch's Touch - bless
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Witch's Touch - bless
+                  duration: "1"
+                  tick_on_caster: true
+                  effects:
+                    to_hit_bonus: 1d4
+                    save_bonus: 1d4
+                  buttons:
+                    - label: Remove Bless
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+            - type: text
+              text: >-
+                Whenever you cast a spell with a range of touch (including through your
+                familiar), you can add one of the following modifiers to the spell:
+
+
+                - It grants one affected target temporary hit points equal to your Wisdom
+                modifier. Only one creature can have these temporary hit points at a time.
+
+                - It deals additional damage equal to your Wisdom modifier to one affected
+                creature.
+
+                - It adds or subtracts 1d4 from the target's next attack roll or saving
+                throw before the start of your next turn.
+
+
+                You can also confer these effects to another spell with a range longer
+                than touch by making its range touch, or confer these effects as an action
+                without casting a spell by touching a target (making a melee spell attack
+                to do if the target is an unwilling creature). If you make the range of a
+                curse spell touch, you no longer need the material component for the
+                spell.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+        - name: Witch's Touch - bane
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Witch's Touch - bane
+                  duration: "1"
+                  tick_on_caster: true
+                  effects:
+                    to_hit_bonus: -1d4
+                    save_bonus: -1d4
+                  buttons:
+                    - label: Remove Bane
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+            - type: text
+              text: >-
+                Whenever you cast a spell with a range of touch (including through your
+                familiar), you can add one of the following modifiers to the spell:
+
+
+                - It grants one affected target temporary hit points equal to your Wisdom
+                modifier. Only one creature can have these temporary hit points at a time.
+
+                - It deals additional damage equal to your Wisdom modifier to one affected
+                creature.
+
+                - It adds or subtracts 1d4 from the target's next attack roll or saving
+                throw before the start of your next turn.
+
+
+                You can also confer these effects to another spell with a range longer
+                than touch by making its range touch, or confer these effects as an action
+                without casting a spell by touching a target (making a melee spell attack
+                to do if the target is an unwilling creature). If you make the range of a
+                curse spell touch, you no longer need the material component for the
+                spell.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 2
+  Master of Curses:
+    level: 14
+    actions:
+      - |
+        - name: Master of Curses
+          automation:
+            - type: text
+              text: >-
+                You no longer need the material component for curse spells (even when
+                casting them at range).
+
+                Additionally, casting 1st level Hex or Curse spell no longer interrupts or
+                is interrupted by concentration of other spells, though this cannot let
+                you concentrate on more than two spells at a time, with at least one being
+                a 1st level Hex or Curse. If you lose concentration while you are doing
+                this, concentration is lost on both spells.
+          _v: 2
+          proper: false
+          verb: is
+          activation_type: 2

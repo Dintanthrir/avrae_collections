@@ -1,0 +1,83 @@
+# 'd202de71-8f57-4f7e-9416-b2544629d5a0'
+# KibblesTasty: Occultist - Tradition of the Shaman
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Tradition of the Shaman
+parent: Occultist
+automations:
+  Call Spirit:
+    level: 1
+    actions:
+      - |
+        - name: Call Spirit
+          automation:
+            - type: target
+              target: self
+              effects:
+                - type: ieffect2
+                  name: Bonded Spirit
+                  duration: "100"
+                  effects:
+                    damage_bonus: 1d4[{choice}]
+                  attacks:
+                    - attack:
+                        _v: 2
+                        name: Bonded Spirit
+                        automation:
+                          - type: target
+                            target: each
+                            effects:
+                              - type: attack
+                                hit:
+                                  - type: damage
+                                    damage: 1d4 + {wisdomMod}[{choice}]
+                                miss: []
+                                attackBonus: wisdomMod + proficiencyBonus
+            - type: text
+              text: >-
+                As a bonus action you can call a spirit to your side. This can be a primal
+                spirit of fire, cold, or lightning, or an ancestral spirit with radiant or
+                necrotic power. This bond lasts for 10 minutes once formed. You can
+                release a spirit early as an action, and it is immediately released if you
+                call another spirit.
+
+                While a spirit is bonded to you, your melee weapon attacks deal an
+                additional 1d4 damage of the spirit's type.
+
+                When you call it or as a bonus action while it is bonded, you can manifest
+                the spirit in a space you can see within 30 feet of you. The spirit is
+                medium sized but spectral in nature while manifested. While the spirit is
+                manifested, whenever you take the attack action you may replace any number
+                of attacks you could normally take with melee spell attacks from your
+                bonded spirit. On a hit, this melee spell attack deals 1d4 + your Wisdom
+                modifier damage of the spirit's type. As a bonus action you can move it up
+                to 30 feet in any direction or recall it to yourself, ending its
+                manifestation.
+
+                A manifested spirit cannot move more than 60 feet from you, and is
+                recalled to you if you are ever more than 60 feet from it.
+
+
+                Use `-choice` to specify the spirit's damage type.
+          _v: 2
+          proper: true
+          verb: uses
+          activation_type: 3
+  Empowered Spirits:
+    level: 3
+    actions:
+      - |
+        - name: Empowered Spirits
+          automation:
+            - type: text
+              text: When you call a spirit, you can expend a spell slot to empower that
+                spirit. An empowered spirit adds additional damage to your weapon and
+                deals additional manifested damage based on the level of the spell slot
+                expended, its damage becomes the amount shown in the Empowered Spirits
+                table. While the spirit is called and not manifested, at the start of each
+                of your turns, you gain temporary hit points equal to the level of the
+                spell slot spent to empower it.
+          _v: 2
+          proper: true
+          verb: calls
+          activation_type: 2

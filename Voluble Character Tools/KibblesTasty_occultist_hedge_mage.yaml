@@ -1,0 +1,124 @@
+# '8fa41cd7-bb5f-4c70-b636-b3d755dca608'
+# KibblesTasty: Occultist - Tradition of the Hedge Mage
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Tradition of the Hedge Mage
+parent: Occultist
+features:
+  casting_style: { title: Casting Style, type: text, level: 1 }
+automations:
+  The Way I Learned It:
+    level: 1
+    actions:
+      - |
+        - name: The Way I Learned It
+          automation:
+            - type: text
+              text: >-
+                When you learn a new spell, you can modify some of its properties
+                representing your unique way of casting that spell. These changes
+                permanently affect the spell for you, but when you swap out a spell when
+                gaining a level in the class, you can instead modify these properties from
+                a spell you know. You can learn the same spell multiple times with
+                different selections (i.e. "ranged cure wounds") You may apply any number
+                of these properties when learning or modifying a spell.
+
+
+                - **Damage Type.** You can change any one of the following damage types
+                into another: Acid, cold, fire, lightning, or poison.
+
+                - **Range.** You can make a spell with a range of 10 feet or more instead
+                have a range of Touch, or give a spell with a range of Touch a range of up
+                10 feet (if it was a melee spell attack, it becomes a ranged spell attack
+                if the range is greater than Touch).
+
+                - **Components.** You can exchange a verbal, somatic, or material
+                component of a spell for another type of component the spell does not
+                normally have. Material components with a cost cannot be replaced, but can
+                be exchanged for a different material component of equal cost.
+          _v: 2
+          proper: true
+          verb: casts
+  Casting Style:
+    level: 1
+    actions:
+      - |
+        - name: Casting Style
+          automation:
+            - type: text
+              text: >-
+                Your self-taught casting style has resulted in some practical advantages.
+                Select one of the following casting styles:
+
+
+                **Reliable Casting.** When you roll a 1 or 2 on a damage die for an
+                Occultist cantrip, you can reroll the die and must use the new roll, even
+                if the new roll is a 1 or a 2.
+
+
+                **Habitual Casting.** When you cast an Occultist cantrip that requires
+                concentration, you can instead cause the effect to persist without
+                concentration a number of rounds equal to your Occultist level (for
+                example, as 1st level Occultist, it would end at the start of your next
+                turn). You can end a spell persisting in this way early as an action.
+
+
+                **Tactical Casting.** When you take the Ready action with an Occultist
+                cantrip, it does not require concentration to keep the spell readied.
+          _v: 2
+          proper: false
+          verb: has
+          activation_type: 2
+  Improvised Ritual:
+    level: 3
+    actions:
+      - |
+        - name: Improvised Ritual
+          automation:
+            - type: text
+              text: >-
+                You can cast a spell with the ritual tag without knowing that spell. When
+                you do so, it takes the additional time as if casting it as a ritual, but
+                still consumes a spell slot. You can improvise spells of a level equal to
+                one-third of your Occultist level (for example, a 3rd level Occultist can
+                improvise 1st level rituals).
+
+                Spells improvised this way can be from any spell list, but if it is not on
+                the Occultist list, you must have the spell in a written form (such as a
+                wizard's spellbook or a scroll).
+          _v: 2
+          proper: true
+          verb: casts an
+          activation_type: 2
+  Empowered Cantrips:
+    level: 6
+    actions:
+      - |
+        - name: Empowered Cantrips
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: damage
+                  damage: "{wisdomMod}[spell]"
+            - type: text
+              text: Once per turn when you roll damage for an Occultist cantrip, you can add
+                your Wisdom modifier to the damage dealt.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Cantrip Mastery:
+    level: 14
+    actions:
+      - |
+        - name: Cantrip Mastery
+          automation:
+            - type: text
+              text: You can cast an Occultist cantrip with a casting time of one action as a
+                bonus action. When you cast a cantrip in this way, it is cast as if you
+                are 1st level.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2

@@ -1,0 +1,48 @@
+# '4f62ac03-5b3b-4a39-9900-14bfc1ac4f14'
+# KibblesTasty: Occultist
+# https://www.kthomebrew.com/thelist
+# class definition for Voluble Character Tools
+hit_die: 6
+sub_level: 1
+features:
+  occult_rites: { title: 'Occult Rites', type: list, level: 2 }
+automations:
+  Traditional Expertise:
+    level: 10
+    actions:
+      - |
+        - name: Traditional Expertise
+          automation:
+            - type: text
+              text: When you make a Wisdom ability check, you can draw upon your tradition and
+                expend a spell slot to gain advantage on the check.
+          _v: 2
+          proper: true
+          verb: draws on
+          activation_type: 2
+  The Old Ways:
+    level: 20
+    actions:
+      - |
+        - name: The Old Ways
+          automation:
+            - type: text
+              text: >-
+                Your mastery of ritual and tradition is extensive and unparalleled, you've
+                unlocked ancient secrets and perfected techniques to master rituals
+                completely. Any Occultist spell you know of 3rd level or lower becomes a
+                ritual spell for you. When you cast a spell without the ritual tag as a
+                ritual, it requires additional consumed material components worth 10 gold
+                per level of the spell.
+
+
+                Additionally, your mastery of rituals allows you to work them more
+                quickly. A spell cast as a ritual only takes additional turns equal to the
+                spell's level to cast (for example, casting a 3rd level spell as a ritual
+                would take four turns to cast, casting as your action or bonus action on
+                the fourth turn). Spells with a casting time of a reaction cannot be cast
+                as a ritual.
+          _v: 2
+          proper: true
+          verb: knows
+          activation_type: 2

@@ -7,9 +7,7 @@
     Inventor:
       hit_die: 8
       sub_level: 1
-    Occultist:
-      hit_die: 6
-      sub_level: 1
+    Occultist: '4f62ac03-5b3b-4a39-9900-14bfc1ac4f14'
     Paragon: '02413038-f6a1-4234-bc27-4f7ad351fb97'
     Psion: '94decc8c-8ab9-4e6a-8f08-0acbc8ac0d36'
     Spellblade: '5cd05323-ec5a-41af-81af-0139331e729c'
@@ -94,10 +92,10 @@
     Plantsmith: { parent: Inventor }
     Wingsmith: { parent: Inventor }
     # Occultist
-    Tradition of the Witch: { parent: Occultist }
-    Tradition of the Hedge Mage: { parent: Occultist }
-    Tradition of the Oracle: { parent: Occultist }
-    Tradition of the Shaman: { parent: Occultist }
+    Tradition of the Witch: '95d69b6a-b45b-41f0-9717-f49709132243'
+    Tradition of the Hedge Mage: '8fa41cd7-bb5f-4c70-b636-b3d755dca608'
+    Tradition of the Oracle: '347a5621-486c-4427-aa41-6548c7dce9d2'
+    Tradition of the Shaman: 'd202de71-8f57-4f7e-9416-b2544629d5a0'
     # Paragon:
     Prodigy: '07d15e5a-afa4-4c34-8186-4e75d02c1655'
     Divine: '5456a62c-e847-4f18-8d0e-da95f20d4606'
