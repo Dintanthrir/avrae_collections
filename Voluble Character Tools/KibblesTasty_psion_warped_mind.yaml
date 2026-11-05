@@ -1,0 +1,134 @@
+# 'a839afe5-c925-44e8-a3d1-33f44d97672b'
+# KibblesTasty: Psion - Warped Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Warped Mind
+parent: Psion
+counters:
+  14:
+    - name: Abomination Unleashed
+      minVal: 0
+      maxVal: 1
+      reset: short
+      reset_to: 1
+automations:
+  Rapid Evolution:
+    level: 1
+    actions:
+      - |
+        - name: Rapid Evolution
+          automation:
+            - type: text
+              text: >-
+                Your body rapidly develops to suit different environments. When you
+                complete a long rest in a hostile environment, you adapt to that
+                environment at that end of the long rest. This adaption can be one of the
+                following:
+
+
+                - **Thermal Adaption.** You adapt to extremely hot or cold weather, no
+                longer requiring extra water or cold weather clothing to sustain yourself
+                in those environments.
+
+                - **Aquatic Adaption.** You gain a swimming speed equal to your walking
+                speed and the ability to breathe underwater.
+
+                - **Darkness Adaption.** You gain darkvision of 30 feet, or if you already
+                had it, your darkvision increases by 30 feet.
+
+                - **Inured Immunity.** You become immune to a mundane disease you've been
+                exposed to.
+
+
+                The adaptation must be related to the environment you rest in, and you
+                must not have been exposed to a contradictory element (such as sunlight if
+                you wish to adapt darkvision) for 24 hours. At your DM's discretion, you
+                may be able to adapt to more unique or exotic effects that otherwise serve
+                as climate hazards (such as adapting to tune out constant loud noise or
+                motion).
+
+
+                This adaptation lasts until you complete a long rest, at which point the
+                adaptation continues if you remain in the environment, fades if you enter
+                a neutral environment, or changes to a new one if you rest in a different
+                extreme environment. You can only have one of these adaptations at a time.
+                Alternatively, you can expend 1 psi point to trigger one of these
+                adaptations forcefully as an action, lasting for 10 minutes when you do
+                so.
+          _v: 2
+          proper: false
+          verb: undergoes
+          activation_type: 2
+  Mutation Mastery:
+    level: 3
+    actions:
+      - |
+        - name: Mutation Mastery
+          automation:
+            - type: text
+              text: >-
+                Your power of mutating your body expands and you gain the following
+                benefits:
+
+
+                - **Combined Mutation.** When you use Weapon Morph, you can select
+                multiple options, morphing them at the same time. You can activate Weapon
+                Morph whenever you roll initiative (no action required).
+
+                - **Shifting Flesh.** You gain the Flexible Flesh upgrade for free,
+                allowing you to use Flesh Warp as a bonus action when you target yourself.
+
+                - **Defensive Adaption.** When you gain a Mutation Die from Flesh Warp,
+                you can roll it (not expending it) and gain temporary hit points equal to
+                the value rolled.
+
+                - **Psionic Regrowth.** Whenever you expend a psi point, you regain 1 hit
+                point for reach psi point spent.
+          _v: 2
+          proper: true
+          verb: has
+          activation_type: 2
+  Rapid Regeneration:
+    level: 10
+    actions:
+      - |
+        - name: Rapid Regeneration
+          automation:
+            - type: text
+              text: When you expend a psi point triggering Psionic Regrowth, you instead
+                regain 1d4 hit points for each psi point spent. While you are 0 hit points
+                making your Death Saving Throw at the start of your turn, if you succeed
+                the Death Saving Throw, you can expend 1 psi point to regain 1d4 hit
+                points.
+          _v: 2
+          proper: true
+          verb: experiences
+          activation_type: 2
+  Abomination Unleashed:
+    level: 14
+    actions:
+      - |
+        - name: Abomination Unleashed
+          automation:
+            - type: counter
+              counter: Abomination Unleashed
+              amount: "1"
+              errorBehaviour: raise
+            - type: text
+              text: >-
+                You gain the ability to let your twisted powers run rampant through your
+                body, turning you into an undulating abomination of flesh and muscle. When
+                you use Flesh Warp on yourself, for 1 minute, you may gain 5 extra limbs,
+                each one equipped with one of the Weapon Morph upgrades and you gain the
+                effects of all the modifiers of Flesh Warp of your choice at the start of
+                each of your turns (at their minimum expenditure, for ones that allow
+                multiple points to be spent). These do not expend psi points, and do not
+                count against your psi point limit.
+
+
+                Once you use this, you cannot do so again until you complete a short or
+                long rest.
+          _v: 2
+          proper: true
+          verb: becomes an
+          activation_type: 2

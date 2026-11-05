@@ -1,0 +1,134 @@
+# 'b6246ade-6c6e-46e8-8bf8-54663c5db765'
+# KibblesTasty: Psion - Illusive Mind
+# https://www.kthomebrew.com/thelist
+# subclass definition for Voluble Character Tools
+name: Illusive Mind
+parent: Psion
+counters:
+  14:
+    - name: Army of Illusions
+      minVal: 0
+      maxVal: 1
+      reset: long
+      reset_to: 1
+automations:
+  Reflected Agony:
+    level: 3
+    actions:
+      - |
+        - name: Reflected Agony
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Reflected Agony
+                  duration: "10"
+                  buttons:
+                    - label: Reflection Damage
+                      automation:
+                        - type: target
+                          target: self
+                          effects:
+                            - type: damage
+                              damage: "{spell}[psychic]"
+                      style: "4"
+                      defaultCastingMod: proficiencyBonus
+                    - label: Destroy Reflection
+                      automation:
+                        - type: remove_ieffect
+                      style: "3"
+            - type: text
+              text: Your illusions bedevil your foes. When a creature fails a saving throw
+                against one of your psionic powers, you can create a reflection of itself
+                to torment it. At the start of each of your turns, any creature with such
+                a reflection takes psychic damage equal to your proficiency bonus. A
+                creature may destroy its reflection as an action, or by expending one
+                attack when it takes the Attack action. A creature may only have one
+                reflection. If not destroyed, a reflection lasts for 1 minute, until the
+                target creature falls unconscious, or until you fall unconscious.
+          _v: 2
+          proper: true
+          activation_type: 2
+  Illusory Armor:
+    level: 10
+    actions:
+      - |
+        - name: Illusory Armor
+          automation:
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Illusory Armor
+                  effects:
+                    ac_value: 22 + intelligenceMod
+                  buttons:
+                    - label: Remove Armor
+                      automation:
+                        - type: remove_ieffect
+                      style: "2"
+            - type: text
+              text: >
+                You can construct a set of illusions that gives a creature the appearance
+                of indomitable strength. As an action, you can enrobe one creature you can
+                see within 30 feet in this imaginary armor. While they possess illusory
+                armor, their armor class can't be lower than 22 + your Intelligence
+                modifier. The illusory armor lasts until the target is hit by an attack,
+                after which it vanishes.
+
+
+                Only one creature can possess your Illusory Armor at a time, and once they
+                receive it, they can't receive it again until after a long rest.
+          _v: 2
+          proper: true
+          verb: creates
+          activation_type: 1
+  Army of Illusions:
+    level: 14
+    actions:
+      - |
+        - name: Army of Illusions
+          automation:
+            - type: counter
+              counter: Army of Illusions
+              amount: "1"
+              errorBehaviour: raise
+            - type: target
+              target: all
+              effects:
+                - type: ieffect2
+                  name: Army of Illusions
+                  duration: "10"
+                  effects:
+                    damage_bonus: 1d4[psychic]
+                  buttons:
+                    - label: Dismiss Illusory Double
+                      automation:
+                        - type: remove_ieffect
+                      style: "2"
+            - type: text
+              text: >-
+                You can conjure a veritable forest of false images, utterly confusing your
+                foes. As an action, choose a point you can see within 60 feet. You create
+                illusory doubles of every creature of your choice within 30 feet of that
+                point. While a target has an illusory double, they gain the following
+                benefits:
+
+
+                - Attack rolls against them have disadvantage.
+
+                - They make the first attack roll on their turn each turn at advantage.
+
+                - All their attacks deal 1d4 bonus psychic damage.
+
+                - A creature's illusory double evaporates when they are hit by a weapon
+                attack, or after 1 minute.
+
+
+                You can create an illusory army in this way once, regaining the ability
+                after a long rest.
+          _v: 2
+          proper: true
+          verb: summons an
+          activation_type: 1
