@@ -1,0 +1,57 @@
+# blizzard_entertainment_classes = 'a34f88a0-0c34-41d7-8cd8-61727ca48400'
+# World of Warcraft class and subclass definitions for Voluble Character Tools
+
+2024:
+  classes:
+    Death Knight:
+      hit_die: 10
+      sub_level: 3
+      features: []
+    Demon Hunter:
+      hit_die: 10
+      sub_level: 3
+      features: []
+    Druid:
+      hit_die: 8
+      sub_level: 3
+      features: []
+    Evoker:
+      hit_die: 6
+      sub_level: 3
+      features: []
+    Hunter:
+      hit_die: 10
+      sub_level: 3
+      features: []
+    Mage:
+      hit_die: 6
+      sub_level: 3
+      features: []
+    Monk:
+      hit_die: 8
+      sub_level: 3
+      features: []
+    Paladin:
+      hit_die: 10
+      sub_level: 3
+      features: []
+    Priest:
+      hit_die: 8
+      sub_level: 3
+      features: []
+    Rogue:
+      hit_die: 8
+      sub_level: 3
+      features: []
+    Shaman:
+      hit_die: 12
+      sub_level: 3
+      features: []
+    Warlock:
+      hit_die: 8
+      sub_level: 3
+      features: []
+    Warrior:
+      hit_die: 10
+      sub_level: 3
+      features: []
