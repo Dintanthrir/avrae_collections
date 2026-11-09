@@ -3,12 +3,25 @@
 
 2024:
   classes:
+    # The Magus Class
+    Magus:
+      hit_due: 8
+      sub_level: 3
+      features: []
     # The Pugilist Class
     Pugilist:
       hit_die: 10
       sub_level: 3
       features: []
   subclasses:
+    # The Magus Class
+    # Magus
+    Arcane Order: { parent: Magus }
+    Heaven’s Guard: { parent: Magus }
+    Knights Stygian: { parent: Magus }
+    Shadow Court: { parent: Magus }
+    Sidereal Cabal: { parent: Magus }
+    Sylvan Circle: { parent: Magus }
     # The Pugilist Class
     # Pugilist
     Dog and Hound: { parent: Pugilist }
