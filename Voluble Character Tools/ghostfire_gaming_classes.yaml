@@ -81,6 +81,11 @@
         monster_grimoire: { title: 'Monster Grimoire', type: list, level: 1 }
         weapon_mastery: { title: 'Weapon Mastery', type: list, level: 1 }
         fighting_styles: { title: 'Fighting Styles', type: list, level: 2 }
+    # Vampire: The Masquerade – Bound by Blood
+    Kindred:
+      hit_die: 10
+      sub_level: 3
+      features: []
   subclasses:
     # Grim Hollow Player's Guide
     # Monster Hunter
@@ -88,3 +93,11 @@
     Devourer Guild: { parent: Monster Hunter }
     Occultist Guild: { parent: Monster Hunter }
     Trapper Guild: { parent: Monster Hunter }
+    # Vampire: The Masquerade – Bound by Blood
+    # Kindred
+    Brujah: { parent: Kindred }
+    Gangrel: { parent: Kindred }
+    Lasombra: { parent: Kindred }
+    Nosferatu: { parent: Kindred }
+    Toreador: { parent: Kindred }
+    Ventrue: { parent: Kindred }
