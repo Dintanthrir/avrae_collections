@@ -1,0 +1,227 @@
+<drac2>
+using(
+  currency = '7fdffa53-ac7b-4a40-80d8-eef3aba6f32a',
+  downtime = '790f2a58-6042-44b9-acc3-d6c50f0704a2',
+  embeds = '72fea181-ba03-4cb4-8edf-1f3bc5a49578', # Owned by Lathaon#6649
+  fuzzy = '6431690e-ce47-4baa-bb3b-ba751e1a1817', # Owned by Lathaon#6649
+  tools = '6251e20c-7545-4c63-92af-31e0745f2b0c', # Owned by pixel_ate_it#5728, see also `!tool`
+  skill_check_mods = 'eff8567d-a5c1-41a1-9b9b-deb396d73aa8', # Owned by Jiandi#7785
+  docstring = '5aec63f9-9fb4-43e2-93fe-6ca0dcb4b24e', # Owned by Jiandi#7785
+)
+_CONFIG_SVAR = 'jobs_config'
+_DEFAULT_CONFIG = {
+  "job_dc": 5,
+  "roll_descriptions": [
+    {
+      "range": [1, 2],
+      "descriptions": [
+        "Today was a disaster!",
+        "Nothing went right today.",
+      ]
+    },
+    {
+      "range": [2,5],
+      "descriptions": [
+        "A frustrating search.",
+        "Not your lucky day.",
+        "That could have gone better.",
+      ]
+    },
+    {
+      "range": [5, 10],
+      "descriptions": [
+        "It was just another day at work.",
+        "More long hours for low pay.",
+        "It's a living.",
+      ]
+    },
+    {
+      "range": [10, 15],
+      "descriptions": [
+        "It was a productive day.",
+        "Work hard, party hard.",
+        "You work hard and are rewarded, with more work.",
+        "You feel good about what you accomplished today.",
+      ]
+    },
+    {
+      "range": [15, 20],
+      "descriptions": [
+        "Someone really liked your work and left a generous tip!",
+        "Go home early today, you've done a great job!",
+        "Keep up the good work!",
+      ]
+    },
+    {
+      "range": [20, 21],
+      "descriptions": [
+        "An incredible performance, just amazing work!",
+        "Today your work was incredible, absolute genius!",
+      ]
+    },
+  ],
+  "daily_income_per_level": {
+    1: 1,
+    2: 1,
+    3: 1,
+    4: 2,
+    5: 3,
+    6: 23,
+    7: 24,
+    8: 32,
+    9: 34,
+    10: 50,
+    11: 50,
+    12: 90,
+    13: 90,
+    14: 180,
+    15: 180,
+    16: 280,
+    17: 280,
+    18: 840,
+    19: 1690,
+    20: 1690,
+    21: 2530,
+  },
+  "distribution": "cubic-offset",
+}
+_DISTRIBUTIONS = {
+  'linear': lambda x: (x-1)/36,
+  'cubic': lambda x: .3*(x-1)**(1/3),
+  'cubic-offset': lambda x: 0.3*(((x-20)**(1/3)).real - ((x-20)**(1/3)).imag) + 0.30
+}
+
+_config_cache = None
+def load_config():
+  if not _config_cache:
+    _config_cache = _DEFAULT_CONFIG | load_yaml(get_svar(_CONFIG_SVAR, default=dump_yaml(_DEFAULT_CONFIG)))
+  return _config_cache
+
+def description_for_roll(check_roll):
+    """
+    Returns a single string from a the set of options in roll_descriptions
+    whose range matches the d20 roll on a skill check.
+    Returns None if no matching string is available.
+    """
+    d20_roll = find_d20(check_roll.result.expr.roll).total
+    job_descriptions = [(range(desc.get('range')[0], desc.get('range')[1]), desc.get('descriptions')) for desc in load_config().get("roll_descriptions", [])]
+    available_descriptions = ([descriptions for (range, descriptions) in job_descriptions if d20_roll in range] or [[]])[0]
+    return randchoice(available_descriptions or [None])
+
+def find_d20(d20_number):
+    """
+    Depth first search of a d20.Number tree returning the first d20 Dice node or None
+    """
+    if typeof(d20_number) == 'Dice' and d20_number.size == 20:
+        return d20_number
+    if not d20_number.children:
+        return None
+    return ([find_d20(child) for child in d20_number.children] or [None])[0]
+
+current_time = time()
+current_character = character()
+
+# Input validation
+args = &ARGS&
+parsed_args = argparse(args)
+
+phrase = parsed_args.last('phrase', type_=str)
+if phrase:
+    args.remove('-phrase')
+    args.remove(phrase)
+
+if len(args) == 0:
+    err("No skill/tool provided. Usage: `!job <skill/tool>`")
+
+search_string = args[0]
+
+selected_skill_name = None
+selected_skill = None
+selected_tool_key = None
+
+try:
+    [(selected_skill_name, selected_skill)] = fuzzy.get_matches_with_function(
+        search = search_string,
+        iterable = current_character.skills,
+        function = lambda x: x[0].casefold()
+    ) or [(None, None)]
+except ('DraconicValueError'):
+    err(f"multiple skills match `{search_string}`")
+
+try:
+    [selected_tool_key] = tools.matching_tools(search_string) or [None]
+except ('DraconicValueError'):
+    err(f"multiple tools match `{search_string}`")
+selected_tool = tools.exact_tool(selected_tool_key) if selected_tool_key else None
+
+if selected_skill and selected_tool:
+    err(f"ambiguous input, '{search_string}' can match both skills and tools")
+
+if not selected_skill and not selected_tool:
+    err(f"no skills or tools match '{search_string}'")
+
+# Build an embed to display output.
+embed = {
+    'title': '',
+    'desc': '',
+    'fields': [],
+    'thumb': get('image'),
+    'footer': "!job <skill/tool>"
+}
+
+# Check if the character can work.
+downtime_status = downtime.status(current_time=current_time)
+if not downtime_status.available:
+    embed['title'] = f"**{get('name')}** is not eligible to work yet!"
+    embed['desc'] = f"They can start their next shift <t:{round(downtime_status.workweek_ends)}:R>"
+else:
+
+    check_name = (selected_skill_name.title() if selected_skill_name else None) or tools.tool_name_for(selected_tool_key)
+    check_roll_str = skill_check_mods.d20(selected_skill_name) if selected_skill else tools.tool_check_dice_str(selected_tool_key)
+    check_roll = vroll(check_roll_str)
+
+    # Record that the character started working.
+    downtime.use_downtime(activity="job", current_time=current_time)
+
+    embed['title'] = f"**{get('name')}** goes to work making a {check_name} check!"
+
+    if check_roll.total < load_config().job_dc:
+      embed['desc'] = docstring.trim(f"""
+      {('_' + phrase + '_') if phrase else ''}
+
+      **DC {load_config().job_dc}**
+      {check_roll.full}
+
+      Unable to find any work!
+      """)
+    else:
+      # Determine earnings
+      earnings = max(0, round(load_config().daily_income_per_level[min(level, len(load_config().daily_income_per_level))] * (_DISTRIBUTIONS[load_config().distribution])(check_roll.total), 2))
+
+      # Pick a fun description
+      selected_description = description_for_roll(check_roll)
+
+      # Award earnings
+      gp = int(earnings)
+      sp = int((earnings * 10) % 10)
+      cp = int((earnings * 100) % 10)
+
+      current_character.coinpurse.modify_coins(gp = gp, sp = sp, cp = cp, autoconvert = True)
+
+      embed['desc'] = docstring.trim(f"""
+      {('_' + phrase + '_') if phrase else ''}
+
+      {check_roll.full}
+
+      {selected_description}
+      """)
+      embed['fields'].append({
+          'title': "Result",
+          'body': docstring.trim(f"""You earn {earnings} gp!
+          {currency.format_transaction(earnings)}
+          """)
+      })
+
+# Convert the embed object to an avrae string for display.
+return embeds.get_output(embed = embed)
+</drac2>
