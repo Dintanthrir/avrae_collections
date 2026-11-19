@@ -84,6 +84,7 @@ _DEFAULT_CONFIG = {
     21: 2530,
   },
   "distribution": "cubic-offset",
+  "electrum": True,
 }
 _DISTRIBUTIONS = {
   'linear': lambda x: (x-1)/36,
@@ -204,9 +205,14 @@ else:
       # Award earnings
       gp = int(earnings)
       sp = int((earnings * 10) % 10)
+      if load_config().electrum:
+        ep = sp // 5
+        sp = sp % 5
+      else:
+        ep = 0
       cp = int((earnings * 100) % 10)
 
-      current_character.coinpurse.modify_coins(gp = gp, sp = sp, cp = cp, autoconvert = True)
+      current_character.coinpurse.modify_coins(gp = gp, ep = ep, sp = sp, cp = cp, autoconvert = True)
 
       embed['desc'] = docstring.trim(f"""
       {('_' + phrase + '_') if phrase else ''}
