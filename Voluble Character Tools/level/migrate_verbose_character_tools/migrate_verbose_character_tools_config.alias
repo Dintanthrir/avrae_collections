@@ -1,0 +1,134 @@
+<drac2>
+using(
+  embeds = "72fea181-ba03-4cb4-8edf-1f3bc5a49578",
+)
+
+def migrate_counter(counter_definition):
+  significant_levels = set()
+
+  if counter_definition.get('level'):
+    significant_levels.add(counter_definition.get('level'))
+
+  if '$' in counter_definition.get('reset'): # "long$x$short" changes from long to short rest reset at level x
+    significant_levels.add(counter_definition.get('reset').split('$')[1])
+
+  if typeof(counter_definition.get('value')) == 'SafeList':
+    values = counter_definition.get('value')
+    starting_level = counter_definition.get('level', 1)
+    significant_levels.add(starting_level)
+    for i, v in enumerate(values):
+      if i > starting_level and v != values[i-1]:
+        significant_levels.add(i)
+
+  if typeof(counter_definition.get('modifier')) == 'SafeList':
+    values = counter_definition.get('modifier')
+    starting_level = counter_definition.get('level', 1)
+    significant_levels.add(starting_level)
+    for i, v in enumerate(values):
+      if i > starting_level and v != values[i-1]:
+        significant_levels.add(i)
+
+  if typeof(counter_definition.get('multiplier')) == 'SafeList':
+    values = counter_definition.get('multiplier')
+    starting_level = counter_definition.get('level', 1)
+    significant_levels.add(starting_level)
+    for i, v in enumerate(values):
+      if i > starting_level and v != values[i-1]:
+        significant_levels.add(i)
+
+  sorted_levels = list(significant_levels)
+  sorted_levels.sort()
+  counters = {}
+  for level in sorted_levels:
+    resetValue = counter_definition.reset.split('$')
+    reset = resetValue[0] if not '$' in counter_definition.reset or int(get(counter_definition.classLevel,level))<int(resetValue[1]) else resetValue[2]
+
+    if typeof(counter_definition.value)=='SafeList':
+      value = counter_definition.value[level-1]
+    else:
+      value = get(counter_definition.value,counter_definition.value)
+
+    if typeof(counter_definition.get('modifier'))=='SafeList':
+      modifier = counter_definition.modifier[level-1]
+    else:
+      modifier = get(counter_definition.get('modifier', 0),counter_definition.get('modifier', 0))
+
+    if typeof(counter_definition.get('multiplier'))=='SafeList':
+      multiplier = counter_definition.multiplier[level-1]
+    else:
+      multiplier = counter_definition.get('multiplier', 1)
+
+    counter = {
+      'name': counter_definition.get('name'),
+      'minVal': 0,
+      'maxVal': (value + modifier)*multiplier,
+      'reset': reset,
+    }
+    if counter_definition.get('display'):
+      counter['dispType'] = counter_definition.get('display')
+    if counter_definition.get('reset_to'):
+      counter['reset_to'] = counter_definition.get('reset_to')
+    if counter_definition.get('reset_by'):
+      counter['reset_by'] = counter_definition.get('reset_by')
+    if counter_definition.get('title'):
+      counter['title'] = counter_definition.get('title')
+    if counter_definition.get('desc'):
+      counter['desc'] = counter_definition.get('desc')
+    if counter_definition.get('initial_value'):
+      counter['initial_value'] = counter_definition.get('initial_value')
+    counters[level] = [counter]
+
+  return counters
+
+def migrate_class(class_definition):
+  output = {
+    'hit_die': class_definition.get('hitDie')[1:],
+    'sub_level': class_definition.get('subclassLevel'),
+    'counters': {}
+  }
+  for counter_definition in class_definition.get('counters', []):
+    for level, counters in migrate_counter(counter_definition).items():
+        output.get('counters')[level] = output.get('counters').get(level, []) + counters
+  return output
+
+def migrate_subclass(subclass_definition):
+  output = {
+    'parent': subclass_definition.get('Class'),
+    'counters': {}
+  }
+  for counter_definition in subclass_definition.get('counters', []):
+    for level, counters in migrate_counter(counter_definition).items():
+        output.get('counters')[level] = output.get('counters').get(level, []) + counters
+  return output
+
+def migrate(gvar_ids):
+  output = {
+    2014: {
+      'classes': {},
+      'subclasses': {},
+    }
+  }
+  for gvar_id in gvar_ids:
+    gvar_contents = load_json(get_gvar(gvar_id))
+    for definition in gvar_contents:
+      if not definition.get('subclass'):
+        class_name = definition.get('Class')
+        output.get(2014).get('classes')[class_name] = migrate_class(definition)
+      else:
+        subclass_name = definition.get('subclass')
+        output.get(2014).get('subclasses')[subclass_name] = migrate_subclass(definition)
+
+  return dump_yaml(output)
+
+args = &ARGS&
+
+if len(args == 0):
+  err("USAGE: `!level migrate_verbose_character_tools_config <gvar_id>`")
+
+result = migrate(args)
+embed = {
+  'title': "Verbose → Voluble config",
+  'desc': result,
+}
+return embeds.get_output(embed = embed)
+</drac2>
