@@ -1,0 +1,197 @@
+return voluble.resolve_source("missing")
+---
+null
+---
+name: "resolve_source: missing source"
+
+return voluble.resolve_source("Core Rules")
+---
+6763dffc-f626-4836-b82c-7e96f53c63d9
+---
+name: "resolve_source: valid source"
+
+return voluble.list_options(version=2014)
+---
+classes:
+  Barbarian:
+  - Core Rules
+  - 6763dffc-f626-4836-b82c-7e96f53c63d9
+subclasses:
+  Path of the Ancestral Guardian:
+  - Core Rules
+  - 6763dffc-f626-4836-b82c-7e96f53c63d9
+---
+name: "list_options() 2014"
+
+return voluble.list_options(version=2024)
+---
+classes:
+  Barbarian:
+  - Core Rules
+  - 6763dffc-f626-4836-b82c-7e96f53c63d9
+subclasses:
+  Path of the Berserker:
+  - Core Rules
+  - 6763dffc-f626-4836-b82c-7e96f53c63d9
+---
+name: "list_options() 2024"
+
+return voluble.current_levels()
+---
+classes: {}
+subclasses: {}
+---
+name: "current_levels() no registered levels"
+
+voluble.apply_levels()
+return voluble.current_levels()
+---
+classes:
+  Fighter:
+    source: 6763dffc-f626-4836-b82c-7e96f53c63d9
+    rules_version: 2014
+    level: 3
+    last_update:
+      updated_at: 1795473719.566541
+      level: 3
+      rules_version: 2014
+      automations: []
+      counters: {}
+      features:
+        fighting_styles:
+          title: Fighting Styles
+          type: list
+          level: 1
+  Rogue:
+    source: 6763dffc-f626-4836-b82c-7e96f53c63d9
+    rules_version: 2014
+    level: 2
+    last_update:
+      updated_at: 1795473719.566541
+      level: 2
+      rules_version: 2014
+      automations: []
+      counters: {}
+      features: {}
+subclasses: {}
+---
+name: "current_levels() registered levels"
+time: 1795473719.566541
+
+return voluble.current_cvars()
+---
+{}
+---
+name: "current_cvars() no registered cvars"
+
+voluble.apply_levels()
+return voluble.current_cvars()
+---
+fighting_styles:
+  title: Fighting Styles
+  type: list
+  level: 1
+---
+name: "current_cvars() registered cvars"
+
+return voluble.add_class_levels('Sorcerer', 1, 2014, '6763dffc-f626-4836-b82c-7e96f53c63d9')
+---
+success: true
+added:
+  counters:
+  - name: Hit Dice (d6)
+    minVal: 0
+    maxVal: 1
+    reset: long
+    dispType: null
+    reset_to: 1
+    initial_value: 1
+  features: {}
+add:
+  automations: []
+hit_dice:
+  count: 1
+  size: 6
+---
+name: "add_class_levels()"
+
+voluble.add_class_levels('Sorcerer', 1, 2014, '6763dffc-f626-4836-b82c-7e96f53c63d9')
+return voluble.remove_class_levels('Sorcerer', 1, 2014, '6763dffc-f626-4836-b82c-7e96f53c63d9')
+---
+success: true
+removed:
+  counters: []
+  features: []
+remove:
+  automations: []
+hit_dice:
+  count: 1
+  size: 6
+---
+name: "remove_class_levels()"
+
+voluble.apply_levels()
+return voluble.add_subclass('Champion', 2014, '6763dffc-f626-4836-b82c-7e96f53c63d9')
+---
+success: true
+added:
+  counters: []
+  features: {}
+add:
+  automations: []
+---
+name: "add_subclass()"
+
+voluble.apply_levels()
+voluble.add_subclass('Champion', 2014, '6763dffc-f626-4836-b82c-7e96f53c63d9')
+return voluble.remove_subclass('Champion')
+---
+success: true
+removed:
+  subclass: Champion
+  features: {}
+  counters: []
+remove:
+  automations: []
+---
+name: "remove_subclass()"
+
+return voluble.apply_levels()
+---
+success: true
+added:
+  counters:
+  - name: Hit Dice (d10)
+    minVal: 0
+    maxVal: 3
+    reset: long
+    dispType: null
+    reset_to: 3
+    initial_value: 3
+  - name: Hit Dice (d8)
+    minVal: 0
+    maxVal: 2
+    reset: long
+    dispType: null
+    reset_to: 2
+    initial_value: 2
+  features:
+    fighting_styles:
+      title: Fighting Styles
+      type: list
+      level: 1
+  class_levels:
+    Fighter: 3
+    Rogue: 2
+skipped:
+  class_levels: {}
+failed:
+  class_levels: {}
+add:
+  automations: []
+removed:
+  counters: []
+  features: {}
+remove: {}
+---
+name: "apply_levels()"

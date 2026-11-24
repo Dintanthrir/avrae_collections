@@ -473,7 +473,7 @@ def add_class_levels(class_name:str, level:int, rules_version:int, source:str) -
   return {
     'success': True,
     'added': {
-      'counters': (added_counters | subclass_counters_to_add | { counter.name: counter for counter in hd_results.added }).values(),
+      'counters': list((added_counters | subclass_counters_to_add | { counter.name: counter for counter in hd_results.added }).values()),
       'features': added_vars | subclass_vars_to_add,
     },
     'add': {
