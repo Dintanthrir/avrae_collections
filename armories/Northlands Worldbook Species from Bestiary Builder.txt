@@ -1,0 +1,1160 @@
+[
+  {
+    "id": "cmwxb7xi700mc01pd75i3ynuk",
+    "name": "Baugsmidr Dwarf",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T08:49:01.828Z",
+    "index": 0,
+    "automation": {
+      "_v": 2,
+      "name": "Sense Magic",
+      "verb": "can",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Sense Magic",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Sense Magic.** As a Bonus Action, you can sense the presence of magic within 120 feet until the end of your next turn. You see a faint aura around any visible magic object or active spell, and you know its school of magic. You also detect the presence and location of otherworldly creatures, such as Aberrations, Celestials, Fey, Fiends, and Undead. This ability can be blocked by 1 foot of solid material, such as stone or metal. You can use this trait a number of times equal to your Proficiency Bonus, and regain all expended uses when you finish a Long Rest.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Sense Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxb9rv800md01pd06pg0cx0",
+    "name": "Bearfolk - Garhamr",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:12:39.463Z",
+    "index": 1,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Apex Predator",
+        "verb": "is an",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Apex Predator",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Apex Predator.** When you make a Charisma check, you can add your Strength (`{strengthMod}`) or Constitution (`constitutionMod`) modifier to it (choose which during character creation). You can use this trait a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      },
+      {
+        "_v": 2,
+        "name": "Wild Heart",
+        "verb": "has",
+        "automation": [
+          {
+            "text": "**Wild Heart.** You and allied creatures within 5 feet of you have Advantage on saving throws against the Frightened condition while you are conscious and do not have the Incapacitated condition.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      },
+      {
+        "_v": 2,
+        "name": "Bear Hug",
+        "verb": "gives",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Bear Hug",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Bear Hug.** When you hit a target with an attack roll and deal damage to it, you can make an Unarmed Strike as a Bonus Action. You can use this ability a number of times equal to your Constitution modifier (minimum of 1), and you regain all expended uses when you finish a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ]
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Apex Predator",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "constitutionMod",
+        "minv": "0",
+        "name": "Bear Hug",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "constitutionMod",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxbi48i00me01pdqddtmuwl",
+    "name": "Beastkin",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T08:58:36.475Z",
+    "index": 2,
+    "automation": {
+      "_v": 2,
+      "name": "Natural Weapons",
+      "proper": true,
+      "automation": [
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "hit": [
+                {
+                  "type": "damage",
+                  "damage": "1d6 + {max(strengthMod, dexterityMod)}[slashing]",
+                  "overheal": false
+                }
+              ],
+              "miss": [],
+              "type": "attack",
+              "attackBonus": "strengthMod + proficiencyBonus"
+            }
+          ]
+        },
+        {
+          "text": "*Melee Weapon Attack:* +{strengthMod + proficiencyBonus} to hit, reach 5 ft., one target. *Hit:* 1d6 + {max(strengthMod, dexterityMod)} slashing damage.",
+          "type": "text"
+        },
+        {
+          "text": "**Natural Weapons.** You have claws, horns, hooves, fangs, spines, or a similar adaptation that serves as a natural weapon. Work with your GM to determine what type of natural weapon you possess and decide whether it deals Bludgeoning, Piercing, or Slashing damage. You can use your natural weapon to make Unarmed Strikes. When you hit with it, the strike deals 1d6 + your Strength or Dexterity modifier damage (choose which during character creation) of your chosen type, instead of the damage normal for an unarmed strike.",
+          "type": "text",
+          "title": ""
+        }
+      ]
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwxbo4ue00mf01pdftftn5by",
+    "name": "Giantkin - Cloud",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:04:06.313Z",
+    "index": 3,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Catch and Throw",
+        "verb": "attempts",
+        "automation": [
+          {
+            "text": "**Catch and Throw.** If you are hit by a ranged weapon attack, you can use your Reaction to add 3 to your AC. If that causes the attack to miss, you can catch the missile, provided the attack included a projectile or was a small thrown weapon (GM's discretion), and throw it back at the attacker, using your normal ranged weapon attack bonus and the weapon's normal damage.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Airstep",
+        "automation": [
+          {
+            "id": 2618874,
+            "type": "spell"
+          },
+          {
+            "text": "**Airstep.** You can cast Feather Fall at will (self only)",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Windcall",
+        "verb": "makes",
+        "automation": [
+          {
+            "text": "**Windcall.** As a Bonus Action, you can cause the air within 30 feet of you to move in a direction of your choice. This can push one Medium or smaller creature up to 5 feet away from you, move an unattended object up to 10 feet, or create a harmless sensory effect using air, such as slamming a door.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 3
+      }
+    ],
+    "consumables": []
+  },
+  {
+    "id": "cmwxbt01g00mg01pdysu8s92w",
+    "name": "Giantkin - Fire",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:07:15.237Z",
+    "index": 4,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Catch and Throw",
+        "verb": "attempts",
+        "automation": [
+          {
+            "text": "**Catch and Throw.** If you are hit by a ranged weapon attack, you can use your Reaction to add 3 to your AC. If that causes the attack to miss, you can catch the missile, provided the attack included a projectile or was a small thrown weapon (GM's discretion), and throw it back at the attacker, using your normal ranged weapon attack bonus and the weapon's normal damage.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Burning Blood",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Burning Blood",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "dc": " + proficiencyBonus + max(intelligenceMod, wisdomMod, charismaMod)",
+                "adv": 0,
+                "fail": [
+                  {
+                    "type": "damage",
+                    "damage": "1d6[fire]",
+                    "cantripScale": true
+                  }
+                ],
+                "stat": "dex",
+                "type": "save",
+                "success": []
+              }
+            ]
+          },
+          {
+            "text": "**Burning Blood.** As a Reaction when you take Piercing or Slashing damage, a creature you choose within 5 feet of you must succeed on a Dexterity saving throw or take 1d6 Fire damage. You can use this Reaction a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\r\n\r\nThis damage increases by 1d6 when you reach character levels 5, 11, and 17.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Burning Blood",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxbx1nc00mh01pdq4dxvoe2",
+    "name": "Giantkin - Frost",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:08:18.816Z",
+    "index": 5,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Catch and Throw",
+        "verb": "attempts",
+        "automation": [
+          {
+            "text": "**Catch and Throw.** If you are hit by a ranged weapon attack, you can use your Reaction to add 3 to your AC. If that causes the attack to miss, you can catch the missile, provided the attack included a projectile or was a small thrown weapon (GM's discretion), and throw it back at the attacker, using your normal ranged weapon attack bonus and the weapon's normal damage.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Iceshaper",
+        "verb": "is an",
+        "proper": true,
+        "automation": [
+          {
+            "text": "**Iceshaper.** As an Action, you can choose an area of ice, snow, or water within 30 feet of you that fits into a 1-foot cube. You can move it up to 5 feet (in a direction of your choice), cause it to form into simple shapes, or freeze/unfreeze it, provided there are no creatures in it. After 1 hour, or if you use this ability again, the material reverts to its previous state.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": []
+  },
+  {
+    "id": "cmwxbyk4800mi01pdkdt0ze7c",
+    "name": "Giantkin - Hill",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:09:35.477Z",
+    "index": 6,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Catch and Throw",
+        "verb": "attempts",
+        "automation": [
+          {
+            "text": "**Catch and Throw.** If you are hit by a ranged weapon attack, you can use your Reaction to add 3 to your AC. If that causes the attack to miss, you can catch the missile, provided the attack included a projectile or was a small thrown weapon (GM's discretion), and throw it back at the attacker, using your normal ranged weapon attack bonus and the weapon's normal damage.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      }
+    ],
+    "consumables": []
+  },
+  {
+    "id": "cmwxc00mi00mj01pds2uqwcr2",
+    "name": "Giantkin - Stone",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:09:51.026Z",
+    "index": 7,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Catch and Throw",
+        "verb": "attempts",
+        "automation": [
+          {
+            "text": "**Catch and Throw.** If you are hit by a ranged weapon attack, you can use your Reaction to add 3 to your AC. If that causes the attack to miss, you can catch the missile, provided the attack included a projectile or was a small thrown weapon (GM's discretion), and throw it back at the attacker, using your normal ranged weapon attack bonus and the weapon's normal damage.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      }
+    ],
+    "consumables": []
+  },
+  {
+    "id": "cmwxc0d9s00mk01pdy4ch5lna",
+    "name": "Giantkin - Storm",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:11:19.760Z",
+    "index": 8,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Catch and Throw",
+        "verb": "attempts",
+        "automation": [
+          {
+            "text": "**Catch and Throw.** If you are hit by a ranged weapon attack, you can use your Reaction to add 3 to your AC. If that causes the attack to miss, you can catch the missile, provided the attack included a projectile or was a small thrown weapon (GM's discretion), and throw it back at the attacker, using your normal ranged weapon attack bonus and the weapon's normal damage.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Crackling Personality",
+        "verb": "has",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Crackling Personality",
+            "errorBehaviour": "warn"
+          },
+          {
+            "id": 2618994,
+            "type": "spell"
+          },
+          {
+            "text": "**Crackling Personality.** While in an area open to the sky, you can cast Levitate (self only) at will.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Crackling Personality",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxc3bn500ml01pd8xhex4bc",
+    "name": "Bearfolk - Andari",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:12:28.362Z",
+    "index": 9,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Apex Predator",
+        "verb": "is an",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Apex Predator",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Apex Predator.** When you make a Charisma check, you can add your Strength (`{strengthMod}`) or Constitution (`constitutionMod`) modifier to it (choose which during character creation). You can use this trait a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      },
+      {
+        "_v": 2,
+        "name": "Wild Heart",
+        "verb": "has",
+        "automation": [
+          {
+            "text": "**Wild Heart.** You and allied creatures within 5 feet of you have Advantage on saving throws against the Frightened condition while you are conscious and do not have the Incapacitated condition.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": []
+  },
+  {
+    "id": "cmwxc45hu00mm01pdu64cvho7",
+    "name": "Trollkin - Fey",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:17:24.281Z",
+    "index": 10,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Natural Weapons",
+        "proper": true,
+        "automation": [
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "hit": [
+                  {
+                    "type": "damage",
+                    "damage": "1d6 + {max(strengthMod, dexterityMod)}[slashing]",
+                    "overheal": false
+                  }
+                ],
+                "miss": [],
+                "type": "attack",
+                "attackBonus": "strengthMod + proficiencyBonus"
+              }
+            ]
+          },
+          {
+            "text": "*Melee Weapon Attack:* +{strengthMod + proficiencyBonus} to hit, reach 5 ft., one target. *Hit:* 1d6 + {max(strengthMod, dexterityMod)} slashing damage.",
+            "type": "text"
+          },
+          {
+            "text": "**Natural Weapons.** You have fangs, hooves, or claws, which serve as a natural weapon. Work with your GM to determine what type of natural weapon you possess and decide whether it deals Bludgeoning, Piercing or Slashing damage. You can use your natural weapon to make Unarmed Strikes. When you hit with it, you deal 1d6 + your Strength or Dexterity modifier damage (choose which during character creation) of your chosen type, instead of the Bludgeoning damage normal for an unarmed attack.",
+            "type": "text",
+            "title": ""
+          }
+        ]
+      },
+      {
+        "_v": 2,
+        "name": "Trollish Regeneration",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "text": "**Trollish Regeneration.** The regenerative power in your blood allows you to quickly recover from wounds. As a Bonus Action, you can expend any number of Hit Dice up to your Proficiency Bonus to regain Hit Points. If you take Acid or Fire damage, you lose access to this ability until you finish a Short Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 3
+      },
+      {
+        "_v": 2,
+        "name": "Natural Adaptation",
+        "verb": "has",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Natural Adaptation",
+            "errorBehaviour": "raise"
+          },
+          {
+            "dice": "1d6",
+            "name": "bonus",
+            "type": "roll",
+            "displayName": "Natural Adaptation"
+          },
+          {
+            "text": "When you make an ability check that uses Charisma, you may roll a 1d6 and add it to the total. You can use this trait a number of times per day equal to your Charisma modifier, and you regain all uses when you finish a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "charismaMod",
+        "minv": "0",
+        "name": "Natural Adaptation",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "charismaMod",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxca5t600mn01pd3rt5xd06",
+    "name": "Trollkin - Ogre",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:17:57.016Z",
+    "index": 11,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Natural Weapons",
+        "proper": true,
+        "automation": [
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "hit": [
+                  {
+                    "type": "damage",
+                    "damage": "1d6 + {max(strengthMod, dexterityMod)}[slashing]",
+                    "overheal": false
+                  }
+                ],
+                "miss": [],
+                "type": "attack",
+                "attackBonus": "strengthMod + proficiencyBonus"
+              }
+            ]
+          },
+          {
+            "text": "*Melee Weapon Attack:* +{strengthMod + proficiencyBonus} to hit, reach 5 ft., one target. *Hit:* 1d6 + {max(strengthMod, dexterityMod)} slashing damage.",
+            "type": "text"
+          },
+          {
+            "text": "**Natural Weapons.** You have fangs, hooves, or claws, which serve as a natural weapon. Work with your GM to determine what type of natural weapon you possess and decide whether it deals Bludgeoning, Piercing or Slashing damage. You can use your natural weapon to make Unarmed Strikes. When you hit with it, you deal 1d6 + your Strength or Dexterity modifier damage (choose which during character creation) of your chosen type, instead of the Bludgeoning damage normal for an unarmed attack.",
+            "type": "text",
+            "title": ""
+          }
+        ]
+      },
+      {
+        "_v": 2,
+        "name": "Trollish Regeneration",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "text": "**Trollish Regeneration.** The regenerative power in your blood allows you to quickly recover from wounds. As a Bonus Action, you can expend any number of Hit Dice up to your Proficiency Bonus to regain Hit Points. If you take Acid or Fire damage, you lose access to this ability until you finish a Short Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 3
+      }
+    ],
+    "consumables": []
+  },
+  {
+    "id": "cmwxcavxp00mo01pdpw47dech",
+    "name": "Trollkin - Troll",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:18:28.803Z",
+    "index": 12,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Natural Weapons",
+        "proper": true,
+        "automation": [
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "hit": [
+                  {
+                    "type": "damage",
+                    "damage": "1d6 + {max(strengthMod, dexterityMod)}[slashing]",
+                    "overheal": false
+                  }
+                ],
+                "miss": [],
+                "type": "attack",
+                "attackBonus": "strengthMod + proficiencyBonus"
+              }
+            ]
+          },
+          {
+            "text": "*Melee Weapon Attack:* +{strengthMod + proficiencyBonus} to hit, reach 5 ft., one target. *Hit:* 1d6 + {max(strengthMod, dexterityMod)} slashing damage.",
+            "type": "text"
+          },
+          {
+            "text": "**Natural Weapons.** You have fangs, hooves, or claws, which serve as a natural weapon. Work with your GM to determine what type of natural weapon you possess and decide whether it deals Bludgeoning, Piercing or Slashing damage. You can use your natural weapon to make Unarmed Strikes. When you hit with it, you deal 1d6 + your Strength or Dexterity modifier damage (choose which during character creation) of your chosen type, instead of the Bludgeoning damage normal for an unarmed attack.",
+            "type": "text",
+            "title": ""
+          }
+        ]
+      },
+      {
+        "_v": 2,
+        "name": "Trollish Regeneration",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "text": "**Trollish Regeneration.** The regenerative power in your blood allows you to quickly recover from wounds. As a Bonus Action, you can expend any number of Hit Dice up to your Proficiency Bonus to regain Hit Points. If you take Acid or Fire damage, you lose access to this ability until you finish a Short Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 3
+      }
+    ],
+    "consumables": []
+  },
+  {
+    "id": "cmwxcbhw600mp01pdwwe7zgir",
+    "name": "Werekin",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:36:13.087Z",
+    "index": 13,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Claws",
+        "automation": [
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "hit": [
+                  {
+                    "type": "damage",
+                    "damage": "1d6 + {strengthMod}[slashing]",
+                    "overheal": false
+                  }
+                ],
+                "miss": [],
+                "type": "attack",
+                "attackBonus": "strengthMod + proficiencyBonus"
+              }
+            ]
+          },
+          {
+            "text": "*Melee Weapon Attack:* +{strengthMod + proficiencyBonus} to hit, reach 5 ft., one target. *Hit:* 1d6 + {strengthMod} slashing damage.",
+            "type": "text"
+          },
+          {
+            "text": "**Claws.** You have wickedly sharp claws that you can use to make Unarmed Strikes. When you hit with your claws, you deal 1d6 + your Strength modifier Slashing damage, instead of the Bludgeoning damage normal for an unarmed strike.",
+            "type": "text",
+            "title": ""
+          }
+        ]
+      },
+      {
+        "_v": 2,
+        "name": "Shift Aspect",
+        "verb": "uses",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Shift Aspect",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Shift Aspect.** You can transform as a Bonus Action, gaining the primal power of your lycanthropic forebears. The transformation lasts for 1 minute or until you end it (no action required). Once you transform, you can't do so again until you finish a Long Rest.\r\n\r\nUse `-choice <bestial|primal|swift>` to select an aspect.",
+            "type": "text",
+            "title": ""
+          },
+          {
+            "type": "condition",
+            "onTrue": [
+              {
+                "type": "target",
+                "target": "self",
+                "effects": [
+                  {
+                    "type": "temphp",
+                    "amount": "{proficiencyBonus * 2}"
+                  },
+                  {
+                    "name": "Bestial Strength",
+                    "type": "ieffect2",
+                    "effects": {
+                      "save_adv": [
+                        "str"
+                      ],
+                      "check_adv": [
+                        "strength"
+                      ]
+                    },
+                    "duration": "10"
+                  },
+                  {
+                    "text": "**Bestial Strength.** You gain Temporary Hit Points equal to twice your Proficiency Bonus. You also have Advantage on Strength checks as well as any checks or saves to resist or end the Grappled condition.",
+                    "type": "text",
+                    "title": ""
+                  }
+                ]
+              },
+              {
+                "text": "",
+                "type": "text",
+                "title": ""
+              }
+            ],
+            "onFalse": [
+              {
+                "type": "condition",
+                "onTrue": [
+                  {
+                    "type": "target",
+                    "target": "self",
+                    "effects": [
+                      {
+                        "name": "Primal Savagery",
+                        "type": "ieffect2",
+                        "attacks": [
+                          {
+                            "attack": {
+                              "_v": 2,
+                              "name": "Roar",
+                              "verb": "releases",
+                              "automation": [
+                                {
+                                  "type": "target",
+                                  "target": "each",
+                                  "effects": [
+                                    {
+                                      "dc": "8 + charismaMod + proficiencyBonus",
+                                      "adv": 0,
+                                      "fail": [
+                                        {
+                                          "end": true,
+                                          "desc": "Frightened of {name}.",
+                                          "name": "Frightened",
+                                          "type": "ieffect2",
+                                          "effects": {},
+                                          "duration": "2",
+                                          "tick_on_caster": true
+                                        }
+                                      ],
+                                      "stat": "cha",
+                                      "type": "save",
+                                      "success": [
+                                        {
+                                          "name": "Immune to Primal Savagery's Roar",
+                                          "type": "ieffect2",
+                                          "effects": {},
+                                          "duration": "14400"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "activation_type": 3
+                            }
+                          }
+                        ],
+                        "effects": {},
+                        "duration": "10"
+                      }
+                    ]
+                  }
+                ],
+                "onFalse": [
+                  {
+                    "type": "condition",
+                    "onTrue": [
+                      {
+                        "type": "target",
+                        "target": "self",
+                        "effects": [
+                          {
+                            "desc": "Speed +10 feet.",
+                            "name": "Swift Hunter",
+                            "type": "ieffect2",
+                            "effects": {
+                              "check_adv": [
+                                "athletics",
+                                "survival"
+                              ]
+                            },
+                            "duration": "10"
+                          }
+                        ]
+                      },
+                      {
+                        "text": "**Swift Hunter.** Your body becomes primed for the hunt. Until the transformation ends, your Speed is increased by 10 feet, and you have Advantage on Strength (Athletics) and Wisdom (Survival) checks.",
+                        "type": "text",
+                        "title": ""
+                      }
+                    ],
+                    "onFalse": [
+                      {
+                        "text": "No aspect selected. Use `-choice <bestial|primal|swift>` to select an aspect.",
+                        "type": "text",
+                        "title": ""
+                      }
+                    ],
+                    "condition": "choice and choice in 'swift hunter'"
+                  }
+                ],
+                "condition": "choice and choice in 'primal savagery'"
+              }
+            ],
+            "condition": "choice and choice in 'bestial strength'"
+          }
+        ]
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Shift Aspect",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxd0wrd00ms01pda0bjy9m5",
+    "name": "Elf - Alfar",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:43:30.941Z",
+    "index": 14,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Silent Image",
+        "verb": "casts",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Silent Image",
+            "errorBehaviour": "warn"
+          },
+          {
+            "text": "When you reach character levels 3 and 5, you learn a higher-level spell, as shown in the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.",
+            "type": "text",
+            "title": ""
+          },
+          {
+            "type": "condition",
+            "onTrue": [
+              {
+                "id": 2619062,
+                "type": "spell"
+              }
+            ],
+            "onFalse": [
+              {
+                "text": "You are not high enough level to cast this spell.",
+                "type": "text",
+                "title": ""
+              }
+            ],
+            "condition": "level >= 3"
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Blur",
+        "verb": "casts",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Blur",
+            "errorBehaviour": "warn"
+          },
+          {
+            "text": "When you reach character levels 3 and 5, you learn a higher-level spell, as shown in the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.",
+            "type": "text",
+            "title": ""
+          },
+          {
+            "type": "condition",
+            "onTrue": [
+              {
+                "id": 2618945,
+                "type": "spell"
+              }
+            ],
+            "onFalse": [
+              {
+                "text": "You are not high enough level to cast this spell.",
+                "type": "text",
+                "title": ""
+              }
+            ],
+            "condition": "level >= 5"
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Silent Image",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Blur",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxd7m4v00mt01pdmosun927",
+    "name": "Elf - Ice",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwxb00s300mb01pdatabwmal",
+    "lastUpdated": "2026-11-26T09:44:49.091Z",
+    "index": 15,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Ice Knife",
+        "verb": "casts",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Ice Knife",
+            "errorBehaviour": "warn"
+          },
+          {
+            "text": "When you reach character levels 3 and 5, you learn a higher-level spell, as shown in the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.",
+            "type": "text",
+            "title": ""
+          },
+          {
+            "type": "condition",
+            "onTrue": [
+              {
+                "id": 2619171,
+                "type": "spell"
+              }
+            ],
+            "onFalse": [
+              {
+                "text": "You are not high enough level to cast this spell.",
+                "type": "text",
+                "title": ""
+              }
+            ],
+            "condition": "level >= 3"
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Gust of Wind",
+        "verb": "casts",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Gust of Wind",
+            "errorBehaviour": "warn"
+          },
+          {
+            "text": "When you reach character levels 3 and 5, you learn a higher-level spell, as shown in the table. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have of the appropriate level.",
+            "type": "text",
+            "title": ""
+          },
+          {
+            "type": "condition",
+            "onTrue": [
+              {
+                "id": 2619137,
+                "type": "spell"
+              }
+            ],
+            "onFalse": [
+              {
+                "text": "You are not high enough level to cast this spell.",
+                "type": "text",
+                "title": ""
+              }
+            ],
+            "condition": "level >= 5"
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": []
+  }
+]
