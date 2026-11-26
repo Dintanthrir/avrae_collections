@@ -1,1 +1,130 @@
-{"name":"Claws of the Bear","level":4,"school":"T","automation":[{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Claws of the Bear","attacks":[{"attack":{"_v":2,"name":"Claws of the Bear","automation":[{"type":"target","target":"each","effects":[{"type":"attack","hit":[{"type":"damage","damage":"3d10+spell[slashing]","higher":{"5":"4d10+spell[slashing]","6":"4d10+spell[slashing]","7":"5d10+spell[slashing]","8":"5d10+spell[slashing]","9":"6d10+spell[slashing]"}},{"type":"ieffect2","name":"Prone","effects":{"attack_advantage":"-1"},"buttons":[{"automation":[{"type":"remove_ieffect"}],"label":"Stand Up","verb":"stands up"}],"desc":"A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition"}],"miss":[]}]}]}}],"parent":"ieffect"}]},{"type":"text","text":"You imbue yourself with the claws of a bear. You transform your arms into a pair of muscular, furred paws and make a melee spell attack against a target. On a hit, the target takes Slashing damage equal to 3d10 plus your spellcasting ability modifier and, if the target is no more than one size category larger than you, it has the Prone condition. For the duration of the spell, you can make attacks with the claws."}],"classes":"Cleric, Druid, Ranger","subclasses":"","casttime":"Action","range":"Self","components":{"verbal":true,"somatic":true,"material":"a tuft of bear fur"},"duration":"10 minutes","ritual":false,"description":"You imbue yourself with the claws of a bear. You transform your arms into a pair of muscular, furred paws and make a melee spell attack against a target. On a hit, the target takes Slashing damage equal to 3d10 plus your spellcasting ability modifier and, if the target is no more than one size category larger than you, it has the Prone condition. For the duration of the spell, you can make attacks with the claws.","higherlevels":"When you cast this spell using a 5th- or 6th-level spell slot, the damage increases to 4d10. When you cast it using a 7th- or 8th-level spell slot, the damage increases to 5d10. When you cast it using a spell slot of 9th level, the damage increases to 6d8.","concentration":true}
+{
+  "name": "Claws of the Bear",
+  "level": 4,
+  "school": "T",
+  "automation": [
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Claws of the Bear Actions",
+          "attacks": [
+            {
+              "attack": {
+                "_v": 2,
+                "name": "Claws of the Bear",
+                "automation": [
+                  {
+                    "type": "target",
+                    "target": "each",
+                    "effects": [
+                      {
+                        "type": "attack",
+                        "hit": [
+                          {
+                            "type": "damage",
+                            "damage": "3d10+{spell}[slashing]",
+                            "higher": {
+                              "5": "1d10[slashing]",
+                              "6": "1d10[slashing]",
+                              "7": "2d10[slashing]",
+                              "8": "2d10[slashing]",
+                              "9": "3d10[slashing]"
+                            }
+                          },
+                          {
+                            "type": "ieffect2",
+                            "name": "Prone",
+                            "effects": {
+                              "attack_advantage": "-1"
+                            },
+                            "buttons": [
+                              {
+                                "automation": [
+                                  {
+                                    "type": "remove_ieffect"
+                                  }
+                                ],
+                                "label": "Stand Up",
+                                "verb": "stands up"
+                              }
+                            ],
+                            "desc": "A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition"
+                          }
+                        ],
+                        "miss": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "attack",
+          "hit": [
+            {
+              "type": "damage",
+              "damage": "3d10+{spell}[slashing]",
+              "higher": {
+                "5": "1d10[slashing]",
+                "6": "1d10[slashing]",
+                "7": "2d10[slashing]",
+                "8": "2d10[slashing]",
+                "9": "3d10[slashing]"
+              }
+            },
+            {
+              "type": "ieffect2",
+              "name": "Prone",
+              "effects": {
+                "attack_advantage": "-1"
+              },
+              "desc": "A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition",
+              "buttons": [
+                {
+                  "label": "Stand Up",
+                  "verb": "stands up",
+                  "automation": [
+                    {
+                      "type": "remove_ieffect"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "miss": []
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You imbue yourself with the claws of a bear. You transform your arms into a pair of muscular, furred paws and make a melee spell attack against a target. On a hit, the target takes Slashing damage equal to 3d10 plus your spellcasting ability modifier and, if the target is no more than one size category larger than you, it has the Prone condition. For the duration of the spell, you can make attacks with the claws."
+    }
+  ],
+  "classes": "Cleric, Druid, Ranger",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a tuft of bear fur"
+  },
+  "duration": "10 minutes",
+  "ritual": false,
+  "description": "You imbue yourself with the claws of a bear. You transform your arms into a pair of muscular, furred paws and make a melee spell attack against a target. On a hit, the target takes Slashing damage equal to 3d10 plus your spellcasting ability modifier and, if the target is no more than one size category larger than you, it has the Prone condition. For the duration of the spell, you can make attacks with the claws.",
+  "higherlevels": "When you cast this spell using a 5th- or 6th-level spell slot, the damage increases to 4d10. When you cast it using a 7th- or 8th-level spell slot, the damage increases to 5d10. When you cast it using a spell slot of 9th level, the damage increases to 6d8.",
+  "concentration": true
+}

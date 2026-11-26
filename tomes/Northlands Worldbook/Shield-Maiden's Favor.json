@@ -1,1 +1,41 @@
-{"name":"Shield-Maiden's Favor","level":1,"school":"A","automation":[{"type":"roll","dice":"1d10 + {spell}","name":"reduction","higher":{"2":"2d10 + {spell}","3":"3d10 + {spell}","4":"4d10 + {spell}","5":"5d10 + {spell}","6":"6d10 + {spell}","7":"7d10 + {spell}","8":"8d10 + {spell}","9":"9d10 + {spell}"},"displayName":"Damage Reduction"},{"type":"text","text":"A spiritual echo of a Valhallan shield-maiden appears and interposes herself between the triggering attack and its target, then the shieldmaiden vanishes. The triggering attack's damage is reduced by 1d10 plus your spellcasting modifier."}],"classes":"Bard, Cleric, Paladin, Ranger","subclasses":"","casttime":"Reaction, which you take when you or an ally takes damage","range":"30 feet","components":{"verbal":true,"somatic":true,"material":""},"duration":"Instantaneous","ritual":false,"description":"A spiritual echo of a Valhallan shield-maiden appears and interposes herself between the triggering attack and its target, then the shieldmaiden vanishes. The triggering attack's damage is reduced by 1d10 plus your spellcasting modifier.","higherlevels":"The damage reduction increases by 1d10 for each spell level above 1st.","concentration":false}
+{
+  "name": "Shield-Maiden's Favor",
+  "level": 1,
+  "school": "A",
+  "automation": [
+    {
+      "type": "roll",
+      "dice": "1d10 + {spell}",
+      "name": "reduction",
+      "higher": {
+        "2": "1d10",
+        "3": "2d10",
+        "4": "3d10",
+        "5": "4d10",
+        "6": "5d10 ",
+        "7": "6d10",
+        "8": "7d10",
+        "9": "8d10"
+      },
+      "displayName": "Damage Reduction"
+    },
+    {
+      "type": "text",
+      "text": "A spiritual echo of a Valhallan shield-maiden appears and interposes herself between the triggering attack and its target, then the shieldmaiden vanishes. The triggering attack's damage is reduced by 1d10 plus your spellcasting modifier."
+    }
+  ],
+  "classes": "Bard, Cleric, Paladin, Ranger",
+  "subclasses": "",
+  "casttime": "Reaction, which you take when you or an ally takes damage",
+  "range": "30 feet",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": ""
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "A spiritual echo of a Valhallan shield-maiden appears and interposes herself between the triggering attack and its target, then the shieldmaiden vanishes. The triggering attack's damage is reduced by 1d10 plus your spellcasting modifier.",
+  "higherlevels": "The damage reduction increases by 1d10 for each spell level above 1st.",
+  "concentration": false
+}

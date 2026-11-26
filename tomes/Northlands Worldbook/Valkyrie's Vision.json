@@ -1,1 +1,63 @@
-{"name":"Valkyrie's Vision","level":2,"school":"D","automation":[{"type":"text","text":"You see how near to death other creatures are. Until the spell ends, you know the current Hit Point total of each creature you can see within 30 feet of you, and you can see how many levels of Exhaustion it has.\n\nAs a Bonus Action on your turn, you can cause a creature within 30 feet of you that is dying to become Stable. Doing so ends the spell immediately."},{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Valkyrie's Vision","attacks":[{"attack":{"_v":2,"name":"Valkyrie's Vision","automation":[{"type":"remove_ieffect","removeParent":"always"}],"verb":"stablizes with","proper":true,"activation_type":3}}],"parent":"ieffect"}]}],"classes":"Cleric, Paladin, Ranger","subclasses":"","casttime":"Action","range":"Self","components":{"verbal":true,"somatic":true,"material":"a crystal bead"},"duration":"10 minutes","ritual":false,"description":"You see how near to death other creatures are. Until the spell ends, you know the current Hit Point total of each creature you can see within 30 feet of you, and you can see how many levels of Exhaustion it has.\n\nAs a Bonus Action on your turn, you can cause a creature within 30 feet of you that is dying to become Stable. Doing so ends the spell immediately.","higherlevels":"","concentration":true}
+{
+  "name": "Valkyrie's Vision",
+  "level": 2,
+  "school": "D",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You see how near to death other creatures are. Until the spell ends, you know the current Hit Point total of each creature you can see within 30 feet of you, and you can see how many levels of Exhaustion it has.\n\nAs a Bonus Action on your turn, you can cause a creature within 30 feet of you that is dying to become Stable. Doing so ends the spell immediately."
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Valkyrie's Vision Actions",
+          "attacks": [
+            {
+              "attack": {
+                "_v": 2,
+                "name": "Valkyrie's Vision",
+                "automation": [
+                  {
+                    "type": "remove_ieffect",
+                    "removeParent": "always"
+                  },
+                  {
+                    "type": "target",
+                    "target": "all",
+                    "effects": [
+                      {
+                        "type": "text",
+                        "text": "{target.name} becomes stable!"
+                      }
+                    ]
+                  }
+                ],
+                "verb": "stablizes with",
+                "proper": true,
+                "activation_type": 3
+              }
+            }
+          ],
+          "parent": "ieffect"
+        }
+      ]
+    }
+  ],
+  "classes": "Cleric, Paladin, Ranger",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a crystal bead"
+  },
+  "duration": "10 minutes",
+  "ritual": false,
+  "description": "You see how near to death other creatures are. Until the spell ends, you know the current Hit Point total of each creature you can see within 30 feet of you, and you can see how many levels of Exhaustion it has.\n\nAs a Bonus Action on your turn, you can cause a creature within 30 feet of you that is dying to become Stable. Doing so ends the spell immediately.",
+  "higherlevels": "",
+  "concentration": true
+}

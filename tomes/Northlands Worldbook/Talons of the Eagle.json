@@ -1,1 +1,82 @@
-{"name":"Talons of the Eagle","level":1,"school":"T","automation":[{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Talons of the Eagle","effects":{"save_adv":["dex"],"check_adv":["dexterity"]},"attacks":[{"attack":{"_v":2,"name":"Talons of the Eagle","automation":[{"type":"target","target":"each","effects":[{"type":"attack","hit":[{"type":"damage","damage":"1d8 + {spell}[slashing]","higher":{"2":"1d8 + {spell}[slashing]","3":"2d8 + {spell}[slashing]","4":"2d8 + {spell}[slashing]","5":"3d8 + {spell}[slashing]","6":"3d8 + {spell}[slashing]","7":"4d8 + {spell}[slashing]","8":"4d8 + {spell}[slashing]","9":"5d8 + {spell}[slashing]"}}],"miss":[]}]}],"activation_type":1},"defaultCastingMod":"spell"}],"parent":"ieffect"}]},{"type":"text","text":"You imbue yourself with the power of the eagle. While the spell lasts, you have Advantage on Dexterity checks and Dexterity saves.\n\nAs a Magic action, you can briefly transform your hands into a set of talons, then move up to your Speed and make a melee talon attack. On a hit, the target takes Slashing damage equal to 1d8 plus your spellcasting ability modifier."}],"classes":"Druid","subclasses":"","casttime":"Action","range":"Self","components":{"verbal":true,"somatic":true,"material":"an eagle feather"},"duration":"10 minutes","ritual":false,"description":"You imbue yourself with the power of the eagle. While the spell lasts, you have Advantage on Dexterity checks and Dexterity saves.\n\nAs a Magic action, you can briefly transform your hands into a set of talons, then move up to your Speed and make a melee talon attack. On a hit, the target takes Slashing damage equal to 1d8 plus your spellcasting ability modifier.","higherlevels":"The damage increases by 1d8 for every two spell slot levels above 1st.","concentration":true}
+{
+  "name": "Talons of the Eagle",
+  "level": 1,
+  "school": "T",
+  "automation": [
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Talons of the Eagle Actions",
+          "effects": {
+            "save_adv": [
+              "dex"
+            ],
+            "check_adv": [
+              "dexterity"
+            ]
+          },
+          "attacks": [
+            {
+              "attack": {
+                "_v": 2,
+                "name": "Talons of the Eagle",
+                "automation": [
+                  {
+                    "type": "target",
+                    "target": "each",
+                    "effects": [
+                      {
+                        "type": "attack",
+                        "hit": [
+                          {
+                            "type": "damage",
+                            "damage": "1d8 + {spell}[slashing]",
+                            "higher": {
+                              "2": "",
+                              "3": "1d8[slashing]",
+                              "4": "1d8[slashing]",
+                              "5": "2d8[slashing]",
+                              "6": "2d8[slashing]",
+                              "7": "3d8[slashing]",
+                              "8": "3d8[slashing]",
+                              "9": "4d8[slashing]"
+                            }
+                          }
+                        ],
+                        "miss": []
+                      }
+                    ]
+                  }
+                ],
+                "activation_type": 1
+              },
+              "defaultCastingMod": "spell"
+            }
+          ],
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You imbue yourself with the power of the eagle. While the spell lasts, you have Advantage on Dexterity checks and Dexterity saves.\n\nAs a Magic action, you can briefly transform your hands into a set of talons, then move up to your Speed and make a melee talon attack. On a hit, the target takes Slashing damage equal to 1d8 plus your spellcasting ability modifier."
+    }
+  ],
+  "classes": "Druid",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "an eagle feather"
+  },
+  "duration": "10 minutes",
+  "ritual": false,
+  "description": "You imbue yourself with the power of the eagle. While the spell lasts, you have Advantage on Dexterity checks and Dexterity saves.\n\nAs a Magic action, you can briefly transform your hands into a set of talons, then move up to your Speed and make a melee talon attack. On a hit, the target takes Slashing damage equal to 1d8 plus your spellcasting ability modifier.",
+  "higherlevels": "The damage increases by 1d8 for every two spell slot levels above 1st.",
+  "concentration": true
+}

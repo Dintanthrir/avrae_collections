@@ -1,1 +1,88 @@
-{"name":"Valhalla's Cohort","level":4,"school":"C","automation":[{"type":"text","text":"You conjure warrior spirits from Valhalla, the hall of the honored dead. The spirits appear as a Huge cohort of spectral, intangible warriors in an unoccupied space you can see within range. The spirits brandish spears, axes, and blades, striking at anyone nearby. The cohort lasts for the duration, and you choose the spirits' appearance (such as their species and any insignias worn).\n\nYou can also move the cohort 30 feet as a Bonus Action on your subsequent turns.\n\nIf the cohort ends its move within 5 feet of a creature, or if a creature moves within 5 feet of the cohort, you can make a melee spell attack against that creature. On a hit, the target takes Force damage equal to 2d10 plus your spellcasting ability modifier. A creature can be attacked in this way only once per turn."},{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Valhalla's Cohort","attacks":[{"attack":{"_v":2,"name":"Move cohort","automation":[{"type":"text","text":"You can move the cohort 30 feet as a Bonus Action on your turn."}],"verb":"uses","proper":true,"activation_type":3}},{"attack":{"_v":2,"name":"Valhalla's Cohort","automation":[{"type":"target","target":"each","effects":[{"type":"attack","hit":[{"type":"damage","damage":"2d10+{spell}[force]","higher":{"5":"3d10+{spell}[force]","6":"4d10+{spell}[force]","7":"5d10+{spell}[force]","8":"6d10+{spell}[force]","9":"7d10+{spell}[force]"}}],"miss":[]}]}],"proper":true,"activation_type":2},"defaultAttackBonus":"spell_attack_bonus","defaultCastingMod":"spell"}],"parent":"ieffect"}]}],"classes":"Bard, Cleric, Paladin","subclasses":"","casttime":"Action","range":"60 feet","components":{"verbal":true,"somatic":true,"material":""},"duration":"10 minutes","ritual":false,"description":"You conjure warrior spirits from Valhalla, the hall of the honored dead. The spirits appear as a Huge cohort of spectral, intangible warriors in an unoccupied space you can see within range. The spirits brandish spears, axes, and blades, striking at anyone nearby. The cohort lasts for the duration, and you choose the spirits' appearance (such as their species and any insignias worn).\n\nYou can also move the cohort 30 feet as a Bonus Action on your subsequent turns.\n\nIf the cohort ends its move within 5 feet of a creature, or if a creature moves within 5 feet of the cohort, you can make a melee spell attack against that creature. On a hit, the target takes Force damage equal to 2d10 plus your spellcasting ability modifier. A creature can be attacked in this way only once per turn.","higherlevels":"The damage increases by 1d10 for each spell slot level above 4th.","concentration":true}
+{
+  "name": "Valhalla's Cohort",
+  "level": 4,
+  "school": "C",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You conjure warrior spirits from Valhalla, the hall of the honored dead. The spirits appear as a Huge cohort of spectral, intangible warriors in an unoccupied space you can see within range. The spirits brandish spears, axes, and blades, striking at anyone nearby. The cohort lasts for the duration, and you choose the spirits' appearance (such as their species and any insignias worn).\n\nYou can also move the cohort 30 feet as a Bonus Action on your subsequent turns.\n\nIf the cohort ends its move within 5 feet of a creature, or if a creature moves within 5 feet of the cohort, you can make a melee spell attack against that creature. On a hit, the target takes Force damage equal to 2d10 plus your spellcasting ability modifier. A creature can be attacked in this way only once per turn."
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Valhalla's Cohort",
+          "attacks": [
+            {
+              "attack": {
+                "_v": 2,
+                "name": "Move cohort",
+                "automation": [
+                  {
+                    "type": "text",
+                    "text": "You can move the cohort 30 feet as a Bonus Action on your turn."
+                  }
+                ],
+                "verb": "uses",
+                "proper": true,
+                "activation_type": 3
+              }
+            },
+            {
+              "attack": {
+                "_v": 2,
+                "name": "Valhalla's Cohort",
+                "automation": [
+                  {
+                    "type": "target",
+                    "target": "each",
+                    "effects": [
+                      {
+                        "type": "attack",
+                        "hit": [
+                          {
+                            "type": "damage",
+                            "damage": "2d10+{spell}[force]",
+                            "higher": {
+                              "5": "1d10[force]",
+                              "6": "2d10[force]",
+                              "7": "3d10[force]",
+                              "8": "4d10[force]",
+                              "9": "5d10[force]"
+                            }
+                          }
+                        ],
+                        "miss": []
+                      }
+                    ]
+                  }
+                ],
+                "proper": true,
+                "activation_type": 2
+              },
+              "defaultAttackBonus": "spell_attack_bonus",
+              "defaultCastingMod": "spell"
+            }
+          ],
+          "parent": "ieffect"
+        }
+      ]
+    }
+  ],
+  "classes": "Bard, Cleric, Paladin",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "60 feet",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": ""
+  },
+  "duration": "10 minutes",
+  "ritual": false,
+  "description": "You conjure warrior spirits from Valhalla, the hall of the honored dead. The spirits appear as a Huge cohort of spectral, intangible warriors in an unoccupied space you can see within range. The spirits brandish spears, axes, and blades, striking at anyone nearby. The cohort lasts for the duration, and you choose the spirits' appearance (such as their species and any insignias worn).\n\nYou can also move the cohort 30 feet as a Bonus Action on your subsequent turns.\n\nIf the cohort ends its move within 5 feet of a creature, or if a creature moves within 5 feet of the cohort, you can make a melee spell attack against that creature. On a hit, the target takes Force damage equal to 2d10 plus your spellcasting ability modifier. A creature can be attacked in this way only once per turn.",
+  "higherlevels": "The damage increases by 1d10 for each spell slot level above 4th.",
+  "concentration": true
+}

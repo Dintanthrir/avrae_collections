@@ -1,1 +1,43 @@
-{"name":"Repair Hull","level":3,"school":"T","automation":[{"type":"target","target":"all","effects":[{"type":"damage","damage":"-4d12+{spell}[healing]","higher":{"4":"-5d12+{spell}[healing]","5":"-6d12+{spell}[healing]","6":"-7d12+{spell}[healing]","7":"-8d12+{spell}[healing]","8":"-9d12+{spell}[healing]","9":"-10d12+{spell}[healing]"}}]},{"type":"text","text":"A vehicle you touch regains a number of Hit Points equal to 4d12 plus your spellcasting ability modifier. The target vehicle must have 1 HP or more to be affected."}],"classes":"Druid, Ranger, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Action","range":"Touch","components":{"verbal":true,"somatic":true,"material":"iron nails"},"duration":"Instantaneous","ritual":false,"description":"A vehicle you touch regains a number of Hit Points equal to 4d12 plus your spellcasting ability modifier. The target vehicle must have 1 HP or more to be affected.","higherlevels":"The damage increases by 1d12 for each spell level above 3rd.","concentration":false}
+{
+  "name": "Repair Hull",
+  "level": 3,
+  "school": "T",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "damage",
+          "damage": "-4d12+{spell}[healing]",
+          "higher": {
+            "4": "-1d12[healing]",
+            "5": "-2d12[healing]",
+            "6": "-3d12[healing]",
+            "7": "-4d12[healing]",
+            "8": "-5d12[healing]",
+            "9": "-6d12[healing]"
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "A vehicle you touch regains a number of Hit Points equal to 4d12 plus your spellcasting ability modifier. The target vehicle must have 1 HP or more to be affected."
+    }
+  ],
+  "classes": "Druid, Ranger, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "iron nails"
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "A vehicle you touch regains a number of Hit Points equal to 4d12 plus your spellcasting ability modifier. The target vehicle must have 1 HP or more to be affected.",
+  "higherlevels": "The damage increases by 1d12 for each spell level above 3rd.",
+  "concentration": false
+}

@@ -1,1 +1,138 @@
-{"name":"Encase in Ice","level":2,"school":"C","automation":[{"type":"target","target":"all","effects":[{"type":"save","stat":"dex","fail":[{"type":"ieffect2","name":"Restrained","effects":{"attack_advantage":"-1"},"buttons":[{"automation":[{"type":"target","target":"self","effects":[{"type":"check","ability":"athletics","dc":"spell_dc","success":[{"type":"remove_ieffect"}],"fail":[]},{"type":"condition","condition":"spell_level >= 5","onTrue":[{"type":"damage","damage":"2d6[cold]"}],"onFalse":[]}]}],"label":"Escape Ice","style":"3","defaultDC":"spell_dc"}],"parent":"ieffect"}],"success":[]}]},{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Encase in Ice","attacks":[{"attack":{"_v":2,"name":"Slippery Ice","automation":[{"type":"target","target":"all","effects":[{"type":"save","stat":"dex","fail":[{"type":"ieffect2","name":"Prone","effects":{"attack_advantage":"-1"},"buttons":[{"automation":[{"type":"remove_ieffect"}],"label":"Stand Up","verb":"stands up"}],"desc":"A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition"}],"success":[]}]}],"activation_type":2},"defaultDC":"spell_dc"}],"parent":"ieffect"}]},{"type":"text","text":"A crashing wave of water fills a 20-foot square on ground that you can see within range. The water instantly freezes in place. Each creature in the area makes a Dexterity saving throw. On a failed save, a creature's legs are trapped in the ice, and the creature has the Restrained condition until the spell ends. A creature with the Restrained condition can use an action to make a Strength (Athletics) check against your spell save DC, ending the condition on itself on a success. Another creature can take the Help action to attempt to free the trapped creature, making the same check.\n\nCreatures that were not in the spell's area when you cast it treat the area as Difficult Terrain. If a creature that is not Restrained by the ice enters the area or ends its turn there, it must succeed on a Dexterity saving throw or have the Prone condition."}],"classes":"Druid, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Action","range":"60 feet","components":{"verbal":true,"somatic":true,"material":"a handful of water"},"duration":"1 minute","ritual":false,"description":"A crashing wave of water fills a 20-foot square on ground that you can see within range. The water instantly freezes in place. Each creature in the area makes a Dexterity saving throw. On a failed save, a creature's legs are trapped in the ice, and the creature has the Restrained condition until the spell ends. A creature with the Restrained condition can use an action to make a Strength (Athletics) check against your spell save DC, ending the condition on itself on a success. Another creature can take the Help action to attempt to free the trapped creature, making the same check.\n\nCreatures that were not in the spell's area when you cast it treat the area as Difficult Terrain. If a creature that is not Restrained by the ice enters the area or ends its turn there, it must succeed on a Dexterity saving throw or have the Prone condition.","higherlevels":"If you cast this spell with a 3rd-level spell slot, the ice entraps the target's arms as well as its legs. The target cannot take the Attack action or cast spells with somatic components until the Restrained condition ends.\n\nIf you cast this spell using a 5th-level spell slot, the ice completely entombs creatures in the area when you cast the spell. Creatures that fail their initial save are Restrained and have Total Cover for the spell's duration. An affected creature can make a Strength save at the end of each of its turns to break out, but whether it succeeds or fails, it takes 2d6 Cold damage as its flesh, which was stuck to the ice, tears.","concentration":true}
+{
+  "name": "Encase in Ice",
+  "level": 2,
+  "school": "C",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "dex",
+          "fail": [
+            {
+              "type": "ieffect2",
+              "name": "Restrained",
+              "effects": {
+                "attack_advantage": "-1"
+              },
+              "buttons": [
+                {
+                  "automation": [
+                    {
+                      "type": "target",
+                      "target": "self",
+                      "effects": [
+                        {
+                          "type": "check",
+                          "ability": "athletics",
+                          "dc": "spell_dc",
+                          "success": [
+                            {
+                              "type": "remove_ieffect"
+                            }
+                          ],
+                          "fail": []
+                        },
+                        {
+                          "type": "condition",
+                          "condition": "spell_level >= 5",
+                          "onTrue": [
+                            {
+                              "type": "damage",
+                              "damage": "2d6[cold]"
+                            }
+                          ],
+                          "onFalse": []
+                        }
+                      ]
+                    }
+                  ],
+                  "label": "Escape Ice",
+                  "style": "3",
+                  "defaultDC": "spell_dc"
+                }
+              ],
+              "parent": "ieffect"
+            }
+          ],
+          "success": []
+        }
+      ]
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Encase in Ice Actions",
+          "attacks": [
+            {
+              "attack": {
+                "_v": 2,
+                "name": "Slippery Ice",
+                "automation": [
+                  {
+                    "type": "target",
+                    "target": "all",
+                    "effects": [
+                      {
+                        "type": "save",
+                        "stat": "dex",
+                        "fail": [
+                          {
+                            "type": "ieffect2",
+                            "name": "Prone",
+                            "effects": {
+                              "attack_advantage": "-1"
+                            },
+                            "buttons": [
+                              {
+                                "automation": [
+                                  {
+                                    "type": "remove_ieffect"
+                                  }
+                                ],
+                                "label": "Stand Up",
+                                "verb": "stands up"
+                              }
+                            ],
+                            "desc": "A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition"
+                          }
+                        ],
+                        "success": []
+                      }
+                    ]
+                  }
+                ],
+                "activation_type": 2
+              },
+              "defaultDC": "spell_dc"
+            }
+          ],
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "A crashing wave of water fills a 20-foot square on ground that you can see within range. The water instantly freezes in place. Each creature in the area makes a Dexterity saving throw. On a failed save, a creature's legs are trapped in the ice, and the creature has the Restrained condition until the spell ends. A creature with the Restrained condition can use an action to make a Strength (Athletics) check against your spell save DC, ending the condition on itself on a success. Another creature can take the Help action to attempt to free the trapped creature, making the same check.\n\nCreatures that were not in the spell's area when you cast it treat the area as Difficult Terrain. If a creature that is not Restrained by the ice enters the area or ends its turn there, it must succeed on a Dexterity saving throw or have the Prone condition."
+    }
+  ],
+  "classes": "Druid, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Action",
+  "range": "60 feet",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a handful of water"
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "A crashing wave of water fills a 20-foot square on ground that you can see within range. The water instantly freezes in place. Each creature in the area makes a Dexterity saving throw. On a failed save, a creature's legs are trapped in the ice, and the creature has the Restrained condition until the spell ends. A creature with the Restrained condition can use an action to make a Strength (Athletics) check against your spell save DC, ending the condition on itself on a success. Another creature can take the Help action to attempt to free the trapped creature, making the same check.\n\nCreatures that were not in the spell's area when you cast it treat the area as Difficult Terrain. If a creature that is not Restrained by the ice enters the area or ends its turn there, it must succeed on a Dexterity saving throw or have the Prone condition.",
+  "higherlevels": "If you cast this spell with a 3rd-level spell slot, the ice entraps the target's arms as well as its legs. The target cannot take the Attack action or cast spells with somatic components until the Restrained condition ends.\n\nIf you cast this spell using a 5th-level spell slot, the ice completely entombs creatures in the area when you cast the spell. Creatures that fail their initial save are Restrained and have Total Cover for the spell's duration. An affected creature can make a Strength save at the end of each of its turns to break out, but whether it succeeds or fails, it takes 2d6 Cold damage as its flesh, which was stuck to the ice, tears.",
+  "concentration": true
+}

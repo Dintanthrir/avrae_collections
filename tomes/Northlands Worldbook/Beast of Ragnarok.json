@@ -1,1 +1,423 @@
-{"name":"Beast of Ragnarok","level":9,"school":"C","automation":[{"type":"roll","dice":"1d12","name":"vulnerability"},{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Beast of Ragnarok","duration":"10","effects":{"attack_advantage":"1","immunities":["{\"Acid\" if vulnerability != 1 else \"None\"}","{\"Bludgeoning\" if vulnerability != 2 else \"None\"}","{\"Fire\" if vulnerability != 3 else \"None\"}","{\"Force\" if vulnerability != 4 else \"None\"}","{\"Lightning\" if vulnerability != 5 else \"None\"}","{\"Necrotic\" if vulnerability != 6 else \"None\"}","{\"Piercing\" if vulnerability != 7 else \"None\"}","{\"Poison\" if vulnerability != 8 else \"None\"}","{\"Psychic\" if vulnerability != 9 else \"None\"}","{\"Radiant\" if vulnerability != 10 else \"None\"}","{\"Slashing\" if vulnerability != 11 else \"None\"}","{\"Thunder\" if vulnerability != 12 else \"None\"}","cold"],"vulnerabilities":["{[\"Acid\", \"Bludgeoning\", \"Fire\", \"Force\", \"Lightning\", \"Necrotic\", \"Piercing\", \"Poison\", \"Psychic\", \"Radiant\", \"Slashing\", \"Thunder\"][vulnerability]}"],"save_adv":["all"],"check_adv":["all"]}}]},{"type":"text","text":"The spectral aura of Fenris surrounds you as you draw Ragnarok to the world for a moment. Until the spell ends, the sky grows dark, casting the world in Dim Light in a 1-mile Sphere centered on you. Thick snows fall inside the Sphere, causing the ground to become Difficult Terrain and vision to be Heavily Obscured.\n\nYou gain the following benefits for the Duration:\n\n- You see clearly within the Sphere and are unaffected by the Difficult Terrain caused by the spell.\n- You have Advantage on all d20 Tests.\n- All creatures have Disadvantage on attack rolls against you.\n- You have Immunity to all types of damage except for one. Roll a d12 to randomly determine a damage type (1. Acid, 2. Bludgeoning, 3. Fire, 4. Force, 5. Lightning, 6. Necrotic, 7. Piercing, 8. Poison, 9. Psychic, 10. Radiant, 11. Slashing, or 12. Thunder.) You have Vulnerability to the damage type you roll.\n- You have Advantage on saving throws to resist or end all conditions."}],"classes":"Cleric, Druid, Warlock, Wizard","subclasses":"Hand of Dread Pugilist, Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Action","range":"Self","components":{"verbal":true,"somatic":true,"material":"a bezoar formed in a wolf's stomach"},"duration":"1 minute","ritual":false,"description":"The spectral aura of Fenris surrounds you as you draw Ragnarok to the world for a moment. Until the spell ends, the sky grows dark, casting the world in Dim Light in a 1-mile Sphere centered on you. Thick snows fall inside the Sphere, causing the ground to become Difficult Terrain and vision to be Heavily Obscured.\n\nYou gain the following benefits for the Duration:\n\n- You see clearly within the Sphere and are unaffected by the Difficult Terrain caused by the spell.\n- You have Advantage on all d20 Tests.\n- All creatures have Disadvantage on attack rolls against you.\n- You have Immunity to all types of damage except for one. Roll a d12 to randomly determine a damage type (1. Acid, 2. Bludgeoning, 3. Fire, 4. Force, 5. Lightning, 6. Necrotic, 7. Piercing, 8. Poison, 9. Psychic, 10. Radiant, 11. Slashing, or 12. Thunder.) You have Vulnerability to the damage type you roll.\n- You have Advantage on saving throws to resist or end all conditions.","higherlevels":"","concentration":false}
+{
+  "name": "Beast of Ragnarok",
+  "level": 9,
+  "school": "C",
+  "automation": [
+    {
+      "type": "roll",
+      "dice": "1d12",
+      "name": "vulnerability"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Beast of Ragnarok",
+          "duration": "10",
+          "effects": {
+            "attack_advantage": "1",
+            "save_adv": [
+              "all"
+            ],
+            "check_adv": [
+              "all"
+            ]
+          },
+          "save_as": "beast"
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 1",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "acid"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 2",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "bludgeoning"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 3",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "fire"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 4",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "force"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 5",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "lightning"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 6",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "necrotic"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 7",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "piercing"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 8",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "poison"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 9",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "psychic"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 10",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "radiant"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 11",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ],
+                "vulnerabilities": [
+                  "slashing"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        },
+        {
+          "type": "condition",
+          "condition": "vulnerability == 12",
+          "onTrue": [
+            {
+              "type": "ieffect2",
+              "name": "Beast of Ragnarok Immunities",
+              "parent": "beast",
+              "effects": {
+                "immunities": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant"
+                ],
+                "vulnerabilities": [
+                  "thunder"
+                ]
+              }
+            }
+          ],
+          "onFalse": []
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "The spectral aura of Fenris surrounds you as you draw Ragnarok to the world for a moment. Until the spell ends, the sky grows dark, casting the world in Dim Light in a 1-mile Sphere centered on you. Thick snows fall inside the Sphere, causing the ground to become Difficult Terrain and vision to be Heavily Obscured.\n\nYou gain the following benefits for the Duration:\n\n- You see clearly within the Sphere and are unaffected by the Difficult Terrain caused by the spell.\n- You have Advantage on all d20 Tests.\n- All creatures have Disadvantage on attack rolls against you.\n- You have Immunity to all types of damage except for one. Roll a d12 to randomly determine a damage type (1. Acid, 2. Bludgeoning, 3. Fire, 4. Force, 5. Lightning, 6. Necrotic, 7. Piercing, 8. Poison, 9. Psychic, 10. Radiant, 11. Slashing, or 12. Thunder.) You have Vulnerability to the damage type you roll.\n- You have Advantage on saving throws to resist or end all conditions."
+    }
+  ],
+  "classes": "Cleric, Druid, Warlock, Wizard",
+  "subclasses": "Hand of Dread Pugilist, Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a bezoar formed in a wolf's stomach"
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "The spectral aura of Fenris surrounds you as you draw Ragnarok to the world for a moment. Until the spell ends, the sky grows dark, casting the world in Dim Light in a 1-mile Sphere centered on you. Thick snows fall inside the Sphere, causing the ground to become Difficult Terrain and vision to be Heavily Obscured.\n\nYou gain the following benefits for the Duration:\n\n- You see clearly within the Sphere and are unaffected by the Difficult Terrain caused by the spell.\n- You have Advantage on all d20 Tests.\n- All creatures have Disadvantage on attack rolls against you.\n- You have Immunity to all types of damage except for one. Roll a d12 to randomly determine a damage type (1. Acid, 2. Bludgeoning, 3. Fire, 4. Force, 5. Lightning, 6. Necrotic, 7. Piercing, 8. Poison, 9. Psychic, 10. Radiant, 11. Slashing, or 12. Thunder.) You have Vulnerability to the damage type you roll.\n- You have Advantage on saving throws to resist or end all conditions.",
+  "higherlevels": "",
+  "concentration": false
+}
