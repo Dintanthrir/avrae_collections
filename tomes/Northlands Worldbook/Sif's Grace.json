@@ -1,1 +1,36 @@
-{"name":"Sif's Grace","level":3,"school":"C","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Sif's Grace","parent":"ieffect"}]},{"type":"text","text":"You grant a measure of Sif's speed and sure-footedness to a creature within reach. Until the spell ends, the target's Speed doubles, and creatures that make Opportunity Attacks against the target have Disadvantage on their attack rolls. If the target moves on its turn, it has Advantage on Dexterity (Acrobatics) checks.\n\nIf the target is subject to an effect that requires it to make a Dexterity save, it can choose to automatically succeed. That ends this spell for it."}],"classes":"Bard, Cleric, Paladin, Warlock","subclasses":"Hand of Dread Pugilist","casttime":"Action","range":"Touch","components":{"verbal":true,"somatic":false,"material":"two silver beads of equal weight"},"duration":"1 hour","ritual":false,"description":"You grant a measure of Sif's speed and sure-footedness to a creature within reach. Until the spell ends, the target's Speed doubles, and creatures that make Opportunity Attacks against the target have Disadvantage on their attack rolls. If the target moves on its turn, it has Advantage on Dexterity (Acrobatics) checks.\n\nIf the target is subject to an effect that requires it to make a Dexterity save, it can choose to automatically succeed. That ends this spell for it.","higherlevels":"You can target one additional creature for each spell slot level above 3rd.","concentration":true}
+{
+  "name": "Sif's Grace",
+  "level": 3,
+  "school": "C",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Sif's Grace",
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You grant a measure of Sif's speed and sure-footedness to a creature within reach. Until the spell ends, the target's Speed doubles, and creatures that make Opportunity Attacks against the target have Disadvantage on their attack rolls. If the target moves on its turn, it has Advantage on Dexterity (Acrobatics) checks.\n\nIf the target is subject to an effect that requires it to make a Dexterity save, it can choose to automatically succeed. That ends this spell for it."
+    }
+  ],
+  "classes": "Bard, Cleric, Paladin, Warlock",
+  "subclasses": "Hand of Dread Pugilist",
+  "casttime": "Action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": false,
+    "material": "two silver beads of equal weight"
+  },
+  "duration": "1 hour",
+  "ritual": false,
+  "description": "You grant a measure of Sif's speed and sure-footedness to a creature within reach. Until the spell ends, the target's Speed doubles, and creatures that make Opportunity Attacks against the target have Disadvantage on their attack rolls. If the target moves on its turn, it has Advantage on Dexterity (Acrobatics) checks.\n\nIf the target is subject to an effect that requires it to make a Dexterity save, it can choose to automatically succeed. That ends this spell for it.",
+  "higherlevels": "You can target one additional creature for each spell slot level above 3rd.",
+  "concentration": true
+}

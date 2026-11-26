@@ -1,1 +1,25 @@
-{"name":"Ice Shape","level":1,"school":"C","automation":[{"type":"text","text":"You touch a section of ice no more than 5 feet in any dimension and form it into any shape you like. For example, you could shape the ice into a weapon, statue, or coffer, or you could make a small passage through the ice that is 5 feet thick. You could also shape ice to seal a narrow cavern opening shut. Any object you create is crude but functional, but finer mechanical detail isn't possible."}],"classes":"Cleric, Druid, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Action","range":"Touch","components":{"verbal":true,"somatic":true,"material":"a thread"},"duration":"Instantaneous","ritual":false,"description":"You touch a section of ice no more than 5 feet in any dimension and form it into any shape you like. For example, you could shape the ice into a weapon, statue, or coffer, or you could make a small passage through the ice that is 5 feet thick. You could also shape ice to seal a narrow cavern opening shut. Any object you create is crude but functional, but finer mechanical detail isn't possible.","higherlevels":"","concentration":false}
+{
+  "name": "Ice Shape",
+  "level": 1,
+  "school": "C",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You touch a section of ice no more than 5 feet in any dimension and form it into any shape you like. For example, you could shape the ice into a weapon, statue, or coffer, or you could make a small passage through the ice that is 5 feet thick. You could also shape ice to seal a narrow cavern opening shut. Any object you create is crude but functional, but finer mechanical detail isn't possible."
+    }
+  ],
+  "classes": "Cleric, Druid, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a thread"
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "You touch a section of ice no more than 5 feet in any dimension and form it into any shape you like. For example, you could shape the ice into a weapon, statue, or coffer, or you could make a small passage through the ice that is 5 feet thick. You could also shape ice to seal a narrow cavern opening shut. Any object you create is crude but functional, but finer mechanical detail isn't possible.",
+  "higherlevels": "",
+  "concentration": false
+}

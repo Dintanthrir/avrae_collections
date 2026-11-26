@@ -1,1 +1,25 @@
-{"name":"Giantdodge","level":2,"school":"A","automation":[{"type":"text","text":"Increase your Speed by 20 feet. You gain a +2 Bonus to your AC against attacks made by Large or larger creatures, and you do not provoke Opportunity Attacks from them."}],"classes":"Ranger","subclasses":"","casttime":"Bonus action","range":"Self","components":{"verbal":true,"somatic":false,"material":""},"duration":"1 minute","ritual":false,"description":"Increase your Speed by 20 feet. You gain a +2 Bonus to your AC against attacks made by Large or larger creatures, and you do not provoke Opportunity Attacks from them.","higherlevels":"","concentration":false}
+{
+  "name": "Giantdodge",
+  "level": 2,
+  "school": "A",
+  "automation": [
+    {
+      "type": "text",
+      "text": "Increase your Speed by 20 feet. You gain a +2 Bonus to your AC against attacks made by Large or larger creatures, and you do not provoke Opportunity Attacks from them."
+    }
+  ],
+  "classes": "Ranger",
+  "subclasses": "",
+  "casttime": "Bonus action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": false,
+    "material": ""
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "Increase your Speed by 20 feet. You gain a +2 Bonus to your AC against attacks made by Large or larger creatures, and you do not provoke Opportunity Attacks from them.",
+  "higherlevels": "",
+  "concentration": false
+}

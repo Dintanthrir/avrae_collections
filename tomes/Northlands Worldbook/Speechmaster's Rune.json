@@ -1,1 +1,25 @@
-{"name":"Speechmaster's Rune","level":1,"school":"V","automation":[{"type":"text","text":"You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. Any creature holding the stone has Advantage on Charisma checks."}],"classes":"Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Bonus action","range":"Touch","components":{"verbal":true,"somatic":true,"material":"a Tiny stone"},"duration":"1 minute","ritual":false,"description":"You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. Any creature holding the stone has Advantage on Charisma checks.","higherlevels":"","concentration":false}
+{
+  "name": "Speechmaster's Rune",
+  "level": 1,
+  "school": "V",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. Any creature holding the stone has Advantage on Charisma checks."
+    }
+  ],
+  "classes": "Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Bonus action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a Tiny stone"
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. Any creature holding the stone has Advantage on Charisma checks.",
+  "higherlevels": "",
+  "concentration": false
+}

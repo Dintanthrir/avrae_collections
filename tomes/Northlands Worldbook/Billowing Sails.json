@@ -1,1 +1,25 @@
-{"name":"Billowing Sails","level":2,"school":"V","automation":[{"type":"text","text":"You touch a ship or other wind-powered vehicle and fill its sails with a strong breeze. Whenever the ship travels by sail, its Speed increases by 10 ft. or by 1 mph."}],"classes":"Druid, Ranger, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"1 minute","range":"Touch","components":{"verbal":true,"somatic":true,"material":""},"duration":"8 hours","ritual":true,"description":"You touch a ship or other wind-powered vehicle and fill its sails with a strong breeze. Whenever the ship travels by sail, its Speed increases by 10 ft. or by 1 mph.","higherlevels":"","concentration":true}
+{
+  "name": "Billowing Sails",
+  "level": 2,
+  "school": "V",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You touch a ship or other wind-powered vehicle and fill its sails with a strong breeze. Whenever the ship travels by sail, its Speed increases by 10 ft. or by 1 mph."
+    }
+  ],
+  "classes": "Druid, Ranger, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "1 minute",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": ""
+  },
+  "duration": "8 hours",
+  "ritual": true,
+  "description": "You touch a ship or other wind-powered vehicle and fill its sails with a strong breeze. Whenever the ship travels by sail, its Speed increases by 10 ft. or by 1 mph.",
+  "higherlevels": "",
+  "concentration": true
+}

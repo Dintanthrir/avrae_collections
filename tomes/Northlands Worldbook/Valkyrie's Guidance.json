@@ -1,1 +1,37 @@
-{"name":"Valkyrie's Guidance","level":3,"school":"D","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Valkyrie's Guidance","duration":"10","desc":"{caster.name} has Advantage on melee attack rolls against and Intelligence check to recall lore about this target."}]},{"type":"text","text":"You consult the Valkyries and ask them to guide your hand to glory in Valhalla. Choose a creature you can see. For the duration of the spell, you gain Advantage on melee attack rolls against that creature and Intelligence checks to recall lore about it. The spell ends immediately if you don't attack the creature on your turn."}],"classes":"Cleric, Paladin","subclasses":"","casttime":"Action","range":"Self","components":{"verbal":true,"somatic":true,"material":"a polished blue stone"},"duration":"1 minute","ritual":false,"description":"You consult the Valkyries and ask them to guide your hand to glory in Valhalla. Choose a creature you can see. For the duration of the spell, you gain Advantage on melee attack rolls against that creature and Intelligence checks to recall lore about it. The spell ends immediately if you don't attack the creature on your turn.","higherlevels":"","concentration":false}
+{
+  "name": "Valkyrie's Guidance",
+  "level": 3,
+  "school": "D",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Valkyrie's Guidance",
+          "duration": "10",
+          "desc": "{caster.name} has Advantage on melee attack rolls against and Intelligence check to recall lore about this target."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You consult the Valkyries and ask them to guide your hand to glory in Valhalla. Choose a creature you can see. For the duration of the spell, you gain Advantage on melee attack rolls against that creature and Intelligence checks to recall lore about it. The spell ends immediately if you don't attack the creature on your turn."
+    }
+  ],
+  "classes": "Cleric, Paladin",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a polished blue stone"
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "You consult the Valkyries and ask them to guide your hand to glory in Valhalla. Choose a creature you can see. For the duration of the spell, you gain Advantage on melee attack rolls against that creature and Intelligence checks to recall lore about it. The spell ends immediately if you don't attack the creature on your turn.",
+  "higherlevels": "",
+  "concentration": false
+}

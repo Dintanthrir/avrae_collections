@@ -1,1 +1,37 @@
-{"name":"Reinforce Hull","level":2,"school":"A","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Reinforce Hull","desc":"Damage threshold +{spell}","parent":"ieffect"}]},{"type":"text","text":"A vehicle you touch has its damage threshold increased by your spellcasting ability modifier ({spell}) for the duration. A vehicle with no damage threshold can't be targeted by this spell."}],"classes":"Cleric, Druid, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Action","range":"Touch","components":{"verbal":true,"somatic":true,"material":"an iron nail"},"duration":"1 hour","ritual":true,"description":"A vehicle you touch has its damage threshold increased by your spellcasting ability modifier for the duration. A vehicle with no damage threshold can't be targeted by this spell.","higherlevels":"","concentration":true}
+{
+  "name": "Reinforce Hull",
+  "level": 2,
+  "school": "A",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Reinforce Hull",
+          "desc": "Damage threshold +{spell}",
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "A vehicle you touch has its damage threshold increased by your spellcasting ability modifier ({spell}) for the duration. A vehicle with no damage threshold can't be targeted by this spell."
+    }
+  ],
+  "classes": "Cleric, Druid, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "an iron nail"
+  },
+  "duration": "1 hour",
+  "ritual": true,
+  "description": "A vehicle you touch has its damage threshold increased by your spellcasting ability modifier for the duration. A vehicle with no damage threshold can't be targeted by this spell.",
+  "higherlevels": "",
+  "concentration": true
+}

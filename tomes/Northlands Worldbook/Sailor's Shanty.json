@@ -1,1 +1,36 @@
-{"name":"Sailor's Shanty","level":2,"school":"E","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Sailor's Shanty","parent":"ieffect"}]},{"type":"text","text":"You touch a vehicle. The crew of the vehicle has Advantage on d20 Tests to control or operate the vehicle."}],"classes":"Bard","subclasses":"","casttime":"Action","range":"Touch","components":{"verbal":true,"somatic":false,"material":""},"duration":"4 hours","ritual":false,"description":"You touch a vehicle. The crew of the vehicle has Advantage on d20 Tests to control or operate the vehicle.","higherlevels":"","concentration":true}
+{
+  "name": "Sailor's Shanty",
+  "level": 2,
+  "school": "E",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Sailor's Shanty",
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You touch a vehicle. The crew of the vehicle has Advantage on d20 Tests to control or operate the vehicle."
+    }
+  ],
+  "classes": "Bard",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": false,
+    "material": ""
+  },
+  "duration": "4 hours",
+  "ritual": false,
+  "description": "You touch a vehicle. The crew of the vehicle has Advantage on d20 Tests to control or operate the vehicle.",
+  "higherlevels": "",
+  "concentration": true
+}

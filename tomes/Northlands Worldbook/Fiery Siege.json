@@ -1,1 +1,25 @@
-{"name":"Fiery Siege","level":4,"school":"T","automation":[{"type":"text","text":"You touch a siege weapon, imbuing it with pyroclastic power. For the duration, the siege weapon deals an extra 1d10 Fire damage when it hits. As a Bonus Action, you can touch a different siege engine, transferring the effect to it."}],"classes":"Druid, Paladin, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Bonus Action","range":"Self","components":{"verbal":true,"somatic":true,"material":"a bit of pitch"},"duration":"10 minutes","ritual":false,"description":"You touch a siege weapon, imbuing it with pyroclastic power. For the duration, the siege weapon deals an extra 1d10 Fire damage when it hits. As a Bonus Action, you can touch a different siege engine, transferring the effect to it.\n\nUse `-d 1d10[fire]` to add extra damage to an attack.","higherlevels":"","concentration":true}
+{
+  "name": "Fiery Siege",
+  "level": 4,
+  "school": "T",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You touch a siege weapon, imbuing it with pyroclastic power. For the duration, the siege weapon deals an extra 1d10 Fire damage when it hits. As a Bonus Action, you can touch a different siege engine, transferring the effect to it."
+    }
+  ],
+  "classes": "Druid, Paladin, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Bonus Action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a bit of pitch"
+  },
+  "duration": "10 minutes",
+  "ritual": false,
+  "description": "You touch a siege weapon, imbuing it with pyroclastic power. For the duration, the siege weapon deals an extra 1d10 Fire damage when it hits. As a Bonus Action, you can touch a different siege engine, transferring the effect to it.\n\nUse `-d 1d10[fire]` to add extra damage to an attack.",
+  "higherlevels": "",
+  "concentration": true
+}

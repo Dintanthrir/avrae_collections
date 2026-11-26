@@ -1,1 +1,25 @@
-{"name":"Call to Action","level":2,"school":"E","automation":[{"type":"text","text":"The creature starting its turn may immediately use its Reaction to take the Dash, Disengage, Dodge, or Help action."}],"classes":"Bard, Paladin","subclasses":"","casttime":"Reaction, which you take in response to another creature's turn starting","range":"60 feet","components":{"verbal":true,"somatic":false,"material":""},"duration":"Instantaneous","ritual":false,"description":"The creature starting its turn may immediately use its Reaction to take the Dash, Disengage, Dodge, or Help action.","higherlevels":"","concentration":false}
+{
+  "name": "Call to Action",
+  "level": 2,
+  "school": "E",
+  "automation": [
+    {
+      "type": "text",
+      "text": "The creature starting its turn may immediately use its Reaction to take the Dash, Disengage, Dodge, or Help action."
+    }
+  ],
+  "classes": "Bard, Paladin",
+  "subclasses": "",
+  "casttime": "Reaction, which you take in response to another creature's turn starting",
+  "range": "60 feet",
+  "components": {
+    "verbal": true,
+    "somatic": false,
+    "material": ""
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "The creature starting its turn may immediately use its Reaction to take the Dash, Disengage, Dodge, or Help action.",
+  "higherlevels": "",
+  "concentration": false
+}

@@ -1,1 +1,54 @@
-{"name":"Trollblood Infusion","level":3,"school":"T","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Trollblood Infusion","buttons":[{"automation":[{"type":"target","target":"self","effects":[{"type":"damage","damage":"-5[healing]"}]}],"label":"Trollblood","style":"3"}],"parent":"ieffect"}]},{"type":"text","text":"A creature you touch is magically infused with the regenerative properties of troll blood. For the duration of the spell, the target regains 5 Hit Points at the start of each of its turns, if it has at least 1 Hit Point, and automatically succeeds on Death Saving Throws. If the creature takes Acid or Fire damage, this effect does not function at the start of its next turn."}],"classes":"Bard, Cleric, Druid, Warlock","subclasses":"Hand of Dread Pugilist","casttime":"Action","range":"Touch","components":{"verbal":true,"somatic":true,"material":"a drop of troll blood"},"duration":"1 minute","ritual":false,"description":"A creature you touch is magically infused with the regenerative properties of troll blood. For the duration of the spell, the target regains 5 Hit Points at the start of each of its turns, if it has at least 1 Hit Point, and automatically succeeds on Death Saving Throws. If the creature takes Acid or Fire damage, this effect does not function at the start of its next turn.","higherlevels":"","concentration":true}
+{
+  "name": "Trollblood Infusion",
+  "level": 3,
+  "school": "T",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Trollblood Infusion",
+          "buttons": [
+            {
+              "automation": [
+                {
+                  "type": "target",
+                  "target": "self",
+                  "effects": [
+                    {
+                      "type": "damage",
+                      "damage": "-5[healing]"
+                    }
+                  ]
+                }
+              ],
+              "label": "Trollblood",
+              "style": "3"
+            }
+          ],
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "A creature you touch is magically infused with the regenerative properties of troll blood. For the duration of the spell, the target regains 5 Hit Points at the start of each of its turns, if it has at least 1 Hit Point, and automatically succeeds on Death Saving Throws. If the creature takes Acid or Fire damage, this effect does not function at the start of its next turn."
+    }
+  ],
+  "classes": "Bard, Cleric, Druid, Warlock",
+  "subclasses": "Hand of Dread Pugilist",
+  "casttime": "Action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a drop of troll blood"
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "A creature you touch is magically infused with the regenerative properties of troll blood. For the duration of the spell, the target regains 5 Hit Points at the start of each of its turns, if it has at least 1 Hit Point, and automatically succeeds on Death Saving Throws. If the creature takes Acid or Fire damage, this effect does not function at the start of its next turn.",
+  "higherlevels": "",
+  "concentration": true
+}

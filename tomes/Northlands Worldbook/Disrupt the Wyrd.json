@@ -1,1 +1,25 @@
-{"name":"Disrupt the Wyrd","level":2,"school":"A","automation":[{"type":"text","text":"The creature rerolls the saving throw, either adding your spellcasting modifier (`{spell}`) to or subtracting it from the new roll. It must use the new result."}],"classes":"Cleric","subclasses":"","casttime":"Reaction, which you take in response to a saving throw being rolled by a creature that you can see within 30 feet of yourself","range":"30 feet","components":{"verbal":true,"somatic":true,"material":"a tangle of thread"},"duration":"Instantaneous","ritual":false,"description":"The creature rerolls the saving throw, either adding your spellcasting modifier to or subtracting it from the new roll. It must use the new result.","higherlevels":"","concentration":false}
+{
+  "name": "Disrupt the Wyrd",
+  "level": 2,
+  "school": "A",
+  "automation": [
+    {
+      "type": "text",
+      "text": "The creature rerolls the saving throw, either adding your spellcasting modifier (`{spell}`) to or subtracting it from the new roll. It must use the new result."
+    }
+  ],
+  "classes": "Cleric",
+  "subclasses": "",
+  "casttime": "Reaction, which you take in response to a saving throw being rolled by a creature that you can see within 30 feet of yourself",
+  "range": "30 feet",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a tangle of thread"
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "The creature rerolls the saving throw, either adding your spellcasting modifier to or subtracting it from the new roll. It must use the new result.",
+  "higherlevels": "",
+  "concentration": false
+}

@@ -1,1 +1,39 @@
-{"name":"Song of the Shield Wall","level":4,"school":"A","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Song of the Shield Wall","effects":{"ac_bonus":"2 + {int(spell_level >= 6)} + {int(spell_level >= 8)}"},"parent":"ieffect"}]},{"type":"text","text":"You begin a chant that is magically accompanied by the clanging sound of hammers against iron. Glowing, spectral, circular shields appear before a number of creatures equal to your spellcasting ability modifier who are within 30 feet of you. Each creature gains a +2 bonus to their AC."}],"classes":"Bard, Cleric, Paladin","subclasses":"","casttime":"Action","range":"30 feet","components":{"verbal":true,"somatic":false,"material":""},"duration":"1 minute","ritual":false,"description":"You begin a chant that is magically accompanied by the clanging sound of hammers against iron. Glowing, spectral, circular shields appear before a number of creatures equal to your spellcasting ability modifier who are within 30 feet of you. Each creature gains a +2 bonus to their AC.","higherlevels":"If you cast this spell with a 6th level spell slot, the bonus to AC increased to +3, and if you use an 8th level spell slot, it increases to +4.","concentration":true}
+{
+  "name": "Song of the Shield Wall",
+  "level": 4,
+  "school": "A",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Song of the Shield Wall",
+          "effects": {
+            "ac_bonus": "2 + {int(spell_level >= 6)} + {int(spell_level >= 8)}"
+          },
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You begin a chant that is magically accompanied by the clanging sound of hammers against iron. Glowing, spectral, circular shields appear before a number of creatures equal to your spellcasting ability modifier who are within 30 feet of you. Each creature gains a +2 bonus to their AC."
+    }
+  ],
+  "classes": "Bard, Cleric, Paladin",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "30 feet",
+  "components": {
+    "verbal": true,
+    "somatic": false,
+    "material": ""
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "You begin a chant that is magically accompanied by the clanging sound of hammers against iron. Glowing, spectral, circular shields appear before a number of creatures equal to your spellcasting ability modifier who are within 30 feet of you. Each creature gains a +2 bonus to their AC.",
+  "higherlevels": "If you cast this spell with a 6th level spell slot, the bonus to AC increased to +3, and if you use an 8th level spell slot, it increases to +4.",
+  "concentration": true
+}

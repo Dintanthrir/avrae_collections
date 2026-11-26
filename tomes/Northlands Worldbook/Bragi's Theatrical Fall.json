@@ -1,1 +1,51 @@
-{"name":"Bragi's Theatrical Fall","level":5,"school":"I","automation":[{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Invisible","buttons":[{"automation":[{"type":"remove_ieffect"}],"label":"End Invisibility","style":"3"}],"parent":"ieffect"},{"type":"damage","damage":"-{spell-caster.hp}[healing]"}]},{"type":"text","text":"With a gasp and loud proclamation, you seem to fall dead to the ground. Instead of being reduced to 0 Hit Points, you are reduced to a number of Hit Points equal to your spellcasting ability modifier. At the same time, you have the Invisible condition, and an illusion of your dead body appears, lying in the space where your body would have fallen.\n\nIf a creature takes the Study action to examine your illusory body, the creature can determine it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.\n\nThe Invisible condition ends if you take the Attack action, use the Magic action to cast a spell that lets a creature regain Hit Points, or use any action to cause harm to a creature."}],"classes":"Bard, Cleric, Sorcerer, Warlock, Wizard","subclasses":"Hand of Dread Pugilist, Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Reaction, which you take when an attack would reduce you to 0 Hit Points but not kill you outright","range":"Self","components":{"verbal":true,"somatic":true,"material":"a drop of your blood"},"duration":"1 hour","ritual":false,"description":"With a gasp and loud proclamation, you seem to fall dead to the ground. Instead of being reduced to 0 Hit Points, you are reduced to a number of Hit Points equal to your spellcasting ability modifier. At the same time, you have the Invisible condition, and an illusion of your dead body appears, lying in the space where your body would have fallen.\n\nIf a creature takes the Study action to examine your illusory body, the creature can determine it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.\n\nThe Invisible condition ends if you take the Attack action, use the Magic action to cast a spell that lets a creature regain Hit Points, or use any action to cause harm to a creature.","higherlevels":"","concentration":true}
+{
+  "name": "Bragi's Theatrical Fall",
+  "level": 5,
+  "school": "I",
+  "automation": [
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Invisible",
+          "buttons": [
+            {
+              "automation": [
+                {
+                  "type": "remove_ieffect"
+                }
+              ],
+              "label": "End Invisibility",
+              "style": "3"
+            }
+          ],
+          "parent": "ieffect"
+        },
+        {
+          "type": "damage",
+          "damage": "-{spell-caster.hp}[healing]"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "With a gasp and loud proclamation, you seem to fall dead to the ground. Instead of being reduced to 0 Hit Points, you are reduced to a number of Hit Points equal to your spellcasting ability modifier. At the same time, you have the Invisible condition, and an illusion of your dead body appears, lying in the space where your body would have fallen.\n\nIf a creature takes the Study action to examine your illusory body, the creature can determine it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.\n\nThe Invisible condition ends if you take the Attack action, use the Magic action to cast a spell that lets a creature regain Hit Points, or use any action to cause harm to a creature."
+    }
+  ],
+  "classes": "Bard, Cleric, Sorcerer, Warlock, Wizard",
+  "subclasses": "Hand of Dread Pugilist, Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Reaction, which you take when an attack would reduce you to 0 Hit Points but not kill you outright",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a drop of your blood"
+  },
+  "duration": "1 hour",
+  "ritual": false,
+  "description": "With a gasp and loud proclamation, you seem to fall dead to the ground. Instead of being reduced to 0 Hit Points, you are reduced to a number of Hit Points equal to your spellcasting ability modifier. At the same time, you have the Invisible condition, and an illusion of your dead body appears, lying in the space where your body would have fallen.\n\nIf a creature takes the Study action to examine your illusory body, the creature can determine it is an illusion with a successful Intelligence (Investigation) check against your spell save DC. If a creature discerns the illusion for what it is, the illusion becomes faint to the creature.\n\nThe Invisible condition ends if you take the Attack action, use the Magic action to cast a spell that lets a creature regain Hit Points, or use any action to cause harm to a creature.",
+  "higherlevels": "",
+  "concentration": true
+}

@@ -1,1 +1,97 @@
-{"name":"Freyja's Allure","level":1,"school":"E","automation":[{"type":"target","target":"all","effects":[{"type":"save","stat":"cha","fail":[{"type":"ieffect2","name":"Freyja's Allure","effects":{"attack_advantage":"-1"},"buttons":[{"automation":[{"type":"target","target":"self","effects":[{"type":"save","stat":"cha","fail":[],"success":[{"type":"remove_ieffect","removeParent":"if_no_children"}]}]}],"label":"Resist Freyja's Allure","style":"3","defaultDC":"spell_dc"},{"automation":[{"type":"target","target":"self","effects":[{"type":"save","stat":"cha","fail":[],"success":[{"type":"remove_ieffect","removeParent":"if_no_children"}],"adv":-1}]}],"label":"Resist Freyja's Allure (Disadvantage)","style":"3","defaultDC":"spell_dc"}],"parent":"ieffect"}],"success":[]}]},{"type":"text","text":"One creature of your choice that you can see within range makes a Charisma saving throw. On a failed save, the target has Disadvantage on attack rolls and can't willingly move farther away from you for the duration.\n\nAt the end of each of its turns, the creature can make another Charisma saving throw. The target has Disadvantage on the save if it can see you and you are within 30 feet of it. On a successful save, the spell ends on it."}],"classes":"Bard, Cleric, Sorcerer, Warlock","subclasses":"Hand of Dread Pugilist","casttime":"Action","range":"30 feet","components":{"verbal":true,"somatic":false,"material":""},"duration":"1 minute","ritual":false,"description":"One creature of your choice that you can see within range makes a Charisma saving throw. On a failed save, the target has Disadvantage on attack rolls and can't willingly move farther away from you for the duration.\n\nAt the end of each of its turns, the creature can make another Charisma saving throw. The target has Disadvantage on the save if it can see you and you are within 30 feet of it. On a successful save, the spell ends on it.","higherlevels":"You can target one additional creature for each spell slot level above 1st.","concentration":true}
+{
+  "name": "Freyja's Allure",
+  "level": 1,
+  "school": "E",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "cha",
+          "fail": [
+            {
+              "type": "ieffect2",
+              "name": "Freyja's Allure",
+              "effects": {
+                "attack_advantage": "-1"
+              },
+              "buttons": [
+                {
+                  "automation": [
+                    {
+                      "type": "target",
+                      "target": "self",
+                      "effects": [
+                        {
+                          "type": "save",
+                          "stat": "cha",
+                          "fail": [],
+                          "success": [
+                            {
+                              "type": "remove_ieffect",
+                              "removeParent": "if_no_children"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "label": "Resist Freyja's Allure",
+                  "style": "3",
+                  "defaultDC": "spell_dc"
+                },
+                {
+                  "automation": [
+                    {
+                      "type": "target",
+                      "target": "self",
+                      "effects": [
+                        {
+                          "type": "save",
+                          "stat": "cha",
+                          "fail": [],
+                          "success": [
+                            {
+                              "type": "remove_ieffect",
+                              "removeParent": "if_no_children"
+                            }
+                          ],
+                          "adv": -1
+                        }
+                      ]
+                    }
+                  ],
+                  "label": "Resist Freyja's Allure (Disadvantage)",
+                  "style": "3",
+                  "defaultDC": "spell_dc"
+                }
+              ],
+              "parent": "ieffect"
+            }
+          ],
+          "success": []
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "One creature of your choice that you can see within range makes a Charisma saving throw. On a failed save, the target has Disadvantage on attack rolls and can't willingly move farther away from you for the duration.\n\nAt the end of each of its turns, the creature can make another Charisma saving throw. The target has Disadvantage on the save if it can see you and you are within 30 feet of it. On a successful save, the spell ends on it."
+    }
+  ],
+  "classes": "Bard, Cleric, Sorcerer, Warlock",
+  "subclasses": "Hand of Dread Pugilist",
+  "casttime": "Action",
+  "range": "30 feet",
+  "components": {
+    "verbal": true,
+    "somatic": false,
+    "material": ""
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "One creature of your choice that you can see within range makes a Charisma saving throw. On a failed save, the target has Disadvantage on attack rolls and can't willingly move farther away from you for the duration.\n\nAt the end of each of its turns, the creature can make another Charisma saving throw. The target has Disadvantage on the save if it can see you and you are within 30 feet of it. On a successful save, the spell ends on it.",
+  "higherlevels": "You can target one additional creature for each spell slot level above 1st.",
+  "concentration": true
+}

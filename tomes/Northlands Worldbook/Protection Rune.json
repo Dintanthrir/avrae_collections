@@ -1,1 +1,41 @@
-{"name":"Protection Rune","level":3,"school":"V","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Protection Rune","duration":"10","effects":{"resistances":["{choice or \"Fire\"}"]}}]},{"type":"text","text":"You touch a creature, creating a visible rune etched into its skin. The creature has Resistance to a damage type of your choice.\n\nUse `-choice <damage type>` to specify a resistance."}],"classes":"Cleric, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Bonus action","range":"Touch","components":{"verbal":true,"somatic":true,"material":""},"duration":"1 minute","ritual":false,"description":"You touch a creature, creating a visible rune etched into its skin. The creature has Resistance to a damage type of your choice.\n\nUse `-choice <damage type>` to specify a resistance.","higherlevels":"","concentration":false}
+{
+  "name": "Protection Rune",
+  "level": 3,
+  "school": "V",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Protection Rune",
+          "duration": "10",
+          "effects": {
+            "resistances": [
+              "{choice or \"Fire\"}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You touch a creature, creating a visible rune etched into its skin. The creature has Resistance to a damage type of your choice.\n\nUse `-choice <damage type>` to specify a resistance."
+    }
+  ],
+  "classes": "Cleric, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Bonus action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": ""
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "You touch a creature, creating a visible rune etched into its skin. The creature has Resistance to a damage type of your choice.\n\nUse `-choice <damage type>` to specify a resistance.",
+  "higherlevels": "",
+  "concentration": false
+}

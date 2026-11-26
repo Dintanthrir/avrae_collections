@@ -1,1 +1,46 @@
-{"name":"Thought Rune","level":2,"school":"V","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Thought Rune","duration":"10","effects":{"save_adv":["int","wis"],"check_adv":["intelligence","wisdom"]}}]},{"type":"text","text":"You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. A creature holding the stone has Advantage on Intelligence and Wisdom checks and on Intelligence and Wisdom saving throws."}],"classes":"Bard, Cleric, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Bonus action","range":"Touch","components":{"verbal":true,"somatic":true,"material":"a Tiny stone"},"duration":"1 minute","ritual":false,"description":"You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. A creature holding the stone has Advantage on Intelligence and Wisdom checks and on Intelligence and Wisdom saving throws.","higherlevels":"","concentration":false}
+{
+  "name": "Thought Rune",
+  "level": 2,
+  "school": "V",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Thought Rune",
+          "duration": "10",
+          "effects": {
+            "save_adv": [
+              "int",
+              "wis"
+            ],
+            "check_adv": [
+              "intelligence",
+              "wisdom"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. A creature holding the stone has Advantage on Intelligence and Wisdom checks and on Intelligence and Wisdom saving throws."
+    }
+  ],
+  "classes": "Bard, Cleric, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Bonus action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a Tiny stone"
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "You place a magical effect into the stone used as the spell's material component, creating a visible rune etched into the stone. A creature holding the stone has Advantage on Intelligence and Wisdom checks and on Intelligence and Wisdom saving throws.",
+  "higherlevels": "",
+  "concentration": false
+}

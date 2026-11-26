@@ -1,1 +1,25 @@
-{"name":"Earthsail","level":4,"school":"T","automation":[{"type":"text","text":"You touch a sailing vessel with a crew of up to 10 throughout the spell's casting, imbuing it with the ability to treat earth as though it were sea. For the duration, the vessel treats soil, mud, and packed dirt as though it were water, pushing through it and leaving a rippling wake of re-solidified terrain. Snow, ice, plants (including trees), and small stones are temporarily swept aside in the ship's wake, but boulders and mountains must be sailed around."}],"classes":"Druid, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"1 minute","range":"Touch","components":{"verbal":true,"somatic":true,"material":"a handful of mud and a handful of sea water"},"duration":"8 hours","ritual":true,"description":"You touch a sailing vessel with a crew of up to 10 throughout the spell's casting, imbuing it with the ability to treat earth as though it were sea. For the duration, the vessel treats soil, mud, and packed dirt as though it were water, pushing through it and leaving a rippling wake of re-solidified terrain. Snow, ice, plants (including trees), and small stones are temporarily swept aside in the ship's wake, but boulders and mountains must be sailed around.","higherlevels":"If you cast this spell with a 7th-level spell slot, it can affect a vessel with a crew of up to 30, and it lasts for 24 hours. If you cast this spell with a 9th-level spell slot, it can affect a vessel with a crew of any size, and it lasts for 1 week.","concentration":false}
+{
+  "name": "Earthsail",
+  "level": 4,
+  "school": "T",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You touch a sailing vessel with a crew of up to 10 throughout the spell's casting, imbuing it with the ability to treat earth as though it were sea. For the duration, the vessel treats soil, mud, and packed dirt as though it were water, pushing through it and leaving a rippling wake of re-solidified terrain. Snow, ice, plants (including trees), and small stones are temporarily swept aside in the ship's wake, but boulders and mountains must be sailed around."
+    }
+  ],
+  "classes": "Druid, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "1 minute",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a handful of mud and a handful of sea water"
+  },
+  "duration": "8 hours",
+  "ritual": true,
+  "description": "You touch a sailing vessel with a crew of up to 10 throughout the spell's casting, imbuing it with the ability to treat earth as though it were sea. For the duration, the vessel treats soil, mud, and packed dirt as though it were water, pushing through it and leaving a rippling wake of re-solidified terrain. Snow, ice, plants (including trees), and small stones are temporarily swept aside in the ship's wake, but boulders and mountains must be sailed around.",
+  "higherlevels": "If you cast this spell with a 7th-level spell slot, it can affect a vessel with a crew of up to 30, and it lasts for 24 hours. If you cast this spell with a 9th-level spell slot, it can affect a vessel with a crew of any size, and it lasts for 1 week.",
+  "concentration": false
+}

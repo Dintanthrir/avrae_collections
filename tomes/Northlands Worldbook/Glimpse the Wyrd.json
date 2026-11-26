@@ -1,1 +1,30 @@
-{"name":"Glimpse the Wyrd","level":2,"school":"D","automation":[{"type":"roll","dice":"1d6","name":"modifier"},{"type":"text","text":"You add or subtract 1d6 from the D20 Test."}],"classes":"Cleric, Warlock","subclasses":"Hand of Dread Pugilist","casttime":"Reaction, which you take when a creature succeeds or fails on a D20 Test","range":"Self","components":{"verbal":true,"somatic":true,"material":"a small spindle"},"duration":"Instantaneous","ritual":false,"description":"You add or subtract 1d6 from the D20 Test.","higherlevels":"","concentration":false}
+{
+  "name": "Glimpse the Wyrd",
+  "level": 2,
+  "school": "D",
+  "automation": [
+    {
+      "type": "roll",
+      "dice": "1d6",
+      "name": "modifier"
+    },
+    {
+      "type": "text",
+      "text": "You add or subtract 1d6 from the D20 Test."
+    }
+  ],
+  "classes": "Cleric, Warlock",
+  "subclasses": "Hand of Dread Pugilist",
+  "casttime": "Reaction, which you take when a creature succeeds or fails on a D20 Test",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a small spindle"
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "You add or subtract 1d6 from the D20 Test.",
+  "higherlevels": "",
+  "concentration": false
+}

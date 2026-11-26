@@ -1,1 +1,43 @@
-{"name":"Compel Avarice","level":3,"school":"E","automation":[{"type":"target","target":"all","effects":[{"type":"save","stat":"wis","fail":[{"type":"ieffect2","name":"Compel Avarice","parent":"ieffect"}],"success":[]}]},{"type":"text","text":"This spell twists the target creature's perceptions, inflaming its greed. You choose an object you can see when you cast this spell. The target must succeed on a Wisdom saving throw or be compelled to try to take that item for itself for the duration of the spell. It will try to steal the item if possible, and if it is unable to, it will fight the item's current holder. If the target is able to claim the object, it will flee from all other creatures to jealously guard it until the spell ends. Creatures that have Immunity to the Charmed condition automatically succeed on their saving throws against this spell."}],"classes":"Cleric, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Action","range":"30 feet","components":{"verbal":true,"somatic":true,"material":"a gold coin"},"duration":"1 minute","ritual":false,"description":"This spell twists the target creature's perceptions, inflaming its greed. You choose an object you can see when you cast this spell. The target must succeed on a Wisdom saving throw or be compelled to try to take that item for itself for the duration of the spell. It will try to steal the item if possible, and if it is unable to, it will fight the item's current holder. If the target is able to claim the object, it will flee from all other creatures to jealously guard it until the spell ends. Creatures that have Immunity to the Charmed condition automatically succeed on their saving throws against this spell.","higherlevels":"","concentration":true}
+{
+  "name": "Compel Avarice",
+  "level": 3,
+  "school": "E",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "wis",
+          "fail": [
+            {
+              "type": "ieffect2",
+              "name": "Compel Avarice",
+              "parent": "ieffect"
+            }
+          ],
+          "success": []
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "This spell twists the target creature's perceptions, inflaming its greed. You choose an object you can see when you cast this spell. The target must succeed on a Wisdom saving throw or be compelled to try to take that item for itself for the duration of the spell. It will try to steal the item if possible, and if it is unable to, it will fight the item's current holder. If the target is able to claim the object, it will flee from all other creatures to jealously guard it until the spell ends. Creatures that have Immunity to the Charmed condition automatically succeed on their saving throws against this spell."
+    }
+  ],
+  "classes": "Cleric, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Action",
+  "range": "30 feet",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a gold coin"
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "This spell twists the target creature's perceptions, inflaming its greed. You choose an object you can see when you cast this spell. The target must succeed on a Wisdom saving throw or be compelled to try to take that item for itself for the duration of the spell. It will try to steal the item if possible, and if it is unable to, it will fight the item's current holder. If the target is able to claim the object, it will flee from all other creatures to jealously guard it until the spell ends. Creatures that have Immunity to the Charmed condition automatically succeed on their saving throws against this spell.",
+  "higherlevels": "",
+  "concentration": true
+}

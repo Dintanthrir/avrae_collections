@@ -1,1 +1,25 @@
-{"name":"Pawn of the Wyrd","level":4,"school":"D","automation":[{"type":"text","text":"You cast your fate to the winds and accept the guidance of the Norns. The creature does not take that Reaction and cannot take a different Reaction. If the Reaction would have expended a spell slot or other ability, nothing is expended. You lose your next Reaction."}],"classes":"Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard","subclasses":"Hand of Dread Pugilist, Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Reaction, which you take when another creature takes a Reaction","range":"Self","components":{"verbal":true,"somatic":true,"material":"a bone die"},"duration":"Instantaneous","ritual":false,"description":"You cast your fate to the winds and accept the guidance of the Norns. The creature does not take that Reaction and cannot take a different Reaction. If the Reaction would have expended a spell slot or other ability, nothing is expended. You lose your next Reaction.","higherlevels":"","concentration":false}
+{
+  "name": "Pawn of the Wyrd",
+  "level": 4,
+  "school": "D",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You cast your fate to the winds and accept the guidance of the Norns. The creature does not take that Reaction and cannot take a different Reaction. If the Reaction would have expended a spell slot or other ability, nothing is expended. You lose your next Reaction."
+    }
+  ],
+  "classes": "Bard, Cleric, Druid, Paladin, Ranger, Sorcerer, Warlock, Wizard",
+  "subclasses": "Hand of Dread Pugilist, Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Reaction, which you take when another creature takes a Reaction",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a bone die"
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "You cast your fate to the winds and accept the guidance of the Norns. The creature does not take that Reaction and cannot take a different Reaction. If the Reaction would have expended a spell slot or other ability, nothing is expended. You lose your next Reaction.",
+  "higherlevels": "",
+  "concentration": false
+}

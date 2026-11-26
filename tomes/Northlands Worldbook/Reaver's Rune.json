@@ -1,1 +1,36 @@
-{"name":"Reaver's Rune","level":2,"school":"V","automation":[{"type":"target","target":"all","effects":[{"type":"ieffect2","name":"Reaver's Rune","duration":"10"}]},{"type":"text","text":"You touch a melee weapon and place a magical effect into it, creating a visible rune etched into the weapon. No more than once per turn, a creature wielding the weapon can make an attack roll with the weapon with Advantage when it would not otherwise have Advantage. If the weapon leaves the creature's possession, the spell ends."}],"classes":"Cleric, Paladin, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Bonus action","range":"Touch","components":{"verbal":true,"somatic":true,"material":""},"duration":"1 minute","ritual":false,"description":"You touch a melee weapon and place a magical effect into it, creating a visible rune etched into the weapon. No more than once per turn, a creature wielding the weapon can make an attack roll with the weapon with Advantage when it would not otherwise have Advantage. If the weapon leaves the creature's possession, the spell ends.","higherlevels":"","concentration":false}
+{
+  "name": "Reaver's Rune",
+  "level": 2,
+  "school": "V",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Reaver's Rune",
+          "duration": "10"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You touch a melee weapon and place a magical effect into it, creating a visible rune etched into the weapon. No more than once per turn, a creature wielding the weapon can make an attack roll with the weapon with Advantage when it would not otherwise have Advantage. If the weapon leaves the creature's possession, the spell ends."
+    }
+  ],
+  "classes": "Cleric, Paladin, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Bonus action",
+  "range": "Touch",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": ""
+  },
+  "duration": "1 minute",
+  "ritual": false,
+  "description": "You touch a melee weapon and place a magical effect into it, creating a visible rune etched into the weapon. No more than once per turn, a creature wielding the weapon can make an attack roll with the weapon with Advantage when it would not otherwise have Advantage. If the weapon leaves the creature's possession, the spell ends.",
+  "higherlevels": "",
+  "concentration": false
+}

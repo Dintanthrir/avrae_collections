@@ -1,1 +1,81 @@
-{"name":"Coldheart","level":1,"school":"N","automation":[{"type":"target","target":"all","effects":[{"type":"save","stat":"con","fail":[{"type":"ieffect2","name":"Exhaustion","stacking":true},{"type":"ieffect2","name":"Coldheart","buttons":[{"automation":[{"type":"target","target":"self","effects":[{"type":"save","stat":"con","fail":[{"type":"ieffect2","name":"Exhaustion","stacking":true},{"type":"remove_ieffect"}],"success":[{"type":"remove_ieffect"}]}]}],"label":"Remove Coldheart","style":"1","defaultDC":"spell_dc"}]}],"success":[]}]},{"type":"text","text":"You cause a supernatural chill to fall upon one Beast or Humanoid that you can see within range. The target must make a Constitution saving throw. On a failed save, it receives 1 Exhaustion level.\n\nAt the end of its next turn, the target must make another Constitution saving throw. On a failed save, the creature receives 1 Exhaustion level. Then the spell ends. Exhaustion applied by this spell is not removed by the end of the spell."}],"classes":"Druid","subclasses":"","casttime":"Action","range":"30 feet","components":{"verbal":true,"somatic":true,"material":""},"duration":"Instantaneous","ritual":false,"description":"You cause a supernatural chill to fall upon one Beast or Humanoid that you can see within range. The target must make a Constitution saving throw. On a failed save, it receives 1 Exhaustion level.\n\nAt the end of its next turn, the target must make another Constitution saving throw. On a failed save, the creature receives 1 Exhaustion level. Then the spell ends. Exhaustion applied by this spell is not removed by the end of the spell.","higherlevels":"","concentration":false}
+{
+  "name": "Coldheart",
+  "level": 1,
+  "school": "N",
+  "automation": [
+    {
+      "type": "target",
+      "target": "all",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "con",
+          "fail": [
+            {
+              "type": "ieffect2",
+              "name": "Exhaustion",
+              "stacking": true
+            },
+            {
+              "type": "ieffect2",
+              "name": "Coldheart",
+              "buttons": [
+                {
+                  "automation": [
+                    {
+                      "type": "target",
+                      "target": "self",
+                      "effects": [
+                        {
+                          "type": "save",
+                          "stat": "con",
+                          "fail": [
+                            {
+                              "type": "ieffect2",
+                              "name": "Exhaustion",
+                              "stacking": true
+                            },
+                            {
+                              "type": "remove_ieffect"
+                            }
+                          ],
+                          "success": [
+                            {
+                              "type": "remove_ieffect"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "label": "Remove Coldheart",
+                  "style": "1",
+                  "defaultDC": "spell_dc"
+                }
+              ]
+            }
+          ],
+          "success": []
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You cause a supernatural chill to fall upon one Beast or Humanoid that you can see within range. The target must make a Constitution saving throw. On a failed save, it receives 1 Exhaustion level.\n\nAt the end of its next turn, the target must make another Constitution saving throw. On a failed save, the creature receives 1 Exhaustion level. Then the spell ends. Exhaustion applied by this spell is not removed by the end of the spell."
+    }
+  ],
+  "classes": "Druid",
+  "subclasses": "",
+  "casttime": "Action",
+  "range": "30 feet",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": ""
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "You cause a supernatural chill to fall upon one Beast or Humanoid that you can see within range. The target must make a Constitution saving throw. On a failed save, it receives 1 Exhaustion level.\n\nAt the end of its next turn, the target must make another Constitution saving throw. On a failed save, the creature receives 1 Exhaustion level. Then the spell ends. Exhaustion applied by this spell is not removed by the end of the spell.",
+  "higherlevels": "",
+  "concentration": false
+}

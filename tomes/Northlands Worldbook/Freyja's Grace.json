@@ -1,1 +1,25 @@
-{"name":"Freyja's Grace","level":1,"school":"A","automation":[{"type":"text","text":"Reroll the saving throw as a Charisma save, regardless of the original save type."}],"classes":"Bard, Paladin, Sorcerer, Warlock","subclasses":"Hand of Dread Pugilist","casttime":"Reaction, which you take after failing a saving throw.","range":"Self","components":{"verbal":true,"somatic":false,"material":""},"duration":"Instantaneous","ritual":false,"description":"Reroll the saving throw as a Charisma save, regardless of the original save type.","higherlevels":"","concentration":false}
+{
+  "name": "Freyja's Grace",
+  "level": 1,
+  "school": "A",
+  "automation": [
+    {
+      "type": "text",
+      "text": "Reroll the saving throw as a Charisma save, regardless of the original save type."
+    }
+  ],
+  "classes": "Bard, Paladin, Sorcerer, Warlock",
+  "subclasses": "Hand of Dread Pugilist",
+  "casttime": "Reaction, which you take after failing a saving throw.",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": false,
+    "material": ""
+  },
+  "duration": "Instantaneous",
+  "ritual": false,
+  "description": "Reroll the saving throw as a Charisma save, regardless of the original save type.",
+  "higherlevels": "",
+  "concentration": false
+}

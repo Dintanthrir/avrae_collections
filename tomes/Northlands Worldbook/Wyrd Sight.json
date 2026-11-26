@@ -1,1 +1,55 @@
-{"name":"Wyrd Sight","level":9,"school":"D","automation":[{"type":"target","target":"self","effects":[{"type":"ieffect2","name":"Wyrd Sight Actions","attacks":[{"attack":{"_v":2,"name":"Wyrd Sight","automation":[{"type":"roll","dice":"1d12","name":"wyrd_sight","displayName":"Wyrd Sight"}],"verb":"uses","proper":true,"activation_type":2}}],"parent":"ieffect"}]},{"type":"text","text":"You manipulate the threads of luck and fate to work in your favor. No more than once per turn, you can roll 1d12 and add or subtract it from a d20 roll made by a creature you can see."}],"classes":"Cleric, Druid, Warlock","subclasses":"Hand of Dread Pugilist","casttime":"Action","range":"Self","components":{"verbal":true,"somatic":true,"material":"A hag's eye"},"duration":"1 hour","ritual":false,"description":"You manipulate the threads of luck and fate to work in your favor. No more than once per turn, you can roll 1d12 and add or subtract it from a d20 roll made by a creature you can see.","higherlevels":"","concentration":true}
+{
+  "name": "Wyrd Sight",
+  "level": 9,
+  "school": "D",
+  "automation": [
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Wyrd Sight Actions",
+          "attacks": [
+            {
+              "attack": {
+                "_v": 2,
+                "name": "Wyrd Sight",
+                "automation": [
+                  {
+                    "type": "roll",
+                    "dice": "1d12",
+                    "name": "wyrd_sight",
+                    "displayName": "Wyrd Sight"
+                  }
+                ],
+                "verb": "uses",
+                "proper": true,
+                "activation_type": 2
+              }
+            }
+          ],
+          "parent": "ieffect"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "You manipulate the threads of luck and fate to work in your favor. No more than once per turn, you can roll 1d12 and add or subtract it from a d20 roll made by a creature you can see."
+    }
+  ],
+  "classes": "Cleric, Druid, Warlock",
+  "subclasses": "Hand of Dread Pugilist",
+  "casttime": "Action",
+  "range": "Self",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "A hag's eye"
+  },
+  "duration": "1 hour",
+  "ritual": false,
+  "description": "You manipulate the threads of luck and fate to work in your favor. No more than once per turn, you can roll 1d12 and add or subtract it from a d20 roll made by a creature you can see.",
+  "higherlevels": "",
+  "concentration": true
+}

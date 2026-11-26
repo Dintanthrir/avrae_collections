@@ -1,1 +1,25 @@
-{"name":"Summon Leviathan Avatar","level":7,"school":"C","automation":[{"type":"text","text":"You call forth the spirit of the mythical leviathan. It manifests in an unoccupied space that you can see within range and uses the Leviathan Spirit stat block. The space you choose must be filled with enough water to contain the size of the leviathan, otherwise the spell ends immediately. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe leviathan is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its movement to avoid danger."}],"classes":"Druid, Sorcerer, Wizard","subclasses":"Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk","casttime":"Action","range":"120 feet","components":{"verbal":true,"somatic":true,"material":"a drop of seawater"},"duration":"1 hour","ritual":false,"description":"You call forth the spirit of the mythical leviathan. It manifests in an unoccupied space that you can see within range and uses the Leviathan Spirit stat block. The space you choose must be filled with enough water to contain the size of the leviathan, otherwise the spell ends immediately. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe leviathan is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its movement to avoid danger.","higherlevels":"Use the spell slot's level for the spell's level in the stat block.","concentration":true}
+{
+  "name": "Summon Leviathan Avatar",
+  "level": 7,
+  "school": "C",
+  "automation": [
+    {
+      "type": "text",
+      "text": "You call forth the spirit of the mythical leviathan. It manifests in an unoccupied space that you can see within range and uses the Leviathan Spirit stat block. The space you choose must be filled with enough water to contain the size of the leviathan, otherwise the spell ends immediately. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe leviathan is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its movement to avoid danger."
+    }
+  ],
+  "classes": "Druid, Sorcerer, Wizard",
+  "subclasses": "Occultist Monster Hunter, Sanguine Thief Rogue, Spellslinger Gunslinger, Arcane Hand Monk, Arcane Hand Monk",
+  "casttime": "Action",
+  "range": "120 feet",
+  "components": {
+    "verbal": true,
+    "somatic": true,
+    "material": "a drop of seawater"
+  },
+  "duration": "1 hour",
+  "ritual": false,
+  "description": "You call forth the spirit of the mythical leviathan. It manifests in an unoccupied space that you can see within range and uses the Leviathan Spirit stat block. The space you choose must be filled with enough water to contain the size of the leviathan, otherwise the spell ends immediately. The creature disappears when it drops to 0 Hit Points or when the spell ends.\n\nThe leviathan is an ally to you and your allies. In combat, the creature shares your Initiative count, but it takes its turn immediately after yours. It obeys your verbal commands (no action required by you). If you don't issue any, it takes the Dodge action and uses its movement to avoid danger.",
+  "higherlevels": "Use the spell slot's level for the spell's level in the stat block.",
+  "concentration": true
+}
