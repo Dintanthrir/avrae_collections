@@ -1,0 +1,2335 @@
+[
+  {
+    "id": "cmwx0rdf100io01pdav24cpb5",
+    "name": "Battle Cry",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:51:05.344Z",
+    "index": 0,
+    "automation": {
+      "_v": 2,
+      "name": "Thunderous Cry",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Battle Cry",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "fail": [],
+              "type": "check",
+              "ability": [
+                "intimidation"
+              ],
+              "success": []
+            }
+          ]
+        },
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "dc": "lastCheckRollTotal",
+              "adv": 0,
+              "fail": [
+                {
+                  "dice": "1d4",
+                  "name": "duration",
+                  "type": "roll"
+                },
+                {
+                  "desc": "Frightened of {caster.name}.",
+                  "name": "Frightened",
+                  "type": "ieffect2",
+                  "buttons": [
+                    {
+                      "verb": "attempts to Resist Fear",
+                      "label": "Resist Fear",
+                      "style": "3",
+                      "defaultDC": "lastCheckRollTotal",
+                      "automation": [
+                        {
+                          "type": "target",
+                          "target": "self",
+                          "effects": [
+                            {
+                              "adv": 0,
+                              "fail": [],
+                              "stat": "wis",
+                              "type": "save",
+                              "success": [
+                                {
+                                  "type": "remove_ieffect"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "effects": {},
+                  "duration": "duration"
+                }
+              ],
+              "stat": "wis",
+              "type": "save",
+              "success": []
+            }
+          ]
+        },
+        {
+          "text": "**Thunderous Cry.** You can use a Bonus Action to release a frightening battle cry. Roll a Charisma (Intimidation) check. One creature of your choice that can hear you within 30 feet of you must make a Wisdom saving throw with a DC equal to your Charisma (Intimidation) check result or have the Frightened condition for 1d4 rounds. The target can make a new saving throw at the end of each of its turns to end the effect. Once you've used this ability, you can't use it again until you've completed a Short Rest.\r\n\r\nAt higher levels, you can target an additional number of creatures with this ability. At 9th level, you can target two creatures. At 15th level, you can target three creatures, and the range of this ability increases to 60 feet.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Battle Cry",
+        "reset": "short",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx1blg100iq01pdhaketyw3",
+    "name": "Blessing of Angrboda and Bergelmir ",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:56:15.226Z",
+    "index": 1,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Prophetic Vision",
+        "verb": "receives",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Prophetic Vision",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Prophetic Vision.** As a Magic action, you can choose one Divination spell with a casting time of 1 action (from any spell list) of a level you can cast that is no more than half your character level and cast it without expending a spell slot. Wisdom is your spellcasting ability stat. Once you use this feat to cast the spell, you can't use it again until you complete a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Thunderous Strike",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Thunderous Strike",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "type": "damage",
+                "damage": "1d6[thunder]"
+              }
+            ]
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Prophetic Vision",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Thunderous Strike",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx2jsas00iy01pdtqbxjwnx",
+    "name": "Blessing of Heimdall",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:57:45.062Z",
+    "index": 6,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Awareness of the Guardian",
+        "verb": "uses",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Awareness of the Guardian",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "self",
+            "effects": [
+              {
+                "adv": 1,
+                "fail": [],
+                "type": "check",
+                "ability": [
+                  "perception"
+                ],
+                "success": []
+              }
+            ]
+          },
+          {
+            "text": "**Awareness of the Guardian.** When you make a Wisdom (Perception) check, you can decide to give yourself Advantage. You can do this a number of times per day equal to your Proficiency Bonus, and you regain all uses when you finish a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Vigilance",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Vigilance",
+            "errorBehaviour": "warn"
+          },
+          {
+            "text": "**Vigilance.** When you roll Initiative, you can reroll the check but must use the new result. Once you use this feature, you must finish a Long Rest before you can use it again.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Awareness of the Guardian",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Vigilance",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx2sv5z00j001pd1cq6pxx0",
+    "name": "Blessing of Hel",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:50:39.762Z",
+    "index": 7,
+    "automation": {
+      "_v": 2,
+      "name": "Blessing of Hel - Resurgence",
+      "automation": [
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "type": "damage",
+              "damage": "-(1d6 + {proficiencyBonus})[healing]"
+            }
+          ]
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx3zyae00j501pdjjj1rj17",
+    "name": "Blessing of Njord",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:52:22.380Z",
+    "index": 10,
+    "automation": {
+      "_v": 2,
+      "name": "Call Sea Serpent",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Call Sea Serpent",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Call Sea Serpent.** You can cast Find Steed without expending a spell slot. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat).",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Call Sea Serpent",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx4ge4y00ja01pd0tkm5tzd",
+    "name": "Blessing of Skadi",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:53:09.968Z",
+    "index": 12,
+    "automation": {
+      "_v": 2,
+      "name": "Hunter's Eye",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Hunter's Eye",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Hunter's Eye.** When you use the Attack action to make a ranged weapon attack, you can choose to give yourself Advantage on the attack roll. Once you use this feature you must finish a Short or Long Rest before you can use it again.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Hunter's Eye",
+        "reset": "short",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx4io3300jb01pdu59sbq8b",
+    "name": "Blessing of the Snow Queen",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:59:32.652Z",
+    "index": 13,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Frozen Edge",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Frozen Edge",
+            "errorBehaviour": "raise"
+          },
+          {
+            "id": 2619171,
+            "type": "spell",
+            "castingMod": "max(intelligenceMod, wisdomMod, charismaMod)"
+          },
+          {
+            "text": "**Frozen Edge.** You know the Ice Knife Spell. You can cast it without using a spell slot a number of times per day equal to your Proficiency Bonus, and you regain all uses when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat).",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Shield of the North Wind",
+        "verb": "is protected by",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Shield of the North Wind",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Shield of the North Wind.** If you fail a saving throw against a spell or effect that deals Cold damage, you can choose to succeed instead. Once you use this feature you must finish a Long Rest before you can use it again.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Frozen Edge",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Shield of the North Wind",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx51eua00jg01pd9ghvoh85",
+    "name": "Blessing of Tyr",
+    "description": "\n\nYou can use this feature at will, but when you use it on a creature, you must finish a Long Rest before you can use it on that creature again.",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:00:11.914Z",
+    "index": 15,
+    "automation": {
+      "_v": 2,
+      "name": "Justicar",
+      "verb": "is",
+      "automation": [
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "adv": 0,
+              "fail": [],
+              "stat": "cha",
+              "type": "save",
+              "success": []
+            }
+          ]
+        },
+        {
+          "text": "**Justicar.** As a Magic action, you can touch a creature and compel it to tell the truth. The creature must make a Charisma saving throw. On a failed save, the creature can't speak a deliberate lie for 1 minute. You know whether a creature succeeds or fails on this save. An affected creature is aware of the spell and can avoid answering questions to which it would normally respond with a lie. Such a creature can be evasive yet must be truthful.\r\n\r\nYou can use this feature at will, but when you use it on a creature, you must finish a Long Rest before you can use it on that creature again.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx5jsj000jj01pdrs8vrtw7",
+    "name": "Blood of the Berserker",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:00:45.472Z",
+    "index": 18,
+    "automation": {
+      "_v": 2,
+      "name": "Berserker Fury",
+      "verb": "enters",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Berserker Fury",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "name": "Berserker Fury",
+              "type": "ieffect2",
+              "attacks": [],
+              "buttons": [
+                {
+                  "verb": "chooses to",
+                  "label": "End Berserker Fury",
+                  "style": "2",
+                  "automation": [
+                    {
+                      "type": "remove_ieffect"
+                    }
+                  ]
+                }
+              ],
+              "effects": {},
+              "duration": "10"
+            }
+          ]
+        },
+        {
+          "text": "**Berserker Fury.** When you are Bloodied, you can use a Bonus Action to enter a frenzied state. While in this fury, your melee weapon attacks deal extra damage equal to your Proficiency Bonus, and you don't have the Unconscious condition when you are reduced to 0 HP (though you still make Death Saves as normal).\r\n\r\nYour Berserker Fury lasts for 1 minute or until you end it (no action required), or if you have the Incapacitated condition. Once you use this feature, you can't use it again until you finish a Long Rest.\r\n\r\nAdd `-d {proficiencyBonus}` to your melee weapon attacks.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Berserker Fury",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx5r92s00jk01pdmiy3zcwf",
+    "name": "Bloodied Resilience",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:00:53.819Z",
+    "index": 19,
+    "automation": {
+      "_v": 2,
+      "name": "Bloodied Resilience",
+      "verb": "has",
+      "proper": true,
+      "automation": [
+        {
+          "type": "condition",
+          "onTrue": [
+            {
+              "text": "**Bloodied Reaction.** While you're Bloodied and take any damage, you can spend one of your Hit Dice as a Reaction and reduce the damage you take by the amount rolled. You can only spend one Hit Die at a time in this way, each time you are damaged.",
+              "type": "text",
+              "title": ""
+            }
+          ],
+          "onFalse": [
+            {
+              "text": "You are not bloodied.",
+              "type": "text",
+              "title": ""
+            }
+          ],
+          "condition": "hp < caster.max_hp / 2"
+        }
+      ],
+      "activation_type": 4
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx5ut0s00jl01pd3crk1vl7",
+    "name": "Bloody Resolve",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:01:30.272Z",
+    "index": 20,
+    "automation": {
+      "_v": 2,
+      "name": "Inner Fire",
+      "verb": "has",
+      "proper": true,
+      "automation": [
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "name": "Inner Fire",
+                  "type": "ieffect2",
+                  "effects": {
+                    "save_bonus": "2",
+                    "damage_bonus": "1",
+                    "to_hit_bonus": "1"
+                  },
+                  "duration": "1"
+                }
+              ],
+              "onFalse": [
+                {
+                  "end": true,
+                  "name": "Inner Fire",
+                  "type": "ieffect2",
+                  "effects": {
+                    "save_bonus": "1"
+                  },
+                  "duration": "1"
+                }
+              ],
+              "condition": "target.hp < target.max_hp / 2"
+            }
+          ]
+        },
+        {
+          "text": "**Inner Fire.** Pain bolsters your resolve. When you take damage, you gain a +1 bonus to saving throws until the end of your next turn. While you are Bloodied, the bonus to saves increases to +2, and you also gain a +1 bonus to attack and damage rolls until the end of your next turn.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx60zhs00jm01pdesc4o7qw",
+    "name": "Boisterous Roar",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:01:55.264Z",
+    "index": 21,
+    "automation": {
+      "_v": 2,
+      "name": "Mighty Yell",
+      "verb": "releases",
+      "automation": [
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "end": true,
+              "name": "Mighty Yell",
+              "type": "ieffect2",
+              "effects": {
+                "resistances": [
+                  "bludgeoning",
+                  "piercing",
+                  "slashing",
+                  "acid",
+                  "cold",
+                  "fire",
+                  "force",
+                  "lightning",
+                  "necrotic",
+                  "poison",
+                  "psychic",
+                  "radiant",
+                  "thunder"
+                ]
+              },
+              "duration": "2",
+              "tick_on_caster": true
+            }
+          ]
+        },
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "end": true,
+                  "name": "Mighty Yell",
+                  "type": "ieffect2",
+                  "effects": {
+                    "resistances": [
+                      "bludgeoning",
+                      "piercing",
+                      "slashing",
+                      "acid",
+                      "cold",
+                      "fire",
+                      "force",
+                      "lightning",
+                      "necrotic",
+                      "poison",
+                      "psychic",
+                      "radiant",
+                      "thunder"
+                    ]
+                  },
+                  "duration": "2",
+                  "tick_on_caster": true
+                }
+              ],
+              "onFalse": [
+                {
+                  "end": true,
+                  "name": "Mighty Yell",
+                  "type": "ieffect2",
+                  "effects": {
+                    "vulnerabilities": [
+                      "bludgeoning",
+                      "piercing",
+                      "slashing",
+                      "acid",
+                      "cold",
+                      "fire",
+                      "force",
+                      "lightning",
+                      "necrotic",
+                      "poison",
+                      "psychic",
+                      "radiant",
+                      "thunder"
+                    ]
+                  },
+                  "duration": "2",
+                  "tick_on_caster": true
+                }
+              ],
+              "condition": "choice and choice in 'resistance'"
+            }
+          ]
+        },
+        {
+          "text": "**Mighty Yell.** When you score a Critical Hit against a target, you let out a boisterous roar. You and allies within 5 feet of you have Resistance to all damage until the end of your next turn, and enemies within 5 feet of you have Vulnerability to all damage until the end of your next turn.\r\n\r\nUse `-choice [resist|vuln]` to determine the effect.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx68qc000jo01pdez5pycth",
+    "name": "Brazen Courage",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:02:09.205Z",
+    "index": 22,
+    "automation": {
+      "_v": 2,
+      "name": "Staunch Will",
+      "verb": "has",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Staunch Will",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Staunch Will.** You have Advantage on saving throws against the Frightened condition. Also, you can use a Bonus Action to end the Frightened condition on yourself a number of times per day equal to your Proficiency Bonus. You regain all expended uses when you finish a Long Rest.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Staunch Will",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx6cwac00jp01pdlul78nm3",
+    "name": "Chosen by Fate",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:02:32.445Z",
+    "index": 23,
+    "automation": {
+      "_v": 2,
+      "name": "Heroic Windfall",
+      "verb": "has been",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "0",
+          "counter": "Heroic Windfall Placeholder Counter",
+          "errorBehaviour": "ignore"
+        },
+        {
+          "name": "inspiration_roll",
+          "type": "variable",
+          "value": "lastCounterRequestedAmount"
+        },
+        {
+          "name": "missing_health",
+          "type": "variable",
+          "value": "caster.max_hp - caster.hp"
+        },
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "type": "damage",
+              "damage": "-{min(missing_health, inspiration_roll)}[healing]"
+            },
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "type": "temphp",
+                  "amount": "inspiration_roll - missing_health"
+                }
+              ],
+              "onFalse": [],
+              "condition": "inspiration_roll > missing_health"
+            }
+          ]
+        },
+        {
+          "text": "**Heroic Windfall.** Whenever you use Heroic Inspiration, you regain a number of Hit Points equal to the die roll. If you are already at your Hit Point maximum when you use Heroic Inspiration, you instead gain Temporary Hit Points equal to the die roll. If you use Heroic Inspiration, and you roll higher on the die than is necessary to restore you to your Hit Point maximum, you gain any excess as Temporary Hit Points.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx7hzis00js01pdklarjnf8",
+    "name": "Combat Flyting",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:08:39.985Z",
+    "index": 24,
+    "automation": {
+      "_v": 2,
+      "name": "Taunt",
+      "verb": "performs",
+      "automation": [
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "dc": "8 + charismaMod + proficiencyBonus",
+              "adv": 0,
+              "fail": [
+                {
+                  "desc": "Taunted by {name}. -1 per stack to attack rolls against them, max -{charismaMod}. Use `-b <mod>` on attacks against them. ",
+                  "name": "Taunted",
+                  "type": "ieffect2",
+                  "effects": {},
+                  "duration": "proficiencyBonus",
+                  "stacking": true
+                }
+              ],
+              "stat": "cha",
+              "type": "save",
+              "success": []
+            }
+          ]
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx7pod600jt01pdgm7kg4yp",
+    "name": "Faster Crafting",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:10:29.601Z",
+    "index": 25,
+    "automation": {
+      "_v": 2,
+      "name": "Combat Quickcraft",
+      "verb": "uses",
+      "proper": true,
+      "automation": [
+        {
+          "text": "**Combat Quickcraft.** While in combat, you can use a Bonus Action to craft one piece of gear from the Fast Crafting table, provided you have the Artisan's Tools associated with that item, have proficiency with those tools, and do not have the Incapacitated condition. The item lasts until the end of your next turn, or until you craft an additional item, at which point it falls apart.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx7rp2g00ju01pdf77ta23f",
+    "name": "Frost-Touched",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:13:46.605Z",
+    "index": 26,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Frost Magic",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Frost Magic",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Frost Magic.** You know your choice of the Frostbite or Ray of Frost cantrip. Choose one level 1 spell that deals Cold damage from the Druid, Sorcerer, or Wizard spell lists. You always have that spell and the Gust of Wind spell prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this manner, you can't cast that spell again until you complete a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Frost Magic - Gust of Wind",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Frost Magic - Gust of Wind",
+            "errorBehaviour": "raise"
+          },
+          {
+            "id": 2619137,
+            "type": "spell"
+          },
+          {
+            "text": "**Frost Magic.** You know your choice of the Frostbite or Ray of Frost cantrip. Choose one level 1 spell that deals Cold damage from the Druid, Sorcerer, or Wizard spell lists. You always have that spell and the Gust of Wind spell prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this manner, you can't cast that spell again until you complete a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Frost Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Frost Magic - Gust of Wind",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx7ym7500jw01pdxoqaoo5u",
+    "name": "Greater Blessing of Baldur",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:19:00.169Z",
+    "index": 28,
+    "automation": {
+      "_v": 2,
+      "name": "Divine Resilience",
+      "verb": "has",
+      "proper": true,
+      "automation": [
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "name": "Divine Resilience",
+              "type": "ieffect2",
+              "effects": {
+                "resistances": [
+                  "{choice or 'Fire'}"
+                ]
+              },
+              "duration": ""
+            }
+          ]
+        },
+        {
+          "text": "**Divine Resilience.** When you finish a Long Rest, you have Resistance to one damage type of your choice. This Resistance lasts until you finish a Long Rest.\r\n\r\nUse `-choice` to specify the resistance.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 8
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx824k600jx01pdfx8k1zde",
+    "name": "Greater Blessing of Boreas",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:20:48.976Z",
+    "index": 29,
+    "automation": {
+      "_v": 2,
+      "name": "Cold-Forged",
+      "verb": "is",
+      "proper": true,
+      "automation": [
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "name": "Cold-Forged",
+              "type": "ieffect2",
+              "effects": {
+                "resistances": [
+                  "fire"
+                ]
+              },
+              "duration": "1"
+            }
+          ]
+        },
+        {
+          "text": "**Cold-Forged.** You have Resistance to Cold damage. Additionally, you can summon a shield of cold to block fire-based effects. As a Reaction, when you would take Fire damage, you can gain Resistance to Fire damage until the beginning of your next turn.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 4
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx84d6l00jy01pdlbummvwm",
+    "name": "Greater Blessing of Freyr and Freyja",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:23:16.746Z",
+    "index": 30,
+    "automation": {
+      "_v": 2,
+      "name": "Healing Magic",
+      "verb": "casts",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Healing Magic",
+          "errorBehaviour": "warn"
+        },
+        {
+          "id": 2619079,
+          "type": "spell",
+          "castingMod": "max(intelligenceMod, wisdomMod, charismaMod)"
+        },
+        {
+          "text": "**Healing Magic.** You always have the Cure Wounds spell prepared. You can cast it without using a spell slot a number of times per day equal to your Proficiency Bonus, and you regain all uses when you finish a Long Rest. You can also cast it using spell slots you have of the appropriate level. The spell's spellcasting ability is the ability you chose when you took the Blessing of Freyr and Freyja feat. When you cast the spell on a Beast or Plant creature, the amount healed is doubled.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Healing Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx87mvv00jz01pdx5p7x10n",
+    "name": "Greater Blessing of Jormungandr",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:27:03.758Z",
+    "index": 31,
+    "automation": {
+      "_v": 2,
+      "name": "Serpent's Aspect",
+      "verb": "reveals",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Serpent's Aspect",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "dc": "8 + charismaMod + proficiencyBonus",
+              "adv": 0,
+              "fail": [
+                {
+                  "desc": "Frightened of {name}.",
+                  "name": "Frightened",
+                  "type": "ieffect2",
+                  "buttons": [
+                    {
+                      "verb": "attempts to",
+                      "label": "Resist Fear",
+                      "style": "3",
+                      "defaultDC": "8 + charismaMod + proficiencyBonus",
+                      "automation": [
+                        {
+                          "type": "target",
+                          "target": "self",
+                          "effects": [
+                            {
+                              "adv": 0,
+                              "fail": [],
+                              "stat": "wis",
+                              "type": "save",
+                              "success": [
+                                {
+                                  "type": "remove_ieffect"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "effects": {},
+                  "duration": "10"
+                }
+              ],
+              "stat": "wis",
+              "type": "save",
+              "success": []
+            }
+          ]
+        },
+        {
+          "text": "**Serpent's Aspect.** You can channel the fear inspired by serpents and dragons. You can use an Action to force a number of creatures of your choice equal to your Proficiency Bonus within 30 feet of you that can see you to make a Wisdom saving throw (DC 8 plus your Charisma modifier and your Proficiency Bonus). On a failed save, a target has the Frightened condition for 1 minute. Such a creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. You can use this feature a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Serpent's Aspect",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx8cadh00k001pdtd4g3xzu",
+    "name": "Greater Blessing of Loki",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:29:04.005Z",
+    "index": 32,
+    "automation": {
+      "_v": 2,
+      "name": "Mask Magic",
+      "verb": "casts",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Mask Magic",
+          "errorBehaviour": "warn"
+        },
+        {
+          "id": 2618846,
+          "type": "spell",
+          "castingMod": "max(intelligenceMod, wisdomMod, charismaMod)"
+        },
+        {
+          "text": "**Mask Magic.** You always have the Alter Self spell prepared. You can cast it without expending a spell slot. Once you cast the spell in this way, you can't cast it in this way again until you finish a Long Rest. You can also cast it using spell slots you have of the appropriate level. The spell's spellcasting ability is the one you chose when you took the Blessing of Loki feat.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Mask Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx8ewr500k101pdw06vkplx",
+    "name": "Greater Blessing of Sif",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:31:55.607Z",
+    "index": 33,
+    "automation": {
+      "_v": 2,
+      "name": "Sif's Arrow",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Sif's Arrow",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "name": "Sif's Arrow",
+              "type": "ieffect2",
+              "effects": {},
+              "duration": "10"
+            }
+          ]
+        },
+        {
+          "text": "**Sif's Arrow.** As a Bonus Action, you can channel the power of the god Sif for 1 minute. During that time, when you hit with a ranged weapon attack, you deal extra damage of the weapon's type equal to your Proficiency Bonus. You can deal this extra damage no more than once on each of your turns. You can channel Sif's power in this way a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\r\n\r\nUse `-d {proficiencyBonus}` to add extra damage to your attacks.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Sif's Arrow",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx8io3c00k201pdxaqoq6l4",
+    "name": "Greater Blessing of Thor",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:34:05.495Z",
+    "index": 34,
+    "automation": {
+      "_v": 2,
+      "name": "Storm Strike",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Storm Strike",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "name": "Storm Strike",
+              "type": "ieffect2",
+              "effects": {},
+              "duration": "10"
+            }
+          ]
+        },
+        {
+          "text": "**Storm Strike.** As a Bonus Action, you can channel the power of the god Thor for 1 minute. During that time, when you hit with a melee weapon attack, you deal extra damage of the weapon's type equal to your Proficiency Bonus. You can deal this extra damage no more than once on each of your turns. You can channel Thor's power in this way a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\r\n\r\nUse `-d {proficiencyBonus}` to add extra damage to your attacks.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Storm Strike",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx8lhx300k301pdyp5qi9fd",
+    "name": "Greater Blessing of Wotan",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:35:59.541Z",
+    "index": 35,
+    "automation": {
+      "_v": 2,
+      "name": "Magical Foresight",
+      "verb": "has",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Magical Foresight",
+          "errorBehaviour": "raise"
+        },
+        {
+          "id": 2618882,
+          "type": "spell",
+          "castingMod": "max(intelligenceMod, wisdomMod, charismaMod)"
+        },
+        {
+          "text": "**Magical Foresight.** You always have the Augury spell prepared. You can cast it without expending a spell slot. Once you cast the spell in this way, you can't cast it in this way again until you finish a Long Rest. You can also cast this spell using spell slots you have of the appropriate level. The spell's spellcasting ability is the ability you chose when you took the Blessing of Wotan feat.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Magical Foresight",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx8o4ah00k401pdc9qi0nrr",
+    "name": "Heroic Rush",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:39:45.689Z",
+    "index": 36,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Triumphant Boost",
+        "verb": "gains",
+        "automation": [
+          {
+            "type": "target",
+            "target": "self",
+            "effects": [
+              {
+                "end": true,
+                "desc": "Speed +10 feet.",
+                "name": "Triumphant Boost",
+                "type": "ieffect2",
+                "effects": {
+                  "attack_advantage": "1"
+                },
+                "duration": "2"
+              }
+            ]
+          },
+          {
+            "text": "**Triumphant Boost.** When you score a Critical Hit, your Speed increases by 10 feet and you have Advantage on attack rolls. These benefits last until the end of your next turn.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      },
+      {
+        "_v": 2,
+        "name": "Victorious Inspiration",
+        "verb": "shares",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Victorious Inspiration",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "end": true,
+                "desc": "One use of Heroic Inspiration.",
+                "name": "Victorious Inspiration",
+                "type": "ieffect2",
+                "effects": {},
+                "duration": "1"
+              }
+            ]
+          },
+          {
+            "text": "**Victorious Inspiration.** When you reduce a creature to 0 Hit Points with an attack, you can choose one ally within 30 feet of you to receive Heroic Inspiration. The ally must use this Heroic Inspiration before the end of their next turn or it is wasted. You can use this feature twice, regaining all expended uses when you finish a Short or Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "2",
+        "minv": "0",
+        "name": "Victorious Inspiration",
+        "reset": "short",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "2",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx8t9wu00k501pdvwk23myq",
+    "name": "Ice Mastery",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:50:55.290Z",
+    "index": 37,
+    "automation": {
+      "_v": 2,
+      "name": "Fimbulwinter's Grasp",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Fimbulwinter's Grasp",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "name": "Fimbulwinter's Grasp - Disadvantage",
+                  "type": "ieffect2",
+                  "effects": {
+                    "save_dis": [
+                      "dex"
+                    ],
+                    "check_dis": [
+                      "dexterity"
+                    ]
+                  },
+                  "duration": "10"
+                }
+              ],
+              "onFalse": [],
+              "condition": "choice and choice in 'disadvantage'"
+            },
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "desc": "Restrained until escape or take 10+ bludgeoning or fire damage.",
+                  "name": "Fimbulwinter's Grasp - Restrained",
+                  "type": "ieffect2",
+                  "buttons": [
+                    {
+                      "verb": "attempts to",
+                      "label": "Resist Restrained",
+                      "style": "3",
+                      "automation": [
+                        {
+                          "type": "target",
+                          "target": "self",
+                          "effects": [
+                            {
+                              "adv": 0,
+                              "fail": [],
+                              "stat": "dex",
+                              "type": "save",
+                              "success": [
+                                {
+                                  "type": "remove_ieffect"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "effects": {
+                    "attack_advantage": "-1"
+                  },
+                  "duration": ""
+                }
+              ],
+              "onFalse": [],
+              "condition": "choice and choice in 'restrained'"
+            },
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "name": "Fimbulwinter's Grasp - Vulnerability",
+                  "type": "ieffect2",
+                  "buttons": [
+                    {
+                      "verb": "attempts to",
+                      "label": "Resist Vulnerability",
+                      "style": "3",
+                      "automation": [
+                        {
+                          "type": "target",
+                          "target": "self",
+                          "effects": [
+                            {
+                              "adv": 0,
+                              "fail": [],
+                              "stat": "con",
+                              "type": "save",
+                              "success": [
+                                {
+                                  "type": "remove_ieffect"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "effects": {
+                    "vulnerabilities": [
+                      "cold"
+                    ]
+                  },
+                  "duration": "10"
+                }
+              ],
+              "onFalse": [],
+              "condition": "choice and choice in 'vulnerability'"
+            },
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "text": "No effect selected. Use `-choice <dis|res|vul>` to choose an effect.",
+                  "type": "text",
+                  "title": ""
+                }
+              ],
+              "onFalse": [],
+              "condition": "not choice"
+            }
+          ]
+        },
+        {
+          "text": "**Fimbulwinter's Grasp.** Your cold spells carry the strength of Fimbulwinter. Whenever you deal Cold damage to a creature with a spell of at least 1st level, you can choose one of the following additional effects.\r\n\r\n- The creature has Disadvantage on Dexterity checks for 1 minute as a terrible cold numbs its body.\r\n- The creature is coated in ice. It has the Restrained condition until it succeeds on a Dexterity saving throw to free itself (equal to your spell saving throw DC) or takes at least 10 points of Bludgeoning or Fire damage. It can make the save to end this effect at the end of each of its turns.\r\n- The creature has Vulnerability to Cold damage for 1 minute. It can make a Constitution saving throw (equal to your spell saving throw DC) to end this effect at the end of each of its turns.\r\n\r\nUse `-choice <dis|res|vul>` to choose an effect.\r\n\r\nYou can use Fimbulwinter's Grasp a number of times equal to your Proficiency Bonus, and you regain all uses when you finish a Long Rest.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Fimbulwinter's Grasp",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx97cgj00k601pdb92v59w8",
+    "name": "Lightning Mastery",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:58:02.883Z",
+    "index": 38,
+    "automation": {
+      "_v": 2,
+      "name": "Thor's Fury",
+      "verb": "strikes with",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Thor's Fury",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "end": true,
+                  "name": "Stunned",
+                  "type": "ieffect2",
+                  "effects": {},
+                  "duration": "2",
+                  "tick_on_caster": true
+                }
+              ],
+              "onFalse": [],
+              "condition": "choice and choice in 'stunned'"
+            },
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "adv": 0,
+                  "fail": [],
+                  "stat": "dex",
+                  "type": "save",
+                  "success": []
+                }
+              ],
+              "onFalse": [],
+              "condition": "choice and choice in 'damage'"
+            },
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "name": "Thor's Fury",
+                  "type": "ieffect2",
+                  "buttons": [
+                    {
+                      "verb": "attempts to",
+                      "label": "Resist Vulnerability",
+                      "style": "3",
+                      "automation": [
+                        {
+                          "type": "target",
+                          "target": "self",
+                          "effects": [
+                            {
+                              "adv": 0,
+                              "fail": [],
+                              "stat": "con",
+                              "type": "save",
+                              "success": [
+                                {
+                                  "type": "remove_ieffect"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "effects": {
+                    "vulnerabilities": [
+                      "lightning"
+                    ]
+                  },
+                  "duration": "10"
+                }
+              ],
+              "onFalse": [],
+              "condition": "choice and choice in 'vulnerability'"
+            },
+            {
+              "type": "condition",
+              "onTrue": [
+                {
+                  "text": "No effect selected. Use `-choice <stun|damage|vuln>` to select an effect.",
+                  "type": "text",
+                  "title": ""
+                }
+              ],
+              "onFalse": [],
+              "condition": "not choice"
+            }
+          ]
+        },
+        {
+          "text": "**Thor's Fury.** Your lightning spells are laced with extra power. Whenever you deal Lightning damage to a creature with a spell of at least 1st level, you can choose one of the following additional effects.\r\n\r\n- The creature has the Stunned condition until the end of your next turn, if it failed its save against the spell.\r\n- The creature takes half of the Lightning damage it initially took again at the beginning of its next turn. It can make a saving throw against your spell saving throw DC to negate this additional damage.\r\n- The creature gains Vulnerability to Lightning damage for 1 minute. It can make a Constitution saving throw (equal to your spell saving throw DC) to end this effect at the end of each of its turns.\r\n\r\nUse `-choice <stun|damage|vuln>` to select an effect.\r\n\r\nYou can use Thor's Fury a number of times equal to your Proficiency Bonus, and you regain all uses when you finish a Long Rest.",
+          "type": "text",
+          "title": ""
+        }
+      ]
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Thor's Fury",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx9grzo00m101pdsiela69r",
+    "name": "Moon-Touched",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:01:34.719Z",
+    "index": 39,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Moon Magic",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Moon Magic",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Moon Magic.** You know your choice of the Dancing Lights or Light cantrip. Choose one level 1 spell that creates or emits light, such as Color Spray or Faerie Fire, from the Druid, Sorcerer, or Wizard spell lists. You always have that spell and the Moonbeam spell prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Moon Magic - Moonbeam",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Moon Magic - Moonbeam",
+            "errorBehaviour": "raise"
+          },
+          {
+            "id": 2619134,
+            "type": "spell"
+          },
+          {
+            "text": "**Moon Magic.** You know your choice of the Dancing Lights or Light cantrip. Choose one level 1 spell that creates or emits light, such as Color Spray or Faerie Fire, from the Druid, Sorcerer, or Wizard spell lists. You always have that spell and the Moonbeam spell prepared. You can cast each of these spells without expending a spell slot. Once you cast either spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Moon Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Moon Magic - Moonbeam",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx9py4400m301pd8kqxkkx2",
+    "name": "Primal",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:09:36.034Z",
+    "index": 41,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Primal Magic - Primary",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Primal Magic - Primary",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Primal Magic.** Choose two of the following spells: Animal Friendship, Entangle, Goodberry, or Speak with Animals. You always have those two spells and the Barkskin spell prepared. You can cast each of these spells without expending a spell slot. Once you cast a spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Primal Magic - Secondary",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Primal Magic - Secondary",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Primal Magic.** Choose two of the following spells: Animal Friendship, Entangle, Goodberry, or Speak with Animals. You always have those two spells and the Barkskin spell prepared. You can cast each of these spells without expending a spell slot. Once you cast a spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Primal Magic - Barkskin",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Primal Magic - Barkskin",
+            "errorBehaviour": "raise"
+          },
+          {
+            "id": 2618907,
+            "type": "spell",
+            "castingMod": "max(intelligenceMod, wisdomMod, charismaMod)"
+          },
+          {
+            "text": "**Primal Magic.** Choose two of the following spells: Animal Friendship, Entangle, Goodberry, or Speak with Animals. You always have those two spells and the Barkskin spell prepared. You can cast each of these spells without expending a spell slot. Once you cast a spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ]
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Primal Magic - Barkskin",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Primal Magic - Secondary",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Primal Magic - Primary",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx9v9t900m401pdbhulwha4",
+    "name": "Ravens' Friend",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:11:35.876Z",
+    "index": 42,
+    "automation": {
+      "_v": 2,
+      "name": "Raven's Whispers",
+      "verb": "listens to",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Raven's Whispers",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Raven's Whispers.** Ravens sometimes tell you secrets. When you take the Study action, you can give yourself Advantage on the roll. You can do this a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+          "type": "text",
+          "title": ""
+        }
+      ]
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Raven's Whispers",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxa8nsk00m801pdak23yujy",
+    "name": "Surtr's Touch",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:23:19.118Z",
+    "index": 46,
+    "automation": {
+      "_v": 2,
+      "name": "Touch of Flame",
+      "verb": "summons",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Touch of Flame",
+          "errorBehaviour": "raise"
+        },
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "desc": "Dealing {proficiencyBonus}[fire] extra damage on melee weapon attacks. ",
+              "name": "Touch of Flame",
+              "type": "ieffect2",
+              "effects": {},
+              "duration": "10"
+            }
+          ]
+        },
+        {
+          "text": "**Touch of Flame.** As a Bonus Action, you can imbue your touch with the power of fire for 1 minute. During that time, when you hit with a melee weapon attack, you deal extra Fire damage equal to your Proficiency Bonus. You can use this feat a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.\r\n\r\nUse `-d {proficiencyBonus}[fire]` to add damage to your melee weapon attacks.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Touch of Flame",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxacpa300m901pdd5b3j3nm",
+    "name": "Trickster's Toolbox",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:27:40.076Z",
+    "index": 47,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Tricksy Magic - Primary",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Tricksy Magic - Primary",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Tricksy Magic.** Choose two level 1 spells from the Enchantment or Illusion school of magic. You always have those spells and the Hideous Laughter spell prepared. You can cast each of these spells without expending a spell slot. Once you cast one of these spells in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Tricksy Magic - Secondary",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Tricksy Magic - Secondary",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Tricksy Magic.** Choose two level 1 spells from the Enchantment or Illusion school of magic. You always have those spells and the Hideous Laughter spell prepared. You can cast each of these spells without expending a spell slot. Once you cast one of these spells in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      },
+      {
+        "_v": 2,
+        "name": "Tricksy Magic - Hideous Laughter",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Tricksy Magic - Hideous Laughter",
+            "errorBehaviour": "raise"
+          },
+          {
+            "id": 2619132,
+            "type": "spell",
+            "castingMod": "max(intelligenceMod, wisdomMod, charismaMod)"
+          },
+          {
+            "text": "**Tricksy Magic.** Choose two level 1 spells from the Enchantment or Illusion school of magic. You always have those spells and the Hideous Laughter spell prepared. You can cast each of these spells without expending a spell slot. Once you cast one of these spells in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast these spells using spell slots you have of the appropriate level. The spells' spellcasting ability is the ability increased by this feat.",
+            "type": "text",
+            "title": ""
+          }
+        ]
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Tricksy Magic - Primary",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Tricksy Magic - Secondary",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Tricksy Magic - Hideous Laughter",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  }
+]

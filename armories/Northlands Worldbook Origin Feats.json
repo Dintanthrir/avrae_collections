@@ -1,0 +1,884 @@
+[
+  {
+    "id": "cmwx1imss00is01pd8bx1rniz",
+    "name": "Blessing of Baldur",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:47:15.340Z",
+    "index": 2,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Radiant Aura",
+        "verb": "activates",
+        "automation": [
+          {
+            "type": "target",
+            "target": "self",
+            "effects": [
+              {
+                "desc": "10' bright light + 10' dim light",
+                "name": "Radiant Aura",
+                "type": "ieffect2",
+                "buttons": [
+                  {
+                    "verb": "extinguishes their aura",
+                    "label": "Extinguish Radiant Aura",
+                    "style": "3",
+                    "automation": [
+                      {
+                        "type": "remove_ieffect"
+                      }
+                    ]
+                  }
+                ],
+                "effects": {}
+              }
+            ]
+          },
+          {
+            "text": "**Radiant Aura.** As a Bonus Action, you emit a bright golden light in a 10-foot-radius and Dim Light for another 10 feet. You may extinguish this light with another Bonus Action.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 3
+      },
+      {
+        "_v": 2,
+        "name": "Protective Aegis",
+        "verb": "guards with",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Protective Aegis",
+            "fixedValue": true,
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "counter",
+            "amount": "0",
+            "counter": "Protective Aegis Placeholder Counter",
+            "errorBehaviour": "ignore"
+          },
+          {
+            "name": "damage",
+            "type": "variable",
+            "value": "lastCounterRequestedAmount"
+          },
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "type": "damage",
+                "damage": "-({min(damage, proficiencyBonus + max(charismaMod, 1))})[restored]"
+              }
+            ]
+          },
+          {
+            "text": "**Protective Aegis.** Once per Long Rest, when you or an ally within 10 feet of you takes damage, you can use your Reaction to reduce that damage by an amount equal to your Proficiency Bonus + your Charisma modifier (minimum 1).",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Protective Aegis",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx1xy9600it01pd6yk0z1tp",
+    "name": "Blessing of Boreas",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:57:05.769Z",
+    "index": 3,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Cold Aegis",
+        "verb": "defends with",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Cold Aegis",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "self",
+            "effects": [
+              {
+                "end": true,
+                "name": "Cold Aegis",
+                "type": "ieffect2",
+                "effects": {
+                  "resistances": [
+                    "cold"
+                  ]
+                },
+                "duration": "1"
+              }
+            ]
+          },
+          {
+            "text": "**Cold Aegis.** If you take Cold damage, you can use your Reaction to give yourself Resistance to Cold damage until the end of your next turn. You can use this Reaction a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Winter Magic",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Winter Magic",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Winter Magic.** You know the Ray of Frost cantrip. Choose either the Armor of Agathys or Ice Knife spell. You always have that spell prepared. You can cast the spell once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Cold Aegis",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Winter Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx29uf400iw01pdythrll48",
+    "name": "Blessing of Eir",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:49:20.088Z",
+    "index": 4,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Channel Vitality",
+        "verb": "uses",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Vitality Points",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "type": "damage",
+                "damage": "-1d4[healing]"
+              }
+            ]
+          }
+        ],
+        "activation_type": 3
+      },
+      {
+        "_v": 2,
+        "name": "Vitality Surge",
+        "verb": "uses",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Vitality Points",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "self",
+            "effects": [
+              {
+                "type": "condition",
+                "onTrue": [
+                  {
+                    "type": "damage",
+                    "damage": "-1d4[healing]"
+                  }
+                ],
+                "onFalse": [
+                  {
+                    "text": "{name} is stabilized!",
+                    "type": "text",
+                    "title": ""
+                  }
+                ],
+                "condition": "hp > 0"
+              }
+            ]
+          }
+        ],
+        "activation_type": 3
+      }
+    ],
+    "consumables": [
+      {
+        "desc": "Spent on Blessing of Eir features.",
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Vitality Points",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx2hh1o00ix01pdrd0l3y4q",
+    "name": "Blessing of Freyr and Freyja",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:50:49.127Z",
+    "index": 5,
+    "automation": {
+      "_v": 2,
+      "name": "Green Magic",
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Green Magic",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Green Magic.** You learn the Druidcraft and Thorn Whip cantrips. Choose either the Entangle or Hail of Thorns spell. You always have that spell prepared. You can cast the spell once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Green Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx2vp8u00j101pdpqk348v7",
+    "name": "Blessing of Jormungandr",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:58:23.410Z",
+    "index": 8,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Poison Resilience",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Poison Resilience",
+            "errorBehaviour": "raise"
+          },
+          {
+            "type": "target",
+            "target": "self",
+            "effects": [
+              {
+                "end": true,
+                "desc": "**Poison Resilience.** If you take Poison damage, you can use your Reaction to give yourself Resistance to Poison damage until the end of your next turn. You can use this Reaction a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+                "name": "Poison Resilience",
+                "type": "ieffect2",
+                "effects": {
+                  "resistances": [
+                    "poison"
+                  ]
+                },
+                "duration": "1"
+              }
+            ]
+          },
+          {
+            "text": "**Poison Resilience.** If you take Poison damage, you can use your Reaction to give yourself Resistance to Poison damage until the end of your next turn. You can use this Reaction a number of times equal to your Proficiency Bonus, and you regain all expended uses when you finish a Long Rest.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Serpent Kinship",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Serpent Kinship",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Serpent Kinship.** You always have the Animal Friendship and Speak with Animals spells prepared. You can cast each spell once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. When you cast these spells without a spell slot, you may only target snakes and serpents. You can also cast these spells using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for these spells (choose when you select this feat).",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Poison Resilience",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Serpent Kinship",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx3a6q300j301pdexdha3fi",
+    "name": "Blessing of Loki",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:52:12.912Z",
+    "index": 9,
+    "automation": {
+      "_v": 2,
+      "name": "Trickster Magic",
+      "verb": "uses",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Trickster Magic",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Trickster Magic.** You learn the Minor Illusion and Vicious Mockery cantrips. Choose either the Disguise Self or Charm Person spell. You always have that spell prepared. You can cast the spell once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx42l2900j601pdd8gadgrc",
+    "name": "Blessing of Sif",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:59:01.309Z",
+    "index": 11,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Gift of Dexterity",
+        "verb": "has",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Gift of Dexterity",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Gift of Dexterity.** When you make a Dexterity check, you can add your Proficiency Bonus to the roll. If you already add your Proficiency Bonus to a Dexterity check, you may add it an additional time. You can use this feature a number of times equal to your Proficiency Bonus and regain all expended uses when you finish a Long Rest.\r\n\r\nMake your check with `-b {proficiencyBonus}`",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      },
+      {
+        "_v": 2,
+        "name": "Sif's Prowess",
+        "verb": "has",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Sif's Prowess",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Sif's Prowess.** You know the True Strike cantrip. Choose either the Hunter's Mark or Longstrider spell. You always have that spell prepared. You can cast the spell once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Gift of Dexterity",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Sif's Prowess",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx4qzn000je01pdbkk7q3lp",
+    "name": "Blessing of Thor",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T06:55:17.528Z",
+    "index": 14,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Gift of Strength",
+        "verb": "uses",
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Gift of Strength",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Gift of Strength.** When you make a Strength check, you can add your Proficiency Bonus to the roll. If you already add your Proficiency Bonus to a Strength check, you may add it an additional time. You can use this feature a number of times equal to your Proficiency Bonus and regain all expended uses when you finish a Long Rest.\r\n\r\nMake your check with `-b {proficiencyBonus}`",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      },
+      {
+        "_v": 2,
+        "name": "Storm Magic",
+        "verb": "casts",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Storm Magic",
+            "errorBehaviour": "warn"
+          },
+          {
+            "id": 2619182,
+            "type": "spell",
+            "castingMod": "max(intelligenceMod, wisdomMod, charismaMod)"
+          },
+          {
+            "text": "**Storm Magic.** You know the Shocking Grasp or Thunderclap cantrip (choose when you select this feat). You also always have the Thunderous Smite spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this spell (choose when you select this feat).",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 1
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Gift of Strength",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Storm Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx59z5i00jh01pdkp5nt64b",
+    "name": "Blessing of Volund",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:00:22.194Z",
+    "index": 16,
+    "automation": {
+      "_v": 2,
+      "name": "Forge Magic",
+      "verb": "casts",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Forge Magic",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Forge Magic.** You learn the Elementalism and Mending cantrips. Choose either the Burning Hands or Shield spell. You always have that spell prepared. You can cast the spell once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast this spell using any spell slots you have. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Forge Magic",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx5csfj00ji01pdh8ktd262",
+    "name": "Blessing of Wotan",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:00:32.737Z",
+    "index": 17,
+    "automation": {
+      "_v": 2,
+      "name": "Secret Wisdom",
+      "verb": "has",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Secret Wisdom",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Secret Wisdom.** You know the Guidance cantrip. Choose a level 1 spell from any school of magic. You always have that spell prepared. You can cast the spell without expending a spell slot. Once you cast the spell in this way, you can't cast that spell in this way again until you finish a Long Rest. You can also cast the spell using spell slots you have of the appropriate level. Intelligence, Wisdom, or Charisma is your spellcasting ability for this feat's spells (choose when you select this feat).",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 1
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Secret Wisdom",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwx9lk5u00m201pd4ijse9dj",
+    "name": "Norn-Touched",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:05:25.359Z",
+    "index": 40,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Fates' Favor",
+        "verb": "has the",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Fates' Favor",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Fates' Favor.** Once per day, when you make a d20 Test, you can add your Proficiency Bonus (`{proficiencyBonus}`) to the result. You can see the result of the roll before you use this feature.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      },
+      {
+        "_v": 2,
+        "name": "Fates' Scorn",
+        "verb": "directs the",
+        "proper": true,
+        "automation": [
+          {
+            "type": "counter",
+            "amount": "1",
+            "counter": "Fates' Scorn",
+            "errorBehaviour": "raise"
+          },
+          {
+            "text": "**Fates' Scorn.** Once per day, when another creature rolls a d20 for an attack roll or ability check, you can subtract your Proficiency Bonus (`{proficiencyBonus}`) from the result. You can see the result of the roll before you use this feature.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Fates' Favor",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      },
+      {
+        "desc": null,
+        "maxv": "1",
+        "minv": "0",
+        "name": "Fates' Scorn",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "1",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  },
+  {
+    "id": "cmwxa0i5e00m601pdjln7udsj",
+    "name": "Sea Wolf",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:14:54.145Z",
+    "index": 44,
+    "automation": {
+      "_v": 2,
+      "name": "Reaver's Ferocity",
+      "proper": true,
+      "automation": [
+        {
+          "text": "**Reaver's Ferocity.** When you score a Critical Hit against a creature with a melee attack, you can make another melee attack against the same creature or an adjacent creature as a Bonus Action.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 3
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwxaicmy00ma01pdnv7pf1cc",
+    "name": "Well-Versed",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:29:20.247Z",
+    "index": 48,
+    "automation": {
+      "_v": 2,
+      "name": "Useful Knowledge",
+      "verb": "has",
+      "proper": true,
+      "automation": [
+        {
+          "type": "counter",
+          "amount": "1",
+          "counter": "Useful Knowledge",
+          "errorBehaviour": "raise"
+        },
+        {
+          "text": "**Useful Knowledge.** When you make an Intelligence (Arcana, History, Nature, or Religion) check, you can give yourself Advantage on the roll. You can do this a number of times equal to your Proficiency Bonus and regain all expended uses when you finish a Long Rest.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": [
+      {
+        "desc": null,
+        "maxv": "proficiencyBonus",
+        "minv": "0",
+        "name": "Useful Knowledge",
+        "reset": "long",
+        "title": null,
+        "value": null,
+        "live_id": null,
+        "reset_by": null,
+        "reset_to": "proficiencyBonus",
+        "display_type": null,
+        "ddb_source_feature_id": null,
+        "ddb_source_feature_type": null
+      }
+    ]
+  }
+]

@@ -201,5 +201,10 @@
   "808e0b0c-eddc-4aff-af87-51a9943ef9ae": "Westmarch Shopping/shop.gvar",
   "9c3a51db-7d4c-4e54-a9f7-90b418a0f258": "Westmarch Shopping/tce_items.yaml",
   "e1749307-3286-49be-9659-50a25700759c": "Westmarch Shopping/br_equipment.yml",
-  "f04ac355-4817-48c6-a19a-12574980de0f": "Westmarch Shopping/br_items.yaml"
+  "f04ac355-4817-48c6-a19a-12574980de0f": "Westmarch Shopping/br_items.yaml",
+
+  "08fdcfb3-60e1-468d-9ff3-c72694034c04": "armories/Northlands Worldbook Origin Feats.json",
+  "092e0997-8e64-41f8-94c6-dc271bb2537d": "armories/Northlands Worldbook General Feats.json",
+  "1e1b309e-6c16-44a9-be73-1168fbd3513d": "armories/Northlands Worldbook Fighting Styles.json",
+  "b61ceb89-ee1b-4391-9f4c-490122a5c652": "armories/Northlands Worldbook Species from Bestiary Builder.txt"
 }

@@ -1,0 +1,170 @@
+[
+  {
+    "id": "cmwx7vwxs00jv01pdsx5bpv5x",
+    "name": "Glima",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T07:15:23.251Z",
+    "index": 27,
+    "automation": {
+      "_v": 2,
+      "name": "Glima",
+      "automation": [
+        {
+          "type": "target",
+          "target": "each",
+          "effects": [
+            {
+              "dc": "8 + proficiencyBonus + strengthMod",
+              "adv": 0,
+              "fail": [
+                {
+                  "desc": "A prone creature's only movement option is to crawl, unless it stands up and thereby ends the condition",
+                  "name": "Prone",
+                  "type": "ieffect2",
+                  "buttons": [
+                    {
+                      "label": "Stand Up",
+                      "automation": [
+                        {
+                          "type": "remove_ieffect"
+                        }
+                      ]
+                    }
+                  ],
+                  "effects": {
+                    "attack_advantage": "-1"
+                  }
+                }
+              ],
+              "stat": "str",
+              "type": "save",
+              "success": []
+            }
+          ]
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwx9xkvw00m501pdvk8svf5a",
+    "name": "Savagery",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:13:46.798Z",
+    "index": 43,
+    "automation": {
+      "_v": 2,
+      "name": "Savagery",
+      "verb": "attacks with",
+      "proper": true,
+      "automation": [
+        {
+          "type": "target",
+          "target": "self",
+          "effects": [
+            {
+              "name": "Savagery",
+              "type": "ieffect2",
+              "effects": {
+                "ac_bonus": "-2"
+              },
+              "duration": "1"
+            }
+          ]
+        },
+        {
+          "text": "When you make your first melee weapon attack roll on your turn, you can decide to attack savagely. Doing so allows you to add your Proficiency Bonus to your melee weapon damage rolls but lowers your AC by 2 until the start of your next turn.\r\n\r\nAdd `-d {proficiencyBonus}` when making melee weapon attacks.",
+          "type": "text",
+          "title": ""
+        }
+      ],
+      "activation_type": 2
+    },
+    "consumables": []
+  },
+  {
+    "id": "cmwxa1pe600m701pd4ob0xf16",
+    "name": "Shield Wall",
+    "description": "",
+    "tag": "",
+    "collectionId": "cmwx0q7j000in01pdvc974qgu",
+    "lastUpdated": "2026-11-26T08:19:15.290Z",
+    "index": 45,
+    "automation": [
+      {
+        "_v": 2,
+        "name": "Shield Ally",
+        "verb": "acts to",
+        "proper": true,
+        "automation": [
+          {
+            "text": "**Shield Ally.** When a creature you can see hits an ally adjacent to you with an attack, you can take a Reaction to grant your ally your Shield's Armor Class bonus against the triggering attack.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 4
+      },
+      {
+        "_v": 2,
+        "name": "Shoulder to Shoulder",
+        "verb": "stands",
+        "proper": true,
+        "automation": [
+          {
+            "type": "target",
+            "target": "self",
+            "effects": [
+              {
+                "name": "Shield Wall",
+                "type": "ieffect2",
+                "buttons": [
+                  {
+                    "verb": "had to",
+                    "label": "Break Shield Wall",
+                    "style": "2",
+                    "automation": [
+                      {
+                        "type": "remove_ieffect"
+                      }
+                    ]
+                  }
+                ],
+                "effects": {
+                  "ac_bonus": "1"
+                },
+                "save_as": "shield_wall"
+              }
+            ]
+          },
+          {
+            "type": "target",
+            "target": "each",
+            "effects": [
+              {
+                "name": "Shield Wall",
+                "type": "ieffect2",
+                "parent": "shield_wall",
+                "effects": {
+                  "ac_bonus": "1"
+                }
+              }
+            ]
+          },
+          {
+            "text": "**Shoulder to Shoulder.** When you and an ally are both wielding a Shield and are adjacent to each other, you both gain a +1 bonus to Armor Class.",
+            "type": "text",
+            "title": ""
+          }
+        ],
+        "activation_type": 2
+      }
+    ],
+    "consumables": []
+  }
+]
