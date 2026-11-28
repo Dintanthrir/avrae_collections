@@ -37,7 +37,7 @@ def _convert_from_bb_counter(counter):
 
 def _convert_from_bb(automation):
     return {
-        'counters': [_convert_from_bb_counter(counter) for counter in automation.get('counters', [])],
+        'counters': [_convert_from_bb_counter(counter) for counter in automation.get('consumables', [])],
         'automations': [dump_yaml(a) for a in automation.get('automations')],
     }
 
@@ -46,8 +46,9 @@ def _load_group(group):
     if subscription:
         group_data = load_yaml(get_gvar(subscription)) if _is_gvar_id(subscription) else subscription
         if 'List' in typeof(group_data):
-            if not (group_data.get('automation') and group_data.get('name')):
-                err(f'Unexpected data format for {group} ({subscription})')
+            for automation in group_data:
+                if not (automation.get('automation') and automation.get('name')):
+                    err(f'Unexpected data format for {group} ({subscription})')
             group_data = { bb_automation.get('name'):_convert_from_bb(bb_automation) for bb_automation in group_data }
         return group_data
     else:
