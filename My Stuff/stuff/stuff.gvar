@@ -38,7 +38,7 @@ def _convert_from_bb_counter(counter):
 def _convert_from_bb(automation):
     return {
         'counters': [_convert_from_bb_counter(counter) for counter in automation.get('consumables', [])],
-        'automations': [dump_yaml(a) for a in automation.get('automations')],
+        'automations': [dump_yaml(a) for a in automation.get('automation')],
     }
 
 def _load_group(group):
